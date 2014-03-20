@@ -1,0 +1,234 @@
+/**
+\page dep Dependências
+Aqui estão listadas as dependências da Cumulonimbus, cada uma em uma seção da
+pagina descrevendo em que ela foi utilizada e como compilar.
+
+Como um dos objetivos da Cumulonimbus é incorporar todas as suas dependências
+em um único arquivo, todas as dependências devem ser compiladas no modo
+estatico.
+
+As dependências devem ser colocadas dentro da pasta <tt>dependencies/\<nome do
+compilador\></tt>. Caso utilize o compilador gnu, a subpasta deve ser gcc, caso
+utilize o mingw, a subpasta deve ser mingw, caso utilize o visual studio 2012,
+a subpasta deve ser vc2012 e assim por diante.
+
+É recomendado que você baixe o pacote de dependências já disponivel no
+repositório da Cumulonimbus, caso o pacote para o seu ambiente não esteja
+disponivel então sinta-se a vontade para monta-lo e subir ele para o
+repositório.
+
+Dentro da subpasta, deve existir uma pasta include para os arquivos de cabeçalho
+das dependências, e uma pasta lib para os arquivo objeto das dependências.
+
+\section glm GLM
+<h3>Versão atual: 0.9.5.2</h3>
+
+A GLM é adicionada como um modulo da Cumulonimbus, ao contrario do tratamento
+padrão dado às outras bibliotecas, esta é exposta ao usuário integralmente.
+Isso por ser parte essencial, por ser leve e por ser composta somente por
+arquivos de cabeçalho, tornando ela incrivelmente facil de utilizar.
+
+Para atualizar a biblioteca substitua a pasta \c glm na pasta \c include/math
+da Cumulonimbus pela nova versão da glm, mantendo os arquivos \c math.h,
+\c origin.h e a pasta \c custom dentro da pasta \c include/math.
+
+Com isso o usuário quando quiser utilizar a glm deve incluir o arquivo math.h,
+e utilizar o namespace math no lugar de glm.
+
+\see http://glm.g-truc.net/
+
+\section boost Boost C++
+<h3>Versão atual: 1.55.0</h3>
+
+Controle de threads, marcação de tempo, geração de números aleatórios, parte
+da entrada e saida, expressões regulares e codificação de caracteres. Isso tudo
+são as partes da Boost que são utilizadas aqui, por ela ser bem maior do que
+isso, ela se torna a biblioteca mais demorada de se compilar. Para diminuir esse
+tempo você pode desativar as bibliotecas não utilizadas aqui.
+
+Para compilar a Boost C++ você deve primeiro executar o script bootstrap e
+dizer o diretório onde a biblioteca deve ser instalada:
+\verbatim
+./bootstrap.sh --prefix=/caminho/para/o/diretorio/de/instalacao/
+\endverbatim
+
+Então deve-se executar o programa \c b2, que é o responsavel por compilar a
+Boost C++. As duas últimas opções são importantes pois elas forçam a parte
+estática da Boost a ser compilada com PIC.
+\verbatim
+./b2 toolset=gcc stage --without-python --without-mpi --without-filesystem --without-coroutine --without-atomic --without-context --without-exception --without-graph --without-graph_parallel --without-log --without-program_options --without-serialization --without-system --without-test --without-wave --without-iostreams --without-math --link=static --variant=release "cxxflags=-fPIC" "cflags=-fPIC"
+\endverbatim
+
+É recomendado a leitura do guia de inicio da Boost C++, sessão Getting started
+do site caso for utilizar uma versão mais nova da biblioteca.
+
+Caso tenha utilizado estes comandos o resultado deve estar na pasta stage/lib.
+Copie as versões estaticas dentro da pasta para a pasta lib da pasta de
+dependências da Cumulonimbus e a pasta boost (vizinha à pasta stage) para a
+pasta include das dependências. Com isso a Boost C++ deve estar instalada e
+pronta para ser utilizada.
+
+\see http://www.boost.org/
+
+\section freetype FreeType
+<h3>Versão atual: 2.5.2</h3>
+
+FreeType é responsavel por renderizar os caracteres de fontes, então a
+Cumulonimbus usa ela para transformar os caracteres em bitmaps para serem
+utilizados como textura para renderizar textos.
+
+Assim como as outras bibliotecas devemos compilar ela utilizando a opção
+\c -fPIC, que nesse caso é feito utilizando a opção \c -\-with-pic no script de
+configuração. Os seguintes comandos são utilizados para compilar a biblioteca,
+a primeira linha com a opção \c -\-prefix indicando o diretório de instalação e
+\c -\-with-pic como foi citado. Por fim \c make e <tt>make install</tt> para
+compilar e instalar.
+
+\verbatim
+./configure --prefix=/caminho/para/o/diretorio/de/instalacao/ --with-pic
+make
+make install
+\endverbatim
+
+Copie a versão estatica da biblioteca dentro do diretório de instalação para
+a pasta lib da pasta de dependências e o conteudo da pasta include para a pasta
+include da pasta de dependências.
+
+\see http://www.freetype.org/
+
+\section physfs PhysicsFS
+<h3>Versão atual: 2.0.3</h3>
+
+Esta biblioteca é utilizada para a leitura e escrita de arquivos, ela cria um
+sistema de arquivos virtual e possibilita a leitura de arquivos compactados.
+
+Para compila-la, é necessário o cmake, que no caso eu utilizei a interface
+grafica do cmake para realizar a tarefa. Construa a biblioteca de modo estatico
+e deixe apenas o suporte ao formato 7z ativado.
+
+Com a biblioteca compilada, copie a biblioteca estatica para a pasta lib das
+dependências e o conteudo da pasta include para a pasta include das
+dependências.
+
+\see https://icculus.org/physfs/
+
+\section pugixml pugixml
+<h3>Versão atual: 1.4</h3>
+
+Esta biblioteca é utilizada para a leitura e escrita de arquivos XML, que podem
+ser utilizados como arquivos de configuração e coisas parecidas.
+
+Semelhante à \ref glm, a pugixml é composta de três arquivos, o cabeçalho, o de
+configuração e o de código (.cpp). Para utilizar ela na Cumulonimbus é
+necessário que seguinte linha seja descomentada no arquivo \c pugiconfig.hpp:
+\verbatim
+#define PUGIXML_HEADER_ONLY
+#include "pugixml.cpp"
+\endverbatim
+E por fim os três arquivos devem ser adicionados ao diretório de inclusão das
+dependências.
+
+\see http://pugixml.org/
+
+\section glew GLEW
+<h3>Versão atual: 1.10.0</h3>
+
+Utilizada para carregar as extenções e funções avançadas do OpenGL, a GLEW é
+compilada simplesmente com o seguinte comando:
+\verbatim
+make all
+\endverbatim
+
+Após compilada, copie o conteúdo da pasta include para a pasta include das
+dependências, e as bibliotecas estaticas da pasta lib para a pasta lib das
+dependências.
+
+\see http://glew.sourceforge.net/
+
+\section zlib zlib
+<h3>Versão atual: 1.2.8</h3>
+
+Esta biblioteca é utilizada para compactar e descompactar dados, funções que são
+utilizadas pela \ref libpng e pela \ref devil. As funções dela também são
+disponibilizadas na Cumulonimbus para compactar e descompactar qualquer tipo
+de dados.
+
+Para compilar a zlib, o cmake é utilizado, da mesma forma que na \ref physfs.
+Adicione a opção -fPIC e selecione o diretório de instalação, feito isso vá para
+o diretório selecionado para a construção e execute os comandos:
+
+\verbatim
+make
+make install
+\endverbatim
+
+Copie a versão estatica da biblioteca para a pasta lib das dependências e o
+conteúdo da pasta include para a pasta include das dependências.
+
+\see http://www.zlib.net/
+
+\section libpng libpng
+<h3>Versão atual: 1.6.9</h3>
+
+Esta biblioteca é utilizada pela DevIL para carregar imagens no formato PNG. A
+Cumulonimbus não utiliza diretamente ela, e só é construida pois é pré requisito
+da DevIL.
+
+O processo de construção é semelhante ao da maioria das dependências, porém com
+dois passos adicionais para indicar onde a zlib está, o mesmo diretório passado
+no parametro \c prefix da \ref zlib :
+\verbatim
+export LDFLAGS=-L/caminho/para/o/diretorio/de/instalacao/da/zlib/lib/
+export CPPFLAGS=-I/caminho/para/o/diretorio/de/instalacao/da/zlib/include/
+\endverbatim
+
+Feito isso execute os seguintes passos:
+\verbatim
+./configure --prefix=/caminho/para/o/diretorio/de/instalacao/ --disable-shared --enable-static --with-pic
+make all
+make install
+\endverbatim
+
+Por fim, diferente de como foi feito com as outras bibliotecas, copie somente
+o arquivo estatico da biblioteca, não é necessário o conteúdo da pasta inlcude.
+
+\see http://www.libpng.org/pub/png/libpng.html
+
+\section devil DevIL
+<h3>Versão atual: 1.7.8</h3>
+
+DevIL é uma biblioteca de manipulação de imagens construida com a mesma sintaxe
+do OpenGL, e com o objetivo de ser utilizada em aplicações multimidia.
+
+O processo de construção dela é parecido com o da \ref libpng, porém as duas
+primeiras linhas de comando são para indicar onde a libpng se encontra:
+
+\verbatim
+export LDFLAGS=-L/caminho/para/o/diretorio/de/instalacao/da/libpng/lib64/
+export CPPFLAGS=-I/caminho/para/o/diretorio/de/instalacao/da/libpng/include/
+\endverbatim
+
+Por esta biblioteca ser muito velha e não receber mais atualizações deste 2009,
+e a libpng ter substituido a função \c png_set_gray_1_2_4_to_8 por
+\c png_set_expand_gray_1_2_4_to_8, também é necessário executar a seguinte
+linha:
+\verbatim
+export CFLAGS=-Dpng_set_gray_1_2_4_to_8=png_set_expand_gray_1_2_4_to_8
+export CXXFLAGS=-Dpng_set_gray_1_2_4_to_8=png_set_expand_gray_1_2_4_to_8
+\endverbatim
+
+Por fim são executados os passos para configurar e construir a DevIL:
+\verbatim
+./configure --prefix=/caminho/para/o/diretorio/de/instalacao/ --with-pic --disable-exr --disable-shared --enable-static --without-nvtt
+
+make all
+make install
+\endverbatim
+
+Concluido a construção copie os arquivos de costume para a pasta das
+dependências: biblioteca estatica para a pasta lib e arquivos de cabeçalho para
+a pasta include.
+
+\see http://openil.sourceforge.net/
+
+*/

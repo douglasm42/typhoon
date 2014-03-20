@@ -1,0 +1,19 @@
+/**
+\mainpage Introdução
+
+Cumulonimbus é um conjunto de bibliotecas com uma interface que torna o usuário
+independente delas. O objetivo dela é servir de base para a criação de uma game
+engine.
+
+A cumulonimbus também pode ser encarada como uma engine para jogos minimalista,
+nenhuma das funcionalidades são automaticas e ela não define nenhuma estrutura
+específica para seu funcionamento. O contrario do que muitas engines fazem, ao
+ao obrigar que seus usuários utilizem uma estrutura de cenas específica ou um
+sistema de interface grafica, ela tenta simplificar as bibliotecas base quando
+possivel e a maioria das dependências são ligadas de modo estatico, para que o
+arquivo final seja o mais independênte possivel de qualquer outra biblioteca.
+
+A pagina \ref dep contém as descrições das dependências, de como compila-las e
+como organizá-las.
+
+*/

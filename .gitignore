@@ -1,0 +1,16 @@
+#Ignore tudo
+*
+
+!.gitignore
+
+!*/
+
+#Inclua estes arquivos
+!*.h
+!*.hpp
+!*.inl
+!*.cpp
+!*.dox
+!*.css
+!doxygen/cumulonimbus.doxyfile
+!Makefile
