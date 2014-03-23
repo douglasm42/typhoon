@@ -9,14 +9,14 @@
 
 #include <base/bTimer.h>
 
-#include <boost/chrono.hpp>
-#include <boost/thread.hpp>
+#include <chrono>
+#include <thread>
 
 #include <base/bLog.h>
 
 namespace cb {
 	namespace base {
-		typedef boost::chrono::system_clock::time_point TimePoint;
+		typedef std::chrono::system_clock::time_point TimePoint;
 		KinKey(TimerTimePoint, TimePoint);
 
 		Timer::Timer() {
@@ -29,14 +29,14 @@ namespace cb {
 
 		void Timer::sleep(float iseconds) {
 			log.nothing("iseconds: %f", iseconds);
-			boost::this_thread::sleep_for(boost::chrono::microseconds((int)(iseconds*1000000)));
+			std::this_thread::sleep_for(std::chrono::microseconds((int)(iseconds*1000000)));
 			log.nothing("end");
 		}
 
 		void Timer::update() {
-			TimePoint now = boost::chrono::system_clock::now();
+			TimePoint now = std::chrono::system_clock::now();
 			TimePoint &before = *_before;
-			boost::chrono::duration<float> sec = now - before;
+			std::chrono::duration<float> sec = now - before;
 
 			_delta = sec.count();
 			before = now;

@@ -12,7 +12,10 @@
 #include <base/bPrint.h>
 
 #include <boost/locale.hpp>
-#include <boost/functional/hash.hpp>
+
+#include <functional>
+
+#include <locale>
 
 #include <sstream>
 
@@ -23,10 +26,6 @@ namespace cb {
 			PRINT(str, iformat);
 
 			return str;
-		}
-
-		wstring sysEncode(string itext) {
-			return boost::locale::conv::utf_to_utf<wchar_t>(itext);
 		}
 
 		wstring utf16(string itext) {
@@ -128,7 +127,7 @@ namespace cb {
 		}
 
 		unsigned int hash(string istr) {
-			boost::hash<string> strhash;
+			std::hash<string> strhash;
 			return strhash(istr);
 		}
 

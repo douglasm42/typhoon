@@ -18,7 +18,8 @@
 
 #include <climits>
 
-#include <boost/thread.hpp>
+#include <thread>
+#include <mutex>
 
 #define iFileToVoid(file) static_cast<void *>(file)
 #define voidToiFile(handle) static_cast<cb::data::iFile *>(handle)
@@ -28,7 +29,7 @@
 
 namespace cb {
 	namespace data {
-		boost::mutex data_bmp_guard;
+		std::mutex data_bmp_guard;
 
 		namespace bmp {
 			// fill 'data' with 'size' bytes.  return number of bytes actually read
@@ -124,7 +125,7 @@ namespace cb {
 				ThrowDataException("Tipo invalido.");
 			}
 
-			boost::lock_guard<boost::mutex> lock(data_bmp_guard);
+			std::lock_guard<std::mutex> lock(data_bmp_guard);
 
 			int w;
 			int h;
@@ -201,7 +202,7 @@ namespace cb {
 			if(empty()) {
 				ThrowDataException("Não é possivel salvar uma imagem vazia.");
 			}
-			boost::lock_guard<boost::mutex> lock(data_bmp_guard);
+			std::lock_guard<std::mutex> lock(data_bmp_guard);
 
 			log.warning("%s() : Utilize esta função somente para depuração.", __func__);
 

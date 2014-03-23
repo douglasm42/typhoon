@@ -13,10 +13,6 @@
 #include <cstdarg>
 #include <cstdio>
 
-#include <boost/thread.hpp>
-#include <boost/chrono.hpp>
-#include <boost/locale.hpp>
-
 #include <sstream>
 #include <fstream>
 #include <string>

@@ -11,7 +11,8 @@
 
 #include <base/bLog.h>
 
-#include <boost/thread.hpp>
+#include <thread>
+#include <mutex>
 
 #include <sstream>
 
@@ -25,9 +26,9 @@ namespace cb {
 	namespace data {
 		KinKey(FontFace, FT_FaceRec_);
 
-		boost::mutex _ftError_guard;
+		std::mutex _ftError_guard;
 		string ftError(FT_Error ierror_id) {
-			boost::lock_guard<boost::mutex> lock(_ftError_guard);
+			std::lock_guard<std::mutex> lock(_ftError_guard);
 
 			std::map<FT_Error, string> error_strings;
 			if(error_strings.empty()) {
@@ -47,23 +48,23 @@ namespace cb {
 			}
 		}
 
-		std::map<boost::thread::id, FT_Library> _libraries;
+		std::map<std::thread::id, FT_Library> _libraries;
 
 		void freeLibraries() {
-			std::map<boost::thread::id, FT_Library>::iterator it;
+			std::map<std::thread::id, FT_Library>::iterator it;
 			for(it=_libraries.begin() ; it!=_libraries.end() ; it++) {
 				FT_Done_FreeType(it->second);
 			}
 			_libraries.clear();
 		}
 
-		boost::mutex _getLibrary_guard;
+		std::mutex _getLibrary_guard;
 		FT_Library ftLibrary() {
-			boost::lock_guard<boost::mutex> lock(_getLibrary_guard);
+			std::lock_guard<std::mutex> lock(_getLibrary_guard);
 
-			boost::thread::id thread_id = boost::this_thread::get_id();
+			std::thread::id thread_id = std::this_thread::get_id();
 
-			std::map<boost::thread::id, FT_Library>::iterator it = _libraries.find(thread_id);
+			std::map<std::thread::id, FT_Library>::iterator it = _libraries.find(thread_id);
 
 			if(it == _libraries.end()) {
 				FT_Library library;

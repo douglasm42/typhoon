@@ -12,7 +12,8 @@
 
 #include <base/bPrint.h>
 
-#include <boost/thread.hpp>
+#include <thread>
+#include <mutex>
 
 #include <base/bWindows.h>
 
@@ -30,9 +31,9 @@ namespace cb {
 			}
 		}
 
-		boost::mutex log_write_guard;
+		std::mutex log_write_guard;
 		void Log::write(Type itype, Date idate, string imsg) {
-			boost::lock_guard<boost::mutex> lock(log_write_guard);
+			std::lock_guard<std::mutex> lock(log_write_guard);
 			if(_file) {
 				_file->write(itype, idate, imsg);
 			} else {
@@ -52,13 +53,13 @@ namespace cb {
 		void Log::show(Type itype, string imsg) {
 			switch(itype) {
 				case Error:
-					//MessageBox(NULL, sysEncode(imsg).c_str(), sysEncode("Erro").c_str(), MB_OK | MB_ICONERROR | MB_SYSTEMMODAL | MB_TOPMOST);
+					//MessageBox(NULL, utf16(imsg).c_str(), utf16("Erro").c_str(), MB_OK | MB_ICONERROR | MB_SYSTEMMODAL | MB_TOPMOST);
 					break;
 				case Warning:
-					//MessageBox(NULL, sysEncode(imsg).c_str(), sysEncode("Aviso").c_str(), MB_OK | MB_ICONWARNING | MB_SYSTEMMODAL | MB_TOPMOST);
+					//MessageBox(NULL, utf16(imsg).c_str(), utf16("Aviso").c_str(), MB_OK | MB_ICONWARNING | MB_SYSTEMMODAL | MB_TOPMOST);
 					break;
 				case Info:
-					//MessageBox(NULL, sysEncode(imsg).c_str(), sysEncode("Informação").c_str(), MB_OK | MB_ICONINFORMATION | MB_SYSTEMMODAL | MB_TOPMOST);
+					//MessageBox(NULL, utf16(imsg).c_str(), utf16("Informação").c_str(), MB_OK | MB_ICONINFORMATION | MB_SYSTEMMODAL | MB_TOPMOST);
 					break;
 				default:
 					break;

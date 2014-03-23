@@ -35,14 +35,6 @@ namespace cb {
 		string CbAPI print(string iformat, ...);
 
 		/**
-		 * Converte o texto recebido por parametro de UTF8 para a codificação aceita pelo sistema.
-		 * no caso do windows é ISO-8859-1.
-		 * @param itext Texto a ser traduzido.
-		 * @return Texto traduzido.
-		 */
-		wstring CbAPI sysEncode(string itext);
-
-		/**
 		 * Converte o texto recebido por parametro de UTF8 para UTF16.
 		 * @param itext Texto a ser convertido.
 		 * @return Texto traduzido.

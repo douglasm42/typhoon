@@ -11,7 +11,10 @@
 
 #define BOLT_BASE_DATE_BUFFER_CHUNK_SIZE 1024
 
-#include <boost/thread.hpp>
+#include <thread>
+#include <mutex>
+
+#include <cstring>
 
 namespace cb {
 	namespace base {
@@ -24,13 +27,13 @@ namespace cb {
 		}
 
 #if defined __MINGW32__ || __GNUC__
-		boost::mutex guard_getTimeInfo;
+		std::mutex guard_getTimeInfo;
 #endif
 		void Date::getTimeInfo(struct tm *itimeinfo) {
 			time_t rawtime;
 			time(&rawtime);
 #if defined __MINGW32__ || __GNUC__
-			boost::lock_guard<boost::mutex> lock(guard_getTimeInfo);
+			std::lock_guard<std::mutex> lock(guard_getTimeInfo);
 			struct tm *timeinfo = localtime(&rawtime);
 			memcpy(itimeinfo, timeinfo, sizeof(struct tm));
 #else
