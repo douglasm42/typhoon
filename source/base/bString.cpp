@@ -14,9 +14,6 @@
 #include <boost/locale.hpp>
 
 #include <functional>
-
-#include <locale>
-
 #include <sstream>
 
 namespace cb {
@@ -58,17 +55,11 @@ namespace cb {
 		}
 
 		string upper(string istr) {
-			for(size_t i=0 ; i<istr.size() ; i++) {
-				istr[i] = toupper(istr[i]);
-			}
-			return istr;
+			return boost::locale::to_upper(istr);
 		}
 
 		string lower(string istr) {
-			for(size_t i=0 ; i<istr.size() ; i++) {
-				istr[i] = tolower(istr[i]);
-			}
-			return istr;
+			return boost::locale::to_lower(istr);
 		}
 
 		string CbAPI trim(string istr, int iflags) {
@@ -129,132 +120,6 @@ namespace cb {
 		unsigned int hash(string istr) {
 			std::hash<string> strhash;
 			return strhash(istr);
-		}
-
-		//Converte do tipo para a string
-		string tostr(int ivalue) {
-			std::ostringstream out;
-			out << ivalue;
-			return out.str();
-		}
-
-		string tostr(unsigned int ivalue) {
-			std::ostringstream out;
-			out << ivalue;
-			return out.str();
-		}
-
-		string tostr(float ivalue) {
-			std::ostringstream out;
-			out << ivalue;
-			return out.str();
-		}
-
-		string tostr(double ivalue) {
-			std::ostringstream out;
-			out << ivalue;
-			return out.str();
-		}
-
-		string tostr(bool ivalue) {
-			return ivalue?"true":"false";
-		}
-
-		//Converte de string para o tipo
-		int toint(string istr) {
-			std::istringstream in(istr);
-			int value;
-			in >> value;
-			if(in.rdstate() & std::ios::failbit) {
-				return 0;
-			}
-			return value;
-		}
-
-		unsigned int touint(string istr) {
-			std::istringstream in(istr);
-			unsigned int value;
-			in >> value;
-			if(in.rdstate() & std::ios::failbit) {
-				return 0u;
-			}
-			return value;
-		}
-
-		float tofloat(string istr) {
-			std::istringstream in(istr);
-			float value;
-			in >> value;
-			if(in.rdstate() & std::ios::failbit) {
-				return 0.0f;
-			}
-			return value;
-		}
-
-		double todouble(string istr) {
-			std::istringstream in(istr);
-			double value;
-			in >> value;
-			if(in.rdstate() & std::ios::failbit) {
-				return 0.0f;
-			}
-			return value;
-		}
-
-		bool tobool(string istr) {
-			istr = upper(istr);
-			if(istr == "FALSE" || istr == "OFF" || istr == "0") {
-				return false;
-			} else if(istr == "TRUE" || istr == "ON" || istr == "1") {
-				return true;
-			}
-			return false;
-		}
-
-		//Funções para verificar o tipo
-		bool isint(string istr) {
-			std::istringstream in(istr);
-			int value;
-			in >> value;
-			if(in.rdstate() & std::ios::failbit) {
-				return false;
-			}
-			return true;
-		}
-
-		bool isuint(string istr) {
-			std::istringstream in(istr);
-			unsigned int value;
-			in >> value;
-			if(in.rdstate() & std::ios::failbit) {
-				return false;
-			}
-			return true;
-		}
-
-		bool isfloat(string istr) {
-			std::istringstream in(istr);
-			float value;
-			in >> value;
-			if(in.rdstate() & std::ios::failbit) {
-				return false;
-			}
-			return true;
-		}
-
-		bool isdouble(string istr) {
-			std::istringstream in(istr);
-			double value;
-			in >> value;
-			if(in.rdstate() & std::ios::failbit) {
-				return false;
-			}
-			return true;
-		}
-
-		bool isbool(string istr) {
-			istr = upper(istr);
-			return istr == "FALSE" || istr == "OFF" || istr == "0" || istr == "TRUE" || istr == "ON" || istr == "1";
 		}
 	}  // namespace base
 }  // namespace cb

@@ -25,7 +25,7 @@ CPPDEFS := -DCUMULONIMBUS_EXPORTS -DGLEW_STATIC -D_CRT_SECURE_NO_WARNINGS
 INCLUDE_DIR := -I./include -I$(TYPHOON_ROOT)/dependencies/gcc/include -I$(TYPHOON_ROOT)/dependencies/gcc/include/freetype2
 LIBS_DIR := -L$(TYPHOON_ROOT)/dependencies/gcc/lib
  
-LIBS := -lboost_system -lboost_locale -lfreetype -lGLEW -lphysfs -lpng -lz -pthread
+LIBS := -lboost_locale -lfreetype -lGLEW -lphysfs -lpng -lz -pthread
 
 # Sources
 SOURCES := $(wildcard $(SOURCE_DIR)/*.cpp)

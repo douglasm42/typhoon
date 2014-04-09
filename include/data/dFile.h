@@ -25,7 +25,11 @@ namespace cb {
 
 		KinLock(FileMemoryStreamBuf);
 
-		void initPhysFS(const char *argv0);
+		namespace file {
+			void init(string argv0);
+			void writedir(string idirectory);
+			void mount(string idirectory, string imountpoint);
+		}  // namespace file
 
 		typedef std::istream istream;
 		typedef std::ostream ostream;
@@ -53,10 +57,10 @@ namespace cb {
 
 		public:
 			oFile();
-			oFile(string ifilename);
+			oFile(string ifilename, bool iappend = false);
 			virtual ~oFile();
 
-			bool open(string ifilename);
+			bool open(string ifilename, bool iappend = false);
 			bool isOpen();
 			void close();
 		};
@@ -67,9 +71,11 @@ namespace cb {
 
 		public:
 			iMFile();
+			iMFile(string ifilename);
 			iMFile(const char *idata, size_t isize);
 			virtual ~iMFile();
 
+			bool open(string ifilename);
 			bool open(const char *idata, size_t isize);
 			bool isOpen();
 			void close();
@@ -84,9 +90,11 @@ namespace cb {
 
 		public:
 			oMFile();
+			oMFile(string ifilename);
 			oMFile(const char *idata, size_t isize);
 			virtual ~oMFile();
 
+			bool open(string ifilename);
 			bool open(const char *idata, size_t isize);
 			bool isOpen();
 			void close();
@@ -101,9 +109,11 @@ namespace cb {
 
 		public:
 			MFile();
+			MFile(string ifilename);
 			MFile(const char *idata, size_t isize);
 			virtual ~MFile();
 
+			bool open(string ifilename);
 			bool open(const char *idata, size_t isize);
 			bool isOpen();
 			void close();

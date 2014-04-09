@@ -32,9 +32,9 @@ namespace cb {
 
 			std::streamsize read(char* s, std::streamsize n) {
 				size_t i;
-				std::streamsize j;
-				for(i=_position,j=0; i<_data.size() && j<n ; i++,j++) {
-					s[j] = _data[i];
+				std::streamsize j=0;
+				for(; _position<_data.size() && j<n ; _position++,j++) {
+					s[j] = _data[_position];
 				}
 
 				return j!=0?j:-1;
@@ -51,7 +51,7 @@ namespace cb {
 					_data.insert(_data.end(), s+j, s+n);
 				}
 
-				return 0;
+				return n;
 			}
 
 			io::stream_offset seek(io::stream_offset off, std::ios_base::seekdir way) {
@@ -82,23 +82,55 @@ namespace cb {
 
 		iMFile::iMFile() {
 			_stream_buf << new MStreamBuf();
-			rdbuf(&_stream_buf);
 		}
+
+		iMFile::iMFile(string ifilename) {
+			_stream_buf << new MStreamBuf();
+			open(ifilename);
+		}
+
 		iMFile::iMFile(const char *idata, size_t isize) {
 			_stream_buf << new MStreamBuf();
-			rdbuf(&_stream_buf);
 			open(idata, isize);
 		}
+
 		iMFile::~iMFile() {
 			close();
-			rdbuf(NULL);
+			rdbuf(nullptr);
 			kin::erase(_stream_buf);
+		}
+
+		bool iMFile::open(string ifilename) {
+			close();
+
+			iFile file(ifilename);
+			if(!file.isOpen()) {
+				return false;
+			}
+
+			file.seekg(0, std::ios::end);
+			std::streamsize size = file.tellg();
+
+			char *data = new char[size];
+
+			file.seekg(0, std::ios::beg);
+			file.read(data, size);
+
+			if(file.gcount() != size) {
+				delete [] data;
+				return false;
+			}
+
+			bool ret = open(data, size);
+			delete [] data;
+			return ret;
 		}
 
 		bool iMFile::open(const char *idata, size_t isize) {
 			close();
 			(*_stream_buf).open(*(new MDevice(idata, isize)));
 
+			rdbuf(&_stream_buf);
 			return true;
 		}
 
@@ -109,6 +141,7 @@ namespace cb {
 		void iMFile::close() {
 			if((*_stream_buf).is_open()) {
 				(*_stream_buf).close();
+				rdbuf(nullptr);
 			}
 		}
 
@@ -124,24 +157,54 @@ namespace cb {
 
 		oMFile::oMFile() {
 			_stream_buf << new MStreamBuf();
-			rdbuf(&_stream_buf);
+		}
+
+		oMFile::oMFile(string ifilename) {
+			_stream_buf << new MStreamBuf();
+			open(ifilename);
 		}
 
 		oMFile::oMFile(const char *idata, size_t isize) {
 			_stream_buf << new MStreamBuf();
-			rdbuf(&_stream_buf);
 			open(idata, isize);
 		}
 
 		oMFile::~oMFile() {
 			close();
-			rdbuf(NULL);
+			rdbuf(nullptr);
 			kin::erase(_stream_buf);
+		}
+
+		bool oMFile::open(string ifilename) {
+			close();
+
+			iFile file(ifilename);
+			if(!file.isOpen()) {
+				return false;
+			}
+
+			file.seekg(0, std::ios::end);
+			std::streamsize size = file.tellg();
+
+			char *data = new char[size];
+
+			file.seekg(0, std::ios::beg);
+			file.read(data, size);
+
+			if(file.gcount() != size) {
+				delete [] data;
+				return false;
+			}
+
+			bool ret = open(data, size);
+			delete [] data;
+			return ret;
 		}
 
 		bool oMFile::open(const char *idata, size_t isize) {
 			close();
 			(*_stream_buf).open(*(new MDevice(idata, isize)));
+			rdbuf(&_stream_buf);
 
 			return true;
 		}
@@ -153,6 +216,7 @@ namespace cb {
 		void oMFile::close() {
 			if((*_stream_buf).is_open()) {
 				(*_stream_buf).close();
+				rdbuf(nullptr);
 			}
 		}
 
@@ -168,12 +232,15 @@ namespace cb {
 
 		MFile::MFile() {
 			_stream_buf << new MStreamBuf();
-			rdbuf(&_stream_buf);
+		}
+
+		MFile::MFile(string ifilename) {
+			_stream_buf << new MStreamBuf();
+			open(ifilename);
 		}
 
 		MFile::MFile(const char *idata, size_t isize) {
 			_stream_buf << new MStreamBuf();
-			rdbuf(&_stream_buf);
 			open(idata, isize);
 		}
 
@@ -183,9 +250,36 @@ namespace cb {
 			kin::erase(_stream_buf);
 		}
 
+		bool MFile::open(string ifilename) {
+			close();
+
+			iFile file(ifilename);
+			if(!file.isOpen()) {
+				return false;
+			}
+
+			file.seekg(0, std::ios::end);
+			std::streamsize size = file.tellg();
+
+			char *data = new char[size];
+
+			file.seekg(0, std::ios::beg);
+			file.read(data, size);
+
+			if(file.gcount() != size) {
+				delete [] data;
+				return false;
+			}
+
+			bool ret = open(data, size);
+			delete [] data;
+			return ret;
+		}
+
 		bool MFile::open(const char *idata, size_t isize) {
 			close();
 			(*_stream_buf).open(*(new MDevice(idata, isize)));
+			rdbuf(&_stream_buf);
 
 			return true;
 		}
@@ -197,6 +291,7 @@ namespace cb {
 		void MFile::close() {
 			if((*_stream_buf).is_open()) {
 				(*_stream_buf).close();
+				rdbuf(nullptr);
 			}
 		}
 

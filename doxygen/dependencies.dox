@@ -230,18 +230,4 @@ dependências: biblioteca estatica para a pasta lib e arquivos de cabeçalho par
 a pasta include.
 
 \see http://openil.sourceforge.net/
-
-\section icu ICU
-<h3>Versão atual: 52.1</h3>
-
-\verbatim
-export CFLAGS="-DU_USING_ICU_NAMESPACE=0 -DUNISTR_FROM_CHAR_EXPLICIT=explicit -DUNISTR_FROM_STRING_EXPLICIT=explicit -fPIC"
-export CPPFLAGS="-DU_USING_ICU_NAMESPACE=0 -DUNISTR_FROM_CHAR_EXPLICIT=explicit -DUNISTR_FROM_STRING_EXPLICIT=explicit -fPIC"
-export CXXFLAGS=--std=c++0x
-
-./configure --prefix=/caminho/para/o/diretorio/de/instalacao/ --enable-static --disable-shared
-make all
-make install
-\endverbatim
-
 */

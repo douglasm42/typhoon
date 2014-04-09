@@ -19,6 +19,20 @@ namespace io = boost::iostreams;
 
 namespace cb {
 	namespace data {
+		namespace file {
+			void init(string argv0) {
+				PHYSFS_init(argv0.c_str());
+			}
+
+			void writedir(string idirectory) {
+				PHYSFS_setWriteDir(idirectory.c_str());
+			}
+
+			void mount(string idirectory, string imountpoint) {
+				PHYSFS_mount(idirectory.c_str(), imountpoint.c_str(), true);
+			}
+		}  // namespace file
+
 		KinKey(FileHandle, PHYSFS_File)
 
 		struct seekable_source_tag : io::device_tag, io::input_seekable { };
@@ -105,12 +119,6 @@ namespace cb {
 		KinKey(FilePhysFSIStreamBuf, PhysFSInputBuf);
 		KinKey(FilePhysFSOStreamBuf, PhysFSOutputBuf);
 
-		void initPhysFS(const char *argv0) {
-			PHYSFS_init(argv0);
-			PHYSFS_setWriteDir(".");
-			PHYSFS_mount(".", NULL, true);
-		}
-
 		//iFileFS -------------------------------------------------------------
 
 		iFile::iFile() {
@@ -132,7 +140,7 @@ namespace cb {
 			close();
 			_file_handle << PHYSFS_openRead(ifilename.c_str());
 			if(_file_handle.empty()) {
-				base::log.info("Não foi possivel abrir o arquivo '%s': %s", ifilename.c_str(), PHYSFS_getLastError());
+				base::log.warning("iFile::open() : Não foi possivel abrir o arquivo '%s': %s", ifilename.c_str(), PHYSFS_getLastError());
 				return false;
 			}
 			(*_stream_buf).open(*(new PhysFSSource(&_file_handle)));
@@ -162,10 +170,10 @@ namespace cb {
 			rdbuf(&_stream_buf);
 		}
 
-		oFile::oFile(string ifilename) {
+		oFile::oFile(string ifilename, bool iappend) {
 			_stream_buf << new PhysFSOutputBuf();
 			rdbuf(&_stream_buf);
-			open(ifilename);
+			open(ifilename, iappend);
 		}
 
 		oFile::~oFile() {
@@ -174,15 +182,21 @@ namespace cb {
 			kin::erase(_stream_buf);
 		}
 
-		bool oFile::open(string ifilename) {
+		bool oFile::open(string ifilename, bool iappend) {
 			close();
-			_file_handle << PHYSFS_openWrite(ifilename.c_str());
+			if(iappend) {
+				_file_handle << PHYSFS_openAppend(ifilename.c_str());
+			} else {
+				_file_handle << PHYSFS_openWrite(ifilename.c_str());
+			}
 			if(_file_handle.empty()) {
 				base::log.info("Não foi possivel abrir o arquivo '%s': %s", ifilename.c_str(), PHYSFS_getLastError());
 				return false;
 			}
 			(*_stream_buf).open(*(new PhysFSSink(&_file_handle)));
 			rdbuf(&_stream_buf);
+
+			seekp(0, std::ios::end);
 
 			return true;
 		}

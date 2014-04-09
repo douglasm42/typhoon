@@ -11,6 +11,8 @@
 
 #include <pugixml.hpp>
 
+#include <stdexcept>
+
 #define ENCODE(x) (static_cast<void *>(x))
 #define DECODE(type, x) (static_cast<type *>(x))
 
@@ -65,19 +67,43 @@ namespace cb {
 		}
 
 		bool XML::Attribute::isInt() {
-			return base::isint(value());
+			try {
+				std::stoi(value());
+				return true;
+			} catch (std::out_of_range &e) {
+			} catch (std::invalid_argument &e) {
+			}
+			return false;
 		}
 		bool XML::Attribute::isUInt() {
-			return base::isuint(value());
+			try {
+				std::stoul(value());
+				return true;
+			} catch (std::out_of_range &e) {
+			} catch (std::invalid_argument &e) {
+			}
+			return false;
 		}
 		bool XML::Attribute::isFloat() {
-			return base::isfloat(value());
+			try {
+				std::stof(value());
+				return true;
+			} catch (std::out_of_range &e) {
+			} catch (std::invalid_argument &e) {
+			}
+			return false;
 		}
 		bool XML::Attribute::isDouble() {
-			return base::isdouble(value());
+			try {
+				std::stod(value());
+				return true;
+			} catch (std::out_of_range &e) {
+			} catch (std::invalid_argument &e) {
+			}
+			return false;
 		}
 		bool XML::Attribute::isBool() {
-			return base::isbool(value());
+			return base::lower(value()) == "true" || base::lower(value()) == "false";
 		}
 
 		int XML::Attribute::asInt() {
@@ -235,7 +261,7 @@ namespace cb {
 		// class XML
 		//======================================================================
 		XML::XML() {
-			//_document = ENCODE(new pugi::xml_document);
+			_document = ENCODE(new pugi::xml_document);
 			//pugi::xml_document &doc = *DECODE(pugi::xml_document, _document);
 		}
 
@@ -243,20 +269,35 @@ namespace cb {
 			delete DECODE(pugi::xml_document, _document);
 		}
 
-		void XML::load(base::string ifilename) {
+		void XML::load(istream &istream) {
 			pugi::xml_document &doc = *DECODE(pugi::xml_document, _document);
 
-			pugi::xml_parse_result result = doc.load_file(ifilename.c_str());
+			pugi::xml_parse_result result = doc.load(istream);
 			if(!result) {
-				throw DataException(base::print("XML::XML() : Não foi possivel abrir o documento XML: %s", result.description()));
+				ThrowDataException(base::print("Não foi possivel abrir o documento XML: %s", result.description()).c_str());
 			}
 		}
 
-		void XML::save(base::string ifilename) {
+		void XML::load(base::string ifilename) {
+			iFile file(ifilename);
+			if(file.isOpen()) {
+				load(file);
+			} else {
+				ThrowDataException(base::print("Não foi possivel abrir o arquivo: %s", ifilename.c_str()).c_str());
+			}
+		}
+
+		void XML::save(ostream &ostream) {
 			pugi::xml_document &doc = *DECODE(pugi::xml_document, _document);
 
-			if(!doc.save_file(ifilename.c_str(), "\t", 1U, pugi::encoding_utf8)) {
-				throw DataException(base::print("XML::XML() : Não foi possivel salvar o documento XML."));
+			doc.save(ostream, "\t", 1U, pugi::encoding_utf8);
+		}
+		void XML::save(base::string ifilename) {
+			oFile file(ifilename);
+			if(file.isOpen()) {
+				save(file);
+			} else {
+				ThrowDataException(base::print("Não foi possivel abrir o arquivo: %s", ifilename.c_str()).c_str());
 			}
 		}
 

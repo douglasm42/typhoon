@@ -22,10 +22,10 @@
 #include <mutex>
 
 #define iFileToVoid(file) static_cast<void *>(file)
-#define voidToiFile(handle) static_cast<cb::data::iFile *>(handle)
+#define voidToiFile(handle) static_cast<cb::data::istream *>(handle)
 
 #define oFileToVoid(file) static_cast<void *>(file)
-#define voidTooFile(handle) static_cast<cb::data::oFile *>(handle)
+#define voidTooFile(handle) static_cast<cb::data::istream *>(handle)
 
 namespace cb {
 	namespace data {
@@ -116,7 +116,7 @@ namespace cb {
 			}
 		}
 
-		void Bitmap::load(iFile &ifile, bmp::Format iformat, bmp::Type itype) {
+		void Bitmap::load(istream &istream, bmp::Format iformat, bmp::Type itype) {
 			if(iformat == bmp::FormatVoid) {
 				ThrowDataException("Formato invalido.");
 			}
@@ -135,7 +135,7 @@ namespace cb {
 			callbacks.skip = &bmp::skip;
 			callbacks.eof = &bmp::eof;
 
-			math::uint8 *stbidata = stbi_load_from_callbacks(&callbacks, iFileToVoid(&ifile), &w, &h, &c, channels(iformat));
+			math::uint8 *stbidata = stbi_load_from_callbacks(&callbacks, iFileToVoid(&istream), &w, &h, &c, channels(iformat));
 
 			if(c != (int)channels(iformat)) {
 				ThrowDataException(base::print("Quantidade de canais diferente da requisitada: %d e %d requisitado", c, channels(iformat)).c_str());

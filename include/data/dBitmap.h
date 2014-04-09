@@ -129,9 +129,9 @@ namespace cb {
 				load(iwidth, iheight, iformat, itype);
 			}
 
-			Bitmap(iFile &ifile, bmp::Format iformat, bmp::Type itype)
+			Bitmap(istream &istream, bmp::Format iformat, bmp::Type itype)
 			: _width(0), _height(0), _pitch(0), _bytes_per_pixel(0), _format(bmp::FormatVoid), _type(bmp::TypeVoid), _data(NULL) {
-				load(ifile, iformat, itype);
+				load(istream, iformat, itype);
 			}
 
 			Bitmap(const Bitmap &isrc)
@@ -169,7 +169,7 @@ namespace cb {
 			}
 
 			void load(size_t iwidth, size_t iheight, bmp::Format iformat, bmp::Type itype);
-			void load(iFile &ifile, bmp::Format iformat, bmp::Type itype);
+			void load(istream &istream, bmp::Format iformat, bmp::Type itype);
 			void load(const Bitmap &iimg);
 
 			virtual void save(string ifilename);
@@ -186,8 +186,8 @@ namespace cb {
 			: Bitmap(iwidth, iheight, f, t) {
 			}
 
-			BitmapBase(iFile &ifile)
-			: Bitmap(ifile, f, t) {
+			BitmapBase(istream &istream)
+			: Bitmap(istream, f, t) {
 			}
 
 			BitmapBase(const BitmapBase &isrc)
@@ -208,7 +208,7 @@ namespace cb {
 			virtual void clear() {Bitmap::clear();}
 
 			void load(size_t iwidth, size_t iheight) {Bitmap::load(iwidth, iheight, f, t);}
-			void load(iFile &ifile) {Bitmap::load(ifile, f, t);}
+			void load(istream &istream) {Bitmap::load(istream, f, t);}
 			void load(const BitmapBase &iimg) {Bitmap::load(iimg);}
 
 			virtual void save(string ifilename) {Bitmap::save(ifilename);}
