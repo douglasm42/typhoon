@@ -219,10 +219,7 @@ namespace cb {
 				}
 
 				void serializeNumber(const number &onumber) {
-					int p = _file.precision();
-					_file.precision(std::numeric_limits<long double>::max_exponent10+2);
 					_file << onumber;
-					_file.precision(p);
 				}
 
 				void serializeBoolean(const boolean &oboolean) {
@@ -571,6 +568,7 @@ namespace cb {
 		void JSON::save(ostream &ofile) {
 			json::StreamSerializer ser(ofile);
 			ser.serializeValue(value, "");
+			ofile << std::endl;
 		}
 
 		void JSON::save(const base::string &ifilename) {
