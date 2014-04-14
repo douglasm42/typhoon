@@ -7,8 +7,6 @@
 
 #include <data/dDatabase.h>
 
-#include <base/bException.h>
-
 #include <sqlite3.h>
 
 namespace cb {
@@ -106,7 +104,7 @@ namespace cb {
 					ThrowDataException(base::print("Erro ao modificar parametro da querry: '%s'", sqlite3_errmsg(sqlite3_db_handle(&_statement))).c_str());
 				}
 			}
-			void querry::param(const base::string &iparameter, const double ireal) {
+			void querry::param(const base::string &iparameter, const real_t ireal) {
 				if(!isOpen()) {
 					ThrowDataException("Tentou usar uma querry vazia.");
 				}
@@ -117,28 +115,28 @@ namespace cb {
 				}
 			}
 
-			void querry::param(const base::string &iparameter, const int iint) {
+			void querry::param(const base::string &iparameter, const integer_t iinteger) {
 				if(!isOpen()) {
 					ThrowDataException("Tentou usar uma querry vazia.");
 				}
 
-				int result = sqlite3_bind_int(&_statement, QPARAMIND, iint);
+				int result = sqlite3_bind_int(&_statement, QPARAMIND, iinteger);
 				if(result != SQLITE_OK) {
 					ThrowDataException(base::print("Erro ao modificar parametro da querry: '%s'", sqlite3_errmsg(sqlite3_db_handle(&_statement))).c_str());
 				}
 			}
-			void querry::param(const base::string &iparameter, const long long ill) {
+			void querry::param(const base::string &iparameter, const linteger_t ilinteger) {
 				if(!isOpen()) {
 					ThrowDataException("Tentou usar uma querry vazia.");
 				}
 
-				int result = sqlite3_bind_int64(&_statement, QPARAMIND, ill);
+				int result = sqlite3_bind_int64(&_statement, QPARAMIND, ilinteger);
 				if(result != SQLITE_OK) {
 					ThrowDataException(base::print("Erro ao modificar parametro da querry: '%s'", sqlite3_errmsg(sqlite3_db_handle(&_statement))).c_str());
 				}
 			}
 
-			void querry::param(const base::string &iparameter, const base::string &istring) {
+			void querry::param(const base::string &iparameter, const string &istring) {
 				if(!isOpen()) {
 					ThrowDataException("Tentou usar uma querry vazia.");
 				}
@@ -148,7 +146,7 @@ namespace cb {
 					ThrowDataException(base::print("Erro ao modificar parametro da querry: '%s'", sqlite3_errmsg(sqlite3_db_handle(&_statement))).c_str());
 				}
 			}
-			void querry::param(const base::string &iparameter, const base::wstring &iwstring) {
+			void querry::param(const base::string &iparameter, const wstring &iwstring) {
 				if(!isOpen()) {
 					ThrowDataException("Tentou usar uma querry vazia.");
 				}
@@ -158,15 +156,33 @@ namespace cb {
 					ThrowDataException(base::print("Erro ao modificar parametro da querry: '%s'", sqlite3_errmsg(sqlite3_db_handle(&_statement))).c_str());
 				}
 			}
-			void querry::param(const base::string &iparameter, const void *iblob, const size_t in) {
+			void querry::param(const base::string &iparameter, const blob_t &iblob) {
 				if(!isOpen()) {
 					ThrowDataException("Tentou usar uma querry vazia.");
 				}
 
-				int result = sqlite3_bind_blob(&_statement, QPARAMIND, iblob, in, SQLITE_TRANSIENT);
+				int result = sqlite3_bind_blob(&_statement, QPARAMIND, (const void *)iblob.data(), (int)iblob.size(), SQLITE_TRANSIENT);
 				if(result != SQLITE_OK) {
 					ThrowDataException(base::print("Erro ao modificar parametro da querry: '%s'", sqlite3_errmsg(sqlite3_db_handle(&_statement))).c_str());
 				}
+			}
+
+			int querry::columnID(const base::string &icolumn) const {
+				int count = columnCount();
+				for(int i=0 ; i<count ; i++) {
+					if(icolumn == sqlite3_column_name((sqlite3_stmt*)kin::pt(_statement), i)) {
+						return i;
+					}
+				}
+				ThrowDataException(base::print("Tentou obter uma coluna inexistente: '%s'", icolumn.c_str()).c_str());
+			}
+
+			int querry::columnCount() const {
+				int count = sqlite3_column_count((sqlite3_stmt*)kin::pt(_statement));
+				if(sqlite3_errcode(sqlite3_db_handle((sqlite3_stmt*)kin::pt(_statement))) != SQLITE_OK) {
+					ThrowDataException(base::print("Erro ao quantidade de colunas da querry: '%s'", sqlite3_errmsg(sqlite3_db_handle((sqlite3_stmt*)kin::pt(_statement)))).c_str());
+				}
+				return count;
 			}
 		}  // namespace db
 	}  // namespace data

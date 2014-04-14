@@ -7,7 +7,6 @@
 
 #include <data/dDatabase.h>
 
-#include <base/bException.h>
 #include <base/bLog.h>
 
 #include <sqlite3.h>

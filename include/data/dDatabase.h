@@ -11,6 +11,7 @@
 
 #include <data/data.h>
 
+#include <base/bException.h>
 #include <base/bString.h>
 
 #include <data/dFile.h>
@@ -21,6 +22,89 @@ namespace cb {
 		KinLock(DBStatement);
 
 		namespace db {
+			typedef enum type_t {
+				Null,
+				Real,
+				Integer,
+				String,
+				BLOB
+			} type_t;
+
+			class CbAPI querry;
+
+			typedef double			real_t;
+			typedef int				integer_t;
+			typedef long long		linteger_t;
+			typedef base::string	string;
+			typedef base::wstring	wstring;
+			typedef MFile			blob_t;
+
+			class CbAPI column {
+			private:
+				int _column_id;
+				kin::DBStatement _statement;
+
+				column();
+				column(const int icolumnid, const kin::DBStatement &iquerry) :_column_id(icolumnid), _statement(iquerry) {}
+
+			public:
+				column(const column &icolumn) {
+					_column_id = icolumn._column_id;
+					_statement._pointer = icolumn._statement._pointer;
+				}
+				~column() {}
+
+				column &operator=(const column &icolumn) {
+					_column_id = icolumn._column_id;
+					_statement._pointer = icolumn._statement._pointer;
+
+					return *this;
+				}
+
+				operator real_t() const		{return real();}
+				operator integer_t() const	{return integer();}
+				operator linteger_t() const	{return linteger();}
+				operator string() const		{return str();}
+				operator wstring() const	{return wstr();}
+				operator blob_t() const		{return blob();}
+
+				operator char() const		{return		 (char)integer();}
+				operator short() const		{return		(short)integer();}
+				operator long() const		{return		 (long)integer();}
+				operator float() const		{return		(float)real();}
+
+				operator unsigned char() const		{return		 (unsigned char)integer();}
+				operator unsigned short() const		{return		(unsigned short)integer();}
+				operator unsigned int() const		{return		  (unsigned int)linteger();}
+				operator unsigned long() const		{return		 (unsigned long)linteger();}
+				operator unsigned long long() const	{return	(unsigned long long)linteger();}
+
+				bool isNull() const;
+				bool isReal() const;
+				bool isInteger() const;
+				bool isString() const;
+				bool isBLOB() const;
+
+				real_t real() const;
+				integer_t integer() const;
+				linteger_t linteger() const;
+				string str() const;
+				wstring wstr() const;
+				blob_t blob() const;
+
+				bool empty() const {return isNull();}
+				base::string name() const;
+				type_t type() const;
+
+				friend class CbAPI querry;
+			};
+
+			inline bool column::isNull()		const {return type()==Null;}
+			inline bool column::isReal()		const {return type()==Real;}
+			inline bool column::isInteger()		const {return type()==Integer;}
+			inline bool column::isString()		const {return type()==String;}
+			inline bool column::isBLOB()		const {return type()==BLOB;}
+
 			class CbAPI querry {
 			private:
 				kin::DBStatement _statement;
@@ -42,19 +126,23 @@ namespace cb {
 				void reset();
 
 				void param(const base::string &iparameter);
-				void param(const base::string &iparameter, const double ireal);
-				void param(const base::string &iparameter, const int iint);
-				void param(const base::string &iparameter, const long long ill);
+				void param(const base::string &iparameter, const real_t ireal);
+				void param(const base::string &iparameter, const integer_t iinteger);
+				void param(const base::string &iparameter, const linteger_t ilinteger);
 				void param(const base::string &iparameter, const base::string &istring);
 				void param(const base::string &iparameter, const base::wstring &iwstring);
-				void param(const base::string &iparameter, const void *iblob, const size_t in);
+				void param(const base::string &iparameter, const blob_t &iblob);
 
-				double			gReal(const base::string &iparameter);
-				int				gInt(const base::string &iparameter);
-				long long		gInt64(const base::string &iparameter);
-				base::string	gString(const base::string &iparameter);
-				base::string	gWString(const base::string &iparameter);
-				void			blob(const base::string &iparameter, void *&iblob, size_t &in);
+				int columnCount() const;
+				int columnID(const base::string &icolumn) const;
+
+				column operator[](const base::string &icolumn) const {return column(columnID(icolumn), _statement);}
+				column operator[](const int icolumn) const {
+					if(icolumn >= columnCount()) {
+						ThrowDataException(base::print("Tentou obter uma coluna com id maior do que a quantidade de colunas: %d de %d", icolumn, columnCount()).c_str());
+					}
+					return column(icolumn, _statement);
+				}
 
 				friend class CbAPI cb::data::Database;
 			};

@@ -23,6 +23,7 @@ namespace cb {
 		KinLock(FilePhysFSIStreamBuf);
 		KinLock(FilePhysFSOStreamBuf);
 
+		KinLock(FileMemoryDevice);
 		KinLock(FileMemoryStreamBuf);
 
 		namespace file {
@@ -67,12 +68,14 @@ namespace cb {
 
 		class CbAPI iMFile : public istream {
 		private:
+			kin::FileMemoryDevice _mdevice;
 			kin::FileMemoryStreamBuf _stream_buf;
 
 		public:
 			iMFile();
 			iMFile(string ifilename);
 			iMFile(const char *idata, size_t isize);
+			iMFile(const iMFile &iimfile) {open(iimfile.data(), iimfile.size());}
 			virtual ~iMFile();
 
 			bool open(string ifilename);
@@ -80,18 +83,20 @@ namespace cb {
 			bool isOpen();
 			void close();
 
-			const char *data();
-			size_t size();
+			const char *data() const;
+			size_t size() const;
 		};
 
 		class CbAPI oMFile : public ostream {
 		private:
+			kin::FileMemoryDevice _mdevice;
 			kin::FileMemoryStreamBuf _stream_buf;
 
 		public:
 			oMFile();
 			oMFile(string ifilename);
 			oMFile(const char *idata, size_t isize);
+			oMFile(const oMFile &iomfile) {open(iomfile.data(), iomfile.size());}
 			virtual ~oMFile();
 
 			bool open(string ifilename);
@@ -99,18 +104,20 @@ namespace cb {
 			bool isOpen();
 			void close();
 
-			const char *data();
-			size_t size();
+			const char *data() const;
+			size_t size() const;
 		};
 
 		class CbAPI MFile : public iostream {
 		private:
+			kin::FileMemoryDevice _mdevice;
 			kin::FileMemoryStreamBuf _stream_buf;
 
 		public:
 			MFile();
 			MFile(string ifilename);
 			MFile(const char *idata, size_t isize);
+			MFile(const MFile &imfile) {open(imfile.data(), imfile.size());}
 			virtual ~MFile();
 
 			bool open(string ifilename);
@@ -118,8 +125,8 @@ namespace cb {
 			bool isOpen();
 			void close();
 
-			const char *data();
-			size_t size();
+			const char *data() const;
+			size_t size() const;
 		};
 	}  // namespace data
 }  // namespace cb

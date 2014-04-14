@@ -30,7 +30,7 @@ White	:= \e[1;37m
 #Tools
 CC := gcc
 CPP := g++
-ECHO := echo -e
+ECHO := /bin/echo -e
 CAT  := cat
 RM   := rm
 
@@ -141,7 +141,7 @@ $(BUILD_DIR)/%.o: $(DEPENDENCIES_SOURCE_DIR)/%.c
 # remove compilation products
 .PHONY : clean
 clean:
-	@$(ECHO) -n Cleaning ... 
+	@$(ECHO) -n "Cleaning ... "
 	@$(RM) -f $(OUTPUT_DIR)/libcumulonimbus.so
 	@$(RM) -f $(BUILD_DIR)/*.o $(BUILD_DIR)/*.d
 	@$(RM) -f $(BUILD_DIR)/base/*.o $(BUILD_DIR)/base/*.d

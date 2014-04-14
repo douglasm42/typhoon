@@ -70,12 +70,13 @@ namespace cb {
 				return _position;
 			}
 
-			const char *data() {return _data.data();}
-			size_t size() {return _data.size();}
+			const char *data() const {return _data.data();}
+			size_t size() const {return _data.size();}
 		};
 
 		typedef io::stream_buffer<MDevice>	MStreamBuf;
 
+		KinKey(FileMemoryDevice, MDevice);
 		KinKey(FileMemoryStreamBuf, MStreamBuf);
 
 		//iMFile -------------------------------------------------------------
@@ -128,7 +129,8 @@ namespace cb {
 
 		bool iMFile::open(const char *idata, size_t isize) {
 			close();
-			(*_stream_buf).open(*(new MDevice(idata, isize)));
+			_mdevice << new MDevice(idata, isize);
+			(*_stream_buf).open(*_mdevice);
 
 			rdbuf(&_stream_buf);
 			return true;
@@ -141,16 +143,17 @@ namespace cb {
 		void iMFile::close() {
 			if((*_stream_buf).is_open()) {
 				(*_stream_buf).close();
+				_mdevice << nullptr;
 				rdbuf(nullptr);
 			}
 		}
 
-		const char *iMFile::data() {
-			return (*_stream_buf)->data();
+		const char *iMFile::data() const {
+			return kin::pt(_mdevice)->data();
 		}
 
-		size_t iMFile::size() {
-			return (*_stream_buf)->size();
+		size_t iMFile::size() const {
+			return kin::pt(_mdevice)->size();
 		}
 
 		//oMFile -------------------------------------------------------------
@@ -203,7 +206,8 @@ namespace cb {
 
 		bool oMFile::open(const char *idata, size_t isize) {
 			close();
-			(*_stream_buf).open(*(new MDevice(idata, isize)));
+			_mdevice << new MDevice(idata, isize);
+			(*_stream_buf).open(*_mdevice);
 			rdbuf(&_stream_buf);
 
 			return true;
@@ -216,16 +220,17 @@ namespace cb {
 		void oMFile::close() {
 			if((*_stream_buf).is_open()) {
 				(*_stream_buf).close();
+				_mdevice << nullptr;
 				rdbuf(nullptr);
 			}
 		}
 
-		const char *oMFile::data() {
-			return (*_stream_buf)->data();
+		const char *oMFile::data() const {
+			return kin::pt(_mdevice)->data();
 		}
 
-		size_t oMFile::size() {
-			return (*_stream_buf)->size();
+		size_t oMFile::size() const {
+			return kin::pt(_mdevice)->size();
 		}
 
 		//MFile -------------------------------------------------------------
@@ -278,7 +283,8 @@ namespace cb {
 
 		bool MFile::open(const char *idata, size_t isize) {
 			close();
-			(*_stream_buf).open(*(new MDevice(idata, isize)));
+			_mdevice << new MDevice(idata, isize);
+			(*_stream_buf).open(*_mdevice);
 			rdbuf(&_stream_buf);
 
 			return true;
@@ -291,16 +297,17 @@ namespace cb {
 		void MFile::close() {
 			if((*_stream_buf).is_open()) {
 				(*_stream_buf).close();
+				_mdevice << nullptr;
 				rdbuf(nullptr);
 			}
 		}
 
-		const char *MFile::data() {
-			return (*_stream_buf)->data();
+		const char *MFile::data() const {
+			return kin::pt(_mdevice)->data();
 		}
 
-		size_t MFile::size() {
-			return (*_stream_buf)->size();
+		size_t MFile::size() const {
+			return kin::pt(_mdevice)->size();
 		}
 	}  // namespace data
 }  // namespace cb
