@@ -9,6 +9,13 @@
 #pragma once
 
 #if defined _WIN32
+#	define CbWindows
+#else
+#	define CbLinux
+#endif
+
+
+#if defined _WIN32
 #	define CUMULONIMBUS_DLL_IMPORT __declspec(dllimport)
 #	define CUMULONIMBUS_DLL_EXPORT __declspec(dllexport)
 #	define CUMULONIMBUS_DLL_LOCAL
@@ -23,7 +30,6 @@
 #		define CUMULONIMBUS_DLL_LOCAL
 #	endif
 #endif
-
 
 #ifndef CUMULONIMBUS_STATIC
 #	ifdef CUMULONIMBUS_EXPORTS

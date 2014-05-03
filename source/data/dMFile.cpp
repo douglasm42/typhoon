@@ -5,9 +5,9 @@
  *      Author: douglas
  */
 
-#include <data/dFile.h>
+#include <data/File.h>
 
-#include <base/bLog.h>
+#include <base/Log.h>
 
 #include <vector>
 
@@ -77,161 +77,9 @@ namespace cb {
 		typedef io::stream_buffer<MDevice>	MStreamBuf;
 
 		KinKey(FileMemoryDevice, MDevice);
+		KinKeyErase(FileMemoryDevice, MDevice);
 		KinKey(FileMemoryStreamBuf, MStreamBuf);
-
-		//iMFile -------------------------------------------------------------
-
-		iMFile::iMFile() {
-			_stream_buf << new MStreamBuf();
-		}
-
-		iMFile::iMFile(string ifilename) {
-			_stream_buf << new MStreamBuf();
-			open(ifilename);
-		}
-
-		iMFile::iMFile(const char *idata, size_t isize) {
-			_stream_buf << new MStreamBuf();
-			open(idata, isize);
-		}
-
-		iMFile::~iMFile() {
-			close();
-			rdbuf(nullptr);
-			kin::erase(_stream_buf);
-		}
-
-		bool iMFile::open(string ifilename) {
-			close();
-
-			iFile file(ifilename);
-			if(!file.isOpen()) {
-				return false;
-			}
-
-			file.seekg(0, std::ios::end);
-			std::streamsize size = file.tellg();
-
-			char *data = new char[size];
-
-			file.seekg(0, std::ios::beg);
-			file.read(data, size);
-
-			if(file.gcount() != size) {
-				delete [] data;
-				return false;
-			}
-
-			bool ret = open(data, size);
-			delete [] data;
-			return ret;
-		}
-
-		bool iMFile::open(const char *idata, size_t isize) {
-			close();
-			_mdevice << new MDevice(idata, isize);
-			(*_stream_buf).open(*_mdevice);
-
-			rdbuf(&_stream_buf);
-			return true;
-		}
-
-		bool iMFile::isOpen() {
-			return (*_stream_buf).is_open();
-		}
-
-		void iMFile::close() {
-			if((*_stream_buf).is_open()) {
-				(*_stream_buf).close();
-				_mdevice << nullptr;
-				rdbuf(nullptr);
-			}
-		}
-
-		const char *iMFile::data() const {
-			return kin::pt(_mdevice)->data();
-		}
-
-		size_t iMFile::size() const {
-			return kin::pt(_mdevice)->size();
-		}
-
-		//oMFile -------------------------------------------------------------
-
-		oMFile::oMFile() {
-			_stream_buf << new MStreamBuf();
-		}
-
-		oMFile::oMFile(string ifilename) {
-			_stream_buf << new MStreamBuf();
-			open(ifilename);
-		}
-
-		oMFile::oMFile(const char *idata, size_t isize) {
-			_stream_buf << new MStreamBuf();
-			open(idata, isize);
-		}
-
-		oMFile::~oMFile() {
-			close();
-			rdbuf(nullptr);
-			kin::erase(_stream_buf);
-		}
-
-		bool oMFile::open(string ifilename) {
-			close();
-
-			iFile file(ifilename);
-			if(!file.isOpen()) {
-				return false;
-			}
-
-			file.seekg(0, std::ios::end);
-			std::streamsize size = file.tellg();
-
-			char *data = new char[size];
-
-			file.seekg(0, std::ios::beg);
-			file.read(data, size);
-
-			if(file.gcount() != size) {
-				delete [] data;
-				return false;
-			}
-
-			bool ret = open(data, size);
-			delete [] data;
-			return ret;
-		}
-
-		bool oMFile::open(const char *idata, size_t isize) {
-			close();
-			_mdevice << new MDevice(idata, isize);
-			(*_stream_buf).open(*_mdevice);
-			rdbuf(&_stream_buf);
-
-			return true;
-		}
-
-		bool oMFile::isOpen() {
-			return (*_stream_buf).is_open();
-		}
-
-		void oMFile::close() {
-			if((*_stream_buf).is_open()) {
-				(*_stream_buf).close();
-				_mdevice << nullptr;
-				rdbuf(nullptr);
-			}
-		}
-
-		const char *oMFile::data() const {
-			return kin::pt(_mdevice)->data();
-		}
-
-		size_t oMFile::size() const {
-			return kin::pt(_mdevice)->size();
-		}
+		KinKeyErase(FileMemoryStreamBuf, MStreamBuf);
 
 		//MFile -------------------------------------------------------------
 
@@ -239,7 +87,7 @@ namespace cb {
 			_stream_buf << new MStreamBuf();
 		}
 
-		MFile::MFile(string ifilename) {
+		MFile::MFile(const base::string &ifilename) {
 			_stream_buf << new MStreamBuf();
 			open(ifilename);
 		}
@@ -255,7 +103,7 @@ namespace cb {
 			kin::erase(_stream_buf);
 		}
 
-		bool MFile::open(string ifilename) {
+		bool MFile::open(const base::string &ifilename) {
 			close();
 
 			iFile file(ifilename);

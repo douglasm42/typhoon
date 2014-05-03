@@ -7,9 +7,10 @@
  *   Copyright: Staff 42 © 2013
  */
 
-#include <data/dFont.h>
+#include <data/Font.h>
 
-#include <base/bLog.h>
+#include <base/Log.h>
+#include <base/Exception.h>
 
 #include <thread>
 #include <mutex>
@@ -27,10 +28,10 @@ namespace cb {
 		KinKey(FontFace, FT_FaceRec_);
 
 		std::mutex _ftError_guard;
-		string ftError(FT_Error ierror_id) {
+		const char *ftError(FT_Error ierror_id) {
 			std::lock_guard<std::mutex> lock(_ftError_guard);
 
-			std::map<FT_Error, string> error_strings;
+			std::map<FT_Error, base::string> error_strings;
 			if(error_strings.empty()) {
 #				undef __FTERRORS_H__
 #				define FT_ERRORDEF( e, v, s )  error_strings[v] = s;
@@ -40,11 +41,11 @@ namespace cb {
 #				include FT_ERRORS_H
 			}
 
-			std::map<FT_Error, string>::iterator it = error_strings.find(ierror_id);
+			std::map<FT_Error, base::string>::iterator it = error_strings.find(ierror_id);
 			if(it != error_strings.end()) {
-				return it->second;
+				return it->second.c_str();
 			} else {
-				return "unknown";
+				return "Unknown";
 			}
 		}
 
@@ -77,9 +78,9 @@ namespace cb {
 
 					std::ostringstream oss;
 					oss << thread_id;
-					string thread_id_string = oss.str();
+					base::string thread_id_string = oss.str();
 
-					throw DataException(base::print("data::Font::getLibrary() : Não foi possivel inicializar a biblioteca FreeType para a thread %s. Erro: '%s'.", thread_id_string.c_str(), ftError(error).c_str()));
+					ThrowDet(tokurei::InitError, "Error: %s on thread: %s", ftError(error), thread_id_string.c_str());
 				}
 
 				_libraries[thread_id] = library;
@@ -93,41 +94,55 @@ namespace cb {
 		:_border(0), _size(0), _border_inner(false), _border_outer(false){
 		}
 
-		Font::Font(string ifilename)
+		Font::Font(const base::string &ifilename)
 		:_border(0), _size(0), _border_inner(false), _border_outer(false){
 			open(ifilename);
 		}
 
+		Font::Font(istream &ifile)
+		:_border(0), _size(0), _border_inner(false), _border_outer(false){
+			open(ifile);
+		}
+
+		Font::Font(MFile &ifile)
+		:_border(0), _size(0), _border_inner(false), _border_outer(false){
+			open(ifile);
+		}
+
 		Font::~Font() {
-			if(isOpen()) {
-				close();
-			}
+			close();
 		}
 
 		int Font::fontUnitsToPixelsX(int ifux) {
+			Assert(isOpen(), tokurei::EmptyObject);
 			FT_Face face = &_face;
 			return ifux * (face->size->metrics.x_ppem / float(face->units_per_EM));
 		}
 
 		int Font::fontUnitsToPixelsY(int ifuy) {
+			Assert(isOpen(), tokurei::EmptyObject);
 			FT_Face face = &_face;
 			return ifuy * (face->size->metrics.y_ppem / float(face->units_per_EM));
 		}
 
 		int Font::pixelsToFontUnitsX(int ipxx) {
+			Assert(isOpen(), tokurei::EmptyObject);
 			FT_Face face = &_face;
 			return ipxx * (float(face->units_per_EM) / face->size->metrics.x_ppem);
 		}
 
 		int Font::pixelsToFontUnitsY(int ipxy) {
+			Assert(isOpen(), tokurei::EmptyObject);
 			FT_Face face = &_face;
 			return ipxy * (float(face->units_per_EM) / face->size->metrics.y_ppem);
 		}
 
 		int Font::height() {
+			Assert(isOpen(), tokurei::EmptyObject);
 			return (*_face).size->metrics.height >> 6;
 		}
 		int Font::underlineY() {
+			Assert(isOpen(), tokurei::EmptyObject);
 			if(FT_IS_SCALABLE((&_face))) {
 				return fontUnitsToPixelsY((*_face).underline_position);
 			} else {
@@ -135,6 +150,7 @@ namespace cb {
 			}
 		}
 		int Font::underlineThickness() {
+			Assert(isOpen(), tokurei::EmptyObject);
 			if(FT_IS_SCALABLE((&_face))) {
 				int thickness = fontUnitsToPixelsY((*_face).underline_thickness);
 				return thickness>0?thickness:1;
@@ -144,22 +160,25 @@ namespace cb {
 		}
 
 		void Font::size(float isize) {
+			Assert(isOpen(), tokurei::EmptyObject);
 			_size = isize;
 			FT_Error error = FT_Set_Char_Size(&_face, 0, _size*64, 96, 96);
 			if(error) {
-				ThrowDataException(print("Não foi possivel mudar o tamanho da fonte. Erro: '%s'.", ftError(error).c_str()).c_str());
+				ThrowDet(tokurei::SetFailed, "Error: %s", ftError(error));
 			}
 		}
 
 		size_t Font::glyphId(size_t ichar) {
+			Assert(isOpen(), tokurei::EmptyObject);
 			return FT_Get_Char_Index(&_face, ichar);
 		}
 
 		void Font::glyph(Glyph &oglyph, size_t iid) {
+			Assert(isOpen(), tokurei::EmptyObject);
 			FT_Error error;
 			error = FT_Load_Glyph(&_face, iid, FT_LOAD_DEFAULT);
 			if(error) {
-				ThrowDataException(print("Não foi possivel carregar o Glyph. Erro: '%s'.", ftError(error).c_str()).c_str());
+				ThrowDet(tokurei::GetFailed, "Error: %s", ftError(error));
 			}
 
 			FT_Bitmap *bitmap;
@@ -171,31 +190,31 @@ namespace cb {
 				FT_Stroker stroker;
 				error = FT_Stroker_New(ftLibrary(), &stroker);
 				if(error) {
-					ThrowDataException(print("Não foi possivel criar um stroker. Erro: '%s'.", ftError(error).c_str()).c_str());
+					ThrowDet(tokurei::GetFailed, "Error: %s", ftError(error));
 				}
 
 				FT_Stroker_Set(stroker, _border * 64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
 
 				error = FT_Get_Glyph((&_face)->glyph, &glyph);
 				if(error) {
-					ThrowDataException(print("Não foi possivel carregar o Glyph. Erro: '%s'.", ftError(error).c_str()).c_str());
+					ThrowDet(tokurei::GetFailed, "Error: %s", ftError(error));
 				}
 
 				if(_border_inner) {
 					error = FT_Glyph_StrokeBorder(&glyph, stroker, _border_outer?0:1, 1);
 					if(error) {
-						ThrowDataException(print("Não foi possivel carregar o Glyph. Erro: '%s'.", ftError(error).c_str()).c_str());
+						ThrowDet(tokurei::GetFailed, "Error: %s", ftError(error));
 					}
 				} else {
 					error = FT_Glyph_Stroke(&glyph, stroker, 1);
 					if(error) {
-						ThrowDataException(print("Não foi possivel carregar o Glyph. Erro: '%s'.", ftError(error).c_str()).c_str());
+						ThrowDet(tokurei::GetFailed, "Error: %s", ftError(error));
 					}
 				}
 
 				error = FT_Glyph_To_Bitmap(&glyph, FT_RENDER_MODE_NORMAL, &origin, 1);
 				if(error) {
-					ThrowDataException(print("Não foi possivel carregar o Glyph. Erro: '%s'.", ftError(error).c_str()).c_str());
+					ThrowDet(tokurei::GetFailed, "Error: %s", ftError(error));
 				}
 
 				bitmap = &((FT_BitmapGlyph)glyph)->bitmap;
@@ -204,18 +223,13 @@ namespace cb {
 			} else {
 				error = FT_Render_Glyph((&_face)->glyph, FT_RENDER_MODE_NORMAL);
 				if(error) {
-					ThrowDataException(print("Não foi possivel desenhar o Glyph. Erro: '%s'.", ftError(error).c_str()).c_str());
+					ThrowDet(tokurei::GetFailed, "Error: %s", ftError(error));
 				}
 
 				bitmap = &(&_face)->glyph->bitmap;
 			}
 
-			oglyph.clear();
-
 			oglyph._id = iid;
-
-			oglyph._width = bitmap->width;
-			oglyph._height = bitmap->rows;
 
 			if(FT_HAS_HORIZONTAL((&_face))) {
 				oglyph._h_offset_x = (&_face)->glyph->metrics.horiBearingX >> 6;
@@ -229,11 +243,15 @@ namespace cb {
 				oglyph._v_advance = (&_face)->glyph->metrics.vertAdvance >> 6;
 			}
 
-			if(oglyph._width * oglyph._height) {
-				oglyph._data = new math::uint8[oglyph._width * oglyph._height];
-				for(size_t r=0 ; r<oglyph._height ; r++) {
-					for(size_t i=0 ; i<oglyph._width ; i++) {
-						oglyph._data[r*oglyph._width + i] = bitmap->buffer[(oglyph._height - r - 1)*bitmap->pitch + i];
+			if(bitmap->width * bitmap->rows) {
+				oglyph._bitmap.load(bitmap->width, bitmap->rows);
+				size_t height = oglyph._bitmap.height();
+
+				for(int r=0 ; r<bitmap->rows ; r++) {
+					math::uint8 *scanline = oglyph._bitmap.row(r);
+
+					for(int i=0 ; i<bitmap->width ; i++) {
+						scanline[i] = bitmap->buffer[(height - r - 1)*bitmap->pitch + i];
 					}
 				}
 			}
@@ -244,34 +262,79 @@ namespace cb {
 		}
 
 		void Font::glyphs(Glyph *oglyphs, size_t *iids, size_t in) {
+			Assert(isOpen(), tokurei::EmptyObject);
 			for(size_t i=0 ; i<in ; i++) {
 				glyph(oglyphs[i], iids[i]);
 			}
 		}
 
-		void Font::open(string ifilename) {
+		void Font::open(const base::string &ifilename) {
+			iFile file(ifilename);
+			if(file.isOpen()) {
+				open(file);
+			} else {
+				ThrowDet(tokurei::OpenError, "Filename: %s", ifilename.c_str());
+			}
+		}
+
+		void Font::open(istream &ifile) {
+			ifile.seekg(0, std::ios::end);
+			size_t s = ifile.tellg();
+
+			ifile.seekg(0, std::ios::beg);
+
+			char *d = new char[s];
+			ifile.read(d, s);
+
 			close();
 
 			FT_Library library = ftLibrary();
 			FT_Face face;
 
-			FT_Error error = FT_New_Face(library, ifilename.c_str(), 0, &face);
+			FT_Error error = FT_New_Memory_Face(library, (const unsigned char *)d, s, 0, &face);
+
+			delete [] d;
+
 			if(error) {
-				ThrowDataException(print("Não foi possivel abrir o arquivo de fonte: '%s'. Erro: '%s'.", ifilename.c_str(), ftError(error).c_str()).c_str());
+				ThrowDet(tokurei::OpenError, "Error: %s", ftError(error));
 			}
 			_face << face;
 
 			error = FT_Select_Charmap(&_face, FT_ENCODING_UNICODE);
 			if(error) {
-				ThrowDataException(print("Não foi possivel selecionar a codificação Unicode para a fonte. Erro: '%s'.", ftError(error).c_str()).c_str());
+				close();
+				ThrowDet(tokurei::OpenError, "Error: %s", ftError(error));
+			}
+
+			size(_size);
+		}
+
+		void Font::open(MFile &ifile) {
+			close();
+
+			FT_Library library = ftLibrary();
+			FT_Face face;
+
+			FT_Error error = FT_New_Memory_Face(library, (const unsigned char *)ifile.data(), ifile.size(), 0, &face);
+			if(error) {
+				close();
+				ThrowDet(tokurei::OpenError, "Error: %s", ftError(error));
+			}
+			_face << face;
+
+			error = FT_Select_Charmap(&_face, FT_ENCODING_UNICODE);
+			if(error) {
+				ThrowDet(tokurei::OpenError, "Error: %s", ftError(error));
 			}
 
 			size(_size);
 		}
 
 		void Font::close() {
-			FT_Done_Face(&_face);
-			_face << NULL;
+			if(isOpen()) {
+				FT_Done_Face(&_face);
+				_face << NULL;
+			}
 		}
 
 		bool Font::isOpen() {

@@ -5,9 +5,9 @@
  *      Author: douglas
  */
 
-#include <data/dJSON.h>
+#include <data/JSON.h>
 
-#include <base/bLog.h>
+#include <base/Log.h>
 
 #include <limits>
 
@@ -36,7 +36,7 @@ namespace cb {
 					break;
 
 				default:
-					ThrowDataException("Valor com tipo invalido.");
+					Throw(tokurei::SetFailed);
 				}
 				_data._null = nullptr;
 				_type = Null;
@@ -119,7 +119,7 @@ namespace cb {
 					break;
 
 				default:
-					ThrowDataException("Valor com tipo invalido.");
+					Throw(tokurei::SetFailed);
 				}
 			}
 
@@ -144,7 +144,7 @@ namespace cb {
 					} else if(ovalue.isNull()) {
 						serializeNull(ovalue.nil());
 					} else {
-						throw DataException(base::print("JSON : Erro ao salvar, tipo de valor desconhecido."));
+						Throw(tokurei::SaveFailed);
 					}
 				}
 
@@ -241,7 +241,7 @@ namespace cb {
 				int peek(bool ijumpspaces = true);
 				void checkEOF() {
 					if(_file.eof()) {
-						throw DataException(base::print("JSON : Fim inesperado do arquivo em: %d.%d", _line, _column));
+						ThrowDet(tokurei::LoadFailed, "JSON : Unexpected end of file in: %d.%d", _line, _column);
 					}
 				}
 
@@ -318,7 +318,7 @@ namespace cb {
 					parseNull(ovalue.nil());
 
 				} else {
-					throw DataException(base::print("JSON : Valor inválido, caractere inesperado em: %d.%d", _line, _column));
+					ThrowDet(tokurei::LoadFailed, "JSON : Invalid value, unexpected character in: %d.%d", _line, _column);
 				}
 			}
 
@@ -337,17 +337,17 @@ namespace cb {
 						if(c == ':') {
 							parseValue(oobject[key]);
 						} else {
-							throw DataException(base::print("JSON : Objeto inválido, caractere inesperado em: %d.%d (esperava ':')", _line, _column));
+							ThrowDet(tokurei::LoadFailed, "JSON : Invalid object, unexpected character in: %d.%d (Expected ':')", _line, _column);
 						}
 
 						c = get();
 						checkEOF();
 					} while(c == ',');
 					if(c != '}') {
-						throw DataException(base::print("JSON : Objeto inválido, caractere inesperado em: %d.%d (esperava '}')", _line, _column));
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid object, unexpected character in: %d.%d (Expected '}')", _line, _column);
 					}
 				} else {
-					throw DataException(base::print("JSON : Objeto inválido, caractere inesperado em: %d.%d (esperava '{')", _line, _column));
+					ThrowDet(tokurei::LoadFailed, "JSON : Invalid object, unexpected character in: %d.%d (Expected '{')", _line, _column);
 				}
 			}
 
@@ -366,10 +366,10 @@ namespace cb {
 					} while(c == ',');
 
 					if(c != ']') {
-						throw DataException(base::print("JSON : Vetor inválido, caractere inesperado em: %d.%d (esperava ']')", _line, _column));
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid array, unexpected character in: %d.%d (Expected ']')", _line, _column);
 					}
 				} else {
-					throw DataException(base::print("JSON : Vetor inválido, caractere inesperado em: %d.%d (esperava '[')", _line, _column));
+					ThrowDet(tokurei::LoadFailed, "JSON : Invalid array, unexpected character in: %d.%d (Expected '[')", _line, _column);
 				}
 			}
 
@@ -384,7 +384,7 @@ namespace cb {
 
 					while(c != '\"') {
 						if(c == '\n' || c == '\r') {
-							throw DataException(base::print("JSON : String inválida, caractere inesperado em: %d.%d (esperava '\"')", _line, _column));
+							ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character in: %d.%d (Expected '\"')", _line, _column);
 						} else if(c == '\\') {
 							c = get(false);
 							checkEOF();
@@ -409,31 +409,31 @@ namespace cb {
 								cv[0] = get(false);
 								checkEOF();
 								if(!isxdigit(cv[0])) {
-									throw DataException(base::print("JSON : String inválida, caractere inesperado em: %d.%d (esperava digito hexadecimal)", _line, _column));
+									ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character in: %d.%d (Expected 'hex digit')", _line, _column);
 								}
 								cv[1] = get(false);
 								checkEOF();
 								if(!isxdigit(cv[1])) {
-									throw DataException(base::print("JSON : String inválida, caractere inesperado em: %d.%d (esperava digito hexadecimal)", _line, _column));
+									ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character in: %d.%d (Expected 'hex digit')", _line, _column);
 								}
 								cv[2] = get(false);
 								checkEOF();
 								if(!isxdigit(cv[2])) {
-									throw DataException(base::print("JSON : String inválida, caractere inesperado em: %d.%d (esperava digito hexadecimal)", _line, _column));
+									ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character in: %d.%d (Expected 'hex digit')", _line, _column);
 								}
 								cv[3] = get(false);
 								checkEOF();
 								if(!isxdigit(cv[3])) {
-									throw DataException(base::print("JSON : String inválida, caractere inesperado em: %d.%d (esperava digito hexadecimal)", _line, _column));
+									ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character in: %d.%d (Expected 'hex digit')", _line, _column);
 								}
 
-								lstring lstr;
+								base::lstring lstr;
 								lstr.push_back(strtoul(cv, NULL, 16));
 
 								ostring += base::utf8(lstr);
 
 							} else {
-								throw DataException(base::print("JSON : String inválida, caractere inesperado em: %d.%d (esperava '\"', '\\', '/', 'b', 'f', 'n', 'r', 't' ou 'u')", _line, _column));
+								ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character in: %d.%d (Expected '\"', '\\', '/', 'b', 'f', 'n', 'r', 't' or 'u')", _line, _column);
 							}
 
 						} else {
@@ -445,10 +445,10 @@ namespace cb {
 					}
 
 					if(c != '\"') {
-						throw DataException(base::print("JSON : String inválida, caractere inesperado em: %d.%d (esperava '\"')", _line, _column));
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character in: %d.%d (Expected '\"')", _line, _column);
 					}
 				} else {
-					throw DataException(base::print("JSON : String inválida, caractere inesperado em: %d.%d (esperava '\"')", _line, _column));
+					ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character in: %d.%d (Expected '\"')", _line, _column);
 				}
 			}
 
@@ -458,7 +458,7 @@ namespace cb {
 				c = (get());
 				checkEOF();
 				if(c!='-' && c!='+' && !isdigit(c)) {
-					throw DataException(base::print("JSON : Número inválido, caractere inesperado em: %d.%d (esperava '-', '+' ou um digito)", _line, _column));
+					ThrowDet(tokurei::LoadFailed, "JSON : Invalid number, unexpected character in: %d.%d (Expected '-', '+' or a digit)", _line, _column);
 				}
 				strnum.push_back(c);
 
@@ -475,9 +475,9 @@ namespace cb {
 				try {
 					onumber = std::stold(strnum);
 				} catch (std::out_of_range &e) {
-					throw DataException(base::print("JSON : Número inválido, quantidade de digitos muito grande em: %d.%d", _line, _column));
+					ThrowDet(tokurei::LoadFailed, "JSON : Invalid number, too many digits in: %d.%d", _line, _column);
 				} catch (std::invalid_argument &e) {
-					throw DataException(base::print("JSON : Número inválido, número nao foi possivel fazer a conversão em: %d.%d (%s)", _line, _column, e.what()));
+					ThrowDet(tokurei::LoadFailed, "JSON : Invalid number in: %d.%d Error: %s", _line, _column, e.what());
 				}
 			}
 
@@ -489,43 +489,43 @@ namespace cb {
 					c = (get(false));
 					checkEOF();
 					if(c != 'a') {
-						throw DataException(base::print("JSON : Booleano inválido, caractere inesperado em: %d.%d (esperava 'a')", _line, _column));
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character in: %d.%d (Expected 'a')", _line, _column);
 					}
 					c = (get(false));
 					checkEOF();
 					if(c != 'l') {
-						throw DataException(base::print("JSON : Booleano inválido, caractere inesperado em: %d.%d (esperava 'l')", _line, _column));
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character in: %d.%d (Expected 'l')", _line, _column);
 					}
 					c = (get(false));
 					checkEOF();
 					if(c != 's') {
-						throw DataException(base::print("JSON : Booleano inválido, caractere inesperado em: %d.%d (esperava 's')", _line, _column));
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character in: %d.%d (Expected 's')", _line, _column);
 					}
 					c = (get(false));
 					checkEOF();
 					if(c != 'e') {
-						throw DataException(base::print("JSON : Booleano inválido, caractere inesperado em: %d.%d (esperava 'e')", _line, _column));
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character in: %d.%d (Expected 'e')", _line, _column);
 					}
 					oboolean = false;
 				} else if(c == 't') {
 					c = (get(false));
 					checkEOF();
 					if(c != 'r') {
-						throw DataException(base::print("JSON : Booleano inválido, caractere inesperado em: %d.%d (esperava 'r')", _line, _column));
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character in: %d.%d (Expected 'r')", _line, _column);
 					}
 					c = (get(false));
 					checkEOF();
 					if(c != 'u') {
-						throw DataException(base::print("JSON : Booleano inválido, caractere inesperado em: %d.%d (esperava 'u')", _line, _column));
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character in: %d.%d (Expected 'u')", _line, _column);
 					}
 					c = (get(false));
 					checkEOF();
 					if(c != 'e') {
-						throw DataException(base::print("JSON : Booleano inválido, caractere inesperado em: %d.%d (esperava 'e')", _line, _column));
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character in: %d.%d (Expected 'e')", _line, _column);
 					}
 					oboolean = true;
 				} else {
-					throw DataException(base::print("JSON : Booleano inválido, caractere inesperado em: %d.%d (esperava 't' ou 'f')", _line, _column));
+					ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character in: %d.%d (Expected 't' or 'f')", _line, _column);
 				}
 			}
 
@@ -537,20 +537,20 @@ namespace cb {
 					c = (get(false));
 					checkEOF();
 					if(c != 'u') {
-						throw DataException(base::print("JSON : Booleano inválido, caractere inesperado em: %d.%d (esperava 'u')", _line, _column));
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid null, unexpected character in: %d.%d (Expected 'u')", _line, _column);
 					}
 					c = (get(false));
 					checkEOF();
 					if(c != 'l') {
-						throw DataException(base::print("JSON : Booleano inválido, caractere inesperado em: %d.%d (esperava 'l')", _line, _column));
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid null, unexpected character in: %d.%d (Expected 'l')", _line, _column);
 					}
 					c = (get(false));
 					checkEOF();
 					if(c != 'l') {
-						throw DataException(base::print("JSON : Booleano inválido, caractere inesperado em: %d.%d (esperava 'l')", _line, _column));
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid null, unexpected character in: %d.%d (Expected 'l')", _line, _column);
 					}
 				} else {
-					throw DataException(base::print("JSON : Booleano inválido, caractere inesperado em: %d.%d (esperava 'n')", _line, _column));
+					ThrowDet(tokurei::LoadFailed, "JSON : Invalid null, unexpected character in: %d.%d (Expected 'n')", _line, _column);
 				}
 			}
 		}  // namespace json

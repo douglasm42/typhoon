@@ -11,10 +11,11 @@
 
 #include <data/data.h>
 
-#include <base/bException.h>
-#include <base/bString.h>
+#include <base/String.h>
+#include <base/Kin.h>
 
-#include <data/dFile.h>
+#include <base/Exception.h>
+#include <data/File.h>
 
 namespace cb {
 	namespace data {
@@ -139,7 +140,7 @@ namespace cb {
 				column operator[](const base::string &icolumn) const {return column(columnID(icolumn), _statement);}
 				column operator[](const int icolumn) const {
 					if(icolumn >= columnCount()) {
-						ThrowDataException(base::print("Tentou obter uma coluna com id maior do que a quantidade de colunas: %d de %d", icolumn, columnCount()).c_str());
+						ThrowDet(tokurei::OutOfRange, "Position: %d and Range: %d", icolumn, columnCount());
 					}
 					return column(icolumn, _statement);
 				}

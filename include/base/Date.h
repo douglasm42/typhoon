@@ -10,7 +10,7 @@
 
 #include <base/base.h>
 
-#include <base/bString.h>
+#include <base/String.h>
 
 #include <ctime>
 

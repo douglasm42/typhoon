@@ -7,9 +7,9 @@
  *   Copyright: Staff 42 © 2013
  */
 
-#include <base/bString.h>
+#include <base/String.h>
 
-#include <base/bPrint.h>
+#include <base/FormatMacro.h>
 
 #include <boost/locale.hpp>
 
@@ -18,9 +18,9 @@
 
 namespace cb {
 	namespace base {
-		string print(string iformat, ...) {
+		string format(string iformat, ...) {
 			string str;
-			PRINT(str, iformat);
+			CUMULONIMBUS_FORMAT(str, iformat);
 
 			return str;
 		}

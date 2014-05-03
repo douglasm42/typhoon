@@ -10,10 +10,11 @@
 
 #include <base/base.h>
 
-#include <base/bException.h>
+#include <base/Date.h>
+#include <base/String.h>
 
-#include <base/bDate.h>
-#include <base/bString.h>
+#include <thread>
+#include <mutex>
 
 namespace cb {
 	namespace base {
@@ -47,6 +48,8 @@ namespace cb {
 			bool _warning;
 			///Indica se as mensagens de informação devem ser mostradas em uma caixa de mensagem.
 			bool _info;
+
+			std::mutex _log_write_guard;
 
 			/**
 			 * Registra uma mensagem de log passada por parametro junto com o tipo e horario.

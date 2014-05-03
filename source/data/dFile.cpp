@@ -5,9 +5,9 @@
  *      Author: douglas
  */
 
-#include <data/dFile.h>
+#include <data/File.h>
 
-#include <base/bLog.h>
+#include <base/Log.h>
 
 #include <physfs.h>
 
@@ -20,20 +20,21 @@ namespace io = boost::iostreams;
 namespace cb {
 	namespace data {
 		namespace file {
-			void init(string argv0) {
+			void init(const base::string &argv0) {
 				PHYSFS_init(argv0.c_str());
 			}
 
-			void writedir(string idirectory) {
+			void writedir(const base::string &idirectory) {
 				PHYSFS_setWriteDir(idirectory.c_str());
 			}
 
-			void mount(string idirectory, string imountpoint) {
+			void mount(const base::string &idirectory, const base::string &imountpoint) {
 				PHYSFS_mount(idirectory.c_str(), imountpoint.c_str(), true);
 			}
 		}  // namespace file
 
 		KinKey(FileHandle, PHYSFS_File)
+		KinKeyErase(FileHandle, PHYSFS_File)
 
 		struct seekable_source_tag : io::device_tag, io::input_seekable { };
 		struct seekable_sink_tag : io::device_tag, io::output_seekable { };
@@ -117,7 +118,9 @@ namespace cb {
 		typedef io::stream_buffer<PhysFSSink>	PhysFSOutputBuf;
 
 		KinKey(FilePhysFSIStreamBuf, PhysFSInputBuf);
+		KinKeyErase(FilePhysFSIStreamBuf, PhysFSInputBuf);
 		KinKey(FilePhysFSOStreamBuf, PhysFSOutputBuf);
+		KinKeyErase(FilePhysFSOStreamBuf, PhysFSOutputBuf);
 
 		//iFileFS -------------------------------------------------------------
 
@@ -125,7 +128,7 @@ namespace cb {
 			_stream_buf << new PhysFSInputBuf();
 			rdbuf(&_stream_buf);
 		}
-		iFile::iFile(string ifilename) {
+		iFile::iFile(const base::string &ifilename) {
 			_stream_buf << new PhysFSInputBuf();
 			rdbuf(&_stream_buf);
 			open(ifilename);
@@ -136,7 +139,7 @@ namespace cb {
 			kin::erase(_stream_buf);
 		}
 
-		bool iFile::open(string ifilename) {
+		bool iFile::open(const base::string &ifilename) {
 			close();
 			_file_handle << PHYSFS_openRead(ifilename.c_str());
 			if(_file_handle.empty()) {
@@ -170,7 +173,7 @@ namespace cb {
 			rdbuf(&_stream_buf);
 		}
 
-		oFile::oFile(string ifilename, bool iappend) {
+		oFile::oFile(const base::string &ifilename, bool iappend) {
 			_stream_buf << new PhysFSOutputBuf();
 			rdbuf(&_stream_buf);
 			open(ifilename, iappend);
@@ -182,7 +185,7 @@ namespace cb {
 			kin::erase(_stream_buf);
 		}
 
-		bool oFile::open(string ifilename, bool iappend) {
+		bool oFile::open(const base::string &ifilename, bool iappend) {
 			close();
 			if(iappend) {
 				_file_handle << PHYSFS_openAppend(ifilename.c_str());

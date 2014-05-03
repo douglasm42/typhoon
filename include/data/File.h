@@ -9,7 +9,8 @@
 
 #include <data/data.h>
 
-#include <base/bString.h>
+#include <base/String.h>
+#include <base/Kin.h>
 
 #include <istream>
 #include <ostream>
@@ -27,9 +28,9 @@ namespace cb {
 		KinLock(FileMemoryStreamBuf);
 
 		namespace file {
-			void init(string argv0);
-			void writedir(string idirectory);
-			void mount(string idirectory, string imountpoint);
+			void init(const base::string &argv0);
+			void writedir(const base::string &idirectory);
+			void mount(const base::string &idirectory, const base::string &imountpoint);
 		}  // namespace file
 
 		typedef std::istream istream;
@@ -43,10 +44,10 @@ namespace cb {
 
 		public:
 			iFile();
-			iFile(string ifilename);
+			iFile(const base::string &ifilename);
 			virtual ~iFile();
 
-			bool open(string ifilename);
+			bool open(const base::string &ifilename);
 			bool isOpen();
 			void close();
 		};
@@ -58,54 +59,12 @@ namespace cb {
 
 		public:
 			oFile();
-			oFile(string ifilename, bool iappend = false);
+			oFile(const base::string &ifilename, bool iappend = false);
 			virtual ~oFile();
 
-			bool open(string ifilename, bool iappend = false);
+			bool open(const base::string &ifilename, bool iappend = false);
 			bool isOpen();
 			void close();
-		};
-
-		class CbAPI iMFile : public istream {
-		private:
-			kin::FileMemoryDevice _mdevice;
-			kin::FileMemoryStreamBuf _stream_buf;
-
-		public:
-			iMFile();
-			iMFile(string ifilename);
-			iMFile(const char *idata, size_t isize);
-			iMFile(const iMFile &iimfile) {open(iimfile.data(), iimfile.size());}
-			virtual ~iMFile();
-
-			bool open(string ifilename);
-			bool open(const char *idata, size_t isize);
-			bool isOpen();
-			void close();
-
-			const char *data() const;
-			size_t size() const;
-		};
-
-		class CbAPI oMFile : public ostream {
-		private:
-			kin::FileMemoryDevice _mdevice;
-			kin::FileMemoryStreamBuf _stream_buf;
-
-		public:
-			oMFile();
-			oMFile(string ifilename);
-			oMFile(const char *idata, size_t isize);
-			oMFile(const oMFile &iomfile) {open(iomfile.data(), iomfile.size());}
-			virtual ~oMFile();
-
-			bool open(string ifilename);
-			bool open(const char *idata, size_t isize);
-			bool isOpen();
-			void close();
-
-			const char *data() const;
-			size_t size() const;
 		};
 
 		class CbAPI MFile : public iostream {
@@ -115,12 +74,12 @@ namespace cb {
 
 		public:
 			MFile();
-			MFile(string ifilename);
+			MFile(const base::string &ifilename);
 			MFile(const char *idata, size_t isize);
 			MFile(const MFile &imfile) {open(imfile.data(), imfile.size());}
 			virtual ~MFile();
 
-			bool open(string ifilename);
+			bool open(const base::string &ifilename);
 			bool open(const char *idata, size_t isize);
 			bool isOpen();
 			void close();

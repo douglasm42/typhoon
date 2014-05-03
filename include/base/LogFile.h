@@ -10,12 +10,10 @@
 
 #include <base/base.h>
 
-#include <base/bException.h>
-#include <base/bLog.h>
+#include <base/Log.h>
 
-#include <base/bDate.h>
-#include <base/bString.h>
-#include <ctime>
+#include <base/Date.h>
+#include <base/String.h>
 
 namespace cb {
 	namespace base {

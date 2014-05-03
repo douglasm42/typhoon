@@ -7,11 +7,12 @@
  *   Copyright: Staff 42 © 2013
  */
 
-#include <base/bLogFile.h>
+#include <base/LogFile.h>
+
+#include <base/Exception.h>
 
 #include <fstream>
 #include <iostream>
-#include <ctime>
 #include <cwchar>
 
 namespace cb {
@@ -36,7 +37,7 @@ namespace cb {
 				std::cout << std::endl;
 
 			} else {
-				throw LogException(print("LogFile::LogFile() : Não foi possível abrir o arquivo de log: %s.", this->_filename.c_str()));
+				ThrowDet(tokurei::LogCreateFileError, "Filename: " + this->_filename);
 			}
 			out.close();
 		}
@@ -52,7 +53,7 @@ namespace cb {
 				std::cout << "--------------------------------------------------------------------------------" << std::endl;
 
 			} else {
-				throw LogException(print("LogFile::LogFile() : Não foi possível abrir o arquivo de log: %s.", this->_filename.c_str()));
+				ThrowDet(tokurei::LogOpenFileError, "Filename: " + this->_filename);
 			}
 			out.close();
 		}
@@ -65,27 +66,27 @@ namespace cb {
 
 				switch (itype) {
 					case Log::Error:
-						out << buffer << " - Error:   " << iline << std::endl;
-						std::cout << buffer << " - Error:   " << iline << std::endl;
+						out			<< buffer << " - Error:   " << iline << std::endl;
+						std::cout	<< buffer << " - Error:   " << iline << std::endl;
 						break;
 					case Log::Warning:
-						out << buffer << " - Warning: " << iline << std::endl;
-						std::cout << buffer << " - Warning: " << iline << std::endl;
+						out			<< buffer << " - Warning: " << iline << std::endl;
+						std::cout	<< buffer << " - Warning: " << iline << std::endl;
 						break;
 					case Log::Info:
-						out << buffer << " - Info:    " << iline << std::endl;
-						std::cout << buffer << " - Info:    " << iline << std::endl;
+						out			<< buffer << " - Info:    " << iline << std::endl;
+						std::cout	<< buffer << " - Info:    " << iline << std::endl;
 						break;
 					case Log::Nothing:
-						out << buffer << " - Nothing: " << iline << std::endl;
-						std::cout << buffer << " - Nothing: " << iline << std::endl;
+						out			<< buffer << " - Nothing: " << iline << std::endl;
+						std::cout	<< buffer << " - Nothing: " << iline << std::endl;
 						break;
 					default:
 						break;
 				}
 
 			} else {
-				throw LogException(print("LogFile::LogFile() : Não foi possível abrir o arquivo de log: %s.", this->_filename.c_str()));
+				ThrowDet(tokurei::LogOpenFileError, "Filename: " + this->_filename);
 			}
 			out.close();
 		}

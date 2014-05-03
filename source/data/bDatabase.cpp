@@ -5,16 +5,32 @@
  *      Author: douglas
  */
 
-#include <data/dDatabase.h>
+#include <data/Database.h>
 
-#include <base/bLog.h>
+#include <base/Log.h>
 
 #include <sqlite3.h>
 
 namespace cb {
 	namespace data {
-		KinKeyWOErase(DBHandler, sqlite3);
-		KinKeyWOErase(DBStatement, sqlite3_stmt);
+		KinKey(DBHandler, sqlite3);
+		KinKey(DBStatement, sqlite3_stmt);
+
+		const char *errmsgd(kin::DBHandler &ihandler) {
+			{
+				const char *msg = sqlite3_errmsg(&ihandler);
+				if(msg) {
+					return msg;
+				}
+			}
+			{
+				const char *msg = sqlite3_errstr(sqlite3_errcode(&ihandler));
+				if(msg) {
+					return msg;
+				}
+			}
+			return "Unknown error";
+		}
 
 		Database::Database() {
 		}
@@ -36,7 +52,7 @@ namespace cb {
 				if(dbhandler) {
 					sqlite3_close(dbhandler);
 				}
-				ThrowDataException(base::print("Erro ao abrir o banco de dados: '%s'", sqlite3_errmsg(&_handler)).c_str());
+				ThrowDet(tokurei::OpenError, "Filename: %s, Error: %s", ifilename.c_str(), errmsgd(_handler));
 			}
 
 			_handler << dbhandler;
@@ -46,7 +62,7 @@ namespace cb {
 			if(isOpen()) {
 				int result = sqlite3_close(&_handler);
 				if(result != SQLITE_OK) {
-					ThrowDataException(base::print("Erro ao fechar o banco de dados: '%s'", sqlite3_errmsg(&_handler)).c_str());
+					ThrowDet(tokurei::CloseError, "Error: %s", errmsgd(_handler));
 				}
 			}
 		}
@@ -61,7 +77,7 @@ namespace cb {
 
 				int result = sqlite3_prepare_v2(&_handler, iquerry.c_str(), -1, &stmt, nullptr);
 				if(result != SQLITE_OK) {
-					ThrowDataException(base::print("Erro ao executar querry no banco de dados: '%s'", result, sqlite3_errmsg(&_handler)).c_str());
+					ThrowDet(tokurei::CreateError, "Error: %s", errmsgd(_handler));
 				}
 
 				db::querry q;
@@ -69,7 +85,7 @@ namespace cb {
 
 				return q;
 			} else {
-				ThrowDataException("Tentou usar um banco de dados fechado.");
+				Throw(tokurei::EmptyObject);
 			}
 		}
 	}  // namespace data

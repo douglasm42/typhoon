@@ -8,6 +8,7 @@
 #pragma once
 
 #define GLM_SWIZZLE
+#define GLM_FORCE_RADIANS
 
 #include "./glm/glm.hpp"
 #include "./origin.h"

@@ -10,11 +10,8 @@
 
 #include <data/data.h>
 
-#include <base/bException.h>
 #include <math/math.h>
-
-#include <data/dFile.h>
-#include <data/dFont.h>
+#include <data/File.h>
 
 namespace cb {
 	namespace data {
@@ -172,7 +169,7 @@ namespace cb {
 			void load(istream &istream, bmp::Format iformat, bmp::Type itype);
 			void load(const Bitmap &iimg);
 
-			virtual void save(string ifilename);
+			virtual void save(const base::string &ifilename);
 		};
 
 		template<typename T, bmp::Format f, bmp::Type t>
@@ -204,6 +201,9 @@ namespace cb {
 			virtual bmp::Format format() const {return Bitmap::format();}
 			virtual bmp::Type type() const {return Bitmap::type();}
 
+			virtual T *row(size_t ir) {return (T*)(_data + pitch()*ir);}
+			virtual const T *row(size_t ir) const {return (T*)(_data + pitch()*ir);}
+
 			virtual bool empty() const {return !Bitmap::data();}
 			virtual void clear() {Bitmap::clear();}
 
@@ -211,7 +211,7 @@ namespace cb {
 			void load(istream &istream) {Bitmap::load(istream, f, t);}
 			void load(const BitmapBase &iimg) {Bitmap::load(iimg);}
 
-			virtual void save(string ifilename) {Bitmap::save(ifilename);}
+			virtual void save(const base::string &ifilename) {Bitmap::save(ifilename);}
 
 			T &operator()(size_t ix, size_t iy) {
 				return *((T*)((char *)data() + pitch()*iy) + ix);
@@ -232,7 +232,7 @@ namespace cb {
 		typedef BitmapBase<math::uint8, bmp::Luminance, bmp::UByte> ubBitmapL;
 		typedef BitmapBase<bmp::ubLA, bmp::LA, bmp::UByte> ubBitmapLA;
 		typedef BitmapBase<bmp::ubRGB, bmp::RGB, bmp::UByte> ubBitmapRGB;
-		using ubBitmapRGBA =  BitmapBase<bmp::ubRGBA, bmp::RGBA, bmp::UByte>;
+		typedef  BitmapBase<bmp::ubRGBA, bmp::RGBA, bmp::UByte> ubBitmapRGBA;
 
 		//Signed Short
 		typedef BitmapBase<math::int16, bmp::Luminance, bmp::Int16> sBitmapL;

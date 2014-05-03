@@ -11,7 +11,11 @@
 
 #include <data/data.h>
 
-#include <base/bString.h>
+#include <data/Bitmap.h>
+#include <data/File.h>
+
+#include <base/String.h>
+#include <base/Kin.h>
 
 #include <math/math.h>
 
@@ -25,9 +29,6 @@ namespace cb {
 			private:
 				size_t _id;
 
-				size_t _width;
-				size_t _height;
-
 				int _h_offset_x;
 				int _h_offset_y;
 				int _h_advance;
@@ -36,68 +37,43 @@ namespace cb {
 				int _v_offset_y;
 				int _v_advance;
 
-				math::uint8 *_data;
+				ubBitmapL _bitmap;
 
-				Glyph(size_t iid, size_t iwidth, size_t iheight, int ih_offset_x, int ih_offset_y, int ih_advance, int iv_offset_x, int iv_offset_y, int iv_advance, math::uint8 *idata)
+				Glyph(size_t iid, int ih_offset_x, int ih_offset_y, int ih_advance, int iv_offset_x, int iv_offset_y, int iv_advance)
 				:_id(iid)
-				,_width(iwidth)
-				,_height(iheight)
 				,_h_offset_x(ih_offset_x)
 				,_h_offset_y(ih_offset_y)
 				,_h_advance(ih_advance)
 				,_v_offset_x(iv_offset_x)
 				,_v_offset_y(iv_offset_y)
-				,_v_advance(iv_advance)
-				,_data(idata){
-				}
-
-				void clear() {
-					if(_data) {
-						delete [] _data;
-					}
-					_data = NULL;
+				,_v_advance(iv_advance) {
 				}
 
 			public:
 				Glyph()
 				:_id(0)
-				,_width(0)
-				,_height(0)
 				,_h_offset_x(0)
 				,_h_offset_y(0)
 				,_h_advance(0)
 				,_v_offset_x(0)
 				,_v_offset_y(0)
-				,_v_advance(0)
-				,_data(NULL){
+				,_v_advance(0){
 				}
 
 				Glyph(const Glyph &isrc)
 				:_id(isrc._id)
-				,_width(isrc._width)
-				,_height(isrc._height)
 				,_h_offset_x(isrc._h_offset_x)
 				,_h_offset_y(isrc._h_offset_y)
 				,_h_advance(isrc._h_advance)
 				,_v_offset_x(isrc._v_offset_x)
 				,_v_offset_y(isrc._v_offset_y)
 				,_v_advance(isrc._v_advance)
-				,_data(NULL){
-					_data = new math::uint8[_width * _height];
-					for(size_t i=0 ; i<_width*_height ; i++) {
-						_data[i] = isrc._data[i];
-					}
+				,_bitmap(isrc._bitmap){
 				}
 				~Glyph() {
-					if(_data) {
-						delete [] _data;
-					}
 				}
 
 				size_t id() const {return _id;}
-
-				size_t width() const {return _width;}
-				size_t height() const {return _height;}
 
 				int hOffsetX() const {return _h_offset_x;}
 				int hOffsetY() const {return _h_offset_y;}
@@ -106,11 +82,7 @@ namespace cb {
 				int vOffsetY() const {return _v_offset_y;}
 				int vAdvance() const {return _v_advance;}
 
-				const math::uint8 *data() const {return _data;}
-
-				math::uint8 operator()(size_t x, size_t y) const {
-					return _data[y*_width + x];
-				}
+				const ubBitmapL &bmp() const {return _bitmap;}
 
 				friend class Font;
 			};
@@ -129,7 +101,9 @@ namespace cb {
 
 		public:
 			Font();
-			Font(string ifilename);
+			Font(const base::string &ifilename);
+			Font(istream &ifile);
+			Font(MFile &ifile);
 			~Font();
 
 			int height();
@@ -147,7 +121,9 @@ namespace cb {
 			void glyph(Glyph &oglyph, size_t iid);
 			void glyphs(Glyph *oglyphs, size_t *iids, size_t in);
 
-			void open(string ifilename);
+			void open(const base::string &ifilename);
+			void open(istream &ifile);
+			void open(MFile &ifile);
 			void close();
 
 			bool isOpen();

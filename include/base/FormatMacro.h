@@ -17,7 +17,7 @@
  * Macro para a criação de funções baseadas na função printf, veja a função
  * print dos arquivos bString.h e bString.cpp para mais detalhes.
  */
-#define PRINT(iresult, iformat) iresult.clear();\
+#define CUMULONIMBUS_FORMAT(iresult, iformat) iresult.clear();\
 for(size_t n = BOLT_BASE_PRINTF_BUFFER_CHUNK_SIZE ; iresult.empty() ; n+=BOLT_BASE_PRINTF_BUFFER_CHUNK_SIZE) {\
 	char *buffer = new char[n];\
 	\

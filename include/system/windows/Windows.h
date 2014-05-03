@@ -1,5 +1,5 @@
 /*
- * bWindows.h
+ * swWindows.h
  *
  *  Created on: 28/10/2013
  *      Author: Douglas

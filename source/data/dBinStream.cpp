@@ -7,7 +7,7 @@
  *   Copyright: Staff 42 © 2013
  */
 
-#include <data/dBinStream.h>
+#include <data/BinStream.h>
 
 #define SingleOut(value) _stream.write((char *)&value, sizeof(value))
 #define MultiOut(pvalue, n) _stream.write((char *)pvalue, n*sizeof(*pvalue))

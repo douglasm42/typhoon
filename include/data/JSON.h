@@ -9,10 +9,10 @@
 
 #include <data/data.h>
 
-#include <base/bString.h>
-#include <base/bException.h>
+#include <base/String.h>
+#include <base/Exception.h>
 
-#include <data/dFile.h>
+#include <data/File.h>
 
 #include <map>
 #include <vector>
@@ -148,19 +148,19 @@ namespace cb {
 			inline bool value::isNumber()	const {return _type==Number;}
 			inline bool value::isBoolean()	const {return _type==Boolean;}
 
-			inline const null		&value::nil()	const {if(_type!=Null)		{ThrowDataException("Tentou acessar um valor que não é do tipo null.");}	return _data._null;}
-			inline const object		&value::obj()	const {if(_type!=Object)	{ThrowDataException("Tentou acessar um valor que não é do tipo object.");}	return *_data._object;}
-			inline const array		&value::arr()	const {if(_type!=Array)		{ThrowDataException("Tentou acessar um valor que não é do tipo array.");}	return *_data._array;}
-			inline const string		&value::str()	const {if(_type!=String)	{ThrowDataException("Tentou acessar um valor que não é do tipo string.");}	return *_data._string;}
-			inline const number		&value::num()	const {if(_type!=Number)	{ThrowDataException("Tentou acessar um valor que não é do tipo number.");}	return _data._number;}
-			inline const boolean	&value::boo()	const {if(_type!=Boolean)	{ThrowDataException("Tentou acessar um valor que não é do tipo boolean.");}	return _data._boolean;}
+			inline const null		&value::nil()	const {if(_type!=Null)		{Throw(tokurei::GetFailed);}	return _data._null;}
+			inline const object		&value::obj()	const {if(_type!=Object)	{Throw(tokurei::GetFailed);}	return *_data._object;}
+			inline const array		&value::arr()	const {if(_type!=Array)		{Throw(tokurei::GetFailed);}	return *_data._array;}
+			inline const string		&value::str()	const {if(_type!=String)	{Throw(tokurei::GetFailed);}	return *_data._string;}
+			inline const number		&value::num()	const {if(_type!=Number)	{Throw(tokurei::GetFailed);}	return _data._number;}
+			inline const boolean	&value::boo()	const {if(_type!=Boolean)	{Throw(tokurei::GetFailed);}	return _data._boolean;}
 
-			inline null		&value::nil()	{if(_type!=Null)	{ThrowDataException("Tentou acessar um valor que não é do tipo null.");}	return _data._null;}
-			inline object	&value::obj()	{if(_type!=Object)	{ThrowDataException("Tentou acessar um valor que não é do tipo object.");}	return *_data._object;}
-			inline array	&value::arr()	{if(_type!=Array)	{ThrowDataException("Tentou acessar um valor que não é do tipo array.");}	return *_data._array;}
-			inline string	&value::str()	{if(_type!=String)	{ThrowDataException("Tentou acessar um valor que não é do tipo string.");}	return *_data._string;}
-			inline number	&value::num()	{if(_type!=Number)	{ThrowDataException("Tentou acessar um valor que não é do tipo number.");}	return _data._number;}
-			inline boolean	&value::boo()	{if(_type!=Boolean)	{ThrowDataException("Tentou acessar um valor que não é do tipo boolean.");}	return _data._boolean;}
+			inline null		&value::nil()	{if(_type!=Null)	{Throw(tokurei::GetFailed);}	return _data._null;}
+			inline object	&value::obj()	{if(_type!=Object)	{Throw(tokurei::GetFailed);}	return *_data._object;}
+			inline array	&value::arr()	{if(_type!=Array)	{Throw(tokurei::GetFailed);}	return *_data._array;}
+			inline string	&value::str()	{if(_type!=String)	{Throw(tokurei::GetFailed);}	return *_data._string;}
+			inline number	&value::num()	{if(_type!=Number)	{Throw(tokurei::GetFailed);}	return _data._number;}
+			inline boolean	&value::boo()	{if(_type!=Boolean)	{Throw(tokurei::GetFailed);}	return _data._boolean;}
 		}  // namespace json
 
 		class CbAPI JSON {

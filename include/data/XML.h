@@ -10,9 +10,8 @@
 
 #include <data/data.h>
 
-#include <base/bException.h>
-#include <base/bString.h>
-#include <data/dFile.h>
+#include <base/String.h>
+#include <data/File.h>
 
 namespace cb {
 	namespace data {

@@ -7,14 +7,16 @@
  *   Copyright: Staff 42 © 2013
  */
 
-#include <data/dBitmap.h>
+#include <data/Bitmap.h>
 
-#include <base/bLog.h>
+#include <base/Log.h>
+#include <base/Exception.h>
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 
 #include <stb_image.c>
 #include <stb_image_write.h>
+#include <png.h>
 
 #include <climits>
 
@@ -96,8 +98,11 @@ namespace cb {
 				_pitch = ((_bytes_per_pixel*_width + 3) >> 2) << 2;
 
 				_data = malloc(_pitch * _height);
+				if(!_data) {
+
+				}
 			} else {
-				ThrowDataException("Não é possivel criar uma imagem de tipo nulo.");
+				Throw(tokurei::LoadFailed);
 			}
 		}
 
@@ -118,11 +123,11 @@ namespace cb {
 
 		void Bitmap::load(istream &istream, bmp::Format iformat, bmp::Type itype) {
 			if(iformat == bmp::FormatVoid) {
-				ThrowDataException("Formato invalido.");
+				Throw(tokurei::LoadFailed);
 			}
 
 			if(itype == bmp::TypeVoid) {
-				ThrowDataException("Tipo invalido.");
+				Throw(tokurei::LoadFailed);
 			}
 
 			std::lock_guard<std::mutex> lock(data_bmp_guard);
@@ -138,7 +143,7 @@ namespace cb {
 			math::uint8 *stbidata = stbi_load_from_callbacks(&callbacks, iFileToVoid(&istream), &w, &h, &c, channels(iformat));
 
 			if(c != (int)channels(iformat)) {
-				ThrowDataException(base::print("Quantidade de canais diferente da requisitada: %d e %d requisitado", c, channels(iformat)).c_str());
+				ThrowDet(tokurei::LoadFailed, "Wrong number of channels: %d from %d requested.", c, channels(iformat));
 			}
 
 			load(w, h, iformat, itype);
@@ -173,7 +178,7 @@ namespace cb {
 				break;
 
 			default:
-				ThrowDataException("Tipo invalido.");
+				Throw(tokurei::LoadFailed);
 			}
 
 			stbi_image_free(stbidata);
@@ -198,17 +203,17 @@ namespace cb {
 			}
 		}
 
-		void Bitmap::save(string ifilename) {
+		void Bitmap::save(const base::string &ifilename) {
 			if(empty()) {
-				ThrowDataException("Não é possivel salvar uma imagem vazia.");
+				Throw(tokurei::EmptyObject);
 			}
 			std::lock_guard<std::mutex> lock(data_bmp_guard);
 
-			log.warning("%s() : Utilize esta função somente para depuração.", __func__);
+			base::log.warning("%s() : Use it only for debug.", __func__);
 
 			if(_type == bmp::Byte || _type == bmp::UByte) {
 				if(!stbi_write_png(ifilename.c_str(), _width, _height, channels(_format), _data, _pitch)) {
-					ThrowDataException("Não foi possivel salvar a imagem.");
+					Throw(tokurei::SaveFailed);
 				}
 			}
 		}

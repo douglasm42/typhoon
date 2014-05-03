@@ -8,8 +8,7 @@
  */
 #pragma once
 
-#include <base/bSetup.h>
-#include <base/bKin.h>
+#include <base/Setup.h>
 
 namespace cb {
 	/**
@@ -20,8 +19,8 @@ namespace cb {
 	/**
 	 * @ingroup base
 	 *
-	 * Este namespace contém funções e classes que são utilizadas por todos os componentes do sistema.
-	 * Como por exemplo a função #print() ou a classe Exception.
+	 * Este namespace contém funções e classes que são utilizadas por todos os componentes do sistema,
+	 * como por exemplo a função #format() ou as classes Exception, Timer e Date.
 	 *
 	 * @author Douglas Machado de Freitas
 	 */
@@ -34,6 +33,4 @@ namespace cb {
 
 		class CbAPI Random;
 	}  // namespace base
-
-	using namespace base;
 }  // namespace cb

@@ -53,19 +53,21 @@ CPPDEFS := -DCUMULONIMBUS_EXPORTS -DGLEW_STATIC -D_CRT_SECURE_NO_WARNINGS
 INCLUDE_DIR := -I./include -I$(TYPHOON_ROOT)/dependencies/gcc/include -I$(TYPHOON_ROOT)/dependencies/gcc/include/freetype2
 LIBS_DIR := -L$(TYPHOON_ROOT)/dependencies/gcc/lib
  
-LIBS := -lboost_locale -lfreetype -lGLEW -lphysfs -lpng -lz -ldl -pthread
+LIBS := -lboost_locale -lfreetype -lGLEW -lphysfs -lpng -lz -ldl -lX11 -pthread
 
 # Sources c++
 CPPSOURCES := $(wildcard $(SOURCE_DIR)/*.cpp)
 CPPSOURCES += $(wildcard $(SOURCE_DIR)/base/*.cpp)
 CPPSOURCES += $(wildcard $(SOURCE_DIR)/data/*.cpp)
 CPPSOURCES += $(wildcard $(SOURCE_DIR)/math/*.cpp)
+CPPSOURCES += $(wildcard $(SOURCE_DIR)/system/linux/*.cpp)
 
 # Sources c
 CSOURCES := $(wildcard $(SOURCE_DIR)/*.c)
 CSOURCES += $(wildcard $(SOURCE_DIR)/base/*.c)
 CSOURCES += $(wildcard $(SOURCE_DIR)/data/*.c)
 CSOURCES += $(wildcard $(SOURCE_DIR)/math/*.c)
+CSOURCES += $(wildcard $(SOURCE_DIR)/system/linux/*.c)
 
 # Dependencies Sources
 DEPCPPSOURCES := $(wildcard $(DEPENDENCIES_SOURCE_DIR)/*.cpp)
@@ -83,7 +85,7 @@ OBJECTS += $(patsubst $(DEPENDENCIES_SOURCE_DIR)/%.c,$(BUILD_DIR)/%.o,$(DEPCSOUR
 #$(info Sources: $(CPPSOURCES))
 #$(info Sources: $(CSOURCES))
 #$(info Objects: $(OBJECTS))
-#$(info Objects: $(COBJECTS))
+#$(info Objects: $(OBJECTS:.o=.d))
 #$(info ================================================================================)
 #$(info )
 
@@ -103,6 +105,8 @@ dir:
 	@mkdir -p $(BUILD_DIR)/base
 	@mkdir -p $(BUILD_DIR)/data
 	@mkdir -p $(BUILD_DIR)/math
+	@mkdir -p $(BUILD_DIR)/system
+	@mkdir -p $(BUILD_DIR)/system/linux
 	@mkdir -p $(DOC_DIR)
 
 # pull in dependency info for *existing* .o files
@@ -114,7 +118,7 @@ $(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.cpp
 	@$(CPP) -c $(CPPFLAGS) $(CPPDEFS) $(INCLUDE_DIR) $(SOURCE_DIR)/$*.cpp -o $(BUILD_DIR)/$*.o 2> temp.log || touch temp.errors
 	@if test -e temp.errors; then $(ECHO) "$(LRed)[Error]$(NC)" && $(CAT) temp.log; elif test -s temp.log; then $(ECHO) "$(Yellow)[Warning]$(NC)" && $(CAT) temp.log; else $(ECHO) "$(LGreen)[Done]$(NC)"; fi;
 	@if test -e temp.errors; then $(RM) -f temp.errors temp.log && exit 1; fi;
-	@$(CPP) -MM $(CPPFLAGS) $(CPPDEFS) $(INCLUDE_DIR) $(SOURCE_DIR)/$*.cpp -MF $(BUILD_DIR)/$*.d
+	@$(CPP) -MM $(CPPFLAGS) $(CPPDEFS) $(INCLUDE_DIR) $(SOURCE_DIR)/$*.cpp -MT $(BUILD_DIR)/$*.o -MF $(BUILD_DIR)/$*.d
 
 # compile c files
 $(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.c
@@ -122,7 +126,7 @@ $(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.c
 	@$(CC) -c $(CFLAGS) $(CDEFS) $(INCLUDE_DIR) $(SOURCE_DIR)/$*.c -o $(BUILD_DIR)/$*.o 2> temp.log || touch temp.errors
 	@if test -e temp.errors; then $(ECHO) "$(LRed)[Error]$(NC)" && $(CAT) temp.log; elif test -s temp.log; then $(ECHO) "$(Yellow)[Warning]$(NC)" && $(CAT) temp.log; else $(ECHO) "$(LGreen)[Done]$(NC)"; fi;
 	@if test -e temp.errors; then $(RM) -f temp.errors temp.log && exit 1; fi;
-	@$(CC) -MM $(CFLAGS) $(CDEFS) $(INCLUDE_DIR) $(SOURCE_DIR)/$*.c -MF $(BUILD_DIR)/$*.d
+	@$(CC) -MM $(CFLAGS) $(CDEFS) $(INCLUDE_DIR) $(SOURCE_DIR)/$*.c -MT $(BUILD_DIR)/$*.o -MF $(BUILD_DIR)/$*.d
 
 # compile c++ dependencies files
 $(BUILD_DIR)/%.o: $(DEPENDENCIES_SOURCE_DIR)/%.cpp

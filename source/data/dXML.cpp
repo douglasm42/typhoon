@@ -7,7 +7,9 @@
  *   Copyright: Staff 42 © 2013
  */
 
-#include <data/dXML.h>
+#include <data/XML.h>
+
+#include <base/Exception.h>
 
 #include <pugixml.hpp>
 
@@ -274,7 +276,7 @@ namespace cb {
 
 			pugi::xml_parse_result result = doc.load(istream);
 			if(!result) {
-				ThrowDataException(base::print("Não foi possivel abrir o documento XML: %s", result.description()).c_str());
+				ThrowDet(tokurei::LoadFailed, "Error: %s", result.description());
 			}
 		}
 
@@ -283,7 +285,7 @@ namespace cb {
 			if(file.isOpen()) {
 				load(file);
 			} else {
-				ThrowDataException(base::print("Não foi possivel abrir o arquivo: %s", ifilename.c_str()).c_str());
+				ThrowDet(tokurei::OpenError, "Filename: %s", ifilename.c_str());
 			}
 		}
 
@@ -297,7 +299,7 @@ namespace cb {
 			if(file.isOpen()) {
 				save(file);
 			} else {
-				ThrowDataException(base::print("Não foi possivel abrir o arquivo: %s", ifilename.c_str()).c_str());
+				ThrowDet(tokurei::OpenError, "Error: %s", ifilename.c_str());
 			}
 		}
 

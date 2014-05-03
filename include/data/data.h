@@ -18,13 +18,15 @@ namespace cb {
 	 * @author Douglas Machado de Freitas
 	 */
 	namespace data {
-		class CbAPI BinStream;
+		class CbAPI obinstream;
+		class CbAPI ibinstream;
 
 		class CbAPI File;
 		class CbAPI Archiver;
 
 		class CbAPI Database;
 
+		class CbAPI JSON;
 		class CbAPI XML;
 
 		class CbAPI Bitmap;

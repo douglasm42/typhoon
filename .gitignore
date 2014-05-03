@@ -4,6 +4,8 @@
 !.gitignore
 
 !*/
+!*/*/
+!*/*/*/
 
 #Inclua estes arquivos
 !*.h

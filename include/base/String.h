@@ -32,7 +32,7 @@ namespace cb {
 		 * @param ... Parametros a serem usados para montar a string final.
 		 * @return Uma string com o resultado da formatação.
 		 */
-		string CbAPI print(string iformat, ...);
+		string CbAPI format(string iformat, ...);
 
 		/**
 		 * Converte o texto recebido por parametro de UTF8 para UTF16.

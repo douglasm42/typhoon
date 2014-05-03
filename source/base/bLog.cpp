@@ -7,15 +7,15 @@
  *   Copyright: Staff 42 © 2013
  */
 
-#include <base/bLog.h>
-#include <base/bLogFile.h>
+#include <base/Log.h>
+#include <base/LogFile.h>
 
-#include <base/bPrint.h>
+#include <base/FormatMacro.h>
+#include <base/Exception.h>
 
-#include <thread>
-#include <mutex>
+#include <system/Message.h>
 
-#include <base/bWindows.h>
+#include <iostream>
 
 namespace cb {
 	namespace base {
@@ -31,21 +31,20 @@ namespace cb {
 			}
 		}
 
-		std::mutex log_write_guard;
 		void Log::write(Type itype, Date idate, string imsg) {
-			std::lock_guard<std::mutex> lock(log_write_guard);
+			std::lock_guard<std::mutex> lock(_log_write_guard);
 			if(_file) {
 				_file->write(itype, idate, imsg);
 			} else {
-				show(Error, "O sistema de LOG deve ser inicializado antes de ser utilizado.");
+				Throw(tokurei::LogUninitialized);
 			}
 		}
 
 		void Log::init(string ifilename, string ititle) {
 			_file = NULL;
 			_error = true;
-			_warning = false;
-			_info = false;
+			_warning = true;
+			_info = true;
 
 			_file = new LogFile(ifilename, ititle, Date());
 		}
@@ -53,13 +52,13 @@ namespace cb {
 		void Log::show(Type itype, string imsg) {
 			switch(itype) {
 				case Error:
-					//MessageBox(NULL, utf16(imsg).c_str(), utf16("Erro").c_str(), MB_OK | MB_ICONERROR | MB_SYSTEMMODAL | MB_TOPMOST);
+					system::Message(system::msg::Error, imsg);
 					break;
 				case Warning:
-					//MessageBox(NULL, utf16(imsg).c_str(), utf16("Aviso").c_str(), MB_OK | MB_ICONWARNING | MB_SYSTEMMODAL | MB_TOPMOST);
+					system::Message(system::msg::Warning, imsg);
 					break;
 				case Info:
-					//MessageBox(NULL, utf16(imsg).c_str(), utf16("Informação").c_str(), MB_OK | MB_ICONINFORMATION | MB_SYSTEMMODAL | MB_TOPMOST);
+					system::Message(system::msg::Info, imsg);
 					break;
 				default:
 					break;
@@ -69,7 +68,7 @@ namespace cb {
 		void Log::log(Type itype, string iformat, ...) {
 			Date date;
 			string msg;
-			PRINT(msg, iformat);
+			CUMULONIMBUS_FORMAT(msg, iformat);
 
 			write(itype, date, msg);
 			if((itype == Error && _error) || (itype == Warning && _warning) || (itype == Info && _info)) {
@@ -80,7 +79,7 @@ namespace cb {
 		void Log::error(string iformat, ...) {
 			Date date;
 			string msg;
-			PRINT(msg, iformat);
+			CUMULONIMBUS_FORMAT(msg, iformat);
 
 			write(Error, date, msg);
 			if(_error) {
@@ -91,7 +90,7 @@ namespace cb {
 		void Log::warning(string iformat, ...) {
 			Date date;
 			string msg;
-			PRINT(msg, iformat);
+			CUMULONIMBUS_FORMAT(msg, iformat);
 
 			write(Warning, date, msg);
 			if(_warning) {
@@ -102,7 +101,7 @@ namespace cb {
 		void Log::info(string iformat, ...) {
 			Date date;
 			string msg;
-			PRINT(msg, iformat);
+			CUMULONIMBUS_FORMAT(msg, iformat);
 
 			write(Info, date, msg);
 			if(_info) {
@@ -113,7 +112,7 @@ namespace cb {
 		void Log::nothing(string iformat, ...) {
 			Date date;
 			string msg;
-			PRINT(msg, iformat);
+			CUMULONIMBUS_FORMAT(msg, iformat);
 
 			write(Nothing, date, msg);
 		}
@@ -121,7 +120,7 @@ namespace cb {
 		void Log::operator()(Type itype, string iformat, ...) {
 			Date date;
 			string msg;
-			PRINT(msg, iformat);
+			CUMULONIMBUS_FORMAT(msg, iformat);
 
 			write(itype, date, msg);
 			if((itype == Error && _error) || (itype == Warning && _warning) || (itype == Info && _info)) {
