@@ -4,30 +4,34 @@
  *  Created on: Apr 30, 2014
  *      Author: douglas
  */
-#include <system/Message.h>
+#include <base/Setup.h>
 #ifdef CbLinux
+
+#include <window/Message.h>
 
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <X11/Xlib.h>
+
+#include <window/linux/Xlib.h>
 
 namespace cb {
-	namespace system {
+	namespace window {
 		class SimpleXMessageBox {
 		private:
-			std::vector<std::vector<XChar2b> > _message_line;
-			std::vector<XChar2b> _title;
-			std::vector<XChar2b> _sorry;
-			std::vector<XChar2b> _signature;
+			std::vector<xstring> _message_line;
+			xstring _title;
+			xstring _sorry;
+			xstring _signature;
 
 			int _width;
 			int _height;
+			int _max_length;
 
-			Display * _display;
+			XDisplay * _display;
 			int _screen;
-			Window _root;
-			Window _window;
+			XWindow _root;
+			XWindow _window;
 			GC _gc;
 			XFontStruct * _font;
 			unsigned long _black_pixel;
@@ -52,13 +56,9 @@ namespace cb {
 			_message_line.reserve(ilines.size());
 
 			for(size_t i=0 ; i<ilines.size() ; i++) {
-				_message_line.push_back(std::vector<XChar2b>());
-				_message_line[i].reserve(ilines[i].length());
-				for(size_t j=0 ; j<ilines[i].length() ; j++) {
-					unsigned char *pt = (unsigned char *)&ilines[i][j];
-					XChar2b c = {pt[1], pt[0]};
-					_message_line[i].push_back(c);
-				}
+				_message_line.push_back(xstring());
+				_message_line[i].clear();
+				_message_line[i] << ilines[i];
 			}
 			base::wstring str;
 			if(itype == msg::Error) {
@@ -69,31 +69,19 @@ namespace cb {
 				str = L"- Information Message -";
 			}
 
-			_title.reserve(str.length());
-			for(size_t j=0 ; j<str.length() ; j++) {
-				unsigned char *pt = (unsigned char *)&str[j];
-				XChar2b c = {pt[1], pt[0]};
-				_title.push_back(c);
-			}
+			_title.clear();
+			_title << str;
 
-			str = L"Sorry about the inconvenience.";
-			_sorry.reserve(str.length());
-			for(size_t j=0 ; j<str.length() ; j++) {
-				unsigned char *pt = (unsigned char *)&str[j];
-				XChar2b c = {pt[1], pt[0]};
-				_sorry.push_back(c);
-			}
+			str = L"Sorry about the inconvenience,";
+			_sorry.clear();
+			_sorry << str;
 
 			str = L"- Staff42";
-			_signature.reserve(str.length());
-			for(size_t j=0 ; j<str.length() ; j++) {
-				unsigned char *pt = (unsigned char *)&str[j];
-				XChar2b c = {pt[1], pt[0]};
-				_signature.push_back(c);
-			}
+			_signature.clear();
+			_signature << str;
 
 			//Connect to XServer
-			_display = XOpenDisplay(":0");
+			_display = XConnection::connect();
 			if (!_display) {
 				fprintf(stderr, "Could not open display.\n");
 				exit(1);
@@ -103,6 +91,45 @@ namespace cb {
 			_black_pixel = BlackPixel(_display, _screen);
 			_white_pixel = WhitePixel(_display, _screen);
 
+			//Load font
+			_font = XLoadQueryFont(_display, "fixed");
+
+			//Ajust Window Size.
+			XCharStruct overall;
+			int x, y, direction, ascent, descent;
+			_width = 0;
+			_max_length = 0;
+			XTextExtents16(_font, _title.data(), _title.size(), &direction, &ascent, &descent, &overall);
+			if(overall.width > _width) {
+				_width = overall.width;
+				_max_length = _title.size();
+			}
+			XTextExtents16(_font, _sorry.data(), _sorry.size(), &direction, &ascent, &descent, &overall);
+			if(overall.width > _width) {
+				_width = overall.width;
+				_max_length = _sorry.size();
+			}
+			XTextExtents16(_font, _signature.data(), _signature.size(), &direction, &ascent, &descent, &overall);
+			if(overall.width > _width) {
+				_width = overall.width;
+			}
+			for(size_t i=0 ; i<_message_line.size() ; i++) {
+				XTextExtents16(_font, _message_line[i].data(), _message_line[i].size(), &direction, &ascent, &descent, &overall);
+				if(overall.width > _width) {
+					_width = overall.width;
+					_max_length = _message_line[i].size();
+				}
+			}
+			XTextExtents(_font, "------------------------------------------------------------", 60, &direction, &ascent, &descent, &overall);
+			if(overall.width > _width) {
+				_width = overall.width;
+				_max_length = 60;
+			}
+			_width += 40;
+			_height = (ascent + descent) * _message_line.size() + 40 + (ascent+descent)*8 + 6;
+			x = XDisplayWidth(_display, _screen)/2 - _width/2;
+			y = XDisplayHeight(_display, _screen)/4 - _height/2;
+
 			//Create Window
 			XSetWindowAttributes attr;
 			attr.override_redirect = true;
@@ -111,7 +138,7 @@ namespace cb {
 			attr.background_pixel = _white_pixel;
 
 			_window = XCreateWindow(_display, _root,
-					1, 1, 600, 300,
+					x, y, _width, _height,
 					0, CopyFromParent, InputOutput, CopyFromParent,
 					CWBorderPixel | CWEventMask | CWOverrideRedirect | CWBackPixel,
 					&attr);
@@ -126,36 +153,7 @@ namespace cb {
 			XSetForeground(_display, _gc, _black_pixel);
 
 			//Setup font
-			_font = XLoadQueryFont(_display, "fixed");
 			XSetFont(_display, _gc, _font->fid);
-
-			//Ajust Window Size.
-			XCharStruct overall;
-			int x, y, direction, ascent, descent;
-			_width = 0;
-			XTextExtents16(_font, _title.data(), _title.size(), &direction, &ascent, &descent, &overall);
-			if(overall.width > _width) {
-				_width = overall.width;
-			}
-			XTextExtents16(_font, _sorry.data(), _sorry.size(), &direction, &ascent, &descent, &overall);
-			if(overall.width > _width) {
-				_width = overall.width + 40;
-			}
-			XTextExtents16(_font, _signature.data(), _signature.size(), &direction, &ascent, &descent, &overall);
-			if(overall.width > _width) {
-				_width = overall.width;
-			}
-			for(size_t i=0 ; i<_message_line.size() ; i++) {
-				XTextExtents16(_font, _message_line[i].data(), _message_line[i].size(), &direction, &ascent, &descent, &overall);
-				if(overall.width > _width) {
-					_width = overall.width;
-				}
-			}
-			_width += 40;
-			_height = (ascent + descent) * _message_line.size() + 40 + (ascent+descent)*8 + 6;
-			x = XDisplayWidth(_display, _screen)/2 - _width/2;
-			y = XDisplayHeight(_display, _screen)/4 - _height/2;
-			XMoveResizeWindow(_display, _window, x, y, _width, _height);
 
 			//Setup button rectangle
 			_rectangle_width = 100;
@@ -201,7 +199,7 @@ namespace cb {
 		}
 
 		SimpleXMessageBox::~SimpleXMessageBox() {
-			XCloseDisplay(_display);
+			XConnection::disconnect();
 		}
 
 		void SimpleXMessageBox::draw() {
@@ -212,6 +210,11 @@ namespace cb {
 			int descent;
 			XCharStruct overall;
 
+			base::string linha;
+			for(int i=0 ; i<_max_length ; i++) {
+				linha.push_back('-');
+			}
+
 			x = 20;
 			y = 20;
 			XClearWindow(_display, _window);
@@ -219,16 +222,22 @@ namespace cb {
 			XTextExtents16(_font, _title.data(), _title.size(), &direction, &ascent, &descent, &overall);
 			XDrawString16(_display, _window, _gc, (_width - overall.width)/2, y + ascent, _title.data(), _title.size());
 
+			XTextExtents(_font, linha.c_str(), linha.size(), &direction, &ascent, &descent, &overall);
+			XDrawString(_display, _window, _gc, (_width - overall.width - 20), y + (ascent + descent)*(1) + ascent, linha.c_str(), linha.size());
+
 			for(size_t i=0 ; i<_message_line.size() ; i++) {
 				XTextExtents16(_font, _message_line[i].data(), _message_line[i].size(), &direction, &ascent, &descent, &overall);
-				XDrawString16(_display, _window, _gc, x, y + (ascent + descent)*(i+2) + ascent, _message_line[i].data(), _message_line[i].size());
+				XDrawString16(_display, _window, _gc, x, y + (ascent + descent)*(i+3) + ascent, _message_line[i].data(), _message_line[i].size());
 			}
 
+			XTextExtents(_font, linha.c_str(), linha.size(), &direction, &ascent, &descent, &overall);
+			XDrawString(_display, _window, _gc, (_width - overall.width - 20), y + (ascent + descent)*(_message_line.size()+4) + ascent, linha.c_str(), linha.size());
+
 			XTextExtents16(_font, _sorry.data(), _sorry.size(), &direction, &ascent, &descent, &overall);
-			XDrawString16(_display, _window, _gc, (_width - overall.width - 20), y + (ascent + descent)*(_message_line.size()+4) + ascent, _sorry.data(), _sorry.size());
+			XDrawString16(_display, _window, _gc, (_width - overall.width - 20), y + (ascent + descent)*(_message_line.size()+5) + ascent, _sorry.data(), _sorry.size());
 
 			XTextExtents16(_font, _signature.data(), _signature.size(), &direction, &ascent, &descent, &overall);
-			XDrawString16(_display, _window, _gc, (_width - overall.width - 20), y + (ascent + descent)*(_message_line.size()+5) + ascent, _signature.data(), _signature.size());
+			XDrawString16(_display, _window, _gc, (_width - overall.width - 20), y + (ascent + descent)*(_message_line.size()+6) + ascent, _signature.data(), _signature.size());
 
 			drawButton(false);
 		}
@@ -260,7 +269,7 @@ namespace cb {
 		void Message::show() {
 			SimpleXMessageBox(_type, _message_lines);
 		}
-	}  // namespace system
+	}  // namespace window
 }  // namespace cb
 
 #endif

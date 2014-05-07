@@ -201,8 +201,8 @@ namespace cb {
 			virtual bmp::Format format() const {return Bitmap::format();}
 			virtual bmp::Type type() const {return Bitmap::type();}
 
-			virtual T *row(size_t ir) {return (T*)(_data + pitch()*ir);}
-			virtual const T *row(size_t ir) const {return (T*)(_data + pitch()*ir);}
+			virtual T *row(size_t ir) {return (T*)((char*)_data + pitch()*ir);}
+			virtual const T *row(size_t ir) const {return (T*)((char*)_data + pitch()*ir);}
 
 			virtual bool empty() const {return !Bitmap::data();}
 			virtual void clear() {Bitmap::clear();}

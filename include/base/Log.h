@@ -77,7 +77,7 @@ namespace cb {
 			 * @param ifilename Arquivo que deve conter os registros de eventos.
 			 * @param ititle Título do registro de eventos.
 			 */
-			void init(string ifilename, string ititle);
+			void init(string ifilename, string ititle, bool ierror = true, bool iwarning = false, bool iinfo = false);
 
 			/**
 			 * Exibe uma caixa de mensagem com a mensagem de log.

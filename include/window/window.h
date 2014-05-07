@@ -1,5 +1,5 @@
 /*
- * system.h
+ * window.h
  *
  *  Created on: Apr 30, 2014
  *      Author: douglas
@@ -10,7 +10,14 @@
 #include <base/base.h>
 
 namespace cb {
-	namespace system {
+	namespace window {
 		class CbAPI Message;
-	}  // namespace system
+
+		class CbAPI Display;
+		class CbAPI Window;
+
+		class CbAPI EventHub;
+
+		class CbAPI OpenGLContext;
+	}  // namespace window
 }  // namespace cb

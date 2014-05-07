@@ -60,14 +60,14 @@ CPPSOURCES := $(wildcard $(SOURCE_DIR)/*.cpp)
 CPPSOURCES += $(wildcard $(SOURCE_DIR)/base/*.cpp)
 CPPSOURCES += $(wildcard $(SOURCE_DIR)/data/*.cpp)
 CPPSOURCES += $(wildcard $(SOURCE_DIR)/math/*.cpp)
-CPPSOURCES += $(wildcard $(SOURCE_DIR)/system/linux/*.cpp)
+CPPSOURCES += $(wildcard $(SOURCE_DIR)/window/linux/*.cpp)
 
 # Sources c
 CSOURCES := $(wildcard $(SOURCE_DIR)/*.c)
 CSOURCES += $(wildcard $(SOURCE_DIR)/base/*.c)
 CSOURCES += $(wildcard $(SOURCE_DIR)/data/*.c)
 CSOURCES += $(wildcard $(SOURCE_DIR)/math/*.c)
-CSOURCES += $(wildcard $(SOURCE_DIR)/system/linux/*.c)
+CSOURCES += $(wildcard $(SOURCE_DIR)/window/linux/*.c)
 
 # Dependencies Sources
 DEPCPPSOURCES := $(wildcard $(DEPENDENCIES_SOURCE_DIR)/*.cpp)
@@ -105,8 +105,8 @@ dir:
 	@mkdir -p $(BUILD_DIR)/base
 	@mkdir -p $(BUILD_DIR)/data
 	@mkdir -p $(BUILD_DIR)/math
-	@mkdir -p $(BUILD_DIR)/system
-	@mkdir -p $(BUILD_DIR)/system/linux
+	@mkdir -p $(BUILD_DIR)/window
+	@mkdir -p $(BUILD_DIR)/window/linux
 	@mkdir -p $(DOC_DIR)
 
 # pull in dependency info for *existing* .o files

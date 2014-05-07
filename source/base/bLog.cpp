@@ -13,7 +13,7 @@
 #include <base/FormatMacro.h>
 #include <base/Exception.h>
 
-#include <system/Message.h>
+#include <window/Message.h>
 
 #include <iostream>
 
@@ -40,11 +40,11 @@ namespace cb {
 			}
 		}
 
-		void Log::init(string ifilename, string ititle) {
+		void Log::init(string ifilename, string ititle, bool ierror, bool iwarning, bool iinfo) {
 			_file = NULL;
-			_error = true;
-			_warning = true;
-			_info = true;
+			_error = ierror;
+			_warning = iwarning;
+			_info = iinfo;
 
 			_file = new LogFile(ifilename, ititle, Date());
 		}
@@ -52,13 +52,13 @@ namespace cb {
 		void Log::show(Type itype, string imsg) {
 			switch(itype) {
 				case Error:
-					system::Message(system::msg::Error, imsg);
+					window::Message(window::msg::Error, imsg);
 					break;
 				case Warning:
-					system::Message(system::msg::Warning, imsg);
+					window::Message(window::msg::Warning, imsg);
 					break;
 				case Info:
-					system::Message(system::msg::Info, imsg);
+					window::Message(window::msg::Info, imsg);
 					break;
 				default:
 					break;

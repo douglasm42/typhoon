@@ -1,22 +1,12 @@
-#Ignore tudo
-*
+temp.log
+.cproject
+.directory
+.project
 
-!.gitignore
-
-!*/
-!*/*/
-!*/*/*/
-
-#Inclua estes arquivos
-!*.h
-!*.hpp
-!*.inl
-!*.cpp
-!*.dox
-!*.css
-!doxygen/cumulonimbus.doxyfile
-!Makefile
-
-doc
 build
 dist
+doc
+nbproject
+.settings
+
+
