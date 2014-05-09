@@ -11,9 +11,14 @@
 using namespace cb;
 
 int cbMain(int argc, char **argv) {
-	base::log.init("log.base.txt", "test.base", true, true, true);
+	base::log.init("log.base.txt", "test.base", true, false, false);
 
-	base::log.info("Testando o modulo base!");
+	base::log.info("Testing module: base");
+
+
+
+
+
 	return EXIT_SUCCESS;
 }
 CBMAIN
