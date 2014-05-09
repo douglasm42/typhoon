@@ -7,14 +7,14 @@
 
 #pragma once
 
-#include <window/window.h>
+#include <video/video.h>
 
 #include <base/String.h>
 
 #include <vector>
 
 namespace cb {
-	namespace window {
+	namespace video {
 		namespace msg {
 			typedef enum Type {
 				Error,
@@ -47,5 +47,5 @@ namespace cb {
 			Message(msg::Type itype, base::string imessage):_type(itype) {setMessage(base::utf16(imessage)); show();}
 			~Message() {}
 		};
-	}  // namespace window
+	}  // namespace video
 }  // namespace cb

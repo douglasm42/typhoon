@@ -7,16 +7,16 @@
 #include <base/Setup.h>
 #ifdef CbLinux
 
-#include <window/Message.h>
+#include <video/Message.h>
 
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <window/linux/Xlib.h>
+#include <video/linux/Xlib.h>
 
 namespace cb {
-	namespace window {
+	namespace video {
 		class SimpleXMessageBox {
 		private:
 			std::vector<xstring> _message_line;
@@ -269,7 +269,7 @@ namespace cb {
 		void Message::show() {
 			SimpleXMessageBox(_type, _message_lines);
 		}
-	}  // namespace window
+	}  // namespace video
 }  // namespace cb
 
 #endif

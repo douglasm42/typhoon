@@ -1,5 +1,5 @@
 /*
- * window.h
+ * video.h
  *
  *  Created on: Apr 30, 2014
  *      Author: douglas
@@ -10,7 +10,7 @@
 #include <base/base.h>
 
 namespace cb {
-	namespace window {
+	namespace video {
 		class CbAPI Message;
 
 		class CbAPI Display;
@@ -19,5 +19,5 @@ namespace cb {
 		class CbAPI EventHub;
 
 		class CbAPI OpenGLContext;
-	}  // namespace window
+	}  // namespace video
 }  // namespace cb

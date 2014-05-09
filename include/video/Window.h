@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <window/window.h>
+#include <video/video.h>
 
 #include <base/String.h>
 #include <base/Kin.h>
@@ -15,7 +15,7 @@
 #include <math/math.h>
 
 namespace cb {
-	namespace window {
+	namespace video {
 		KinLock(WindowInfo);
 
 		namespace win {
@@ -72,5 +72,5 @@ namespace cb {
 
 			kin::WindowInfo &info() {return _window_info;}
 		};
-	}  // namespace window
+	}  // namespace video
 }  // namespace cb

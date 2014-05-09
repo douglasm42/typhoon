@@ -13,7 +13,7 @@
 #include <base/FormatMacro.h>
 #include <base/Exception.h>
 
-#include <window/Message.h>
+#include <video/Message.h>
 
 #include <iostream>
 
@@ -52,13 +52,13 @@ namespace cb {
 		void Log::show(Type itype, string imsg) {
 			switch(itype) {
 				case Error:
-					window::Message(window::msg::Error, imsg);
+					video::Message(video::msg::Error, imsg);
 					break;
 				case Warning:
-					window::Message(window::msg::Warning, imsg);
+					video::Message(video::msg::Warning, imsg);
 					break;
 				case Info:
-					window::Message(window::msg::Info, imsg);
+					video::Message(video::msg::Info, imsg);
 					break;
 				default:
 					break;

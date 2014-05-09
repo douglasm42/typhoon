@@ -82,7 +82,7 @@ namespace cb {
 		ModuleException(Common);
 		ModuleException(File);
 
-		DetailedException(Log, LogUninitialized, "Tried to use a uninitialized log window.");
+		DetailedException(Log, LogUninitialized, "Tried to use a uninitialized log system.");
 		DetailedException(Log, LogCreateFileError, "Failed to create the log file.");
 		DetailedException(Log, LogOpenFileError, "Failed to open the log file.");
 

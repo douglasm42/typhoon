@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <window/window.h>
+#include <video/video.h>
 
 #include <X11/Xlib.h>
 
@@ -17,7 +17,7 @@
 #include <vector>
 
 namespace cb {
-	namespace window {
+	namespace video {
 		typedef ::Display XDisplay;
 		typedef ::Window XWindow;
 
@@ -42,7 +42,7 @@ namespace cb {
 			XDisplay *display;
 			int screen;
 			XWindow *root;
-			XWindow *window;
+			XWindow *video;
 		};
-	}  // namespace window
+	}  // namespace video
 }  // namespace cb

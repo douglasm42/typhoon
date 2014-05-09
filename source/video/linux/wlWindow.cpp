@@ -8,12 +8,12 @@
 #include <base/Setup.h>
 #ifdef CbLinux
 
-#include <window/Window.h>
+#include <video/Window.h>
 
-#include <window/linux/Xlib.h>
+#include <video/linux/Xlib.h>
 
 namespace cb {
-	namespace window {
+	namespace video {
 		KinKey(WindowInfo, XWindowInfo);
 
 		Window::Window(base::wstring ititle, win::Placement iplacement) {
@@ -60,7 +60,7 @@ namespace cb {
 		void Window::visible(bool ivisible) {
 
 		}
-	}  // namespace window
+	}  // namespace video
 }  // namespace cb
 
 #endif

@@ -8,12 +8,12 @@
 #include <base/Setup.h>
 #ifdef CbLinux
 
-#include <window/linux/Xlib.h>
+#include <video/linux/Xlib.h>
 
 #include <base/Exception.h>
 
 namespace cb {
-	namespace window {
+	namespace video {
 		xstring &operator<<(xstring &ixstr, const base::string &istr) {
 			return ixstr << base::utf16(istr);
 		}
@@ -54,7 +54,7 @@ namespace cb {
 				Throw(tokurei::CloseError);
 			}
 		}
-	}  // namespace window
+	}  // namespace video
 }  // namespace cb
 
 #endif

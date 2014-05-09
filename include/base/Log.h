@@ -4,7 +4,7 @@
  *  Created on: 19/12/2012
  *      Author: Douglas M. Freitas
  * 
- *   Copyright: Staff 42 © 2013
+ *  Copyright: Staff 42 © 2014
  */
 #pragma once
 
