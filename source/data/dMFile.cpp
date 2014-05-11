@@ -1,10 +1,16 @@
-/*
- * dFile.cpp
- *
- *  Created on: Feb 23, 2014
- *      Author: douglas
+/* 
+ * - Cumulonimbus - ☁
+ * File: dMFile.cpp
+ * 
+ * Licence:
+ * ============================================================================
+ * Copyright (C) Staff 42 Entertainment LTDA ME - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * 
+ * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
+ * ============================================================================
  */
-
 #include <data/File.h>
 
 #include <base/Log.h>
@@ -56,11 +62,11 @@ namespace cb {
 
 			io::stream_offset seek(io::stream_offset off, std::ios_base::seekdir way) {
 				if(way == std::ios_base::beg) {
-					_position = off;
+					_position = (size_t)off;
 				} else if(way == std::ios_base::cur) {
-					_position = _position + off;
+					_position = _position + (size_t)off;
 				} else if(way == std::ios_base::end) {
-					_position = _data.size() - off;
+					_position = _data.size() - (size_t)off;
 				}
 
 				if(_position > _data.size()) {
@@ -83,16 +89,16 @@ namespace cb {
 
 		//MFile -------------------------------------------------------------
 
-		MFile::MFile() {
+		MFile::MFile() :iostream(nullptr) {
 			_stream_buf << new MStreamBuf();
 		}
 
-		MFile::MFile(const base::string &ifilename) {
+		MFile::MFile(const base::string &ifilename) :iostream(nullptr) {
 			_stream_buf << new MStreamBuf();
 			open(ifilename);
 		}
 
-		MFile::MFile(const char *idata, size_t isize) {
+		MFile::MFile(const char *idata, size_t isize) :iostream(nullptr) {
 			_stream_buf << new MStreamBuf();
 			open(idata, isize);
 		}

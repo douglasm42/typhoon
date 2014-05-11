@@ -1,10 +1,16 @@
-/*
- * dFile.cpp
- *
- *  Created on: Feb 23, 2014
- *      Author: douglas
+/* 
+ * - Cumulonimbus - ☁
+ * File: dFile.cpp
+ * 
+ * Licence:
+ * ============================================================================
+ * Copyright (C) Staff 42 Entertainment LTDA ME - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * 
+ * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
+ * ============================================================================
  */
-
 #include <data/File.h>
 
 #include <base/Log.h>
@@ -124,11 +130,11 @@ namespace cb {
 
 		//iFileFS -------------------------------------------------------------
 
-		iFile::iFile() {
+		iFile::iFile() :istream(nullptr) {
 			_stream_buf << new PhysFSInputBuf();
 			rdbuf(&_stream_buf);
 		}
-		iFile::iFile(const base::string &ifilename) {
+		iFile::iFile(const base::string &ifilename) :istream(nullptr) {
 			_stream_buf << new PhysFSInputBuf();
 			rdbuf(&_stream_buf);
 			open(ifilename);
@@ -168,12 +174,12 @@ namespace cb {
 
 		//oFileFS -------------------------------------------------------------
 
-		oFile::oFile() {
+		oFile::oFile() :ostream(nullptr) {
 			_stream_buf << new PhysFSOutputBuf();
 			rdbuf(&_stream_buf);
 		}
 
-		oFile::oFile(const base::string &ifilename, bool iappend) {
+		oFile::oFile(const base::string &ifilename, bool iappend) :ostream(nullptr) {
 			_stream_buf << new PhysFSOutputBuf();
 			rdbuf(&_stream_buf);
 			open(ifilename, iappend);

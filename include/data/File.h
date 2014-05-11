@@ -1,10 +1,16 @@
-/*
- * dFile.h
- *
- *  Created on: 29/01/2014
- *      Author: Douglas
+/* 
+ * - Cumulonimbus - ☁
+ * File: File.h
+ * 
+ * Licence:
+ * ============================================================================
+ * Copyright (C) Staff 42 Entertainment LTDA ME - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * 
+ * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
+ * ============================================================================
  */
-
 #pragma once
 
 #include <data/data.h>
@@ -76,7 +82,7 @@ namespace cb {
 			MFile();
 			MFile(const base::string &ifilename);
 			MFile(const char *idata, size_t isize);
-			MFile(const MFile &imfile) {open(imfile.data(), imfile.size());}
+			MFile(const MFile &imfile) :iostream(nullptr) {open(imfile.data(), imfile.size());}
 			virtual ~MFile();
 
 			bool open(const base::string &ifilename);

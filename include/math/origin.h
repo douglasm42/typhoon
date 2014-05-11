@@ -1,10 +1,15 @@
-/*
- * mGLM.h
- *
- *  Created on: 28/02/2013
- *      Author: Douglas
+/* 
+ * - Cumulonimbus - ☁
+ * File: origin.h
  * 
- *   Copyright: Staff 42 © 2013
+ * Licence:
+ * ============================================================================
+ * Copyright (C) Staff 42 Entertainment LTDA ME - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * 
+ * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
+ * ============================================================================
  */
 #pragma once
 

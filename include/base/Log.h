@@ -1,10 +1,15 @@
-/*
- * bLog.h
- *
- *  Created on: 19/12/2012
- *      Author: Douglas M. Freitas
+/* 
+ * - Cumulonimbus - ☁
+ * File: Log.h
  * 
- *  Copyright: Staff 42 © 2014
+ * Licence:
+ * ============================================================================
+ * Copyright (C) Staff 42 Entertainment LTDA ME - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * 
+ * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
+ * ============================================================================
  */
 #pragma once
 

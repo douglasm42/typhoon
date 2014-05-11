@@ -1,10 +1,15 @@
-/*
- * bException.h
- *
- *  Created on: 13/12/2012
- *      Author: Douglas M. Freitas
+/* 
+ * - Cumulonimbus - ☁
+ * File: Exception.h
  * 
- *   Copyright: Staff 42 © 2013
+ * Licence:
+ * ============================================================================
+ * Copyright (C) Staff 42 Entertainment LTDA ME - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * 
+ * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
+ * ============================================================================
  */
 #pragma once
 
@@ -49,7 +54,7 @@ namespace cb {
 			 * Retorna o motivo da exceção precedido por seu tipo.
 			 * @return O motivo da exceção precedido por seu tipo.
 			 */
-			const char *what() const noexcept {return _what.c_str();}
+			const char *what() const {return _what.c_str();}
 		};
 
 #define STR1(x) #x

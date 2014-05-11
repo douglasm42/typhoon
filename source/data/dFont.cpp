@@ -1,12 +1,16 @@
-/*
- * dFont.cpp
- *
- *  Created on: 10/01/2014
- *      Author: Douglas
- *
- *   Copyright: Staff 42 © 2013
+/* 
+ * - Cumulonimbus - ☁
+ * File: dFont.cpp
+ * 
+ * Licence:
+ * ============================================================================
+ * Copyright (C) Staff 42 Entertainment LTDA ME - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * 
+ * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
+ * ============================================================================
  */
-
 #include <data/Font.h>
 
 #include <base/Log.h>

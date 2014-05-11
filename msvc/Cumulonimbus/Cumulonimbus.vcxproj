@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{63883499-B3BC-4546-A3AD-557293E3830A}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Cumulonimbus</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(DXSDK_DIR)Include;$(TYPHOON_ROOT)\dependencies\msvc\include;$(TYPHOON_ROOT)\dependencies\msvc\include\freetype2;$(SolutionDir)..\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(TYPHOON_ROOT)\dependencies\msvc\lib\$(Configuration);$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(DXSDK_DIR)Include;$(TYPHOON_ROOT)\dependencies\msvc\include;$(TYPHOON_ROOT)\dependencies\msvc\include\freetype2;$(SolutionDir)..\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(TYPHOON_ROOT)\dependencies\msvc\lib\$(Configuration);$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CUMULONIMBUS_EXPORTS;GLEW_STATIC;GLEW_MX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4251;4250;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>freetype.lib;physfs.lib;libpng16.lib;zlibstaticd.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CUMULONIMBUS_EXPORTS;GLEW_STATIC;GLEW_MX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>freetype.lib;physfs.lib;libpng16.lib;zlibstatic.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\dependencies\msvc\source\glew.c" />
+    <ClCompile Include="..\..\..\dependencies\msvc\source\sqlite3.c" />
+    <ClCompile Include="..\..\source\base\bDate.cpp" />
+    <ClCompile Include="..\..\source\base\bLog.cpp" />
+    <ClCompile Include="..\..\source\base\bLogFile.cpp" />
+    <ClCompile Include="..\..\source\base\bRandom.cpp" />
+    <ClCompile Include="..\..\source\base\bString.cpp" />
+    <ClCompile Include="..\..\source\data\dBinStream.cpp" />
+    <ClCompile Include="..\..\source\data\dBitmap.cpp" />
+    <ClCompile Include="..\..\source\data\dDatabase.cpp" />
+    <ClCompile Include="..\..\source\data\dDatabaseColumn.cpp" />
+    <ClCompile Include="..\..\source\data\dDatabaseQuerry.cpp" />
+    <ClCompile Include="..\..\source\data\dFile.cpp" />
+    <ClCompile Include="..\..\source\data\dFont.cpp" />
+    <ClCompile Include="..\..\source\data\dJSON.cpp" />
+    <ClCompile Include="..\..\source\data\dMFile.cpp" />
+    <ClCompile Include="..\..\source\data\dXML.cpp" />
+    <ClCompile Include="..\..\source\video\linux\vlMessage.cpp" />
+    <ClCompile Include="..\..\source\video\linux\vlWindow.cpp" />
+    <ClCompile Include="..\..\source\video\linux\vlXlib.cpp" />
+    <ClCompile Include="..\..\source\video\win32\vwMessage.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\base\base.h" />
+    <ClInclude Include="..\..\include\base\Date.h" />
+    <ClInclude Include="..\..\include\base\Entry.h" />
+    <ClInclude Include="..\..\include\base\Exception.h" />
+    <ClInclude Include="..\..\include\base\FormatMacro.h" />
+    <ClInclude Include="..\..\include\base\Kin.h" />
+    <ClInclude Include="..\..\include\base\Log.h" />
+    <ClInclude Include="..\..\include\base\LogFile.h" />
+    <ClInclude Include="..\..\include\base\Random.h" />
+    <ClInclude Include="..\..\include\base\Setup.h" />
+    <ClInclude Include="..\..\include\base\String.h" />
+    <ClInclude Include="..\..\include\base\Timer.h" />
+    <ClInclude Include="..\..\include\data\BinStream.h" />
+    <ClInclude Include="..\..\include\data\Bitmap.h" />
+    <ClInclude Include="..\..\include\data\data.h" />
+    <ClInclude Include="..\..\include\data\Database.h" />
+    <ClInclude Include="..\..\include\data\File.h" />
+    <ClInclude Include="..\..\include\data\Font.h" />
+    <ClInclude Include="..\..\include\data\JSON.h" />
+    <ClInclude Include="..\..\include\data\XML.h" />
+    <ClInclude Include="..\..\include\math\custom\origin.h" />
+    <ClInclude Include="..\..\include\math\math.h" />
+    <ClInclude Include="..\..\include\math\origin.h" />
+    <ClInclude Include="..\..\include\video\linux\Xlib.h" />
+    <ClInclude Include="..\..\include\video\Message.h" />
+    <ClInclude Include="..\..\include\video\video.h" />
+    <ClInclude Include="..\..\include\video\win32\Windows.h" />
+    <ClInclude Include="..\..\include\video\Window.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

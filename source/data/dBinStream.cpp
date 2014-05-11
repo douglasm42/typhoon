@@ -1,12 +1,16 @@
-/*
- * dbinstream.cpp
- *
- *  Created on: 19/12/2012
- *      Author: Douglas M. Freitas
+/* 
+ * - Cumulonimbus - ☁
+ * File: dBinStream.cpp
  * 
- *   Copyright: Staff 42 © 2013
+ * Licence:
+ * ============================================================================
+ * Copyright (C) Staff 42 Entertainment LTDA ME - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * 
+ * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
+ * ============================================================================
  */
-
 #include <data/BinStream.h>
 
 #define SingleOut(value) _stream.write((char *)&value, sizeof(value))

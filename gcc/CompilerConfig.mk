@@ -3,8 +3,8 @@ CFLAGS := -Wall -fPIC -Wno-unused-local-typedefs -Wno-unused-variable -Wno-point
 CPPFLAGS := -std=c++11 -Wall -fPIC -Wno-unused-local-typedefs -Wno-unused-variable -Wno-pointer-arith
 LDFLAGS := -Wl,-rpath,. -Wl,-rpath,./lib -Wl,-rpath-link,.
 
-CDEFS := -DCUMULONIMBUS_EXPORTS -DGLEW_STATIC -D_CRT_SECURE_NO_WARNINGS
-CPPDEFS := -DCUMULONIMBUS_EXPORTS -DGLEW_STATIC -D_CRT_SECURE_NO_WARNINGS
+CDEFS := -DCUMULONIMBUS_EXPORTS -DGLEW_STATIC -DGLEW_MX -D_CRT_SECURE_NO_WARNINGS
+CPPDEFS := -DCUMULONIMBUS_EXPORTS -DGLEW_STATIC -DGLEW_MX -D_CRT_SECURE_NO_WARNINGS
 
 INCLUDE_DIR := -I./include -I$(TYPHOON_ROOT)/dependencies/gcc/include -I$(TYPHOON_ROOT)/dependencies/gcc/include/freetype2
 LIBS_DIR := -L$(TYPHOON_ROOT)/dependencies/gcc/lib

@@ -1,6 +1,6 @@
 /* 
  * - Cumulonimbus - ☁
- * File: Random.h
+ * File: main.cpp
  * 
  * Licence:
  * ============================================================================
@@ -11,30 +11,20 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#pragma once
+#include <base/Log.h>
+#include <base/Exception.h>
 
-#include <base/Setup.h>
-#ifdef CbWindows
+#include <base/Entry.h>
 
-#ifdef _WIN32
-	#ifdef __MINGW32__
-		#ifndef WINVER
-			#define WINVER 0x0502
-		#endif
-		#include <Windows.h>
-		#include <windowsx.h>
+using namespace cb;
 
-		#ifndef MAPVK_VK_TO_VSC_EX
-			#define MAPVK_VK_TO_VSC_EX 4
-		#endif
+int cbEntry(int argc, char **argv) {
+	//base::log.init("log.base.txt", "test.base", true, true, true);
 
-		#ifndef MAPVK_VSC_TO_VK_EX
-			#define MAPVK_VSC_TO_VK_EX 3
-		#endif
-	#else
-		#include <Windows.h>
-		#include <windowsx.h>
-	#endif
-#endif
+	base::log.info("Testing module: base");
+	base::log.error("Error test!");
+	base::log.warning("Warning test!");
+	base::log.info("Info test!");
 
-#endif
+	return EXIT_SUCCESS;
+}

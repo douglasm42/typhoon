@@ -1,10 +1,16 @@
-/*
- * dJSON.cpp
- *
- *  Created on: Apr 3, 2014
- *      Author: douglas
+/* 
+ * - Cumulonimbus - ☁
+ * File: dJSON.cpp
+ * 
+ * Licence:
+ * ============================================================================
+ * Copyright (C) Staff 42 Entertainment LTDA ME - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * 
+ * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
+ * ============================================================================
  */
-
 #include <data/JSON.h>
 
 #include <base/Log.h>
@@ -241,7 +247,7 @@ namespace cb {
 				int peek(bool ijumpspaces = true);
 				void checkEOF() {
 					if(_file.eof()) {
-						ThrowDet(tokurei::LoadFailed, "JSON : Unexpected end of file in: %d.%d", _line, _column);
+						ThrowDet(tokurei::LoadFailed, "JSON : Unexpected end of file : %d.%d", _line, _column);
 					}
 				}
 
@@ -318,7 +324,7 @@ namespace cb {
 					parseNull(ovalue.nil());
 
 				} else {
-					ThrowDet(tokurei::LoadFailed, "JSON : Invalid value, unexpected character in: %d.%d", _line, _column);
+					ThrowDet(tokurei::LoadFailed, "JSON : Invalid value, unexpected character : %d.%d", _line, _column);
 				}
 			}
 
@@ -337,17 +343,17 @@ namespace cb {
 						if(c == ':') {
 							parseValue(oobject[key]);
 						} else {
-							ThrowDet(tokurei::LoadFailed, "JSON : Invalid object, unexpected character in: %d.%d (Expected ':')", _line, _column);
+							ThrowDet(tokurei::LoadFailed, "JSON : Invalid object, unexpected character : %d.%d : (Expected ':')", _line, _column);
 						}
 
 						c = get();
 						checkEOF();
 					} while(c == ',');
 					if(c != '}') {
-						ThrowDet(tokurei::LoadFailed, "JSON : Invalid object, unexpected character in: %d.%d (Expected '}')", _line, _column);
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid object, unexpected character : %d.%d : (Expected '}')", _line, _column);
 					}
 				} else {
-					ThrowDet(tokurei::LoadFailed, "JSON : Invalid object, unexpected character in: %d.%d (Expected '{')", _line, _column);
+					ThrowDet(tokurei::LoadFailed, "JSON : Invalid object, unexpected character : %d.%d : (Expected '{')", _line, _column);
 				}
 			}
 
@@ -366,10 +372,10 @@ namespace cb {
 					} while(c == ',');
 
 					if(c != ']') {
-						ThrowDet(tokurei::LoadFailed, "JSON : Invalid array, unexpected character in: %d.%d (Expected ']')", _line, _column);
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid array, unexpected character : %d.%d : (Expected ']')", _line, _column);
 					}
 				} else {
-					ThrowDet(tokurei::LoadFailed, "JSON : Invalid array, unexpected character in: %d.%d (Expected '[')", _line, _column);
+					ThrowDet(tokurei::LoadFailed, "JSON : Invalid array, unexpected character : %d.%d : (Expected '[')", _line, _column);
 				}
 			}
 
@@ -384,7 +390,7 @@ namespace cb {
 
 					while(c != '\"') {
 						if(c == '\n' || c == '\r') {
-							ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character in: %d.%d (Expected '\"')", _line, _column);
+							ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character : %d.%d : (Expected '\"')", _line, _column);
 						} else if(c == '\\') {
 							c = get(false);
 							checkEOF();
@@ -409,22 +415,22 @@ namespace cb {
 								cv[0] = get(false);
 								checkEOF();
 								if(!isxdigit(cv[0])) {
-									ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character in: %d.%d (Expected 'hex digit')", _line, _column);
+									ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character : %d.%d : (Expected 'hex digit')", _line, _column);
 								}
 								cv[1] = get(false);
 								checkEOF();
 								if(!isxdigit(cv[1])) {
-									ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character in: %d.%d (Expected 'hex digit')", _line, _column);
+									ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character : %d.%d : (Expected 'hex digit')", _line, _column);
 								}
 								cv[2] = get(false);
 								checkEOF();
 								if(!isxdigit(cv[2])) {
-									ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character in: %d.%d (Expected 'hex digit')", _line, _column);
+									ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character : %d.%d : (Expected 'hex digit')", _line, _column);
 								}
 								cv[3] = get(false);
 								checkEOF();
 								if(!isxdigit(cv[3])) {
-									ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character in: %d.%d (Expected 'hex digit')", _line, _column);
+									ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character : %d.%d : (Expected 'hex digit')", _line, _column);
 								}
 
 								base::lstring lstr;
@@ -433,7 +439,7 @@ namespace cb {
 								ostring += base::utf8(lstr);
 
 							} else {
-								ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character in: %d.%d (Expected '\"', '\\', '/', 'b', 'f', 'n', 'r', 't' or 'u')", _line, _column);
+								ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character : %d.%d : (Expected '\"', '\\', '/', 'b', 'f', 'n', 'r', 't' or 'u')", _line, _column);
 							}
 
 						} else {
@@ -445,10 +451,10 @@ namespace cb {
 					}
 
 					if(c != '\"') {
-						ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character in: %d.%d (Expected '\"')", _line, _column);
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character : %d.%d : (Expected '\"')", _line, _column);
 					}
 				} else {
-					ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character in: %d.%d (Expected '\"')", _line, _column);
+					ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character : %d.%d : (Expected '\"')", _line, _column);
 				}
 			}
 
@@ -458,7 +464,7 @@ namespace cb {
 				c = (get());
 				checkEOF();
 				if(c!='-' && c!='+' && !isdigit(c)) {
-					ThrowDet(tokurei::LoadFailed, "JSON : Invalid number, unexpected character in: %d.%d (Expected '-', '+' or a digit)", _line, _column);
+					ThrowDet(tokurei::LoadFailed, "JSON : Invalid number, unexpected character : %d.%d : (Expected '-', '+' or a digit)", _line, _column);
 				}
 				strnum.push_back(c);
 
@@ -475,9 +481,9 @@ namespace cb {
 				try {
 					onumber = std::stold(strnum);
 				} catch (std::out_of_range &e) {
-					ThrowDet(tokurei::LoadFailed, "JSON : Invalid number, too many digits in: %d.%d", _line, _column);
+					ThrowDet(tokurei::LoadFailed, "JSON : Invalid number, too many digits : %d.%d : Error: %s", _line, _column, e.what());
 				} catch (std::invalid_argument &e) {
-					ThrowDet(tokurei::LoadFailed, "JSON : Invalid number in: %d.%d Error: %s", _line, _column, e.what());
+					ThrowDet(tokurei::LoadFailed, "JSON : Invalid number : %d.%d : Error: %s", _line, _column, e.what());
 				}
 			}
 
@@ -489,43 +495,43 @@ namespace cb {
 					c = (get(false));
 					checkEOF();
 					if(c != 'a') {
-						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character in: %d.%d (Expected 'a')", _line, _column);
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character : %d.%d : (Expected 'a')", _line, _column);
 					}
 					c = (get(false));
 					checkEOF();
 					if(c != 'l') {
-						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character in: %d.%d (Expected 'l')", _line, _column);
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character : %d.%d : (Expected 'l')", _line, _column);
 					}
 					c = (get(false));
 					checkEOF();
 					if(c != 's') {
-						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character in: %d.%d (Expected 's')", _line, _column);
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character : %d.%d : (Expected 's')", _line, _column);
 					}
 					c = (get(false));
 					checkEOF();
 					if(c != 'e') {
-						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character in: %d.%d (Expected 'e')", _line, _column);
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character : %d.%d : (Expected 'e')", _line, _column);
 					}
 					oboolean = false;
 				} else if(c == 't') {
 					c = (get(false));
 					checkEOF();
 					if(c != 'r') {
-						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character in: %d.%d (Expected 'r')", _line, _column);
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character : %d.%d : (Expected 'r')", _line, _column);
 					}
 					c = (get(false));
 					checkEOF();
 					if(c != 'u') {
-						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character in: %d.%d (Expected 'u')", _line, _column);
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character : %d.%d : (Expected 'u')", _line, _column);
 					}
 					c = (get(false));
 					checkEOF();
 					if(c != 'e') {
-						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character in: %d.%d (Expected 'e')", _line, _column);
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character : %d.%d : (Expected 'e')", _line, _column);
 					}
 					oboolean = true;
 				} else {
-					ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character in: %d.%d (Expected 't' or 'f')", _line, _column);
+					ThrowDet(tokurei::LoadFailed, "JSON : Invalid boolean, unexpected character : %d.%d : (Expected 't' or 'f')", _line, _column);
 				}
 			}
 
@@ -537,20 +543,20 @@ namespace cb {
 					c = (get(false));
 					checkEOF();
 					if(c != 'u') {
-						ThrowDet(tokurei::LoadFailed, "JSON : Invalid null, unexpected character in: %d.%d (Expected 'u')", _line, _column);
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid null, unexpected character : %d.%d : (Expected 'u')", _line, _column);
 					}
 					c = (get(false));
 					checkEOF();
 					if(c != 'l') {
-						ThrowDet(tokurei::LoadFailed, "JSON : Invalid null, unexpected character in: %d.%d (Expected 'l')", _line, _column);
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid null, unexpected character : %d.%d : (Expected 'l')", _line, _column);
 					}
 					c = (get(false));
 					checkEOF();
 					if(c != 'l') {
-						ThrowDet(tokurei::LoadFailed, "JSON : Invalid null, unexpected character in: %d.%d (Expected 'l')", _line, _column);
+						ThrowDet(tokurei::LoadFailed, "JSON : Invalid null, unexpected character : %d.%d : (Expected 'l')", _line, _column);
 					}
 				} else {
-					ThrowDet(tokurei::LoadFailed, "JSON : Invalid null, unexpected character in: %d.%d (Expected 'n')", _line, _column);
+					ThrowDet(tokurei::LoadFailed, "JSON : Invalid null, unexpected character : %d.%d : (Expected 'n')", _line, _column);
 				}
 			}
 		}  // namespace json
