@@ -62,8 +62,9 @@ int cbEntry(int argc, char **argv) {
 
 	data::iFile curfile("cursor.png");
 	if(curfile.isOpen()) {
-		data::ubBitmapRGB curimg(curfile);
-		win.cursor(curimg, math::u8vec3(255,0,255));
+		data::ubBitmapRGBA curimg(curfile);
+		win.cursor().add("cursor", curimg, 0, 0);
+		win.cursor().select("cursor");
 	} else {
 		base::log.nothing("Não abriu!");
 	}

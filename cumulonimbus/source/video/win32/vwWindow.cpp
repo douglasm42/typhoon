@@ -202,61 +202,6 @@ namespace cb {
 		bool Window::active() {
 			return GetActiveWindow() == &_window_info;
 		}
-
-		void Window::cursor(data::ubBitmapRGB &ibmp, math::u8vec3 itransparent) {
-			HDC hDC        = GetDC(NULL);
-			HDC hAndMaskDC = CreateCompatibleDC(hDC);
-			HDC hXorMaskDC = CreateCompatibleDC(hDC);
- 
-			HBITMAP hAndMaskBitmap = CreateCompatibleBitmap(hDC, ibmp.width(), ibmp.height());
-			HBITMAP hXorMaskBitmap = CreateCompatibleBitmap(hDC, ibmp.width(), ibmp.height());
- 
-			//Select the bitmaps to DC
-			HBITMAP hOldAndMaskBitmap = (HBITMAP)SelectObject(hAndMaskDC,hAndMaskBitmap);
-			HBITMAP hOldXorMaskBitmap = (HBITMAP)SelectObject(hXorMaskDC,hXorMaskBitmap);
- 
-			//Scan each pixel of the souce bitmap and create the masks
-			COLORREF MainBitPixel;
-			for(int x=0;x<ibmp.width();++x) {
-				for(int y=0;y<ibmp.height();++y) {
-					math::u8vec3 color = ibmp(x,y).vec();
-					if(color == itransparent) {
-						::SetPixel(hAndMaskDC,x,y,RGB(255,255,255));
-						::SetPixel(hXorMaskDC,x,y,RGB(0,0,0));
-					} else {
-						::SetPixel(hAndMaskDC,x,y,RGB(0,0,0));
-						::SetPixel(hXorMaskDC,x,y,RGB(color.r, color.g, color.b));
-					}
-				}
-			}
- 
-			SelectObject(hAndMaskDC,hOldAndMaskBitmap);
-			SelectObject(hXorMaskDC,hOldXorMaskBitmap);
- 
-			DeleteDC(hXorMaskDC);
-			DeleteDC(hAndMaskDC);
-
-			ReleaseDC(NULL,hDC);
-
-			ICONINFO iconinfo = {0};
-			iconinfo.fIcon		= FALSE;
-			iconinfo.xHotspot	= 0;
-			iconinfo.yHotspot	= 0;
-			iconinfo.hbmMask	= hAndMaskBitmap;
-			iconinfo.hbmColor	= hXorMaskBitmap;
-
-			HCURSOR cur = CreateIconIndirect(&iconinfo);
-			if(cur) {
-				base::log.nothing("Yep!");
-				SetCursor(cur);
-				SetClassLong(&_window_info, GCL_HCURSOR, (LONG) cur);
-			} else {
-				base::log.nothing("Nop!");
-			}
-		}
-
-		void cursor(bool ishow) {
-		}
 	}  // namespace video
 }  // namespace cb
 

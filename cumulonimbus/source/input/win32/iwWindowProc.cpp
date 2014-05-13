@@ -686,6 +686,12 @@ namespace cb {
 				case WM_NCDESTROY:
 					base::log.nothing("w32WindowProc() : Mensagem recebida: WM_NCDESTROY. Janela destruida.");
 					return 0;
+
+				case WM_SETCURSOR:
+					if(LOWORD(ilparam) == HTCLIENT) {
+						window->cursor().set();
+						return TRUE;
+					}
 				}
 			} else {
 				switch(imessage) {

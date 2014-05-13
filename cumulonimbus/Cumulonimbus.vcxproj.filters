@@ -43,6 +43,7 @@
     <ClCompile Include="source\input\win32\iwWindowProc.cpp" />
     <ClCompile Include="source\video\win32\vwGLContext.cpp" />
     <ClCompile Include="source\video\win32\vwGLEWmx.cpp" />
+    <ClCompile Include="source\video\win32\vwCursor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\base\base.h" />
@@ -82,5 +83,6 @@
     <ClInclude Include="include\input\win32\WindowProc.h" />
     <ClInclude Include="include\video\GLContext.h" />
     <ClInclude Include="include\video\win32\GLEWmx.h" />
+    <ClInclude Include="include\video\Cursor.h" />
   </ItemGroup>
 </Project>

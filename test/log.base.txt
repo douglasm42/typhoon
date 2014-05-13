@@ -1,39 +1,34 @@
 --------------------------------------------------------------------------------
--- 12/05/2014 23:58:39 - Log: test.base ----------------------------------------
+-- 13/05/2014 12:58:52 - Log: test.base ----------------------------------------
 --------------------------------------------------------------------------------
 
-23:58:39 - Nothing: Criando janela!
-23:58:39 - Nothing: w32WindowProc() : Mensagem recebida: WM_GETMINMAXINFO.
-23:58:39 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCREATE.
-23:58:39 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE.
-23:58:39 - Nothing: w32WindowProc() : Mensagem recebida: WM_CREATE.
-23:58:39 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela ativada.
-23:58:39 - Nothing: Criando contexto opengl!
-23:58:40 - Nothing: OpenGLContext::OpenGLContext() : OpenGL 3.3 e GLSL 3.30 escolhidos.
-23:58:40 - Nothing: OpenGLContext::OpenGLContext() : Contexto OpenGL criado: OpenGL 3.3 - GLSL 3.30
-23:58:40 - Nothing: Ligando os dois!
-23:58:40 - Nothing: Ligando os dois!
-23:58:40 - Nothing: Mostrando janela!
-23:58:40 - Nothing: canais: 3 -> 3
-23:58:40 - Nothing: canais: 3 -> 3
-23:58:40 - Nothing: canais: 4 -> 3
-23:58:40 - Nothing: Yep!
-23:58:40 - Nothing: Iniciando loop!
-23:59:03 - Nothing: Key press: Escape
-23:59:03 - Nothing: Key release: Escape
-23:59:04 - Nothing: Key press: Escape
-23:59:04 - Nothing: Key release: Escape
-23:59:06 - Nothing: w32WindowProc() : Mensagem recebida: WM_CLOSE. Janela fechada.
-23:59:06 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 144.
-23:59:06 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 70.
-23:59:06 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 71.
-23:59:06 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 134.
-23:59:06 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 6.
-23:59:06 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 28.
-23:59:06 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 8.
-23:59:06 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 641.
-23:59:06 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 642.
-23:59:06 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 2.
-23:59:06 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 130.
+12:58:52 - Nothing: Criando janela!
+12:58:52 - Nothing: w32WindowProc() : Mensagem recebida: WM_GETMINMAXINFO.
+12:58:52 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCREATE.
+12:58:52 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE.
+12:58:52 - Nothing: w32WindowProc() : Mensagem recebida: WM_CREATE.
+12:58:52 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela ativada.
+12:58:52 - Nothing: Criando contexto opengl!
+12:58:53 - Nothing: OpenGLContext::OpenGLContext() : OpenGL 4.3 e GLSL 4.30 escolhidos.
+12:58:53 - Nothing: OpenGLContext::OpenGLContext() : Contexto OpenGL criado: OpenGL 4.3 - GLSL 4.30
+12:58:53 - Nothing: Ligando os dois!
+12:58:53 - Nothing: Ligando os dois!
+12:58:53 - Nothing: Mostrando janela!
+12:58:53 - Nothing: canais: 4 -> 4
+12:58:53 - Nothing: canais: 4 -> 4
+12:58:53 - Nothing: canais: 4 -> 4
+12:58:53 - Nothing: Iniciando loop!
+12:59:03 - Nothing: w32WindowProc() : Mensagem recebida: WM_CLOSE. Janela fechada.
+12:59:03 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 144.
+12:59:03 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 70.
+12:59:03 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 71.
+12:59:03 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 134.
+12:59:03 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 6.
+12:59:03 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 28.
+12:59:03 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 8.
+12:59:03 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 641.
+12:59:03 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 642.
+12:59:03 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 2.
+12:59:03 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 130.
 
 --------------------------------------------------------------------------------

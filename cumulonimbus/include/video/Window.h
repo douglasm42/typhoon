@@ -20,6 +20,7 @@
 #include <data/Bitmap.h>
 
 #include <video/Display.h>
+#include <video/Cursor.h>
 
 #include <input/EventHub.h>
 
@@ -94,6 +95,7 @@ namespace cb {
 		private:
 			kin::WindowInfo _window_info;
 			input::EventHub _event_hub;
+			Cursor _cursor;
 
 		public:
 			Window() {}
@@ -123,8 +125,7 @@ namespace cb {
 			bool active();
 			bool empty() {return _window_info.empty();}
 
-			void cursor(data::ubBitmapRGB &ibmp, math::u8vec3 itransparent);
-			void cursor(bool ishow);
+			Cursor &cursor() {return _cursor;}
 
 			kin::WindowInfo &info() {return _window_info;}
 
