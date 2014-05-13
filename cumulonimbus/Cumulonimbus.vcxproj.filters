@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="dependencies">
+      <UniqueIdentifier>{57d63d38-9f2b-492a-ad35-18a5c80d61e7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\base\bDate.cpp" />
+    <ClCompile Include="source\base\bLog.cpp" />
+    <ClCompile Include="source\base\bLogFile.cpp" />
+    <ClCompile Include="source\base\bRandom.cpp" />
+    <ClCompile Include="source\base\bString.cpp" />
+    <ClCompile Include="source\data\dBinStream.cpp" />
+    <ClCompile Include="source\data\dBitmap.cpp" />
+    <ClCompile Include="source\data\dDatabase.cpp" />
+    <ClCompile Include="source\data\dDatabaseColumn.cpp" />
+    <ClCompile Include="source\data\dDatabaseQuerry.cpp" />
+    <ClCompile Include="source\data\dFile.cpp" />
+    <ClCompile Include="source\data\dFont.cpp" />
+    <ClCompile Include="source\data\dJSON.cpp" />
+    <ClCompile Include="source\data\dMFile.cpp" />
+    <ClCompile Include="source\data\dXML.cpp" />
+    <ClCompile Include="source\video\linux\vlMessage.cpp" />
+    <ClCompile Include="source\video\linux\vlWindow.cpp" />
+    <ClCompile Include="source\video\linux\vlXlib.cpp" />
+    <ClCompile Include="source\video\win32\vwDisplay.cpp" />
+    <ClCompile Include="source\video\win32\vwMessage.cpp" />
+    <ClCompile Include="source\video\win32\vwWindow.cpp" />
+    <ClCompile Include="source\video\win32\vwWindowPlacement.cpp" />
+    <ClCompile Include="source\video\win32\vwWindows.cpp" />
+    <ClCompile Include="..\..\dependencies\msvc\source\glew.c">
+      <Filter>dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dependencies\msvc\source\sqlite3.c">
+      <Filter>dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="source\input\iKeyCode.cpp" />
+    <ClCompile Include="source\input\iEventListener.cpp" />
+    <ClCompile Include="source\input\iEventHub.cpp" />
+    <ClCompile Include="source\input\win32\iwEventLoop.cpp" />
+    <ClCompile Include="source\input\iEventLoop.cpp" />
+    <ClCompile Include="source\input\win32\iwWindowProc.cpp" />
+    <ClCompile Include="source\video\win32\vwGLContext.cpp" />
+    <ClCompile Include="source\video\win32\vwGLEWmx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\base\base.h" />
+    <ClInclude Include="include\base\Date.h" />
+    <ClInclude Include="include\base\Entry.h" />
+    <ClInclude Include="include\base\Exception.h" />
+    <ClInclude Include="include\base\FormatMacro.h" />
+    <ClInclude Include="include\base\Kin.h" />
+    <ClInclude Include="include\base\Log.h" />
+    <ClInclude Include="include\base\LogFile.h" />
+    <ClInclude Include="include\base\Random.h" />
+    <ClInclude Include="include\base\Setup.h" />
+    <ClInclude Include="include\base\String.h" />
+    <ClInclude Include="include\base\Timer.h" />
+    <ClInclude Include="include\data\BinStream.h" />
+    <ClInclude Include="include\data\Bitmap.h" />
+    <ClInclude Include="include\data\data.h" />
+    <ClInclude Include="include\data\Database.h" />
+    <ClInclude Include="include\data\File.h" />
+    <ClInclude Include="include\data\Font.h" />
+    <ClInclude Include="include\data\JSON.h" />
+    <ClInclude Include="include\data\XML.h" />
+    <ClInclude Include="include\input\input.h" />
+    <ClInclude Include="include\math\custom\origin.h" />
+    <ClInclude Include="include\math\math.h" />
+    <ClInclude Include="include\math\origin.h" />
+    <ClInclude Include="include\video\linux\Xlib.h" />
+    <ClInclude Include="include\video\win32\Windows.h" />
+    <ClInclude Include="include\video\Display.h" />
+    <ClInclude Include="include\video\Message.h" />
+    <ClInclude Include="include\video\video.h" />
+    <ClInclude Include="include\video\Window.h" />
+    <ClInclude Include="include\input\KeyCode.h" />
+    <ClInclude Include="include\input\EventHub.h" />
+    <ClInclude Include="include\input\EventListener.h" />
+    <ClInclude Include="include\input\EventLoop.h" />
+    <ClInclude Include="include\input\win32\WindowProc.h" />
+    <ClInclude Include="include\video\GLContext.h" />
+    <ClInclude Include="include\video\win32\GLEWmx.h" />
+  </ItemGroup>
+</Project>
