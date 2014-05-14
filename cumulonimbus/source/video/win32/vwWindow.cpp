@@ -19,12 +19,29 @@
 #include <base/Log.h>
 
 #include <video/win32/Windows.h>
+#include <video/win32/WindowInfo.h>
 
 #include <input/EventLoop.h>
 
 namespace cb {
 	namespace video {
-		KinKey(WindowInfo, HWND__);
+		KinKey(WindowInfo, w32WindowInfo);
+
+		Window::Window() {
+			_window_info << new w32WindowInfo;
+		}
+		Window::Window(base::wstring ititle, win::Placement iplacement) {
+			_window_info << new w32WindowInfo;
+			create(ititle, iplacement);
+		}
+		Window::Window(base::wstring ititle, size_t ix, size_t iy, size_t iwidth, size_t iheight, bool imaximized, bool iminimized, bool iborder) {
+			_window_info << new w32WindowInfo;
+			create(ititle, win::Placement(ix, iy, iwidth, iheight, imaximized, iminimized, iborder));
+		}
+		Window::~Window() {
+			delete [] (*_window_info).window;
+			destroy();
+		}
 
 		void Window::create(base::wstring ititle, win::Placement iplacement) {
 			if(!empty()) {
@@ -44,7 +61,7 @@ namespace cb {
 
 			AdjustWindowRectEx(&window_rectangle, style, FALSE, style_ex);
 
-			_window_info << CreateWindowEx(
+			(*_window_info).window = CreateWindowEx(
 				style_ex,
 				w32WindowClass::name(),
 				ititle.c_str(),
@@ -55,35 +72,41 @@ namespace cb {
 				NULL, NULL, GetModuleHandleW(NULL), NULL
 			);
 
-			if(_window_info.empty()) {
+			if(!(*_window_info).window) {
 				Throw(tokurei::CreateError);
 			}
 
-			SetWindowLongPtr(&_window_info, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+			SetWindowLongPtr((*_window_info).window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 
 			placement(iplacement);
 
+			(*_window_info).dimouse = new input::DIMouse((*_window_info).window, &_event_hub);
+
 			_event_hub.onCreate();
+
+			input::EventLoop::bind(this);
 		}
 
 		void Window::destroy() {
 			if(!empty()) {
+				input::EventLoop::unbind(this);
+				delete (*_window_info).dimouse;
 				_event_hub.onDestroy();
 
-				SetWindowLongPtr(&_window_info, GWLP_USERDATA, LONG(NULL));
+				SetWindowLongPtr((*_window_info).window, GWLP_USERDATA, LONG(NULL));
 
-				if(!DestroyWindow(&_window_info)) {
+				if(!DestroyWindow((*_window_info).window)) {
 					Throw(tokurei::DeleteError);
 				}
 			
 				w32WindowClass::unreg();
 
-				_window_info << nullptr;
+				(*_window_info).window = nullptr;
 			}
 		}
 
 		void Window::title(base::wstring ititle) {
-			SetWindowText(&_window_info, ititle.c_str());
+			SetWindowText((*_window_info).window, ititle.c_str());
 		}
 
 		void Window::placement(win::Placement iplacement) {
@@ -117,14 +140,14 @@ namespace cb {
 			if(border() != iplacement.border()) {
 				border(iplacement.border());
 			}
-			SetWindowPlacement(&_window_info, &wplacement);
+			SetWindowPlacement((*_window_info).window, &wplacement);
 		}
 
 		win::Placement Window::placement() {
 			WINDOWPLACEMENT wplacement;
 			wplacement.length = sizeof(WINDOWPLACEMENT);
 
-			GetWindowPlacement(&_window_info, &wplacement);
+			GetWindowPlacement((*_window_info).window, &wplacement);
 
 			win::Placement oplacement;
 
@@ -149,11 +172,11 @@ namespace cb {
 		}
 
 		void Window::resize(size_t iwidth, size_t iheight) {
-			SetWindowPos(&_window_info, 0, 0, 0, iwidth, iheight, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+			SetWindowPos((*_window_info).window, 0, 0, 0, iwidth, iheight, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
 		}
 
 		void Window::move(size_t ix, size_t iy) {
-			SetWindowPos(&_window_info, 0, ix, iy, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
+			SetWindowPos((*_window_info).window, 0, ix, iy, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
 		}
 
 		void Window::border(bool iborder) {
@@ -172,8 +195,8 @@ namespace cb {
 					style = WS_POPUP;
 				}
 
-				SetWindowLong(&_window_info, GWL_STYLE, style);
-				SetWindowLong(&_window_info, GWL_EXSTYLE, style_ex);
+				SetWindowLong((*_window_info).window, GWL_STYLE, style);
+				SetWindowLong((*_window_info).window, GWL_EXSTYLE, style_ex);
 
 				placement(p);
 			}
@@ -182,7 +205,7 @@ namespace cb {
 		bool Window::border() {
 			DWORD style = 0;
 
-			style = GetWindowLong(&_window_info, GWL_STYLE);
+			style = GetWindowLong((*_window_info).window, GWL_STYLE);
 
 			if((style & WS_POPUP) != 0) {
 				return false;
@@ -192,15 +215,19 @@ namespace cb {
 		}
 
 		void Window::show() {
-			ShowWindow(&_window_info, SW_SHOW);
+			ShowWindow((*_window_info).window, SW_SHOW);
 		}
 
 		void Window::hide() {
-			ShowWindow(&_window_info, SW_HIDE);
+			ShowWindow((*_window_info).window, SW_HIDE);
 		}
 
 		bool Window::active() {
-			return GetActiveWindow() == &_window_info;
+			return GetActiveWindow() == (*_window_info).window;
+		}
+
+		bool Window::empty() {
+			return !(*_window_info).window;
 		}
 	}  // namespace video
 }  // namespace cb

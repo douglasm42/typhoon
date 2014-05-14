@@ -1,6 +1,6 @@
 /* 
  * - Cumulonimbus - ☁
- * File: EventLoop.h
+ * File: WindowInfo.h
  * 
  * Licence:
  * ============================================================================
@@ -13,25 +13,24 @@
  */
 #pragma once
 
-#include <input/input.h>
+#include <base/Setup.h>
+#ifdef CbWindows
 
 #include <video/video.h>
-#include <list>
+
+#include <video/win32/Windows.h>
+#include <input/win32/DIMouse.h>
 
 namespace cb {
-	namespace input {
-		class CbAPI EventLoop {
-		private:
-			static std::list<video::Window *> _window_list;
-
-			static void bind(video::Window *iwindow);
-			static void unbind(video::Window *iwindow);
-
+	namespace video {
+		class CbAPI w32WindowInfo {
 		public:
-			static void postQuit();
-			static bool update();
+			HWND window;
+			input::DIMouse *dimouse;
 
-			friend class CbAPI cb::video::Window;
+			w32WindowInfo() :window(nullptr), dimouse(nullptr) {}
 		};
 	}  // namespace video
 }  // namespace cb
+
+#endif

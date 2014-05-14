@@ -29,6 +29,12 @@ namespace cb {
 			}
 		}
 
+		MouseListener::~MouseListener() {
+			if(_event_hub) {
+				_event_hub->unbind(this);
+			}
+		}
+
 		WindowListener::~WindowListener() {
 			if(_event_hub) {
 				_event_hub->unbind(this);

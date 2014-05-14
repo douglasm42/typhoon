@@ -116,8 +116,8 @@ namespace cb {
 
 			ICONINFO ii;
 			ii.fIcon = FALSE;  // Change fIcon to TRUE to create an alpha icon
-			ii.xHotspot = 0;
-			ii.yHotspot = 0;
+			ii.xHotspot = ixhotspot;
+			ii.yHotspot = iyhotspot;
 			ii.hbmMask = hMonoBitmap;
 			ii.hbmColor = hBitmap;
 
@@ -218,7 +218,7 @@ namespace cb {
 					SetCursor(&_active);
 				}
 			} else {
-				Throw(tokurei::SetFailed);
+				ThrowDet(tokurei::SetFailed, "Key: %s", ikey.c_str());
 			}
 		}
 

@@ -21,6 +21,7 @@
 
 #include <video/win32/Windows.h>
 #include <video/win32/GLEWmx.h>
+#include <video/win32/WindowInfo.h>
 
 namespace cb {
 	namespace video {
@@ -32,7 +33,7 @@ namespace cb {
 			WGLEWContext _wglew_context;
 		};
 
-		KinKey(WindowInfo, HWND__);
+		KinKey(WindowInfo, w32WindowInfo);
 		KinKey(GLContextInfo, w32GLContextInfo);
 
 		GLContext::GLContext(Window &iwindow, gl::Version iversion) {
@@ -41,7 +42,7 @@ namespace cb {
 			_window = &iwindow;
 
 			//Inicializa o device context para a criação do contexto do OpenGL.
-			(*_context_info)._device_context = GetDC(&_window->info());
+			(*_context_info)._device_context = GetDC((*_window->info()).window);
 
 			//Cria uma descrição de formato de pixel para a criação do contexto do OpenGL.
 			PIXELFORMATDESCRIPTOR pixel_format;
@@ -165,13 +166,13 @@ namespace cb {
 			}
 
 			_window = &iwindow;
-			(*_context_info)._device_context = GetDC(&_window->info());
+			(*_context_info)._device_context = GetDC((*_window->info()).window);
 			wglMakeCurrent((*_context_info)._device_context, (*_context_info)._opengl_context);
 		}
 
 		void GLContext::bind() {
 			if(_window) {
-				(*_context_info)._device_context = GetDC(&_window->info());
+				(*_context_info)._device_context = GetDC((*_window->info()).window);
 				wglMakeCurrent((*_context_info)._device_context, (*_context_info)._opengl_context);
 			}
 		}
@@ -179,7 +180,7 @@ namespace cb {
 		void GLContext::unbind() {
 			if(_window) {
 				wglMakeCurrent(NULL, NULL);
-				ReleaseDC(&_window->info(), (*_context_info)._device_context);
+				ReleaseDC((*_window->info()).window, (*_context_info)._device_context);
 				(*_context_info)._device_context = nullptr;
 			}
 		}

@@ -29,12 +29,6 @@
     <ClCompile Include="source\video\win32\vwWindow.cpp" />
     <ClCompile Include="source\video\win32\vwWindowPlacement.cpp" />
     <ClCompile Include="source\video\win32\vwWindows.cpp" />
-    <ClCompile Include="..\..\dependencies\msvc\source\glew.c">
-      <Filter>dependencies</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dependencies\msvc\source\sqlite3.c">
-      <Filter>dependencies</Filter>
-    </ClCompile>
     <ClCompile Include="source\input\iKeyCode.cpp" />
     <ClCompile Include="source\input\iEventListener.cpp" />
     <ClCompile Include="source\input\iEventHub.cpp" />
@@ -44,6 +38,10 @@
     <ClCompile Include="source\video\win32\vwGLContext.cpp" />
     <ClCompile Include="source\video\win32\vwGLEWmx.cpp" />
     <ClCompile Include="source\video\win32\vwCursor.cpp" />
+    <ClCompile Include="source\input\win32\iwDIDevice.cpp" />
+    <ClCompile Include="source\input\win32\iwDIMouse.cpp" />
+    <ClCompile Include="..\..\dependencies\msvc\source\glew.c" />
+    <ClCompile Include="..\..\dependencies\msvc\source\sqlite3.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\base\base.h" />
@@ -84,5 +82,8 @@
     <ClInclude Include="include\video\GLContext.h" />
     <ClInclude Include="include\video\win32\GLEWmx.h" />
     <ClInclude Include="include\video\Cursor.h" />
+    <ClInclude Include="include\input\win32\DIDevice.h" />
+    <ClInclude Include="include\input\win32\DIMouse.h" />
+    <ClInclude Include="include\video\win32\WindowInfo.h" />
   </ItemGroup>
 </Project>

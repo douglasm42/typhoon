@@ -687,6 +687,14 @@ namespace cb {
 					base::log.nothing("w32WindowProc() : Mensagem recebida: WM_NCDESTROY. Janela destruida.");
 					return 0;
 
+				case WM_LBUTTONDOWN:
+					window->cursor().select("hand.click");
+					return 0;
+
+				case WM_LBUTTONUP:
+					window->cursor().select("hand.point");
+					return 0;
+
 				case WM_SETCURSOR:
 					if(LOWORD(ilparam) == HTCLIENT) {
 						window->cursor().set();

@@ -24,6 +24,7 @@ namespace cb {
 		private:
 			std::list<UpdateListener *> _update_listener;
 			std::list<KeyListener *> _key_listener;
+			std::list<MouseListener *> _mouse_listener;
 			std::list<WindowListener *> _window_listener;
 
 		public:
@@ -32,11 +33,23 @@ namespace cb {
 
 			void bind(UpdateListener *iupdate_listener);
 			void bind(KeyListener *ikey_listener);
+			void bind(MouseListener *_mouse_listener);
 			void bind(WindowListener *iwindow_listener);
+
+			void bind(UpdateListener &iupdate_listener);
+			void bind(KeyListener &ikey_listener);
+			void bind(MouseListener &_mouse_listener);
+			void bind(WindowListener &iwindow_listener);
 
 			void unbind(UpdateListener *iupdate_listener);
 			void unbind(KeyListener *ikey_listener);
+			void unbind(MouseListener *_mouse_listener);
 			void unbind(WindowListener *iwindow_listener);
+
+			void unbind(UpdateListener &iupdate_listener);
+			void unbind(KeyListener &ikey_listener);
+			void unbind(MouseListener &_mouse_listener);
+			void unbind(WindowListener &iwindow_listener);
 
 			void onUpdateStart();
 			void onUpdateEnd();
@@ -48,12 +61,27 @@ namespace cb {
 
 			void onChar(base::lchar_t ichar);
 
+			void onButtonPress(KeyCode ikey, int ix, int iy);
+			void onButtonRelease(KeyCode ikey, int ix, int iy);
+			void onMove(int ixabs, int iyabs, int ixrel, int iyrel);
+			void onWheel(int iz);
+
 			void onResize(size_t iwidth, size_t iheight);
 			void onActivate();
 			void onDeactivate();
 			void onCreate();
 			void onDestroy();
 		};
+
+		inline void EventHub::bind(UpdateListener &iupdate_listener) {bind(&iupdate_listener);}
+		inline void EventHub::bind(KeyListener &ikey_listener) {bind(&ikey_listener);}
+		inline void EventHub::bind(MouseListener &_mouse_listener) {bind(&_mouse_listener);}
+		inline void EventHub::bind(WindowListener &iwindow_listener) {bind(&iwindow_listener);}
+
+		inline void EventHub::unbind(UpdateListener &iupdate_listener) {unbind(&iupdate_listener);}
+		inline void EventHub::unbind(KeyListener &ikey_listener) {unbind(&ikey_listener);}
+		inline void EventHub::unbind(MouseListener &_mouse_listener) {unbind(&_mouse_listener);}
+		inline void EventHub::unbind(WindowListener &iwindow_listener) {unbind(&iwindow_listener);}
 
 		inline void EventHub::onUpdateStart() {
 			std::list<UpdateListener *>::iterator it;
@@ -101,6 +129,34 @@ namespace cb {
 			std::list<KeyListener *>::iterator it;
 			for(it = _key_listener.begin() ; it != _key_listener.end() ; ++it) {
 				(*it)->onChar(ichar);
+			}
+		}
+
+		inline void EventHub::onButtonPress(KeyCode ikey, int ix, int iy) {
+			std::list<MouseListener *>::iterator it;
+			for(it = _mouse_listener.begin() ; it != _mouse_listener.end() ; ++it) {
+				(*it)->onButtonPress(ikey, ix, iy);
+			}
+		}
+
+		inline void EventHub::onButtonRelease(KeyCode ikey, int ix, int iy) {
+			std::list<MouseListener *>::iterator it;
+			for(it = _mouse_listener.begin() ; it != _mouse_listener.end() ; ++it) {
+				(*it)->onButtonRelease(ikey, ix, iy);
+			}
+		}
+
+		inline void EventHub::onMove(int ixabs, int iyabs, int ixrel, int iyrel) {
+			std::list<MouseListener *>::iterator it;
+			for(it = _mouse_listener.begin() ; it != _mouse_listener.end() ; ++it) {
+				(*it)->onMove(ixabs, iyabs, ixrel, iyrel);
+			}
+		}
+
+		inline void EventHub::onWheel(int iz) {
+			std::list<MouseListener *>::iterator it;
+			for(it = _mouse_listener.begin() ; it != _mouse_listener.end() ; ++it) {
+				(*it)->onWheel(iz);
 			}
 		}
 

@@ -52,6 +52,22 @@ namespace cb {
 			friend class CbAPI EventHub;
 		};
 
+		class CbAPI MouseListener {
+		private:
+			EventHub *_event_hub;
+
+		public:
+			MouseListener() {_event_hub = nullptr;}
+			virtual ~MouseListener();
+
+			virtual void onButtonPress(KeyCode ikey, int ix, int iy)=0;
+			virtual void onButtonRelease(KeyCode ikey, int ix, int iy)=0;
+			virtual void onMove(int ixabs, int iyabs, int ixrel, int iyrel)=0;
+			virtual void onWheel(int iz)=0;
+
+			friend class CbAPI EventHub;
+		};
+
 		class CbAPI WindowListener {
 		private:
 			EventHub *_event_hub;

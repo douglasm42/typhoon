@@ -1,6 +1,6 @@
 /* 
  * - Cumulonimbus - ☁
- * File: EventLoop.h
+ * File: DIMouse.h
  * 
  * Licence:
  * ============================================================================
@@ -15,23 +15,40 @@
 
 #include <input/input.h>
 
-#include <video/video.h>
+#include <input/win32/DIDevice.h>
+#include <input/EventHub.h>
+
 #include <list>
+#include <dinput.h>
 
 namespace cb {
 	namespace input {
-		class CbAPI EventLoop {
+		class CbAPI DIMouse {
 		private:
-			static std::list<video::Window *> _window_list;
+			HWND _window;
+			EventHub *_event_hub;
 
-			static void bind(video::Window *iwindow);
-			static void unbind(video::Window *iwindow);
+			bool _hold;
+
+			int _absx;
+			int _absy;
+
+			int _granularity;
+
+			DIDevice _device;
+
+			void doHoldCursor();
 
 		public:
-			static void postQuit();
-			static bool update();
+			DIMouse(HWND iwindow, EventHub *ievent_hub);
+			~DIMouse();
 
-			friend class CbAPI cb::video::Window;
+			void update();
+
+			void hold(bool ihold);
+			bool hold() const {return _hold;}
+
+			void move(size_t ix, size_t iy);
 		};
-	}  // namespace video
+	}  // namespace input
 }  // namespace cb

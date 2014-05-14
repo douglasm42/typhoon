@@ -31,6 +31,14 @@ namespace cb {
 			_key_listener.push_back(ikey_listener);
 		}
 
+		void EventHub::bind(MouseListener *imouse_listener) {
+			if(imouse_listener->_event_hub) {
+				imouse_listener->_event_hub->unbind(imouse_listener);
+			}
+			imouse_listener->_event_hub = this;
+			_mouse_listener.push_back(imouse_listener);
+		}
+
 		void EventHub::bind(WindowListener *iwindow_listener) {
 			if(iwindow_listener->_event_hub) {
 				iwindow_listener->_event_hub->unbind(iwindow_listener);
@@ -56,6 +64,17 @@ namespace cb {
 				if((*it) == ikey_listener) {
 					_key_listener.erase(it);
 					ikey_listener->_event_hub = nullptr;
+					return;
+				}
+			}
+		}
+
+		void EventHub::unbind(MouseListener *imouse_listener) {
+			std::list<MouseListener *>::iterator it;
+			for(it = _mouse_listener.begin() ; it != _mouse_listener.end() ; ++it) {
+				if((*it) == imouse_listener) {
+					_mouse_listener.erase(it);
+					imouse_listener->_event_hub = nullptr;
 					return;
 				}
 			}

@@ -98,10 +98,10 @@ namespace cb {
 			Cursor _cursor;
 
 		public:
-			Window() {}
-			Window(base::wstring ititle, win::Placement iplacement) {create(ititle, iplacement);}
-			Window(base::wstring ititle, size_t ix, size_t iy, size_t iwidth, size_t iheight, bool imaximized, bool iminimized, bool iborder) {create(ititle, win::Placement(ix, iy, iwidth, iheight, imaximized, iminimized, iborder));}
-			~Window() {destroy();}
+			Window();
+			Window(base::wstring ititle, win::Placement iplacement);
+			Window(base::wstring ititle, size_t ix, size_t iy, size_t iwidth, size_t iheight, bool imaximized, bool iminimized, bool iborder);
+			~Window();
 
 			void create(base::wstring ititle, win::Placement iplacement);
 			void create(base::wstring ititle, size_t ix, size_t iy, size_t iwidth, size_t iheight, bool imaximized, bool iminimized, bool iborder) {create(ititle, win::Placement(ix, iy, iwidth, iheight, imaximized, iminimized, iborder));}
@@ -123,7 +123,7 @@ namespace cb {
 			void hide();
 
 			bool active();
-			bool empty() {return _window_info.empty();}
+			bool empty();
 
 			Cursor &cursor() {return _cursor;}
 

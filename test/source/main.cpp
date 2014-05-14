@@ -23,7 +23,7 @@
 
 using namespace cb;
 
-class EventListener : public input::KeyListener {
+class EventListener : public input::KeyListener, public input::MouseListener {
 public:
 	virtual void onKeyPress(input::KeyCode ikey) {
 		base::log.nothing("Key press: %s", input::keyname(ikey).c_str());
@@ -35,6 +35,19 @@ public:
 	}
 
 	virtual void onChar(base::lchar_t ichar) {
+	}
+
+	virtual void onButtonPress(input::KeyCode ikey, int ix, int iy) {
+		base::log.nothing("Button press: %s in %d:%d", input::keyname(ikey).c_str(), ix, iy);
+	}
+	virtual void onButtonRelease(input::KeyCode ikey, int ix, int iy) {
+		base::log.nothing("Button release: %s in %d:%d", input::keyname(ikey).c_str(), ix, iy);
+	}
+	virtual void onMove(int ixabs, int iyabs, int ixrel, int iyrel) {
+		base::log.nothing("Mouse move: Absolute: %d:%d Relative: %d:%d", ixabs, iyabs, ixrel, iyrel);
+	}
+	virtual void onWheel(int iz) {
+		base::log.nothing("Mouse wheel move: %d", iz);
 	}
 };
 
@@ -58,17 +71,44 @@ int cbEntry(int argc, char **argv) {
 	win.show();
 
 	EventListener ev;
-	win.eventHub().bind(&ev);
+	win.eventHub().bind((input::KeyListener *)&ev);
+	win.eventHub().bind((input::MouseListener *)&ev);
 
-	data::iFile curfile("cursor.png");
+	data::iFile curfile;
+
+	curfile.open("cursor_hand_point.png");
 	if(curfile.isOpen()) {
 		data::ubBitmapRGBA curimg(curfile);
-		win.cursor().add("cursor", curimg, 0, 0);
-		win.cursor().select("cursor");
+		win.cursor().add("hand.point", curimg, 3, 0);
 	} else {
 		base::log.nothing("Não abriu!");
 	}
 
+	curfile.open("cursor_hand_point_click.png");
+	if(curfile.isOpen()) {
+		data::ubBitmapRGBA curimg(curfile);
+		win.cursor().add("hand.click", curimg, 3, 0);
+	} else {
+		base::log.nothing("Não abriu!");
+	}
+
+	curfile.open("cursor_hand_open.png");
+	if(curfile.isOpen()) {
+		data::ubBitmapRGBA curimg(curfile);
+		win.cursor().add("hand.open", curimg, 4, 3);
+	} else {
+		base::log.nothing("Não abriu!");
+	}
+
+	curfile.open("cursor_hand_closed.png");
+	if(curfile.isOpen()) {
+		data::ubBitmapRGBA curimg(curfile);
+		win.cursor().add("hand.closed", curimg, 3, 0);
+	} else {
+		base::log.nothing("Não abriu!");
+	}
+
+	win.cursor().select("hand.point");
 	base::log.nothing("Iniciando loop!");
 	while(!win.empty() && input::EventLoop::update()) {
 		glcontext.swap();

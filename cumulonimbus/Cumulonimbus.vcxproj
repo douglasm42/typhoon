@@ -32,6 +32,8 @@
     <ClCompile Include="source\input\iEventListener.cpp" />
     <ClCompile Include="source\input\iKeyCode.cpp" />
     <ClCompile Include="source\input\iEventLoop.cpp" />
+    <ClCompile Include="source\input\win32\iwDIDevice.cpp" />
+    <ClCompile Include="source\input\win32\iwDIMouse.cpp" />
     <ClCompile Include="source\video\linux\vlMessage.cpp" />
     <ClCompile Include="source\video\linux\vlWindow.cpp" />
     <ClCompile Include="source\video\linux\vlXlib.cpp" />
@@ -72,6 +74,8 @@
     <ClInclude Include="include\input\EventLoop.h" />
     <ClInclude Include="include\input\input.h" />
     <ClInclude Include="include\input\KeyCode.h" />
+    <ClInclude Include="include\input\win32\DIDevice.h" />
+    <ClInclude Include="include\input\win32\DIMouse.h" />
     <ClInclude Include="include\math\custom\origin.h" />
     <ClInclude Include="include\math\math.h" />
     <ClInclude Include="include\math\origin.h" />
@@ -83,6 +87,7 @@
     <ClInclude Include="include\video\video.h" />
     <ClInclude Include="include\input\win32\WindowProc.h" />
     <ClInclude Include="include\video\win32\GLEWmx.h" />
+    <ClInclude Include="include\video\win32\WindowInfo.h" />
     <ClInclude Include="include\video\win32\Windows.h" />
     <ClInclude Include="include\video\Window.h" />
   </ItemGroup>
@@ -137,7 +142,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>freetype.lib;physfs.lib;libpng16.lib;zlibstaticd.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetype.lib;physfs.lib;libpng16.lib;zlibstaticd.lib;opengl32.lib;glu32.lib;dinput8.lib;dxguid.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -156,7 +161,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>freetype.lib;physfs.lib;libpng16.lib;zlibstatic.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetype.lib;physfs.lib;libpng16.lib;zlibstatic.lib;opengl32.lib;glu32.lib;dinput8.lib;dxguid.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

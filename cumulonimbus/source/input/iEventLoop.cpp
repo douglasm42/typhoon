@@ -26,6 +26,7 @@ namespace cb {
 			for(it = _window_list.begin() ; it != _window_list.end() ; ++it) {
 				if((*it) == iwindow) {
 					_window_list.erase(it);
+					return;
 				}
 			}
 		}

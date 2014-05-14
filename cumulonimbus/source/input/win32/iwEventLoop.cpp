@@ -17,8 +17,13 @@
 #include <input/EventLoop.h>
 #include <video/Window.h>
 #include <video/win32/Windows.h>
+#include <video/win32/WindowInfo.h>
 
 namespace cb {
+	namespace video {
+		KinKey(WindowInfo, w32WindowInfo);
+	}  // namespace video
+
 	namespace input {
 		void EventLoop::postQuit() {
 			PostQuitMessage(0);
@@ -45,6 +50,7 @@ namespace cb {
 			}
 
 			for(it = _window_list.begin() ; it != _window_list.end() ; ++it) {
+				video::kin::pt((*it)->info())->dimouse->update();
 				(*it)->eventHub().onUpdateEnd();
 			}
 
