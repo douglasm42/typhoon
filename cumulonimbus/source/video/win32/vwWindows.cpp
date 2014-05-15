@@ -28,7 +28,7 @@ namespace cb {
 			if(_window_count == 0) {
 				WNDCLASSEX window_class;
 				window_class.cbSize			= sizeof(WNDCLASSEX);
-				window_class.style			= 0;
+				window_class.style			= CS_OWNDC;
 				window_class.lpfnWndProc	= input::WindowProc;
 				window_class.cbClsExtra		= 0;
 				window_class.cbWndExtra		= 0;

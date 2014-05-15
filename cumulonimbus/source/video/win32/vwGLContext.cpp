@@ -75,9 +75,9 @@ namespace cb {
 				ThrowDet(tokurei::CreateError, "Error: %d", GetLastError());
 			}
 
-			//Cria e ativa o contexto do opengl.
+			//Cria e ativa o contexto do opengl primario.
 			(*_context_info)._opengl_context = wglCreateContext((*_context_info)._device_context);
-			wglMakeCurrent((*_context_info)._device_context, (*_context_info)._opengl_context);
+			activate();
 
 			//Inicializa a GLEW
 			if(glewInit() != GLEW_OK) {
@@ -180,8 +180,8 @@ namespace cb {
 		void GLContext::unbind() {
 			if(_window) {
 				wglMakeCurrent(NULL, NULL);
-				ReleaseDC((*_window->info()).window, (*_context_info)._device_context);
 				(*_context_info)._device_context = nullptr;
+				_window = nullptr;
 			}
 		}
 
@@ -207,7 +207,13 @@ namespace cb {
 		}
 
 		void GLContext::activate() {
-			GLEWmx::activate(&(*_context_info)._glew_context, &(*_context_info)._wglew_context);
+			if((*_context_info)._device_context) {
+				GLEWmx::activate(&(*_context_info)._glew_context, &(*_context_info)._wglew_context);
+				wglMakeCurrent((*_context_info)._device_context, (*_context_info)._opengl_context);
+			} else {
+				GLEWmx::activate(nullptr, nullptr);
+				wglMakeCurrent(nullptr, nullptr);
+			}
 		}
 
 		void GLContext::share(GLContext &iglcontext) {
