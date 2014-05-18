@@ -14,11 +14,12 @@
 #include <base/Setup.h>
 #ifdef CbWindows
 
-#include <video/win32/GLEWmx.h>
+#include <opengl/win32/GLEWmx.h>
+
 #include <base/Exception.h>
 
 namespace cb {
-	namespace video {
+	namespace opengl {
 #ifdef _MSC_VER
 		__declspec(thread) GLEWContext *_context = nullptr;
 		__declspec(thread) WGLEWContext *_wcontext = nullptr;
@@ -41,7 +42,7 @@ namespace cb {
 			_context = icontext;
 			_wcontext = iwcontext;
 		}
-	}  // namespace video
+	}  // namespace opengl
 }  // namespace cb
 
 #endif

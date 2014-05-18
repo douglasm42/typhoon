@@ -82,10 +82,10 @@ namespace cb {
 
 		typedef io::stream_buffer<MDevice>	MStreamBuf;
 
-		KinKey(FileMemoryDevice, MDevice);
-		KinKeyErase(FileMemoryDevice, MDevice);
-		KinKey(FileMemoryStreamBuf, MStreamBuf);
-		KinKeyErase(FileMemoryStreamBuf, MStreamBuf);
+		KinKey(kin::FileMemoryDevice, MDevice);
+		KinKeyErase(kin::FileMemoryDevice, MDevice);
+		KinKey(kin::FileMemoryStreamBuf, MStreamBuf);
+		KinKeyErase(kin::FileMemoryStreamBuf, MStreamBuf);
 
 		//MFile -------------------------------------------------------------
 

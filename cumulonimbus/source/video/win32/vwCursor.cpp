@@ -23,7 +23,7 @@
 
 namespace cb {
 	namespace video {
-		KinKey(CursorHandler, HICON__);
+		KinKey(kin::CursorHandler, HICON__);
 
 		Cursor::Cursor():_show(true) {
 		}

@@ -29,7 +29,7 @@
 
 namespace cb {
 	namespace data {
-		KinKey(FontFace, FT_FaceRec_);
+		KinKey(kin::FontFace, FT_FaceRec_);
 
 		std::mutex _ftError_guard;
 		const char *ftError(FT_Error ierror_id) {

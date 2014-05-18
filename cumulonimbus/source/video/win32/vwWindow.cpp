@@ -25,7 +25,7 @@
 
 namespace cb {
 	namespace video {
-		KinKey(WindowInfo, w32WindowInfo);
+		KinKey(kin::WindowInfo, w32WindowInfo);
 
 		Window::Window() {
 			_window_info << new w32WindowInfo;

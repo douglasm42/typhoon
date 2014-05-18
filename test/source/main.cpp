@@ -44,7 +44,6 @@ public:
 		base::log.nothing("Button release: %s in %d:%d", input::keyname(ikey).c_str(), ix, iy);
 	}
 	virtual void onMove(int ixabs, int iyabs, int ixrel, int iyrel) {
-		base::log.nothing("Mouse move: Absolute: %d:%d Relative: %d:%d", ixabs, iyabs, ixrel, iyrel);
 	}
 	virtual void onWheel(int iz) {
 		base::log.nothing("Mouse wheel move: %d", iz);

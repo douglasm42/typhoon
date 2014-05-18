@@ -13,15 +13,15 @@
  */
 #pragma once
 
-#include <video/video.h>
+#include <opengl/opengl.h>
 
 #include <base/Kin.h>
 
-#include <video/Window.h>
+#include <video/video.h>
 #include <input/EventListener.h>
 
 namespace cb {
-	namespace video {
+	namespace opengl {
 		KinLock(GLContextInfo);
 
 		namespace gl {
@@ -33,23 +33,22 @@ namespace cb {
 			} Version;
 		}  // namespace gl
 
-		class CbAPI GLContext : public input::WindowListener {
+		class CbAPI GLContext {
 		private:
-			Window *_window;
+			video::Window *_window;
 			kin::GLContextInfo _context_info;
 
 			bool _vsync;
 			gl::Version _version;
 
-		public:
-			GLContext(Window &iwindow, gl::Version iversion = gl::v43);
-			virtual ~GLContext();
-
-			void bind(Window &iwindow);
-			void bind();
+			void bind(video::Window *iwindow);
 			void unbind();
 
 			void swap();
+
+		public:
+			GLContext(video::Window *iwindow, gl::Version iversion = gl::v43);
+			virtual ~GLContext();
 
 			gl::Version version() const {return _version;}
 
@@ -57,16 +56,11 @@ namespace cb {
 			bool vsync() const {return _vsync;}
 
 			void activate();
+			bool active();
 
 			void share(GLContext &iglcontext);
 
-			virtual void onResize(size_t iwidth, size_t iheight);
-
-			virtual void onActivate() {}
-			virtual void onDeactivate() {}
-
-			virtual void onCreate() {bind();}
-			virtual void onDestroy() {unbind();}
+			friend class CbAPI cb::video::Window;
 		};
-	}  // namespace video
+	}  // namespace opengl
 }  // namespace cb

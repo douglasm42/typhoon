@@ -45,18 +45,18 @@
  *     operator&  - Obtém o valor do ponteiro encapsulado.
  */
 #define KinKeyOperator(LockName, type)\
-	inline kin::LockName &operator<<(kin::LockName &ileft, type *iright) {\
+	inline LockName &operator<<(LockName &ileft, type *iright) {\
 		ileft._pointer = static_cast<void *>(iright);\
 		return ileft;\
 	}\
-	inline kin::LockName &operator>>(kin::LockName &ileft, type *iright) {\
+	inline LockName &operator>>(LockName &ileft, type *iright) {\
 		iright = static_cast<type *>(ileft._pointer);\
 		return ileft;\
 	}\
-	inline type &operator*(kin::LockName &iright) {\
+	inline type &operator*(LockName &iright) {\
 		return *static_cast<type *>(iright._pointer);\
 	}\
-	inline type *operator&(kin::LockName &iright) {\
+	inline type *operator&(LockName &iright) {\
 		return static_cast<type *>(iright._pointer);\
 	}
 
@@ -69,10 +69,10 @@
  */
 #define KinKeyPt(LockName, type)\
 	namespace kin {\
-		inline type *pt(kin::LockName &iright) {\
+		inline type *pt(LockName &iright) {\
 			return static_cast<type *>(iright._pointer);\
 		}\
-		inline const type *pt(const kin::LockName &iright) {\
+		inline const type *pt(const LockName &iright) {\
 			return static_cast<type *>(iright._pointer);\
 		}\
 	}

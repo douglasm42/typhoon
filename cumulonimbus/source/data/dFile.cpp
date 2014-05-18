@@ -39,8 +39,8 @@ namespace cb {
 			}
 		}  // namespace file
 
-		KinKey(FileHandle, PHYSFS_File)
-		KinKeyErase(FileHandle, PHYSFS_File)
+		KinKey(kin::FileHandle, PHYSFS_File)
+		KinKeyErase(kin::FileHandle, PHYSFS_File)
 
 		struct seekable_source_tag : io::device_tag, io::input_seekable { };
 		struct seekable_sink_tag : io::device_tag, io::output_seekable { };
@@ -123,10 +123,10 @@ namespace cb {
 		typedef io::stream_buffer<PhysFSSource>	PhysFSInputBuf;
 		typedef io::stream_buffer<PhysFSSink>	PhysFSOutputBuf;
 
-		KinKey(FilePhysFSIStreamBuf, PhysFSInputBuf);
-		KinKeyErase(FilePhysFSIStreamBuf, PhysFSInputBuf);
-		KinKey(FilePhysFSOStreamBuf, PhysFSOutputBuf);
-		KinKeyErase(FilePhysFSOStreamBuf, PhysFSOutputBuf);
+		KinKey(kin::FilePhysFSIStreamBuf, PhysFSInputBuf);
+		KinKeyErase(kin::FilePhysFSIStreamBuf, PhysFSInputBuf);
+		KinKey(kin::FilePhysFSOStreamBuf, PhysFSOutputBuf);
+		KinKeyErase(kin::FilePhysFSOStreamBuf, PhysFSOutputBuf);
 
 		//iFileFS -------------------------------------------------------------
 

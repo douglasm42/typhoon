@@ -35,13 +35,13 @@
     <ClCompile Include="source\input\win32\iwEventLoop.cpp" />
     <ClCompile Include="source\input\iEventLoop.cpp" />
     <ClCompile Include="source\input\win32\iwWindowProc.cpp" />
-    <ClCompile Include="source\video\win32\vwGLContext.cpp" />
-    <ClCompile Include="source\video\win32\vwGLEWmx.cpp" />
     <ClCompile Include="source\video\win32\vwCursor.cpp" />
     <ClCompile Include="source\input\win32\iwDIDevice.cpp" />
     <ClCompile Include="source\input\win32\iwDIMouse.cpp" />
     <ClCompile Include="..\..\dependencies\msvc\source\glew.c" />
     <ClCompile Include="..\..\dependencies\msvc\source\sqlite3.c" />
+    <ClCompile Include="source\opengl\win32\vwGLContext.cpp" />
+    <ClCompile Include="source\opengl\win32\vwGLEWmx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\base\base.h" />
@@ -79,11 +79,12 @@
     <ClInclude Include="include\input\EventListener.h" />
     <ClInclude Include="include\input\EventLoop.h" />
     <ClInclude Include="include\input\win32\WindowProc.h" />
-    <ClInclude Include="include\video\GLContext.h" />
-    <ClInclude Include="include\video\win32\GLEWmx.h" />
     <ClInclude Include="include\video\Cursor.h" />
     <ClInclude Include="include\input\win32\DIDevice.h" />
     <ClInclude Include="include\input\win32\DIMouse.h" />
     <ClInclude Include="include\video\win32\WindowInfo.h" />
+    <ClInclude Include="include\opengl\opengl.h" />
+    <ClInclude Include="include\opengl\GLContext.h" />
+    <ClInclude Include="include\opengl\win32\GLEWmx.h" />
   </ItemGroup>
 </Project>

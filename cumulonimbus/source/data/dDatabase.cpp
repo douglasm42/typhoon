@@ -19,8 +19,8 @@
 
 namespace cb {
 	namespace data {
-		KinKey(DBHandler, sqlite3);
-		KinKey(DBStatement, sqlite3_stmt);
+		KinKey(kin::DBHandler, sqlite3);
+		KinKey(kin::DBStatement, sqlite3_stmt);
 
 		const char *errmsgd(kin::DBHandler &ihandler) {
 			{

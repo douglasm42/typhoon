@@ -21,18 +21,18 @@
 #include <GL/GL.h>
 #include <GL/GLU.h>
 
-#define glewGetContext cb::video::GLEWmx::getGLEWContext
-#define wglewGetContext cb::video::GLEWmx::getWGLEWContext
+#define glewGetContext cb::opengl::GLEWmx::getGLEWContext
+#define wglewGetContext cb::opengl::GLEWmx::getWGLEWContext
 
 namespace cb {
-	namespace video {
+	namespace opengl {
 		class CbAPI GLEWmx {
 		public:
 			static GLEWContext *getGLEWContext();
 			static WGLEWContext *getWGLEWContext();
 			static void activate(GLEWContext *icontext, WGLEWContext *iwcontext);
 		};
-	}  // namespace video
+	}  // namespace opengl
 }  // namespace cb
 
 #endif

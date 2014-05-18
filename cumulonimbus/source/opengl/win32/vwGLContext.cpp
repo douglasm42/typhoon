@@ -14,17 +14,18 @@
 #include <base/Setup.h>
 #ifdef CbWindows
 
-#include <video/GLContext.h>
+#include <opengl/GLContext.h>
+#include <opengl/win32/GLEWmx.h>
 
 #include <base/Exception.h>
 #include <base/Log.h>
 
+#include <video/Window.h>
 #include <video/win32/Windows.h>
-#include <video/win32/GLEWmx.h>
 #include <video/win32/WindowInfo.h>
 
 namespace cb {
-	namespace video {
+	namespace opengl {
 		class CbAPI w32GLContextInfo {
 		public:
 			HDC _device_context;
@@ -33,13 +34,13 @@ namespace cb {
 			WGLEWContext _wglew_context;
 		};
 
-		KinKey(WindowInfo, w32WindowInfo);
-		KinKey(GLContextInfo, w32GLContextInfo);
+		KinKey(video::kin::WindowInfo, video::w32WindowInfo);
+		KinKey(kin::GLContextInfo, w32GLContextInfo);
 
-		GLContext::GLContext(Window &iwindow, gl::Version iversion) {
+		GLContext::GLContext(video::Window *iwindow, gl::Version iversion) {
 			_context_info << new w32GLContextInfo;
 			activate();
-			_window = &iwindow;
+			_window = iwindow;
 
 			//Inicializa o device context para a criação do contexto do OpenGL.
 			(*_context_info)._device_context = GetDC((*_window->info()).window);
@@ -160,33 +161,32 @@ namespace cb {
 			delete &_context_info;
 		}
 
-		void GLContext::bind(Window &iwindow) {
+		void GLContext::bind(video::Window *iwindow) {
 			if(_window) {
 				unbind();
 			}
 
-			_window = &iwindow;
+			_window = iwindow;
 			(*_context_info)._device_context = GetDC((*_window->info()).window);
 			wglMakeCurrent((*_context_info)._device_context, (*_context_info)._opengl_context);
 		}
 
-		void GLContext::bind() {
-			if(_window) {
-				(*_context_info)._device_context = GetDC((*_window->info()).window);
-				wglMakeCurrent((*_context_info)._device_context, (*_context_info)._opengl_context);
-			}
-		}
-
 		void GLContext::unbind() {
 			if(_window) {
-				wglMakeCurrent(NULL, NULL);
 				(*_context_info)._device_context = nullptr;
 				_window = nullptr;
+				if(active()) {
+					activate();
+				}
 			}
 		}
 
 		void GLContext::swap() {
 			activate();
+			video::win::Placement p = _window->placement();
+
+			glViewport(0, 0, p.width(), p.height());
+
 			glClearColor(0.2f, 0.3f, 0.7f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 
@@ -216,15 +216,14 @@ namespace cb {
 			}
 		}
 
+		bool GLContext::active() {
+			return GLEWmx::getGLEWContext() == (&(*_context_info)._glew_context);
+		}
+
 		void GLContext::share(GLContext &iglcontext) {
 			wglShareLists((*_context_info)._opengl_context, (*iglcontext._context_info)._opengl_context);
 		}
-
-		void GLContext::onResize(size_t iwidth, size_t iheight) {
-			activate();
-			glViewport(0, 0, iwidth, iheight);
-		}
-	}  // namespace video
+	}  // namespace opengl
 }  // namespace cb
 
 #endif

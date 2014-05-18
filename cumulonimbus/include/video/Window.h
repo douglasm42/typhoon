@@ -23,6 +23,7 @@
 #include <video/Cursor.h>
 
 #include <input/EventHub.h>
+#include <opengl/GLContext.h>
 
 namespace cb {
 	namespace video {
@@ -95,6 +96,7 @@ namespace cb {
 		private:
 			kin::WindowInfo _window_info;
 			input::EventHub _event_hub;
+			opengl::GLContext *_glcontext;
 			Cursor _cursor;
 
 		public:

@@ -20,7 +20,7 @@
 
 namespace cb {
 	namespace video {
-		KinKey(WindowInfo, XWindowInfo);
+		KinKey(kin::WindowInfo, XWindowInfo);
 
 		Window::Window(base::wstring ititle, win::Placement iplacement) {
 
