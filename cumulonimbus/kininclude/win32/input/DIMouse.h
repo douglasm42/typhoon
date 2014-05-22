@@ -1,6 +1,6 @@
 /* 
  * - Cumulonimbus - ☁
- * File: iEventListener.cpp
+ * File: DIMouse.h
  * 
  * Licence:
  * ============================================================================
@@ -11,35 +11,43 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <input/EventListener.h>
+#pragma once
 
-#include <input/EventHub.h>
+#include <input/input.h>
+
+#include <win32/input/DIDevice.h>
+#include <input/EventQueue.h>
+
+#include <list>
 
 namespace cb {
 	namespace input {
-		UpdateListener::~UpdateListener() {
-			if(_event_hub) {
-				_event_hub->unbind(this);
-			}
-		}
+		class CbAPI DIMouse {
+		private:
+			HWND _window;
+			EventQueue *_event_queue;
 
-		KeyListener::~KeyListener() {
-			if(_event_hub) {
-				_event_hub->unbind(this);
-			}
-		}
+			bool _hold;
 
-		MouseListener::~MouseListener() {
-			if(_event_hub) {
-				_event_hub->unbind(this);
-			}
-		}
+			int _absx;
+			int _absy;
 
-		WindowListener::~WindowListener() {
-			if(_event_hub) {
-				_event_hub->unbind(this);
-			}
-		}
+			int _granularity;
+
+			DIDevice _device;
+
+			void doHoldCursor();
+
+		public:
+			DIMouse(HWND iwindow, EventQueue *ievent_queue);
+			~DIMouse();
+
+			void update();
+
+			void hold(bool ihold);
+			bool hold() const {return _hold;}
+
+			void move(size_t ix, size_t iy);
+		};
 	}  // namespace input
 }  // namespace cb
-

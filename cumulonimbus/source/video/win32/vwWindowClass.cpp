@@ -14,10 +14,10 @@
 #include <base/Setup.h>
 #ifdef CbWindows
 
-#include <video/win32/Windows.h>
 #include <base/Exception.h>
 
-#include <input/win32/WindowProc.h>
+#include <win32/video/WindowClass.h>
+#include <win32/input/WindowProc.h>
 
 namespace cb {
 	namespace video {

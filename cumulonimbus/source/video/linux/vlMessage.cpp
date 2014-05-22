@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <video/linux/Xlib.h>
+#include <linux/video/Xlib.h>
 
 namespace cb {
 	namespace video {

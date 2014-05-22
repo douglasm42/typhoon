@@ -1,6 +1,6 @@
 /* 
  * - Cumulonimbus - ☁
- * File: GLEWmx.h
+ * File: WindowInfo.h
  * 
  * Licence:
  * ============================================================================
@@ -13,26 +13,19 @@
  */
 #pragma once
 
-#include <base/Setup.h>
-#ifdef CbWindows
+#include <video/video.h>
 
-#include <GL/glew.h>
-#include <GL/wglew.h>
-#include <GL/GL.h>
-#include <GL/GLU.h>
-
-#define glewGetContext cb::opengl::GLEWmx::getGLEWContext
-#define wglewGetContext cb::opengl::GLEWmx::getWGLEWContext
+#include <win32/video/Windows.h>
+#include <win32/input/DIMouse.h>
 
 namespace cb {
-	namespace opengl {
-		class CbAPI GLEWmx {
+	namespace video {
+		class CbAPI w32WindowInfo {
 		public:
-			static GLEWContext *getGLEWContext();
-			static WGLEWContext *getWGLEWContext();
-			static void activate(GLEWContext *icontext, WGLEWContext *iwcontext);
-		};
-	}  // namespace opengl
-}  // namespace cb
+			HWND window;
+			input::DIMouse *dimouse;
 
-#endif
+			w32WindowInfo() :window(nullptr), dimouse(nullptr) {}
+		};
+	}  // namespace video
+}  // namespace cb

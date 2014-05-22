@@ -1,6 +1,6 @@
 /* 
  * - Cumulonimbus - ☁
- * File: WindowProc.h
+ * File: WindowClass.h
  * 
  * Licence:
  * ============================================================================
@@ -13,17 +13,21 @@
  */
 #pragma once
 
-#include <base/Setup.h>
-#ifdef CbWindows
+#include <video/video.h>
 
-#include <input/input.h>
-
-#include <video/win32/Windows.h>
+#include <win32/video/Windows.h>
 
 namespace cb {
-	namespace input {
-		LRESULT CALLBACK WindowProc(HWND iwindow_handler, UINT imessage, WPARAM iwparam, LPARAM ilparam);
-	}  // namespace input
-}  // namespace cb
+	namespace video {
+		class CbAPI w32WindowClass {
+		private:
+			static const wchar_t *_name;
+			static size_t _window_count;
 
-#endif
+		public:
+			static void reg();
+			static void unreg();
+			static const wchar_t *name() {return _name;}
+		};
+	}  // namespace video
+}  // namespace cb

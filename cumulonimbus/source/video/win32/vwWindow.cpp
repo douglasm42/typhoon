@@ -18,29 +18,31 @@
 #include <base/Exception.h>
 #include <base/Log.h>
 
-#include <video/win32/Windows.h>
-#include <video/win32/WindowInfo.h>
+#include <win32/video/Windows.h>
+#include <win32/video/WindowClass.h>
+#include <win32/video/WindowInfo.h>
 
 #include <input/EventLoop.h>
+
+#include <opengl/GLContext.h>
 
 namespace cb {
 	namespace video {
 		KinKey(kin::WindowInfo, w32WindowInfo);
 
-		Window::Window() {
-			_window_info << new w32WindowInfo;
-		}
 		Window::Window(base::wstring ititle, win::Placement iplacement) {
 			_window_info << new w32WindowInfo;
 			create(ititle, iplacement);
 		}
+
 		Window::Window(base::wstring ititle, size_t ix, size_t iy, size_t iwidth, size_t iheight, bool imaximized, bool iminimized, bool iborder) {
 			_window_info << new w32WindowInfo;
 			create(ititle, win::Placement(ix, iy, iwidth, iheight, imaximized, iminimized, iborder));
 		}
+
 		Window::~Window() {
-			delete [] (*_window_info).window;
 			destroy();
+			delete (&_window_info);
 		}
 
 		void Window::create(base::wstring ititle, win::Placement iplacement) {
@@ -80,9 +82,7 @@ namespace cb {
 
 			placement(iplacement);
 
-			(*_window_info).dimouse = new input::DIMouse((*_window_info).window, &_event_hub);
-
-			_event_hub.onCreate();
+			(*_window_info).dimouse = new input::DIMouse((*_window_info).window, &_event_queue);
 
 			input::EventLoop::bind(this);
 		}
@@ -91,7 +91,6 @@ namespace cb {
 			if(!empty()) {
 				input::EventLoop::unbind(this);
 				delete (*_window_info).dimouse;
-				_event_hub.onDestroy();
 
 				SetWindowLongPtr((*_window_info).window, GWLP_USERDATA, LONG(NULL));
 

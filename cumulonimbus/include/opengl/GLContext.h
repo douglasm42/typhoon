@@ -17,8 +17,7 @@
 
 #include <base/Kin.h>
 
-#include <video/video.h>
-#include <input/EventListener.h>
+#include <video/Window.h>
 
 namespace cb {
 	namespace opengl {
@@ -41,13 +40,9 @@ namespace cb {
 			bool _vsync;
 			gl::Version _version;
 
-			void bind(video::Window *iwindow);
-			void unbind();
-
-			void swap();
-
 		public:
-			GLContext(video::Window *iwindow, gl::Version iversion = gl::v43);
+			GLContext(video::Window &iwindow, gl::Version iversion = gl::v43);
+			GLContext(GLContext &icontext);
 			virtual ~GLContext();
 
 			gl::Version version() const {return _version;}
@@ -58,9 +53,12 @@ namespace cb {
 			void activate();
 			bool active();
 
-			void share(GLContext &iglcontext);
+			void bind(video::Window &iwindow);
+			void unbind();
 
-			friend class CbAPI cb::video::Window;
+			void swap();
+
+			void share(GLContext &iglcontext);
 		};
 	}  // namespace opengl
 }  // namespace cb

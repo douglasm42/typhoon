@@ -13,9 +13,6 @@
  */
 #pragma once
 
-#include <base/Setup.h>
-#ifdef CbWindows
-
 #include <video/video.h>
 
 #ifdef __MINGW32__
@@ -35,21 +32,4 @@
 #else
 	#include <Windows.h>
 	#include <windowsx.h>
-#endif
-
-namespace cb {
-	namespace video {
-		class CbAPI w32WindowClass {
-		private:
-			static const wchar_t *_name;
-			static size_t _window_count;
-
-		public:
-			static void reg();
-			static void unreg();
-			static const wchar_t *name() {return _name;}
-		};
-	}  // namespace video
-}  // namespace cb
-
 #endif

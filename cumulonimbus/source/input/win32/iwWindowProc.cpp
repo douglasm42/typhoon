@@ -14,7 +14,7 @@
 #include <base/Setup.h>
 #ifdef CbWindows
 
-#include <input/win32/WindowProc.h>
+#include <win32/input/WindowProc.h>
 
 #include <video/Window.h>
 
@@ -650,35 +650,35 @@ namespace cb {
 						unsigned int char1;
 						unsigned int char2;
 						translateWin32Text(iwparam, char1, char2);
-						window->eventHub().onKeyPress(keycode(iwparam));
+						window->events().onKeyPress(keycode(iwparam));
 						if(char1) {
-							window->eventHub().onChar(char1);
+							window->events().onChar(char1);
 							if(char2) {
-								window->eventHub().onChar(char2);
+								window->events().onChar(char2);
 							}
 						}
 					} return 0;
 				case WM_KEYUP:
-					window->eventHub().onKeyRelease(keycode(iwparam));
+					window->events().onKeyRelease(keycode(iwparam));
 					return 0;
 
 				//Eventos relacionados à janela
 				case WM_ACTIVATE:
 					if(iwparam == WA_INACTIVE) {
-						window->eventHub().onActivate();
+						window->events().onActivate();
 						base::log.nothing("w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela desativada.");
 					} else {
-						window->eventHub().onDeactivate();
+						window->events().onDeactivate();
 						base::log.nothing("w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela ativada.");
 					}
 					return 0;
 				case WM_CLOSE:
 					base::log.nothing("w32WindowProc() : Mensagem recebida: WM_CLOSE. Janela fechada.");
-					window->destroy();
+					window->events().onClose();
 					return 0;
 				case WM_SIZE:
 					if(LOWORD(ilparam) && HIWORD(ilparam)) {
-						window->eventHub().onResize(LOWORD(ilparam), HIWORD(ilparam));
+						window->events().onResize(LOWORD(ilparam), HIWORD(ilparam));
 					}
 					return 0;
 

@@ -15,14 +15,14 @@
 #ifdef CbWindows
 
 #include <opengl/GLContext.h>
-#include <opengl/win32/GLEWmx.h>
+#include <win32/opengl/GLEWmx.h>
 
 #include <base/Exception.h>
 #include <base/Log.h>
 
 #include <video/Window.h>
-#include <video/win32/Windows.h>
-#include <video/win32/WindowInfo.h>
+#include <win32/video/Windows.h>
+#include <win32/video/WindowInfo.h>
 
 namespace cb {
 	namespace opengl {
@@ -37,10 +37,10 @@ namespace cb {
 		KinKey(video::kin::WindowInfo, video::w32WindowInfo);
 		KinKey(kin::GLContextInfo, w32GLContextInfo);
 
-		GLContext::GLContext(video::Window *iwindow, gl::Version iversion) {
+		GLContext::GLContext(video::Window &iwindow, gl::Version iversion) {
 			_context_info << new w32GLContextInfo;
 			activate();
-			_window = iwindow;
+			_window = &iwindow;
 
 			//Inicializa o device context para a criação do contexto do OpenGL.
 			(*_context_info)._device_context = GetDC((*_window->info()).window);
@@ -161,12 +161,12 @@ namespace cb {
 			delete &_context_info;
 		}
 
-		void GLContext::bind(video::Window *iwindow) {
+		void GLContext::bind(video::Window &iwindow) {
 			if(_window) {
 				unbind();
 			}
 
-			_window = iwindow;
+			_window = &iwindow;
 			(*_context_info)._device_context = GetDC((*_window->info()).window);
 			wglMakeCurrent((*_context_info)._device_context, (*_context_info)._opengl_context);
 		}

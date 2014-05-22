@@ -28,10 +28,7 @@
     <ClCompile Include="source\video\win32\vwMessage.cpp" />
     <ClCompile Include="source\video\win32\vwWindow.cpp" />
     <ClCompile Include="source\video\win32\vwWindowPlacement.cpp" />
-    <ClCompile Include="source\video\win32\vwWindows.cpp" />
     <ClCompile Include="source\input\iKeyCode.cpp" />
-    <ClCompile Include="source\input\iEventListener.cpp" />
-    <ClCompile Include="source\input\iEventHub.cpp" />
     <ClCompile Include="source\input\win32\iwEventLoop.cpp" />
     <ClCompile Include="source\input\iEventLoop.cpp" />
     <ClCompile Include="source\input\win32\iwWindowProc.cpp" />
@@ -42,6 +39,9 @@
     <ClCompile Include="..\..\dependencies\msvc\source\sqlite3.c" />
     <ClCompile Include="source\opengl\win32\vwGLContext.cpp" />
     <ClCompile Include="source\opengl\win32\vwGLEWmx.cpp" />
+    <ClCompile Include="source\input\iEventQueue.cpp" />
+    <ClCompile Include="source\video\win32\vwWindowClass.cpp" />
+    <ClCompile Include="source\input\iEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\base\base.h" />
@@ -68,23 +68,24 @@
     <ClInclude Include="include\math\custom\origin.h" />
     <ClInclude Include="include\math\math.h" />
     <ClInclude Include="include\math\origin.h" />
-    <ClInclude Include="include\video\linux\Xlib.h" />
-    <ClInclude Include="include\video\win32\Windows.h" />
     <ClInclude Include="include\video\Display.h" />
     <ClInclude Include="include\video\Message.h" />
     <ClInclude Include="include\video\video.h" />
     <ClInclude Include="include\video\Window.h" />
     <ClInclude Include="include\input\KeyCode.h" />
-    <ClInclude Include="include\input\EventHub.h" />
-    <ClInclude Include="include\input\EventListener.h" />
     <ClInclude Include="include\input\EventLoop.h" />
-    <ClInclude Include="include\input\win32\WindowProc.h" />
     <ClInclude Include="include\video\Cursor.h" />
-    <ClInclude Include="include\input\win32\DIDevice.h" />
-    <ClInclude Include="include\input\win32\DIMouse.h" />
-    <ClInclude Include="include\video\win32\WindowInfo.h" />
     <ClInclude Include="include\opengl\opengl.h" />
     <ClInclude Include="include\opengl\GLContext.h" />
-    <ClInclude Include="include\opengl\win32\GLEWmx.h" />
+    <ClInclude Include="kininclude\linux\video\Xlib.h" />
+    <ClInclude Include="kininclude\win32\input\DIDevice.h" />
+    <ClInclude Include="kininclude\win32\input\DIMouse.h" />
+    <ClInclude Include="kininclude\win32\input\WindowProc.h" />
+    <ClInclude Include="kininclude\win32\opengl\GLEWmx.h" />
+    <ClInclude Include="kininclude\win32\video\WindowInfo.h" />
+    <ClInclude Include="kininclude\win32\video\Windows.h" />
+    <ClInclude Include="kininclude\win32\video\WindowClass.h" />
+    <ClInclude Include="include\input\Event.h" />
+    <ClInclude Include="include\input\EventQueue.h" />
   </ItemGroup>
 </Project>

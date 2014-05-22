@@ -14,7 +14,7 @@
 #include <base/Setup.h>
 #ifdef CbWindows
 
-#include <opengl/win32/GLEWmx.h>
+#include <win32/opengl/GLEWmx.h>
 
 #include <base/Exception.h>
 

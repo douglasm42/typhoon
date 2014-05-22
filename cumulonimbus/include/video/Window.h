@@ -22,8 +22,7 @@
 #include <video/Display.h>
 #include <video/Cursor.h>
 
-#include <input/EventHub.h>
-#include <opengl/GLContext.h>
+#include <input/EventQueue.h>
 
 namespace cb {
 	namespace video {
@@ -95,19 +94,16 @@ namespace cb {
 		class CbAPI Window {
 		private:
 			kin::WindowInfo _window_info;
-			input::EventHub _event_hub;
-			opengl::GLContext *_glcontext;
+			input::EventQueue _event_queue;
 			Cursor _cursor;
 
+			void create(base::wstring ititle, win::Placement iplacement);
+			void destroy();
+
 		public:
-			Window();
 			Window(base::wstring ititle, win::Placement iplacement);
 			Window(base::wstring ititle, size_t ix, size_t iy, size_t iwidth, size_t iheight, bool imaximized, bool iminimized, bool iborder);
 			~Window();
-
-			void create(base::wstring ititle, win::Placement iplacement);
-			void create(base::wstring ititle, size_t ix, size_t iy, size_t iwidth, size_t iheight, bool imaximized, bool iminimized, bool iborder) {create(ititle, win::Placement(ix, iy, iwidth, iheight, imaximized, iminimized, iborder));}
-			void destroy();
 
 			void title(base::wstring ititle);
 			void title(base::string ititle) {title(base::utf16(ititle));}
@@ -131,7 +127,7 @@ namespace cb {
 
 			kin::WindowInfo &info() {return _window_info;}
 
-			input::EventHub &eventHub() {return _event_hub;}
+			input::EventQueue &events() {return _event_queue;}
 		};
 	}  // namespace video
 }  // namespace cb

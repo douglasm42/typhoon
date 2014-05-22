@@ -11,7 +11,7 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <input/win32/DIMouse.h>
+#include <win32/input/DIMouse.h>
 
 #include <base/Log.h>
 
@@ -40,9 +40,9 @@ namespace cb {
 			}
 		}
 
-		DIMouse::DIMouse(HWND iwindow, EventHub *ievent_hub)
+		DIMouse::DIMouse(HWND iwindow, EventQueue *ievent_queue)
 		:_window(iwindow)
-		,_event_hub(ievent_hub)
+		,_event_queue(ievent_queue)
 		,_hold(false)
 		,_absx(0)
 		,_absy(0)
@@ -103,37 +103,33 @@ namespace cb {
 				} else if(d.dwOfs == DIMOFS_Z) {
 					z += d.dwData;
 				} else if(d.dwOfs == DIMOFS_BUTTON0) {
-					if(d.dwData & 0x80) {_event_hub->onButtonPress(buttonkeycode(0), x, y);} else {_event_hub->onButtonRelease(buttonkeycode(0), x, y);}
+					if(d.dwData & 0x80) {_event_queue->onButtonPress(buttonkeycode(0), x, y);} else {_event_queue->onButtonRelease(buttonkeycode(0), x, y);}
 				} else if(d.dwOfs == DIMOFS_BUTTON1) {
-					if(d.dwData & 0x80) {_event_hub->onButtonPress(buttonkeycode(1), x, y);} else {_event_hub->onButtonRelease(buttonkeycode(1), x, y);}
+					if(d.dwData & 0x80) {_event_queue->onButtonPress(buttonkeycode(1), x, y);} else {_event_queue->onButtonRelease(buttonkeycode(1), x, y);}
 				} else if(d.dwOfs == DIMOFS_BUTTON2) {
-					if(d.dwData & 0x80) {_event_hub->onButtonPress(buttonkeycode(2), x, y);} else {_event_hub->onButtonRelease(buttonkeycode(2), x, y);}
+					if(d.dwData & 0x80) {_event_queue->onButtonPress(buttonkeycode(2), x, y);} else {_event_queue->onButtonRelease(buttonkeycode(2), x, y);}
 				} else if(d.dwOfs == DIMOFS_BUTTON3) {
-					if(d.dwData & 0x80) {_event_hub->onButtonPress(buttonkeycode(3), x, y);} else {_event_hub->onButtonRelease(buttonkeycode(3), x, y);}
+					if(d.dwData & 0x80) {_event_queue->onButtonPress(buttonkeycode(3), x, y);} else {_event_queue->onButtonRelease(buttonkeycode(3), x, y);}
 				} else if(d.dwOfs == DIMOFS_BUTTON4) {
-					if(d.dwData & 0x80) {_event_hub->onButtonPress(buttonkeycode(4), x, y);} else {_event_hub->onButtonRelease(buttonkeycode(4), x, y);}
+					if(d.dwData & 0x80) {_event_queue->onButtonPress(buttonkeycode(4), x, y);} else {_event_queue->onButtonRelease(buttonkeycode(4), x, y);}
 				} else if(d.dwOfs == DIMOFS_BUTTON5) {
-					if(d.dwData & 0x80) {_event_hub->onButtonPress(buttonkeycode(5), x, y);} else {_event_hub->onButtonRelease(buttonkeycode(5), x, y);}
+					if(d.dwData & 0x80) {_event_queue->onButtonPress(buttonkeycode(5), x, y);} else {_event_queue->onButtonRelease(buttonkeycode(5), x, y);}
 				} else if(d.dwOfs == DIMOFS_BUTTON6) {
-					if(d.dwData & 0x80) {_event_hub->onButtonPress(buttonkeycode(6), x, y);} else {_event_hub->onButtonRelease(buttonkeycode(6), x, y);}
+					if(d.dwData & 0x80) {_event_queue->onButtonPress(buttonkeycode(6), x, y);} else {_event_queue->onButtonRelease(buttonkeycode(6), x, y);}
 				} else if(d.dwOfs == DIMOFS_BUTTON7) {
-					if(d.dwData & 0x80) {_event_hub->onButtonPress(buttonkeycode(7), x, y);} else {_event_hub->onButtonRelease(buttonkeycode(7), x, y);}
+					if(d.dwData & 0x80) {_event_queue->onButtonPress(buttonkeycode(7), x, y);} else {_event_queue->onButtonRelease(buttonkeycode(7), x, y);}
 				}
 			}
 			delete [] data;
 
-			if(relx != 0 && rely != 0) {
+			if(relx != 0 || rely != 0 || z != 0) {
 				POINT point;
 				GetCursorPos(&point);
 				ScreenToClient(_window, &point);
 				_absx = point.x;
 				_absy = point.y;
 
-				_event_hub->onMove(_absx, _absy, relx, rely);
-			}
-
-			if(z != 0) {
-				_event_hub->onWheel(z);
+				_event_queue->onMove(_absx, _absy, relx, rely, z);
 			}
 		}
 

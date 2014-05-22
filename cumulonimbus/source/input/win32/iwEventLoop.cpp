@@ -16,8 +16,8 @@
 
 #include <input/EventLoop.h>
 #include <video/Window.h>
-#include <video/win32/Windows.h>
-#include <video/win32/WindowInfo.h>
+#include <win32/video/Windows.h>
+#include <win32/video/WindowInfo.h>
 
 namespace cb {
 	namespace input {
@@ -30,16 +30,9 @@ namespace cb {
 		bool EventLoop::update() {
 			std::list<video::Window *>::iterator it;
 
-			for(it = _window_list.begin() ; it != _window_list.end() ; ++it) {
-				(*it)->eventHub().onUpdateStart();
-			}
-
 			MSG msg;
 			while(PeekMessage(&msg,NULL,0,0,PM_REMOVE)) {
 				if (msg.message==WM_QUIT) {
-					for(it = _window_list.begin() ; it != _window_list.end() ; ++it) {
-						(*it)->eventHub().onQuit();
-					}
 					return false;
 				} else {
 					TranslateMessage(&msg);
@@ -49,7 +42,6 @@ namespace cb {
 
 			for(it = _window_list.begin() ; it != _window_list.end() ; ++it) {
 				(*(*it)->info()).dimouse->update();
-				(*it)->eventHub().onUpdateEnd();
 			}
 
 			return true;

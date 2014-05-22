@@ -14,7 +14,7 @@
 #include <base/Setup.h>
 #ifdef CbLinux
 
-#include <video/linux/Xlib.h>
+#include <linux/video/Xlib.h>
 
 #include <base/Exception.h>
 

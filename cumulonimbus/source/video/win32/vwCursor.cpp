@@ -19,7 +19,7 @@
 #include <base/Exception.h>
 #include <base/Log.h>
 
-#include <video/win32/Windows.h>
+#include <win32/video/Windows.h>
 
 namespace cb {
 	namespace video {
@@ -153,9 +153,8 @@ namespace cb {
 			HBITMAP hOldXorMaskBitmap = (HBITMAP)SelectObject(hXorMaskDC,hXorMaskBitmap);
  
 			//Scan each pixel of the souce bitmap and create the masks
-			COLORREF MainBitPixel;
-			for(int x=0;x<ibmp.width();++x) {
-				for(int y=0;y<ibmp.height();++y) {
+			for(size_t x=0;x<ibmp.width();++x) {
+				for(size_t y=0;y<ibmp.height();++y) {
 					math::u8vec3 color = ibmp(x,y).vec();
 					if(color == itransparent) {
 						::SetPixel(hAndMaskDC,x,y,RGB(255,255,255));

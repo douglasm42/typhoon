@@ -15,8 +15,9 @@
 
 #include <input/input.h>
 
-#include <video/win32/Windows.h>
+#include <win32/video/Windows.h>
 
+#define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 
 namespace cb {
