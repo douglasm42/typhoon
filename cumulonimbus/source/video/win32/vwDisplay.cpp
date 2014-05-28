@@ -19,7 +19,7 @@
 #include <base/Exception.h>
 #include <base/Log.h>
 
-#include <win32/video/Windows.h>
+#include <video/win32/Windows.h>
 
 #include <algorithm>
 

@@ -16,8 +16,8 @@
 
 #include <input/EventLoop.h>
 #include <video/Window.h>
-#include <win32/video/Windows.h>
-#include <win32/video/WindowInfo.h>
+#include <video/win32/Windows.h>
+#include <video/win32/WindowInfo.h>
 
 namespace cb {
 	namespace input {

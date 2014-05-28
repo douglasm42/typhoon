@@ -16,44 +16,47 @@
 namespace cb {
 	namespace input {
 		base::string Event::str() {
-			if(_type == ev::Void) {
+			if(type == EventType::Void) {
 				return base::string("Void");
 
-			} else if(_type == ev::KeyPress) {
-				return base::format("KeyPress : %s", keyname(key().k).c_str());
+			} else if(type == EventType::KeyPress) {
+				return base::format("KeyPress : %s", keyname(key.k).c_str());
 
-			} else if(_type == ev::KeyRelease) {
-				return base::format("KeyRelease : %s", keyname(key().k).c_str());
+			} else if(type == EventType::KeyRelease) {
+				return base::format("KeyRelease : %s", keyname(key.k).c_str());
 
-			} else if(_type == ev::KeyMove) {
-				return base::format("KeyMove : %s - %f", keyname(key().k).c_str(), key().v);
+			} else if(type == EventType::KeyMove) {
+				return base::format("KeyMove : %s - %f", keyname(key.k).c_str(), key.v);
 
-			} else if(_type == ev::Char) {
-				base::lchar_t lstr[2] = {character().c, 0};
+			} else if(type == EventType::Char) {
+				base::lchar_t lstr[2] = {character.c, 0};
 				return base::format("Char : %s", base::utf8(base::lstring(lstr)).c_str());
 
-			} else if(_type == ev::ButtonPress) {
-				return base::format("ButtonPress : %s - %d:%d", keyname(button().k).c_str(), button().x, button().y);
+			} else if(type == EventType::ButtonPress) {
+				return base::format("ButtonPress : %s - %d:%d", keyname(button.k).c_str(), button.x, button.y);
 
-			} else if(_type == ev::ButtonRelease) {
-				return base::format("ButtonRelease : %s - %d:%d", keyname(button().k).c_str(), button().x, button().y);
+			} else if(type == EventType::ButtonRelease) {
+				return base::format("ButtonRelease : %s - %d:%d", keyname(button.k).c_str(), button.x, button.y);
 
-			} else if(_type == ev::Move) {
-				return base::format("Move : Abs:%d:%d - Rel:%d:%d:%d", move().x, move().y, move().rx, move().ry, move().rz);
+			} else if(type == EventType::MouseMove) {
+				return base::format("MouseMove : x:%d y:%d", move.x, move.y);
 
-			} else if(_type == ev::Resize) {
-				return base::format("Resize : %dx%d", size().w, size().h);
+			} else if(type == EventType::WheelMove) {
+				return base::format("WheelMove : v:%f h:%f", wheel.v, wheel.h);
 
-			} else if(_type == ev::Activate) {
+			} else if(type == EventType::Resize) {
+				return base::format("Resize : %dx%d", size.w, size.h);
+
+			} else if(type == EventType::Activate) {
 				return base::string("Activate");
 
-			} else if(_type == ev::Deactivate) {
+			} else if(type == EventType::Deactivate) {
 				return base::string("Deactivate");
 
-			} else if(_type == ev::Close) {
+			} else if(type == EventType::Close) {
 				return base::string("Close");
 
-			} else if(_type == ev::Quit) {
+			} else if(type == EventType::Quit) {
 				return base::string("Quit");
 			}
 			return base::string("Unknown");

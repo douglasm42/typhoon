@@ -11,7 +11,7 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <win32/input/DIDevice.h>
+#include <input/win32/DIDevice.h>
 
 #include <base/Exception.h>
 #include <base/Log.h>

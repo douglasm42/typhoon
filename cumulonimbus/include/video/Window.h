@@ -123,6 +123,9 @@ namespace cb {
 			bool active();
 			bool empty();
 
+			void icon(data::ubBitmapRGBA &ibmp);
+			void icon(data::ubBitmapRGB &ibmp, math::u8vec3 itransparent);
+
 			Cursor &cursor() {return _cursor;}
 
 			kin::WindowInfo &info() {return _window_info;}

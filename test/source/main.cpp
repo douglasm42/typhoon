@@ -14,7 +14,7 @@
 #include <base/Entry.h>
 
 #include <video/Window.h>
-#include <opengl/GLContext.h>
+#include <graphic/GLContext.h>
 #include <input/EventLoop.h>
 #include <input/Event.h>
 
@@ -34,7 +34,7 @@ int cbEntry(int argc, char **argv) {
 
 	video::Window win(base::wstring(L"Testando!"), 100, 100, 500, 500, false, false, true);
 
-	opengl::GLContext glcontext(win);
+	graphic::GLContext context(win, graphic::Version::v30);
 
 	win.show();
 
@@ -56,17 +56,32 @@ int cbEntry(int argc, char **argv) {
 		base::log.nothing("Não abriu!");
 	}
 
+	curfile.open("cumulonimbus_icon.png");
+	if(curfile.isOpen()) {
+		data::ubBitmapRGBA curimg(curfile);
+		win.icon(curimg);
+	} else {
+		base::log.nothing("Não abriu!");
+	}
+
+	win.cursor().hold(true);
+
 	win.cursor().select("hand.point");
 	base::log.nothing("Iniciando loop!");
 	while(!win.empty() && input::EventLoop::update()) {
-		glcontext.swap();
+		context.swap();
 
 		while(!win.events().empty()) {
 			input::Event e(win.events().next());
-			if(e == input::ev::KeyPress || e == input::ev::KeyRelease || e == input::ev::ButtonPress || e == input::ev::ButtonRelease) {
+			if(e == input::EventType::KeyPress || e == input::EventType::KeyRelease || e == input::EventType::ButtonPress || e == input::EventType::ButtonRelease) {
 				base::log.nothing("%s", e.str().c_str());
 			}
-			if(e == input::ev::KeyPress && e.key().k == input::KBEsc) {
+
+			if(e == input::EventType::KeyMove) {
+				base::log.nothing("%s", e.str().c_str());
+			}
+
+			if(e == input::EventType::KeyPress && e.key.k == input::KBEsc) {
 				input::EventLoop::postQuit();
 			}
 		}

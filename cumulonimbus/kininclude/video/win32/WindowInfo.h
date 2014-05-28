@@ -1,6 +1,6 @@
 /* 
  * - Cumulonimbus - ☁
- * File: opengl.h
+ * File: WindowInfo.h
  * 
  * Licence:
  * ============================================================================
@@ -13,21 +13,19 @@
  */
 #pragma once
 
-#include <base/base.h>
+#include <video/video.h>
+
+#include <video/win32/Windows.h>
+#include <input/win32/DIMouse.h>
 
 namespace cb {
-	namespace opengl {
-		class CbAPI GL;
-		class CbAPI GLContext;
+	namespace video {
+		class CbAPI w32WindowInfo {
+		public:
+			HWND window;
+			input::DIMouse *dimouse;
 
-		class CbAPI Texture;
-		class CbAPI RenderTarget;
-
-		class CbAPI Atlas;
-		class CbAPI Sprite;
-		class CbAPI Font;
-
-		class CbAPI Mesh;
-		class CbAPI Shader;
-	}  // namespace opengl
+			w32WindowInfo() :window(nullptr), dimouse(nullptr) {}
+		};
+	}  // namespace video
 }  // namespace cb

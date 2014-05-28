@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <linux/video/Xlib.h>
+#include <video/linux/Xlib.h>
 
 namespace cb {
 	namespace video {
@@ -153,7 +153,7 @@ namespace cb {
 			XSelectInput(_display, _window, ExposureMask | ButtonPressMask | ButtonReleaseMask | StructureNotifyMask);
 			XMapWindow(_display, _window);
 
-			//Setup graphics context
+			//Setup graphic context
 			_screen = DefaultScreen(_display);
 			_gc = XCreateGC(_display, _window, 0, 0);
 			XSetBackground(_display, _gc, _white_pixel);

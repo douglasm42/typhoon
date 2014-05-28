@@ -16,8 +16,8 @@
 
 #include <base/Exception.h>
 
-#include <win32/video/WindowClass.h>
-#include <win32/input/WindowProc.h>
+#include <video/win32/WindowClass.h>
+#include <input/win32/WindowProc.h>
 
 namespace cb {
 	namespace video {
@@ -34,7 +34,7 @@ namespace cb {
 				window_class.cbWndExtra		= 0;
 				window_class.hInstance		= GetModuleHandle(NULL);
 				window_class.hIcon			= NULL;
-				window_class.hCursor		= LoadCursor(NULL, IDC_ARROW);
+				window_class.hCursor		= NULL;
 				window_class.hbrBackground	= (HBRUSH) GetStockObject(BLACK_BRUSH);
 				window_class.lpszMenuName	= NULL;
 				window_class.lpszClassName	= _name;

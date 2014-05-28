@@ -13,24 +13,24 @@
  */
 #pragma once
 
-#include <opengl/opengl.h>
+#include <graphic/graphic.h>
 
 #include <base/Kin.h>
 
 #include <video/Window.h>
 
+#include <mutex>
+
 namespace cb {
-	namespace opengl {
+	namespace graphic {
 		KinLock(GLContextInfo);
 
-		namespace gl {
-			typedef enum Version {
-				v21,
-				v30,
-				v33,
-				v43
-			} Version;
-		}  // namespace gl
+		enum class Version {
+			v21,
+			v30,
+			v33,
+			v43
+		};
 
 		class CbAPI GLContext {
 		private:
@@ -38,20 +38,27 @@ namespace cb {
 			kin::GLContextInfo _context_info;
 
 			bool _vsync;
-			gl::Version _version;
+			Version _version;
+
+			GLContext(const GLContext &);
+
+			std::recursive_mutex _active_guard;
+			bool _is_active;
 
 		public:
-			GLContext(video::Window &iwindow, gl::Version iversion = gl::v43);
-			GLContext(GLContext &icontext);
+			GLContext(video::Window &iwindow, Version iversion = Version::v43);
 			virtual ~GLContext();
 
-			gl::Version version() const {return _version;}
+			Version version() const {return _version;}
 
 			void vsync(bool ivsync);
 			bool vsync() const {return _vsync;}
 
 			void activate();
-			bool active();
+			bool isActive() const;
+
+			static void deactivate();
+			static GLContext *active();
 
 			void bind(video::Window &iwindow);
 			void unbind();
@@ -60,5 +67,5 @@ namespace cb {
 
 			void share(GLContext &iglcontext);
 		};
-	}  // namespace opengl
+	}  // namespace graphic
 }  // namespace cb

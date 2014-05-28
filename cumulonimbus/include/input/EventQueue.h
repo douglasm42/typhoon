@@ -50,7 +50,8 @@ namespace cb {
 
 			void onButtonPress(KeyCode ikey, int ix, int iy);
 			void onButtonRelease(KeyCode ikey, int ix, int iy);
-			void onMove(int ix, int iy, int irelx, int irely, int irelz);
+			void onMouseMove(int ix, int iy);
+			void onWheelMove(float iv, float ih);
 
 			void onResize(size_t iwidth, size_t iheight);
 			void onActivate();
@@ -75,51 +76,55 @@ namespace cb {
 		}
 
 		inline void EventQueue::onKeyPress(KeyCode ikey) {
-			push(Event(ev::KeyPress, ikey));
+			push(Event(EventType::KeyPress, ikey));
 		}
 
 		inline void EventQueue::onKeyRelease(KeyCode ikey) {
-			push(Event(ev::KeyRelease, ikey));
+			push(Event(EventType::KeyRelease, ikey));
 		}
 
 		inline void EventQueue::onKeyMove(KeyCode ikey, float ivalue) {
-			push(Event(ev::KeyMove, ikey, ivalue));
+			push(Event(EventType::KeyMove, ikey, ivalue));
 		}
 
 		inline void EventQueue::onChar(base::lchar_t ichar) {
-			push(Event(ev::Char, ichar));
+			push(Event(EventType::Char, ichar));
 		}
 
 		inline void EventQueue::onButtonPress(KeyCode ikey, int ix, int iy) {
-			push(Event(ev::ButtonPress, ikey, ix, iy));
+			push(Event(EventType::ButtonPress, ikey, ix, iy));
 		}
 
 		inline void EventQueue::onButtonRelease(KeyCode ikey, int ix, int iy) {
-			push(Event(ev::ButtonRelease, ikey, ix, iy));
+			push(Event(EventType::ButtonRelease, ikey, ix, iy));
 		}
 
-		inline void EventQueue::onMove(int ix, int iy, int irelx, int irely, int irelz) {
-			push(Event(ev::Move, ix, iy, irelx, irely, irelz));
+		inline void EventQueue::onMouseMove(int ix, int iy) {
+			push(Event(EventType::MouseMove, ix, iy));
+		}
+
+		inline void EventQueue::onWheelMove(float iv, float ih) {
+			push(Event(EventType::WheelMove, iv, ih));
 		}
 
 		inline void EventQueue::onResize(size_t iwidth, size_t iheight) {
-			push(Event(ev::Resize, iwidth, iheight));
+			push(Event(EventType::Resize, iwidth, iheight));
 		}
 
 		inline void EventQueue::onActivate() {
-			push(Event(ev::Activate));
+			push(Event(EventType::Activate));
 		}
 
 		inline void EventQueue::onDeactivate() {
-			push(Event(ev::Deactivate));
+			push(Event(EventType::Deactivate));
 		}
 
 		inline void EventQueue::onClose() {
-			push(Event(ev::Close));
+			push(Event(EventType::Close));
 		}
 
 		inline void EventQueue::onQuit() {
-			push(Event(ev::Quit));
+			push(Event(EventType::Quit));
 		}
 	}  // namespace input
 }  // namespace cb

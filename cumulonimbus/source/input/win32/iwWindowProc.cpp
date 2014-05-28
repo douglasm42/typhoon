@@ -14,7 +14,7 @@
 #include <base/Setup.h>
 #ifdef CbWindows
 
-#include <win32/input/WindowProc.h>
+#include <input/win32/WindowProc.h>
 
 #include <video/Window.h>
 
@@ -665,10 +665,12 @@ namespace cb {
 				//Eventos relacionados à janela
 				case WM_ACTIVATE:
 					if(iwparam == WA_INACTIVE) {
-						window->events().onActivate();
+						window->events().onDeactivate();
+						window->cursor().onDeactivate();
 						base::log.nothing("w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela desativada.");
 					} else {
-						window->events().onDeactivate();
+						window->events().onActivate();
+						window->cursor().onActivate();
 						base::log.nothing("w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela ativada.");
 					}
 					return 0;
@@ -679,7 +681,65 @@ namespace cb {
 				case WM_SIZE:
 					if(LOWORD(ilparam) && HIWORD(ilparam)) {
 						window->events().onResize(LOWORD(ilparam), HIWORD(ilparam));
+						window->cursor().onResize();
 					}
+					return 0;
+
+				//Eventos do mouse
+				case WM_LBUTTONDOWN:
+					window->events().onButtonPress(input::MouseLeft, GET_X_LPARAM(ilparam), GET_Y_LPARAM(ilparam));
+					window->cursor().select("hand.click");
+					return 0;
+
+				case WM_LBUTTONUP:
+					window->events().onButtonRelease(input::MouseLeft, GET_X_LPARAM(ilparam), GET_Y_LPARAM(ilparam));
+					window->cursor().select("hand.point");
+					return 0;
+
+				case WM_RBUTTONDOWN:
+					window->events().onButtonPress(input::MouseRight, GET_X_LPARAM(ilparam), GET_Y_LPARAM(ilparam));
+					return 0;
+
+				case WM_RBUTTONUP:
+					window->events().onButtonRelease(input::MouseRight, GET_X_LPARAM(ilparam), GET_Y_LPARAM(ilparam));
+					return 0;
+
+				case WM_MBUTTONDOWN:
+					window->events().onButtonPress(input::MouseMiddle, GET_X_LPARAM(ilparam), GET_Y_LPARAM(ilparam));
+					return 0;
+
+				case WM_MBUTTONUP:
+					window->events().onButtonRelease(input::MouseMiddle, GET_X_LPARAM(ilparam), GET_Y_LPARAM(ilparam));
+					return 0;
+
+				case WM_XBUTTONDOWN: {
+						if(HIWORD(iwparam) == XBUTTON1) {
+							window->events().onButtonPress(input::MouseX1, GET_X_LPARAM(ilparam), GET_Y_LPARAM(ilparam));
+						} else if(HIWORD(iwparam) == XBUTTON2) {
+							window->events().onButtonPress(input::MouseX2, GET_X_LPARAM(ilparam), GET_Y_LPARAM(ilparam));
+						}
+						return 0;
+					}
+
+				case WM_XBUTTONUP: {
+						if(HIWORD(iwparam) == XBUTTON1) {
+							window->events().onButtonRelease(input::MouseX1, GET_X_LPARAM(ilparam), GET_Y_LPARAM(ilparam));
+						} else if(HIWORD(iwparam) == XBUTTON2) {
+							window->events().onButtonRelease(input::MouseX2, GET_X_LPARAM(ilparam), GET_Y_LPARAM(ilparam));
+						}
+						return 0;
+					}
+
+				case WM_MOUSEMOVE:
+					window->events().onMouseMove(GET_X_LPARAM(ilparam), GET_Y_LPARAM(ilparam));
+					return 0;
+
+				case WM_MOUSEWHEEL:
+					window->events().onWheelMove(((short)HIWORD(iwparam))/(float)WHEEL_DELTA, 0.0f);
+					return 0;
+
+				case WM_MOUSEHWHEEL:
+					window->events().onWheelMove(0.0f, ((short)HIWORD(iwparam))/(float)WHEEL_DELTA);
 					return 0;
 
 				//Eventos do sistema
@@ -687,20 +747,20 @@ namespace cb {
 					base::log.nothing("w32WindowProc() : Mensagem recebida: WM_NCDESTROY. Janela destruida.");
 					return 0;
 
-				case WM_LBUTTONDOWN:
-					window->cursor().select("hand.click");
-					return 0;
-
-				case WM_LBUTTONUP:
-					window->cursor().select("hand.point");
-					return 0;
-
 				case WM_SETCURSOR:
 					if(LOWORD(ilparam) == HTCLIENT) {
-						window->cursor().set();
+						window->cursor().onCursorSet();
 						return TRUE;
 					}
+				case WM_SETICON: {
+						HICON icon = reinterpret_cast<HICON>(DefWindowProc(iwindow_handler,imessage,iwparam,ilparam));
+						if(icon) {
+							DestroyIcon(icon);
+						}
+						return 0;
+					}
 				}
+
 			} else {
 				switch(imessage) {
 				//Mensagens recebidas durante a criação da janela.

@@ -1,6 +1,6 @@
 /* 
  * - Cumulonimbus - ☁
- * File: WindowProc.h
+ * File: GLEWmx.h
  * 
  * Licence:
  * ============================================================================
@@ -13,12 +13,28 @@
  */
 #pragma once
 
-#include <input/input.h>
+#include <graphic/graphic.h>
 
-#include <win32/video/Windows.h>
+#include <GL/glew.h>
 
-namespace cb {
-	namespace input {
-		LRESULT CALLBACK WindowProc(HWND iwindow_handler, UINT imessage, WPARAM iwparam, LPARAM ilparam);
-	}  // namespace input
-}  // namespace cb
+#ifdef CbWindows
+	#include <GL/wglew.h>
+#endif
+
+#include <GL/GL.h>
+#include <GL/GLU.h>
+
+#include <base/Exception.h>
+
+GLEWContext *glewGetContext();
+void activateGLEW(GLEWContext *icontext);
+
+#ifdef CbWindows
+	WGLEWContext *wglewGetContext();
+	void activateWGLEW(WGLEWContext *iwcontext);
+#endif
+
+const char *glErrorStr(GLenum error);
+const char *glErrorStrDescription(GLenum error);
+
+void glCheckError();

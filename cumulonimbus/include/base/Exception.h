@@ -86,6 +86,7 @@ namespace cb {
 		ModuleException(Log);
 		ModuleException(Common);
 		ModuleException(File);
+		ModuleException(GL);
 
 		DetailedException(Log, LogUninitialized, "Tried to use a uninitialized log system.");
 		DetailedException(Log, LogCreateFileError, "Failed to create the log file.");
@@ -98,10 +99,14 @@ namespace cb {
 
 		DetailedException(Common, SetFailed, "Failed to set an attribute of a object.");
 		DetailedException(Common, GetFailed, "Failed to get an attribute of a object.");
+		DetailedException(Common, BindFailed, "Failed to bind two objects.");
+		DetailedException(Common, UnbindFailed, "Failed to unbind two objects.");
 		DetailedException(Common, ClearFailed, "Failed to get an attribute of a object.");
 		DetailedException(Common, AdvanceFailed, "Failed to get an attribute of a object.");
 		DetailedException(Common, OutOfRange, "Tried to access a object out of a range.");
 		DetailedException(Common, NotFound, "Failed to find object.");
+		DetailedException(Common, ActivateFailed, "Failed to activate a object.");
+		DetailedException(Common, DeactivateFailed, "Failed to deactivate a object.");
 
 		DetailedException(Common, InitError, "Failed to initialize object.");
 		DetailedException(Common, CreateError, "Failed to create object.");
@@ -115,5 +120,14 @@ namespace cb {
 		DetailedException(File, FileReadOnly, "Read only.");
 		DetailedException(File, FileWriteError, "Failed to write.");
 		DetailedException(File, FileReadError, "Failed to write.");
+
+		DetailedException(GL, GLInvalidEnum, "An unacceptable value is specified for an enumerated argument.");
+		DetailedException(GL, GLInvalidValue, "A numeric argument is out of range.");
+		DetailedException(GL, GLInvalidOperation, "The specified operation is not allowed in the current state.");
+		DetailedException(GL, GLInvalidFramebufferOperation, "The framebuffer object is not complete.");
+		DetailedException(GL, GLOutOfMemory, "There is not enough memory left to execute the command.");
+		DetailedException(GL, GLStackUnderflow, "An attempt has been made to perform an operation that would cause an internal stack to underflow.");
+		DetailedException(GL, GLStackOverflow, "An attempt has been made to perform an operation that would cause an internal stack to overflow.");
+		DetailedException(GL, GLUnknown, "Unknown error code.");
 	}  // namespace tokurei
 }  // namespace cb

@@ -18,24 +18,25 @@
 #include <base/Exception.h>
 #include <base/Log.h>
 
-#include <win32/video/Windows.h>
-#include <win32/video/WindowClass.h>
-#include <win32/video/WindowInfo.h>
+#include <video/win32/Windows.h>
+#include <video/win32/WindowClass.h>
+#include <video/win32/WindowInfo.h>
+#include <video/win32/BitmapToIcon.h>
 
 #include <input/EventLoop.h>
 
-#include <opengl/GLContext.h>
+#include <graphic/GLContext.h>
 
 namespace cb {
 	namespace video {
 		KinKey(kin::WindowInfo, w32WindowInfo);
 
-		Window::Window(base::wstring ititle, win::Placement iplacement) {
+		Window::Window(base::wstring ititle, win::Placement iplacement) :_cursor(this) {
 			_window_info << new w32WindowInfo;
 			create(ititle, iplacement);
 		}
 
-		Window::Window(base::wstring ititle, size_t ix, size_t iy, size_t iwidth, size_t iheight, bool imaximized, bool iminimized, bool iborder) {
+		Window::Window(base::wstring ititle, size_t ix, size_t iy, size_t iwidth, size_t iheight, bool imaximized, bool iminimized, bool iborder) :_cursor(this) {
 			_window_info << new w32WindowInfo;
 			create(ititle, win::Placement(ix, iy, iwidth, iheight, imaximized, iminimized, iborder));
 		}
@@ -227,6 +228,26 @@ namespace cb {
 
 		bool Window::empty() {
 			return !(*_window_info).window;
+		}
+
+		void Window::icon(data::ubBitmapRGBA &ibmp) {
+			HICON icon = bitmapToIcon(ibmp, 0, 0, TRUE);
+			if(icon) {
+				SendMessage((*_window_info).window, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(icon));
+				SendMessage((*_window_info).window, WM_SETICON, ICON_SMALL, reinterpret_cast<LPARAM>(icon));
+			} else {
+				Throw(tokurei::SetFailed);
+			}
+		}
+
+		void Window::icon(data::ubBitmapRGB &ibmp, math::u8vec3 itransparent) {
+			HICON icon = bitmapToIcon(ibmp, 0, 0, itransparent, TRUE);
+			if(icon) {
+				SendMessage((*_window_info).window, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(icon));
+				SendMessage((*_window_info).window, WM_SETICON, ICON_SMALL, reinterpret_cast<LPARAM>(icon));
+			} else {
+				Throw(tokurei::SetFailed);
+			}
 		}
 	}  // namespace video
 }  // namespace cb

@@ -1,6 +1,6 @@
 /* 
  * - Cumulonimbus - ☁
- * File: input.h
+ * File: BitmapToIcon.h
  * 
  * Licence:
  * ============================================================================
@@ -13,13 +13,14 @@
  */
 #pragma once
 
-#include <base/base.h>
+#include <video/video.h>
+
+#include <video/win32/Windows.h>
+#include <data/Bitmap.h>
 
 namespace cb {
-	namespace input {
-		union CbAPI Event;
-		class CbAPI EventQueue;
-		
-		class CbAPI Mouse;
+	namespace video {
+		HICON CbAPI bitmapToIcon(data::ubBitmapRGBA &ibmp, size_t ixhotspot, size_t iyhotspot, BOOL iicon);
+		HICON CbAPI bitmapToIcon(data::ubBitmapRGB &ibmp, size_t ixhotspot, size_t iyhotspot, math::u8vec3 itransparent, BOOL iicon);
 	}  // namespace video
 }  // namespace cb

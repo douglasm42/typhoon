@@ -24,7 +24,7 @@ namespace cb {
 	 * @author Douglas M. Freitas
 	 */
 	namespace base {
-		typedef unsigned int lchar_t;
+		typedef char32_t lchar_t;
 
 		typedef std::string string;
 		typedef std::wstring wstring;

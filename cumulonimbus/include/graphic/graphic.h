@@ -1,6 +1,6 @@
 /* 
  * - Cumulonimbus - ☁
- * File: GLEWmx.h
+ * File: graphic.h
  * 
  * Licence:
  * ============================================================================
@@ -13,21 +13,25 @@
  */
 #pragma once
 
-#include <GL/glew.h>
-#include <GL/wglew.h>
-#include <GL/GL.h>
-#include <GL/GLU.h>
-
-#define glewGetContext cb::opengl::GLEWmx::getGLEWContext
-#define wglewGetContext cb::opengl::GLEWmx::getWGLEWContext
+#include <base/base.h>
 
 namespace cb {
-	namespace opengl {
-		class CbAPI GLEWmx {
-		public:
-			static GLEWContext *getGLEWContext();
-			static WGLEWContext *getWGLEWContext();
-			static void activate(GLEWContext *icontext, WGLEWContext *iwcontext);
-		};
-	}  // namespace opengl
+	namespace graphic {
+		class CbAPI GLContext;
+
+		class CbAPI Viewport;
+
+		class CbAPI Texture;
+
+		class CbAPI RenderTarget;
+		class CbAPI Atlas;
+		class CbAPI Sprite;
+		class CbAPI Font;
+
+		class CbAPI Mesh;
+		class CbAPI Shader;
+
+		class CbAPI FrameBuffer;
+		class CbAPI PixelBuffer;
+	}  // namespace graphic
 }  // namespace cb

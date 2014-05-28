@@ -18,7 +18,6 @@
 #include <base/Kin.h>
 
 #include <data/Bitmap.h>
-#include <data/File.h>
 
 #include <map>
 
@@ -28,13 +27,17 @@ namespace cb {
 
 		class CbAPI Cursor {
 		private:
+			Window *_window;
+
 			std::map<base::string, kin::CursorHandler> _cursors;
 			kin::CursorHandler _active;
 
 			bool _show;
+			bool _hold;
+
+			Cursor(Window *iwindow);
 
 		public:
-			Cursor();
 			~Cursor();
 
 			void show(bool ishow);
@@ -47,8 +50,17 @@ namespace cb {
 			void select(const base::string &ikey);
 			kin::CursorHandler &active() {return _active;}
 
-			//Usado pelo sistema
-			void set();
+			void hold(bool ihold);
+			bool hold();
+
+			void move(size_t ix, size_t iy);
+
+			void onActivate();
+			void onDeactivate();
+			void onCursorSet();
+			void onResize();
+
+			friend class CbAPI Window;
 		};
 	}  // namespace video
 }  // namespace cb

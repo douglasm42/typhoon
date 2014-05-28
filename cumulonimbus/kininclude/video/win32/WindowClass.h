@@ -1,6 +1,6 @@
 /* 
  * - Cumulonimbus - ☁
- * File: input.h
+ * File: WindowClass.h
  * 
  * Licence:
  * ============================================================================
@@ -13,13 +13,21 @@
  */
 #pragma once
 
-#include <base/base.h>
+#include <video/video.h>
+
+#include <video/win32/Windows.h>
 
 namespace cb {
-	namespace input {
-		union CbAPI Event;
-		class CbAPI EventQueue;
-		
-		class CbAPI Mouse;
+	namespace video {
+		class CbAPI w32WindowClass {
+		private:
+			static const wchar_t *_name;
+			static size_t _window_count;
+
+		public:
+			static void reg();
+			static void unreg();
+			static const wchar_t *name() {return _name;}
+		};
 	}  // namespace video
 }  // namespace cb

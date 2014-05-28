@@ -1,6 +1,6 @@
 /* 
  * - Cumulonimbus - ☁
- * File: WindowInfo.h
+ * File: FrameBuffer.h
  * 
  * Licence:
  * ============================================================================
@@ -13,19 +13,23 @@
  */
 #pragma once
 
-#include <video/video.h>
+#include <graphic/graphic.h>
 
-#include <win32/video/Windows.h>
-#include <win32/input/DIMouse.h>
+#include <cstdint>
 
 namespace cb {
-	namespace video {
-		class CbAPI w32WindowInfo {
-		public:
-			HWND window;
-			input::DIMouse *dimouse;
-
-			w32WindowInfo() :window(nullptr), dimouse(nullptr) {}
+	namespace graphic {
+		enum class Buffer : uint32_t {
+			Color = 1,
+			Depth = 2
 		};
-	}  // namespace video
+
+		class CbAPI FrameBuffer {
+		private:
+			size_t _id;
+
+		public:
+			static void clear(uint32_t iflags);
+		};
+	}  // namespace graphic
 }  // namespace cb

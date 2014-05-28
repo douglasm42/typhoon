@@ -16,7 +16,7 @@
 
 #include <video/Window.h>
 
-#include <linux/video/Xlib.h>
+#include <video/linux/Xlib.h>
 
 namespace cb {
 	namespace video {

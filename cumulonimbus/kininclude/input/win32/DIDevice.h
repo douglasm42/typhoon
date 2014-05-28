@@ -15,7 +15,7 @@
 
 #include <input/input.h>
 
-#include <win32/video/Windows.h>
+#include <video/win32/Windows.h>
 
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>

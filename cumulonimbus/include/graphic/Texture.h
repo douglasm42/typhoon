@@ -1,6 +1,6 @@
 /* 
  * - Cumulonimbus - ☁
- * File: input.h
+ * File: Texture.h
  * 
  * Licence:
  * ============================================================================
@@ -13,13 +13,23 @@
  */
 #pragma once
 
-#include <base/base.h>
+#include <graphic/graphic.h>
+
+#include <cstdint>
 
 namespace cb {
-	namespace input {
-		union CbAPI Event;
-		class CbAPI EventQueue;
-		
-		class CbAPI Mouse;
-	}  // namespace video
+	namespace graphic {
+		enum class TextureType : uint8_t {
+			Color = 1,
+			Depth = 2
+		};
+
+		class CbAPI Texture {
+		private:
+			size_t _id;
+
+		public:
+			static void clear(uint32_t iflags);
+		};
+	}  // namespace graphic
 }  // namespace cb

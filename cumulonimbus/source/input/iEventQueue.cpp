@@ -38,7 +38,7 @@ namespace cb {
 					return e;
 				}
 			} else {
-				return Event(ev::Void);
+				return Event(EventType::Void);
 			}
 		}
 	}  // namespace input
