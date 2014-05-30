@@ -43,7 +43,6 @@ namespace cb {
 			_context_info << new w32GLContextInfo;
 			_is_active = false;
 
-			activate();
 			_window = &iwindow;
 
 			//Inicializa o device context para a criação do contexto do OpenGL.
@@ -225,7 +224,7 @@ namespace cb {
 
 		void GLContext::activate() {
 			if(_active_guard.try_lock()) {
-				if((*_context_info)._device_context && !isActive()) {
+				if((*_context_info)._device_context) {
 					deactivate();
 
 					_active_guard.lock();
@@ -236,6 +235,8 @@ namespace cb {
 					_is_active = true;
 
 					wglMakeCurrent((*_context_info)._device_context, (*_context_info)._opengl_context);
+				} else {
+
 				}
 
 				_active_guard.unlock();
