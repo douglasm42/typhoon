@@ -24,7 +24,7 @@ namespace cb {
 			return ixstr << base::utf16(istr);
 		}
 
-		xstring &operator<<(xstring &ixstr, const base::wstring &iwstr) {
+		xstring &operator<<(xstring &ixstr, const base::string16 &iwstr) {
 			ixstr.reserve(ixstr.size() + iwstr.length());
 			for(size_t j=0 ; j<iwstr.length() ; j++) {
 				unsigned char *pt = (unsigned char *)&iwstr[j];
@@ -34,7 +34,7 @@ namespace cb {
 			return ixstr;
 		}
 
-		xstring &operator<<(xstring &ixstr, const base::lstring &ilstr) {
+		xstring &operator<<(xstring &ixstr, const base::string32 &ilstr) {
 			return ixstr << base::utf16(ilstr);
 		}
 

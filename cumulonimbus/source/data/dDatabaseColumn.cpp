@@ -69,8 +69,8 @@ namespace cb {
 				return result;
 			}
 
-			wstring column::wstr() const {
-				wstring result = (const wchar_t *)sqlite3_column_text16((sqlite3_stmt*)kin::pt(_statement), _column_id);
+			string16 column::wstr() const {
+				string16 result = (const char16_t *)sqlite3_column_text16((sqlite3_stmt*)kin::pt(_statement), _column_id);
 				if(sqlite3_errcode(sqlite3_db_handle((sqlite3_stmt*)kin::pt(_statement))) != SQLITE_OK) {
 					ThrowDet(tokurei::GetFailed, "Error: %s", errmsgs(_statement));
 				}

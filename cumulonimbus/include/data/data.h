@@ -27,7 +27,7 @@ namespace cb {
 		class CbAPI ibinstream;
 
 		class CbAPI File;
-		class CbAPI Archiver;
+		class CbAPI Archive;
 
 		class CbAPI Database;
 

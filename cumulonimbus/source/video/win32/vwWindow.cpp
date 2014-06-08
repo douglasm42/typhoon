@@ -31,12 +31,12 @@ namespace cb {
 	namespace video {
 		KinKey(kin::WindowInfo, w32WindowInfo);
 
-		Window::Window(base::wstring ititle, win::Placement iplacement) :_cursor(this) {
+		Window::Window(base::string16 ititle, win::Placement iplacement) :_cursor(this) {
 			_window_info << new w32WindowInfo;
 			create(ititle, iplacement);
 		}
 
-		Window::Window(base::wstring ititle, size_t ix, size_t iy, size_t iwidth, size_t iheight, bool imaximized, bool iminimized, bool iborder) :_cursor(this) {
+		Window::Window(base::string16 ititle, size_t ix, size_t iy, size_t iwidth, size_t iheight, bool imaximized, bool iminimized, bool iborder) :_cursor(this) {
 			_window_info << new w32WindowInfo;
 			create(ititle, win::Placement(ix, iy, iwidth, iheight, imaximized, iminimized, iborder));
 		}
@@ -46,7 +46,7 @@ namespace cb {
 			delete (&_window_info);
 		}
 
-		void Window::create(base::wstring ititle, win::Placement iplacement) {
+		void Window::create(base::string16 ititle, win::Placement iplacement) {
 			if(!empty()) {
 				Throw(tokurei::CreateError);
 			}
@@ -67,7 +67,7 @@ namespace cb {
 			(*_window_info).window = CreateWindowEx(
 				style_ex,
 				w32WindowClass::name(),
-				ititle.c_str(),
+				(const wchar_t *)ititle.c_str(),
 				style,
 				0, 0,
 				window_rectangle.right-window_rectangle.left,
@@ -105,8 +105,8 @@ namespace cb {
 			}
 		}
 
-		void Window::title(base::wstring ititle) {
-			SetWindowText((*_window_info).window, ititle.c_str());
+		void Window::title(base::string16 ititle) {
+			SetWindowText((*_window_info).window, (const wchar_t *)ititle.c_str());
 		}
 
 		void Window::placement(win::Placement iplacement) {

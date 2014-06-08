@@ -186,12 +186,12 @@ namespace cb {
 					ThrowDet(tokurei::SetFailed, "Error: %s", errmsgq(_statement));
 				}
 			}
-			void querry::param(const base::string &iparameter, const wstring &iwstring) {
+			void querry::param(const base::string &iparameter, const string16 &istring16) {
 				if(!isOpen()) {
 					Throw(tokurei::EmptyObject);
 				}
 
-				int result = sqlite3_bind_text16(&_statement, QPARAMIND, iwstring.c_str(), -1, SQLITE_TRANSIENT);
+				int result = sqlite3_bind_text16(&_statement, QPARAMIND, istring16.c_str(), -1, SQLITE_TRANSIENT);
 				if(result != SQLITE_OK) {
 					ThrowDet(tokurei::SetFailed, "Error: %s", errmsgq(_statement));
 				}

@@ -80,7 +80,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		argv = new char*[argc];
 		argvstr = new cb::base::string[argc];
 		for(int i=0 ; i<argc ; ++i) {
-			argvstr[i] = cb::base::utf8(cb::base::wstring(wargv[i]));
+			argvstr[i] = cb::base::utf8(cb::base::string16((char16_t *)wargv[i]));
 			argv[i] = new char[argvstr[i].size()+1];
 			strcpy(argv[i], argvstr[i].c_str());
 		}

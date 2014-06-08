@@ -45,7 +45,7 @@ namespace cb {
 		public:
 			EventType type;
 			struct {EventType type; KeyCode k; float v;}			key;
-			struct {EventType type; base::lchar_t c;}				character;
+			struct {EventType type; char32_t c;}				character;
 			struct {EventType type; KeyCode k; int x; int y;}		button;
 			struct {EventType type; int x; int y;}				move;
 			struct {EventType type; float v; float h;}				wheel;
@@ -55,7 +55,7 @@ namespace cb {
 			Event(EventType itype);
 			Event(EventType itype, KeyCode ikey);
 			Event(EventType itype, KeyCode ikey, float ivalue);
-			Event(EventType itype, base::lchar_t ichar);
+			Event(EventType itype, char32_t ichar);
 			Event(EventType itype, KeyCode ibutton, int ix, int iy);
 			Event(EventType itype, int ix, int iy);
 			Event(EventType itype, float ix, float iy);
@@ -88,7 +88,7 @@ namespace cb {
 			key.v = ivalue;
 		}
 
-		inline Event::Event(EventType itype, base::lchar_t ichar) {
+		inline Event::Event(EventType itype, char32_t ichar) {
 			type = itype;
 			character.c = ichar;
 		}

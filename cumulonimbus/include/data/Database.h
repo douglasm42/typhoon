@@ -41,7 +41,7 @@ namespace cb {
 			typedef int				integer_t;
 			typedef long long		linteger_t;
 			typedef base::string	string;
-			typedef base::wstring	wstring;
+			typedef base::string16	string16;
 			typedef MFile			blob_t;
 
 			class CbAPI column {
@@ -70,7 +70,7 @@ namespace cb {
 				operator integer_t() const	{return integer();}
 				operator linteger_t() const	{return linteger();}
 				operator string() const		{return str();}
-				operator wstring() const	{return wstr();}
+				operator string16() const	{return wstr();}
 				operator blob_t() const		{return blob();}
 
 				operator char() const		{return		 (char)integer();}
@@ -94,7 +94,7 @@ namespace cb {
 				integer_t integer() const;
 				linteger_t linteger() const;
 				string str() const;
-				wstring wstr() const;
+				string16 wstr() const;
 				blob_t blob() const;
 
 				bool empty() const {return isNull();}
@@ -135,7 +135,7 @@ namespace cb {
 				void param(const base::string &iparameter, const integer_t iinteger);
 				void param(const base::string &iparameter, const linteger_t ilinteger);
 				void param(const base::string &iparameter, const base::string &istring);
-				void param(const base::string &iparameter, const base::wstring &iwstring);
+				void param(const base::string &iparameter, const base::string16 &istring16);
 				void param(const base::string &iparameter, const blob_t &iblob);
 
 				int columnCount() const;

@@ -433,7 +433,7 @@ namespace cb {
 									ThrowDet(tokurei::LoadFailed, "JSON : Invalid string, unexpected character : %d.%d : (Expected 'hex digit')", _line, _column);
 								}
 
-								base::lstring lstr;
+								base::string32 lstr;
 								lstr.push_back(strtoul(cv, NULL, 16));
 
 								ostring += base::utf8(lstr);

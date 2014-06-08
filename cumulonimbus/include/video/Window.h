@@ -97,15 +97,15 @@ namespace cb {
 			input::EventQueue _event_queue;
 			Cursor _cursor;
 
-			void create(base::wstring ititle, win::Placement iplacement);
+			void create(base::string16 ititle, win::Placement iplacement);
 			void destroy();
 
 		public:
-			Window(base::wstring ititle, win::Placement iplacement);
-			Window(base::wstring ititle, size_t ix, size_t iy, size_t iwidth, size_t iheight, bool imaximized, bool iminimized, bool iborder);
+			Window(base::string16 ititle, win::Placement iplacement);
+			Window(base::string16 ititle, size_t ix, size_t iy, size_t iwidth, size_t iheight, bool imaximized, bool iminimized, bool iborder);
 			~Window();
 
-			void title(base::wstring ititle);
+			void title(base::string16 ititle);
 			void title(base::string ititle) {title(base::utf16(ititle));}
 
 			void placement(win::Placement iplacement);

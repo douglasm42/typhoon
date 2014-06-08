@@ -52,14 +52,14 @@ namespace cb {
 			bool _button_press;
 
 		public:
-			SimpleXMessageBox(msg::Type itype, std::vector<base::wstring> ilines);
+			SimpleXMessageBox(msg::Type itype, std::vector<base::string16> ilines);
 			~SimpleXMessageBox();
 
 			void draw();
 			void drawButton(bool ipress);
 		};
 
-		SimpleXMessageBox::SimpleXMessageBox(msg::Type itype, std::vector<base::wstring> ilines) {
+		SimpleXMessageBox::SimpleXMessageBox(msg::Type itype, std::vector<base::string16> ilines) {
 			_message_line.reserve(ilines.size());
 
 			for(size_t i=0 ; i<ilines.size() ; i++) {
@@ -67,7 +67,7 @@ namespace cb {
 				_message_line[i].clear();
 				_message_line[i] << ilines[i];
 			}
-			base::wstring str;
+			base::string16 str;
 			if(itype == msg::Error) {
 				str = L"- Error Message -";
 			} else if(itype == msg::Warning) {
@@ -227,24 +227,24 @@ namespace cb {
 			XClearWindow(_display, _window);
 
 			XTextExtents16(_font, _title.data(), _title.size(), &direction, &ascent, &descent, &overall);
-			XDrawString16(_display, _window, _gc, (_width - overall.width)/2, y + ascent, _title.data(), _title.size());
+			XDrastring1616(_display, _window, _gc, (_width - overall.width)/2, y + ascent, _title.data(), _title.size());
 
 			XTextExtents(_font, linha.c_str(), linha.size(), &direction, &ascent, &descent, &overall);
-			XDrawString(_display, _window, _gc, (_width - overall.width - 20), y + (ascent + descent)*(1) + ascent, linha.c_str(), linha.size());
+			XDrastring16(_display, _window, _gc, (_width - overall.width - 20), y + (ascent + descent)*(1) + ascent, linha.c_str(), linha.size());
 
 			for(size_t i=0 ; i<_message_line.size() ; i++) {
 				XTextExtents16(_font, _message_line[i].data(), _message_line[i].size(), &direction, &ascent, &descent, &overall);
-				XDrawString16(_display, _window, _gc, x, y + (ascent + descent)*(i+3) + ascent, _message_line[i].data(), _message_line[i].size());
+				XDrastring1616(_display, _window, _gc, x, y + (ascent + descent)*(i+3) + ascent, _message_line[i].data(), _message_line[i].size());
 			}
 
 			XTextExtents(_font, linha.c_str(), linha.size(), &direction, &ascent, &descent, &overall);
-			XDrawString(_display, _window, _gc, (_width - overall.width - 20), y + (ascent + descent)*(_message_line.size()+4) + ascent, linha.c_str(), linha.size());
+			XDrastring16(_display, _window, _gc, (_width - overall.width - 20), y + (ascent + descent)*(_message_line.size()+4) + ascent, linha.c_str(), linha.size());
 
 			XTextExtents16(_font, _sorry.data(), _sorry.size(), &direction, &ascent, &descent, &overall);
-			XDrawString16(_display, _window, _gc, (_width - overall.width - 20), y + (ascent + descent)*(_message_line.size()+5) + ascent, _sorry.data(), _sorry.size());
+			XDrastring1616(_display, _window, _gc, (_width - overall.width - 20), y + (ascent + descent)*(_message_line.size()+5) + ascent, _sorry.data(), _sorry.size());
 
 			XTextExtents16(_font, _signature.data(), _signature.size(), &direction, &ascent, &descent, &overall);
-			XDrawString16(_display, _window, _gc, (_width - overall.width - 20), y + (ascent + descent)*(_message_line.size()+6) + ascent, _signature.data(), _signature.size());
+			XDrastring1616(_display, _window, _gc, (_width - overall.width - 20), y + (ascent + descent)*(_message_line.size()+6) + ascent, _signature.data(), _signature.size());
 
 			drawButton(false);
 		}
@@ -266,7 +266,7 @@ namespace cb {
 				XSetForeground(_display, _gc, _white_pixel);
 			}
 
-			XDrawString(_display, _window, _gc, x - overall.width/2, y + ascent, "Ok", strlen("Ok"));
+			XDrastring16(_display, _window, _gc, x - overall.width/2, y + ascent, "Ok", strlen("Ok"));
 			XDrawRectangle(_display, _window, _gc, _rectangle_x, _rectangle_y, _rectangle_width, _rectangle_height);
 
 			XSetBackground(_display, _gc, _white_pixel);

@@ -32,16 +32,16 @@ namespace cb {
 		class CbAPI Message {
 		private:
 			msg::Type _type;
-			std::vector<base::wstring> _message_lines;
+			std::vector<base::string16> _message_lines;
 
 			void show();
 
-			void setMessage(base::wstring imessage) {
+			void setMessage(base::string16 imessage) {
 				_message_lines.clear();
-				_message_lines.push_back(base::wstring());
+				_message_lines.push_back(base::string16());
 				for(size_t i=0 ; i<imessage.length() ; i++) {
 					if(imessage[i] == L'\n') {
-						_message_lines.push_back(base::wstring());
+						_message_lines.push_back(base::string16());
 					} else {
 						_message_lines.back().push_back(imessage[i]);
 					}
@@ -49,7 +49,7 @@ namespace cb {
 			}
 
 		public:
-			Message(msg::Type itype, base::wstring imessage):_type(itype) {setMessage(imessage); show();}
+			Message(msg::Type itype, base::string16 imessage):_type(itype) {setMessage(imessage); show();}
 			Message(msg::Type itype, base::string imessage):_type(itype) {setMessage(base::utf16(imessage)); show();}
 			~Message() {}
 		};

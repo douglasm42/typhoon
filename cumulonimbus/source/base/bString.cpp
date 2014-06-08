@@ -16,6 +16,8 @@
 #include <base/FormatMacro.h>
 
 #include <boost/locale.hpp>
+#include <locale>
+#include <codecvt>
 
 #include <functional>
 #include <sstream>
@@ -29,41 +31,50 @@ namespace cb {
 			return str;
 		}
 
-		wstring utf16(string itext) {
-			return boost::locale::conv::utf_to_utf<wchar_t>(itext);
-		}
-		lstring utf32(string itext) {
-			return boost::locale::conv::utf_to_utf<unsigned int>(itext);
+		string16 utf16(string itext) {
+			std::wstring_convert<std::codecvt_utf8<char16_t>,char16_t> cv;
+			return cv.from_bytes(itext);
 		}
 
-		string utf8(wstring itext) {
-			return boost::locale::conv::utf_to_utf<char>(itext);
-		}
-		lstring utf32(wstring itext) {
-			return boost::locale::conv::utf_to_utf<unsigned int>(itext);
+		string32 utf32(string itext) {
+			std::wstring_convert<std::codecvt_utf8<char32_t>,char32_t> cv;
+			return cv.from_bytes(itext);
 		}
 
-		string utf8(lstring itext) {
-			return boost::locale::conv::utf_to_utf<char>(itext);
-		}
-		wstring utf16(lstring itext) {
-			return boost::locale::conv::utf_to_utf<wchar_t>(itext);
+		string utf8(string16 itext) {
+			std::wstring_convert<std::codecvt_utf8<char16_t>,char16_t> cv;
+			return cv.to_bytes(itext);
 		}
 
-		string encode(string itext, string iencoding) {
-			return boost::locale::conv::from_utf(itext, iencoding);
+		string32 utf32(string16 itext) {
+			return utf32(utf8(itext));
 		}
 
-		string encode(wstring itext, string iencoding) {
-			return boost::locale::conv::from_utf(itext, iencoding);
+		string utf8(string32 itext) {
+			std::wstring_convert<std::codecvt_utf8<char32_t>,char32_t> cv;
+			return cv.to_bytes(itext);
+		}
+
+		string16 utf16(string32 itext) {
+			return utf16(utf8(itext));
 		}
 
 		string upper(string istr) {
-			return boost::locale::to_upper(istr);
+			std::locale loc;
+			string ustr;
+			for (std::string::size_type i=0; i<istr.length(); ++i) {
+				ustr.push_back(std::toupper(istr[i],loc));
+			}
+			return ustr;
 		}
 
 		string lower(string istr) {
-			return boost::locale::to_lower(istr);
+			std::locale loc;
+			string ustr;
+			for (std::string::size_type i=0; i<istr.length(); ++i) {
+				ustr.push_back(std::tolower(istr[i],loc));
+			}
+			return ustr;
 		}
 
 		string CbAPI trim(string istr, int iflags) {

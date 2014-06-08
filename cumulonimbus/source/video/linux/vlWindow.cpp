@@ -22,11 +22,11 @@ namespace cb {
 	namespace video {
 		KinKey(kin::WindowInfo, XWindowInfo);
 
-		Window::Window(base::wstring ititle, win::Placement iplacement) {
+		Window::Window(base::string16 ititle, win::Placement iplacement) {
 
 		}
 
-		Window::Window(base::wstring ititle, size_t ix, size_t iy, size_t iwidth, size_t iheight, win::ShowCmd ishowcmd, bool iborder) {
+		Window::Window(base::string16 ititle, size_t ix, size_t iy, size_t iwidth, size_t iheight, win::ShowCmd ishowcmd, bool iborder) {
 
 		}
 
@@ -34,7 +34,7 @@ namespace cb {
 
 		}
 
-		void Window::title(base::wstring ititle) {
+		void Window::title(base::string16 ititle) {
 
 		}
 

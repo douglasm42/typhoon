@@ -29,8 +29,8 @@ namespace cb {
 				return base::format("KeyMove : %s - %f", keyname(key.k).c_str(), key.v);
 
 			} else if(type == EventType::Char) {
-				base::lchar_t lstr[2] = {character.c, 0};
-				return base::format("Char : %s", base::utf8(base::lstring(lstr)).c_str());
+				char32_t lstr[2] = {character.c, 0};
+				return base::format("Char : %s", base::utf8(base::string32(lstr)).c_str());
 
 			} else if(type == EventType::ButtonPress) {
 				return base::format("ButtonPress : %s - %d:%d", keyname(button.k).c_str(), button.x, button.y);

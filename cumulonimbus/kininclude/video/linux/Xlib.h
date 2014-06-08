@@ -33,8 +33,8 @@ namespace cb {
 		typedef std::vector<XChar2b> xstring;
 
 		xstring &operator<<(xstring &ixstr, const base::string &istr);
-		xstring &operator<<(xstring &ixstr, const base::wstring &iwstr);
-		xstring &operator<<(xstring &ixstr, const base::lstring &ilstr);
+		xstring &operator<<(xstring &ixstr, const base::string16 &iwstr);
+		xstring &operator<<(xstring &ixstr, const base::string32 &ilstr);
 
 		class CbAPI XConnection {
 		private:

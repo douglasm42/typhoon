@@ -46,7 +46,7 @@ namespace cb {
 			void onKeyRelease(KeyCode ikey_listener);
 			void onKeyMove(KeyCode ikey_listener, float ivalue);
 
-			void onChar(base::lchar_t ichar);
+			void onChar(char32_t ichar);
 
 			void onButtonPress(KeyCode ikey, int ix, int iy);
 			void onButtonRelease(KeyCode ikey, int ix, int iy);
@@ -87,7 +87,7 @@ namespace cb {
 			push(Event(EventType::KeyMove, ikey, ivalue));
 		}
 
-		inline void EventQueue::onChar(base::lchar_t ichar) {
+		inline void EventQueue::onChar(char32_t ichar) {
 			push(Event(EventType::Char, ichar));
 		}
 

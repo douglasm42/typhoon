@@ -32,7 +32,7 @@ int cbEntry(int argc, char **argv) {
 	data::file::init(argv[0]);
 	data::file::mount("./", "");
 
-	video::Window win(base::wstring(L"Testando!"), 100, 100, 500, 500, false, false, true);
+	video::Window win(base::utf16("Testando!"), 100, 100, 500, 500, false, false, true);
 
 	graphic::GLContext context(win, graphic::Version::v30);
 
@@ -68,6 +68,7 @@ int cbEntry(int argc, char **argv) {
 
 	win.cursor().select("hand.point");
 	base::log.nothing("Iniciando loop!");
+
 	while(!win.empty() && input::EventLoop::update()) {
 		context.swap();
 

@@ -24,11 +24,9 @@ namespace cb {
 	 * @author Douglas M. Freitas
 	 */
 	namespace base {
-		typedef char32_t lchar_t;
-
 		typedef std::string string;
-		typedef std::wstring wstring;
-		typedef std::basic_string<lchar_t> lstring;
+		typedef std::basic_string<char16_t> string16;
+		typedef std::basic_string<char32_t> string32;
 
 		/**
 		 * Essa função funciona de forma semelhante à printf da stdio.h, só que a saida ela retorna como uma string.
@@ -46,58 +44,42 @@ namespace cb {
 		 * @param itext Texto a ser convertido.
 		 * @return Texto traduzido.
 		 */
-		wstring CbAPI utf16(string itext);
+		string16 CbAPI utf16(string itext);
 
 		/**
 		 * Converte o texto recebido por parametro de UTF8 para UTF32.
 		 * @param itext Texto a ser convertido.
 		 * @return Texto traduzido.
 		 */
-		lstring CbAPI utf32(string itext);
+		string32 CbAPI utf32(string itext);
 
 		/**
 		 * Converte o texto recebido por parametro de UTF16 para UTF8.
 		 * @param itext Texto a ser convertido.
 		 * @return Texto traduzido.
 		 */
-		string CbAPI utf8(wstring itext);
+		string CbAPI utf8(string16 itext);
 
 		/**
 		 * Converte o texto recebido por parametro de UTF16 para UTF32.
 		 * @param itext Texto a ser convertido.
 		 * @return Texto traduzido.
 		 */
-		lstring CbAPI utf32(wstring itext);
+		string32 CbAPI utf32(string16 itext);
 
 		/**
 		 * Converte o texto recebido por parametro de UTF32 para UTF8.
 		 * @param itext Texto a ser convertido.
 		 * @return Texto traduzido.
 		 */
-		string CbAPI utf8(lstring itext);
+		string CbAPI utf8(string32 itext);
 
 		/**
 		 * Converte o texto recebido por parametro de UTF32 para UTF16.
 		 * @param itext Texto a ser convertido.
 		 * @return Texto traduzido.
 		 */
-		wstring CbAPI utf16(lstring itext);
-
-		/**
-		 * Converte o texto recebido por parametro de UTF8 para a codificação passada por parametro.
-		 * @param itext Texto a ser traduzido.
-		 * @param iencoding Codificação alvo. Por padrão é passada a codificação do sistema.
-		 * @return Texto traduzido.
-		 */
-		string CbAPI encode(string itext, string iencoding);
-
-		/**
-		 * Converte o texto recebido por parametro de UTF8 para a codificação passada por parametro.
-		 * @param itext Texto a ser traduzido.
-		 * @param iencoding Codificação alvo. Por padrão é passada a codificação do sistema.
-		 * @return Texto traduzido.
-		 */
-		string CbAPI encode(wstring itext, string iencoding);
+		string16 CbAPI utf16(string32 itext);
 
 		/**
 		 * Função para converter uma string para caixa alta.
