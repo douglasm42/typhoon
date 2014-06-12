@@ -21,6 +21,9 @@
 #include <data/File.h>
 #include <data/Bitmap.h>
 
+#include <graphic/GL.h>
+#include <graphic/Texture.h>
+
 #include <iostream>
 using namespace std;
 
@@ -32,9 +35,11 @@ int cbEntry(int argc, char **argv) {
 	data::file::init(argv[0]);
 	data::file::mount("./", "");
 
+	graphic::GL gl;
+
 	video::Window win(base::utf16("Testando!"), 100, 100, 500, 500, false, false, true);
 
-	graphic::GLContext context(win, graphic::Version::v30);
+	graphic::GLContext context(win, graphic::Version::v21);
 
 	win.show();
 
@@ -64,28 +69,55 @@ int cbEntry(int argc, char **argv) {
 		base::log.nothing("Não abriu!");
 	}
 
-	win.cursor().hold(true);
+	context.activate();
+	graphic::Texture tex(graphic::tex::Target::Tex2D, graphic::tex::Format::RGB8);
+	curfile.open("owl.png");
+	if(curfile.isOpen()) {
+		data::Bitmap owl(curfile, data::bmp::Format::RGB, data::bmp::Type::UByte);
+		base::log.nothing("Owl: %d.%d", owl.width(), owl.height());
+		tex.image(owl);
+	} else {
+		base::log.nothing("Não abriu!");
+	}
 
 	win.cursor().select("hand.point");
 	base::log.nothing("Iniciando loop!");
 
-	while(!win.empty() && input::EventLoop::update()) {
-		context.swap();
+	gl.clearColor(graphic::color::sky1);
 
+	while(!win.empty() && input::EventLoop::update()) {
 		while(!win.events().empty()) {
 			input::Event e(win.events().next());
 			if(e == input::EventType::KeyPress || e == input::EventType::KeyRelease || e == input::EventType::ButtonPress || e == input::EventType::ButtonRelease) {
-				base::log.nothing("%s", e.str().c_str());
+				//base::log.nothing("%s", e.str().c_str());
 			}
 
 			if(e == input::EventType::KeyMove) {
-				base::log.nothing("%s", e.str().c_str());
+				//base::log.nothing("%s", e.str().c_str());
 			}
 
-			if(e == input::EventType::KeyPress && e.key.k == input::KBEsc) {
+			if(e == input::EventType::ButtonPress && e.button.k == input::KeyCode::MouseLeft) {
+				gl.clearColor(graphic::color::scarlet1);
+			}
+			if(e == input::EventType::ButtonRelease && e.button.k == input::KeyCode::MouseLeft) {
+				gl.clearColor(graphic::color::sky1);
+			}
+
+			if(e == input::EventType::Close) {
 				input::EventLoop::postQuit();
 			}
+
+			if(e == input::EventType::Resize) {
+				gl.viewport(0, 0, e.size.w, e.size.h);
+			}
 		}
+
+		gl.clear(graphic::Clear::ColorDepth);
+
+		tex.bind();
+		gl.texSquare();
+
+		context.swap();
 	}
 
 	return EXIT_SUCCESS;
