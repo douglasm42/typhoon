@@ -646,7 +646,7 @@ namespace cb {
 				case WM_KEYDOWN: {
 						unsigned int char1;
 						unsigned int char2;
-						translateWin32Text(iwparam, char1, char2);
+						translateWin32Text((unsigned int)iwparam, char1, char2);
 						window->events().onKeyPress(keycode(iwparam));
 						if(char1) {
 							window->events().onChar(char1);

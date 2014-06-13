@@ -46,7 +46,7 @@ namespace cb {
 		,_granularity(0)
 		,_device(_window, GUID_SysMouse, &c_dfDIMouse2) {
 			_device.bufferSize(128);
-			_granularity = _device.property(DIPROP_GRANULARITY, DIMOFS_Z, DIPH_BYOFFSET);
+			_granularity = (int)_device.property(DIPROP_GRANULARITY, DIMOFS_Z, DIPH_BYOFFSET);
 		}
 
 		DIMouse::~DIMouse() {

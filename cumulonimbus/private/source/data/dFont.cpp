@@ -120,25 +120,25 @@ namespace cb {
 		int Font::fontUnitsToPixelsX(int ifux) {
 			Assert(isOpen(), tokurei::EmptyObject);
 			FT_Face face = &_face;
-			return ifux * (face->size->metrics.x_ppem / float(face->units_per_EM));
+			return int(ifux * (face->size->metrics.x_ppem / float(face->units_per_EM)));
 		}
 
 		int Font::fontUnitsToPixelsY(int ifuy) {
 			Assert(isOpen(), tokurei::EmptyObject);
 			FT_Face face = &_face;
-			return ifuy * (face->size->metrics.y_ppem / float(face->units_per_EM));
+			return int(ifuy * (face->size->metrics.y_ppem / float(face->units_per_EM)));
 		}
 
 		int Font::pixelsToFontUnitsX(int ipxx) {
 			Assert(isOpen(), tokurei::EmptyObject);
 			FT_Face face = &_face;
-			return ipxx * (float(face->units_per_EM) / face->size->metrics.x_ppem);
+			return int(ipxx * (float(face->units_per_EM) / face->size->metrics.x_ppem));
 		}
 
 		int Font::pixelsToFontUnitsY(int ipxy) {
 			Assert(isOpen(), tokurei::EmptyObject);
 			FT_Face face = &_face;
-			return ipxy * (float(face->units_per_EM) / face->size->metrics.y_ppem);
+			return int(ipxy * (float(face->units_per_EM) / face->size->metrics.y_ppem));
 		}
 
 		int Font::height() {
@@ -166,7 +166,7 @@ namespace cb {
 		void Font::size(float isize) {
 			Assert(isOpen(), tokurei::EmptyObject);
 			_size = isize;
-			FT_Error error = FT_Set_Char_Size(&_face, 0, _size*64, 96, 96);
+			FT_Error error = FT_Set_Char_Size(&_face, 0, FT_F26Dot6(_size * 64), 96, 96);
 			if(error) {
 				ThrowDet(tokurei::SetFailed, "Error: %s", ftError(error));
 			}
@@ -174,13 +174,13 @@ namespace cb {
 
 		size_t Font::glyphId(size_t ichar) {
 			Assert(isOpen(), tokurei::EmptyObject);
-			return FT_Get_Char_Index(&_face, ichar);
+			return FT_Get_Char_Index(&_face, (FT_ULong)ichar);
 		}
 
 		void Font::glyph(Glyph &oglyph, size_t iid) {
 			Assert(isOpen(), tokurei::EmptyObject);
 			FT_Error error;
-			error = FT_Load_Glyph(&_face, iid, FT_LOAD_DEFAULT);
+			error = FT_Load_Glyph(&_face, (FT_UInt)iid, FT_LOAD_DEFAULT);
 			if(error) {
 				ThrowDet(tokurei::GetFailed, "Error: %s", ftError(error));
 			}
@@ -197,7 +197,7 @@ namespace cb {
 					ThrowDet(tokurei::GetFailed, "Error: %s", ftError(error));
 				}
 
-				FT_Stroker_Set(stroker, _border * 64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
+				FT_Stroker_Set(stroker, FT_Fixed(_border) * 64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
 
 				error = FT_Get_Glyph((&_face)->glyph, &glyph);
 				if(error) {
@@ -283,19 +283,19 @@ namespace cb {
 
 		void Font::open(istream &ifile) {
 			ifile.seekg(0, std::ios::end);
-			size_t s = ifile.tellg();
+			std::streamoff s = ifile.tellg();
 
 			ifile.seekg(0, std::ios::beg);
 
-			char *d = new char[s];
-			ifile.read(d, s);
+			char *d = new char[(size_t)s];
+			ifile.read(d, (size_t)s);
 
 			close();
 
 			FT_Library library = ftLibrary();
 			FT_Face face;
 
-			FT_Error error = FT_New_Memory_Face(library, (const unsigned char *)d, s, 0, &face);
+			FT_Error error = FT_New_Memory_Face(library, (const unsigned char *)d, (FT_Long)s, 0, &face);
 
 			delete [] d;
 
@@ -319,7 +319,7 @@ namespace cb {
 			FT_Library library = ftLibrary();
 			FT_Face face;
 
-			FT_Error error = FT_New_Memory_Face(library, (const unsigned char *)ifile.data(), ifile.size(), 0, &face);
+			FT_Error error = FT_New_Memory_Face(library, (const unsigned char *)ifile.data(), (FT_Long)ifile.size(), 0, &face);
 			if(error) {
 				close();
 				ThrowDet(tokurei::OpenError, "Error: %s", ftError(error));

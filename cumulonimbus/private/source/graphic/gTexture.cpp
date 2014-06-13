@@ -292,16 +292,16 @@ namespace cb {
 			size.depth = idepth;
 
 			if(_target == tex::Target::Tex2D || _target == tex::Target::Rectangle || _target == tex::Target::Tex1DArray) {
-				glTexImage2D(target, _size.size(), internalformat, size.width, size.height, 0, format, type, nullptr);
+				glTexImage2D(target, (GLint)_size.size(), internalformat, (GLsizei)size.width, (GLsizei)size.height, 0, format, type, nullptr);
 
 			} else if(_target == tex::Target::Tex1D) {
 				if(size.height > 1) {
 					Throw(tokurei::LoadFailed);
 				}
-				glTexImage1D(target, _size.size(), internalformat, size.width, 0, format, type, nullptr);
+				glTexImage1D(target, (GLint)_size.size(), internalformat, (GLsizei)size.width, 0, format, type, nullptr);
 
 			} else if(_target == tex::Target::Tex3D || _target == tex::Target::Tex2DArray) {
-				glTexImage3D(target, _size.size(), internalformat, size.width, size.height, size.depth, 0, format, type, nullptr);
+				glTexImage3D(target, (GLint)_size.size(), internalformat, (GLsizei)size.width, (GLsizei)size.height, (GLsizei)size.depth, 0, format, type, nullptr);
 			} else {
 				Throw(tokurei::LoadFailed);
 			}
@@ -348,12 +348,12 @@ namespace cb {
 			size.height = ibmp_xp.height();
 			size.depth = 1;
 
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, _size.size(), internalformat, size.width, size.height, 0, format[0], type[0], vbmp[0]->data());
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, _size.size(), internalformat, size.width, size.height, 0, format[1], type[1], vbmp[1]->data());
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, _size.size(), internalformat, size.width, size.height, 0, format[2], type[2], vbmp[2]->data());
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, _size.size(), internalformat, size.width, size.height, 0, format[3], type[3], vbmp[3]->data());
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, _size.size(), internalformat, size.width, size.height, 0, format[4], type[4], vbmp[4]->data());
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, _size.size(), internalformat, size.width, size.height, 0, format[5], type[5], vbmp[5]->data());
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, (GLint)_size.size(), internalformat, (GLsizei)size.width, (GLsizei)size.height, 0, format[0], type[0], vbmp[0]->data());
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, (GLint)_size.size(), internalformat, (GLsizei)size.width, (GLsizei)size.height, 0, format[1], type[1], vbmp[1]->data());
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, (GLint)_size.size(), internalformat, (GLsizei)size.width, (GLsizei)size.height, 0, format[2], type[2], vbmp[2]->data());
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, (GLint)_size.size(), internalformat, (GLsizei)size.width, (GLsizei)size.height, 0, format[3], type[3], vbmp[3]->data());
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, (GLint)_size.size(), internalformat, (GLsizei)size.width, (GLsizei)size.height, 0, format[4], type[4], vbmp[4]->data());
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, (GLint)_size.size(), internalformat, (GLsizei)size.width, (GLsizei)size.height, 0, format[5], type[5], vbmp[5]->data());
 
 			_size.push_back(size);
 
@@ -376,13 +376,13 @@ namespace cb {
 			size.depth = 1;
 
 			if(_target == tex::Target::Tex2D || _target == tex::Target::Rectangle || _target == tex::Target::Tex1DArray) {
-				glTexImage2D(target, _size.size(), internalformat, size.width, size.height, 0, format, type, ibmp.data());
+				glTexImage2D(target, (GLint)_size.size(), internalformat, (GLsizei)size.width, (GLsizei)size.height, 0, format, type, ibmp.data());
 
 			} else if(_target == tex::Target::Tex1D) {
-				glTexImage1D(target, _size.size(), internalformat, size.width, 0, format, type, ibmp.data());
+				glTexImage1D(target, (GLint)_size.size(), internalformat, (GLsizei)size.width, 0, format, type, ibmp.data());
 
 			} else if(_target == tex::Target::Tex3D || _target == tex::Target::Tex2DArray) {
-				glTexImage3D(target, _size.size(), internalformat, size.width, size.height, size.depth, 0, format, type, ibmp.data());
+				glTexImage3D(target, (GLint)_size.size(), internalformat, (GLsizei)size.width, (GLsizei)size.height, (GLsizei)size.depth, 0, format, type, ibmp.data());
 			} else {
 				Throw(tokurei::LoadFailed);
 			}
@@ -421,14 +421,14 @@ namespace cb {
 				}
 			}
 
-			size_t level = _size.size();
+			GLint level = (GLint)_size.size();
 
-			glTexImage3D(target, level, internalformat, size.width, size.height, size.depth, 0, format, type, nullptr);
+			glTexImage3D(target, level, internalformat, (GLsizei)size.width, (GLsizei)size.height, (GLsizei)size.depth, 0, format, type, nullptr);
 			for(size_t i=1 ; i<size.depth ; i++) {
 				format = translateBmpFormat(ivbmp[i].format(), _format);
 				type = translateBmpType(ivbmp[i].type());
 
-				glTexSubImage3D(target, level, 0, 0, i, ivbmp[i].width(), ivbmp[i].height(), 1, format, type, ivbmp[i].data());
+				glTexSubImage3D(target, level, 0, 0, GLint(i), (GLsizei)ivbmp[i].width(), (GLsizei)ivbmp[i].height(), 1, format, type, ivbmp[i].data());
 			}
 
 			_size.push_back(size);
@@ -455,7 +455,7 @@ namespace cb {
 				if(size.height > 1) {
 					Throw(tokurei::LoadFailed);
 				}
-				glTexSubImage1D(target, ilevel, ixoffset, size.width, format, type, ibmp.data());
+				glTexSubImage1D(target, (GLint)ilevel, (GLint)ixoffset, (GLsizei)size.width, format, type, ibmp.data());
 			} else {
 				Throw(tokurei::LoadFailed);
 			}
@@ -483,7 +483,7 @@ namespace cb {
 			_size.push_back(size);
 
 			if(_target == tex::Target::Tex2D || _target == tex::Target::Rectangle || _target == tex::Target::Tex1DArray) {
-				glTexSubImage2D(target, ilevel, ixoffset, iyoffset, size.width, size.height, format, type, ibmp.data());
+				glTexSubImage2D(target, (GLint)ilevel, (GLint)ixoffset, (GLint)iyoffset, (GLsizei)size.width, (GLsizei)size.height, format, type, ibmp.data());
 
 			} else {
 				Throw(tokurei::LoadFailed);
@@ -508,7 +508,7 @@ namespace cb {
 			size.depth = 1;
 
 			if(_target == tex::Target::Tex3D || _target == tex::Target::Tex2DArray) {
-				glTexSubImage3D(target, ilevel, ixoffset, iyoffset, izoffset, size.width, size.height, size.depth, format, type, ibmp.data());
+				glTexSubImage3D(target, (GLint)ilevel, (GLint)ixoffset, (GLint)iyoffset, (GLint)izoffset, (GLsizei)size.width, (GLsizei)size.height, (GLsizei)size.depth, format, type, ibmp.data());
 			} else {
 				Throw(tokurei::LoadFailed);
 			}
@@ -543,13 +543,13 @@ namespace cb {
 				}
 			}
 
-			size_t level = _size.size();
+			GLint level = (GLint)_size.size();
 
 			for(size_t i=0 ; i<size.depth ; i++) {
 				format = translateBmpFormat(ivbmp[i].format(), _format);
 				type = translateBmpType(ivbmp[i].type());
 
-				glTexSubImage3D(target, level, ixoffset, iyoffset, i + izoffset, ivbmp[i].width(), ivbmp[i].height(), 1, format, type, ivbmp[i].data());
+				glTexSubImage3D(target, level, (GLint)ixoffset, (GLint)iyoffset, GLint(i + izoffset), (GLsizei)ivbmp[i].width(), (GLsizei)ivbmp[i].height(), 1, format, type, ivbmp[i].data());
 			}
 
 			_size.push_back(size);

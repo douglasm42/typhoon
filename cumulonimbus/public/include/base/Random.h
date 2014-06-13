@@ -45,8 +45,11 @@ namespace cb {
 		 */
 		class CbAPI seed {
 		private:
+			///Valores da semente a ser utilizada no gerador.
+			std::vector<unsigned int> _seed_values;
+
 			///Semente a ser utilizada no gerador.
-			std::vector<unsigned int> _seed;
+			seed_seq _seed_seq;
 
 		public:
 			/**
@@ -143,7 +146,7 @@ namespace cb {
 			 * Cria um objeto seed_seq para ser utilizado no gerador.
 			 * @return Objeto seed_seq para ser utilizado no gerador.
 			 */
-			seed_seq seq();
+			seed_seq &seq();
 
 			/**
 			 * Acessa o número da semente na posição passada por parametro.

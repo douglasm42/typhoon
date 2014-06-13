@@ -150,6 +150,6 @@ namespace cb {
 			ColorDepth = 3
 		};
 
-		typedef size_t GLObject;
+		typedef unsigned int GLObject;
 	}  // namespace graphic
 }  // namespace cb

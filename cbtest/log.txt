@@ -1,0 +1,40 @@
+--------------------------------------------------------------------------------
+-- 13/06/2014 10:45:42 - Log: test.base ----------------------------------------
+--------------------------------------------------------------------------------
+
+10:45:42 - Nothing: w32WindowProc() : Mensagem recebida: WM_GETMINMAXINFO.
+10:45:42 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCREATE.
+10:45:42 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE.
+10:45:42 - Nothing: w32WindowProc() : Mensagem recebida: WM_CREATE.
+10:45:42 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela ativada.
+10:45:42 - Nothing: OpenGLContext::OpenGLContext() : OpenGL 2.1 e GLSL 1.20 escolhidos.
+10:45:43 - Nothing: OpenGLContext::OpenGLContext() : Contexto OpenGL criado: OpenGL 2.1 - GLSL 1.20
+10:45:43 - Nothing: canais: 4 -> 4
+10:45:43 - Nothing: canais: 4 -> 4
+10:45:43 - Nothing: canais: 4 -> 4
+10:45:43 - Nothing: canais: 4 -> 4
+10:45:43 - Nothing: canais: 4 -> 4
+10:45:43 - Nothing: canais: 4 -> 4
+10:45:43 - Nothing: canais: 4 -> 4
+10:45:43 - Nothing: canais: 4 -> 4
+10:45:43 - Nothing: canais: 4 -> 4
+10:45:43 - Nothing: canais: 3 -> 3
+10:45:43 - Nothing: canais: 3 -> 3
+10:45:43 - Nothing: canais: 4 -> 3
+10:45:43 - Nothing: Owl: 216.216
+10:45:43 - Nothing: Iniciando loop!
+10:46:02 - Nothing: w32WindowProc() : Mensagem recebida: WM_CLOSE. Janela fechada.
+10:46:02 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 144.
+10:46:02 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 70.
+10:46:02 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 71.
+10:46:02 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 134.
+10:46:02 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 127.
+10:46:02 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 6.
+10:46:02 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 28.
+10:46:02 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 8.
+10:46:02 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 641.
+10:46:02 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 642.
+10:46:02 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 2.
+10:46:02 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 130.
+
+--------------------------------------------------------------------------------

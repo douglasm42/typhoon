@@ -121,6 +121,6 @@ namespace cb {
 		 * @param istr String a ser processada.
 		 * @return Resultado da função hash.
 		 */
-		unsigned int hash(string istr);
+		size_t hash(string istr);
 	}  // namespace base
 }  // namespace cb

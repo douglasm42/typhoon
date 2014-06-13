@@ -52,7 +52,7 @@ namespace cb {
 			_device->SetCooperativeLevel(iwindow, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
 			_device->SetDataFormat(idataformat);
 
-			_buffer_size = property(DIPROP_BUFFERSIZE, 0, DIPH_DEVICE);
+			_buffer_size = (DWORD)property(DIPROP_BUFFERSIZE, 0, DIPH_DEVICE);
 		}
 
 		DIDevice::~DIDevice() {

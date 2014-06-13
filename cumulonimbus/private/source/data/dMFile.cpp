@@ -37,7 +37,6 @@ namespace cb {
 			MDevice(const char *idata, size_t isize) : _data(idata, idata+isize), _position(0) {}
 
 			std::streamsize read(char* s, std::streamsize n) {
-				size_t i;
 				std::streamsize j=0;
 				for(; _position<_data.size() && j<n ; _position++,j++) {
 					s[j] = _data[_position];
@@ -120,7 +119,7 @@ namespace cb {
 			file.seekg(0, std::ios::end);
 			std::streamsize size = file.tellg();
 
-			char *data = new char[size];
+			char *data = new char[(size_t)size];
 
 			file.seekg(0, std::ios::beg);
 			file.read(data, size);
@@ -130,7 +129,7 @@ namespace cb {
 				return false;
 			}
 
-			bool ret = open(data, size);
+			bool ret = open(data, (size_t)size);
 			delete [] data;
 			return ret;
 		}

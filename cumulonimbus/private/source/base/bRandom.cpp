@@ -26,102 +26,103 @@ namespace cb {
 		}
 
 		seed::seed(const seed &iseed) {
-			_seed = iseed._seed;
+			_seed_values = iseed._seed_values;
 		}
 
 		seed::seed(unsigned int iseed) {
-			_seed.clear();
-			_seed.push_back(iseed);
+			_seed_values.clear();
+			_seed_values.push_back(iseed);
 		}
 		seed::seed(unsigned int ivseed[], size_t in) {
-			_seed.clear();
-			_seed.insert(_seed.begin(), ivseed, ivseed+in);
+			_seed_values.clear();
+			_seed_values.insert(_seed_values.begin(), ivseed, ivseed+in);
 		}
 		seed::seed(unsigned int iseed1, unsigned int iseed2) {
-			_seed.clear();
-			_seed.push_back(iseed1);
-			_seed.push_back(iseed2);
+			_seed_values.clear();
+			_seed_values.push_back(iseed1);
+			_seed_values.push_back(iseed2);
 		}
 		seed::seed(unsigned int iseed1, unsigned int iseed2, unsigned int iseed3) {
-			_seed.clear();
-			_seed.push_back(iseed1);
-			_seed.push_back(iseed2);
-			_seed.push_back(iseed3);
+			_seed_values.clear();
+			_seed_values.push_back(iseed1);
+			_seed_values.push_back(iseed2);
+			_seed_values.push_back(iseed3);
 		}
 		seed::seed(unsigned int iseed1, unsigned int iseed2, unsigned int iseed3, unsigned int iseed4) {
-			_seed.clear();
-			_seed.push_back(iseed1);
-			_seed.push_back(iseed2);
-			_seed.push_back(iseed3);
-			_seed.push_back(iseed4);
+			_seed_values.clear();
+			_seed_values.push_back(iseed1);
+			_seed_values.push_back(iseed2);
+			_seed_values.push_back(iseed3);
+			_seed_values.push_back(iseed4);
 		}
 
 		seed::seed(string iseed) {
-			_seed.clear();
-			_seed.push_back(hash(iseed));
+			_seed_values.clear();
+			_seed_values.push_back(hash(iseed));
 		}
 		seed::seed(string ivseed[], size_t in) {
-			_seed.clear();
+			_seed_values.clear();
 			for(unsigned int i=0 ; i<in ; i++) {
-				_seed.push_back(hash(ivseed[i]));
+				_seed_values.push_back(hash(ivseed[i]));
 			}
 		}
 		seed::seed(string iseed1, string iseed2) {
-			_seed.clear();
-			_seed.push_back(hash(iseed1));
-			_seed.push_back(hash(iseed2));
+			_seed_values.clear();
+			_seed_values.push_back(hash(iseed1));
+			_seed_values.push_back(hash(iseed2));
 		}
 		seed::seed(string iseed1, string iseed2, string iseed3) {
-			_seed.clear();
-			_seed.push_back(hash(iseed1));
-			_seed.push_back(hash(iseed2));
-			_seed.push_back(hash(iseed3));
+			_seed_values.clear();
+			_seed_values.push_back(hash(iseed1));
+			_seed_values.push_back(hash(iseed2));
+			_seed_values.push_back(hash(iseed3));
 		}
 		seed::seed(string iseed1, string iseed2, string iseed3, string iseed4) {
-			_seed.clear();
-			_seed.push_back(hash(iseed1));
-			_seed.push_back(hash(iseed2));
-			_seed.push_back(hash(iseed3));
-			_seed.push_back(hash(iseed4));
+			_seed_values.clear();
+			_seed_values.push_back(hash(iseed1));
+			_seed_values.push_back(hash(iseed2));
+			_seed_values.push_back(hash(iseed3));
+			_seed_values.push_back(hash(iseed4));
 		}
 
 		seed::~seed() {
 		}
 
-		seed_seq seed::seq() {
-			return seed_seq(_seed.begin(), _seed.end());
+		seed_seq &seed::seq() {
+			_seed_seq.generate(_seed_values.begin(), _seed_values.end());
+			return _seed_seq;
 		}
 
 		unsigned int &seed::operator[](size_t in) {
-			return _seed[in];
+			return _seed_values[in];
 		}
 
 		const unsigned int &seed::operator[](size_t in) const {
-			return _seed[in];
+			return _seed_values[in];
 		}
 
 		void seed::add(unsigned int iseed) {
-			_seed.push_back(iseed);
+			_seed_values.push_back(iseed);
 		}
 
 		void seed::add(string iseed) {
-			_seed.push_back(hash(iseed));
+			_seed_values.push_back(hash(iseed));
 		}
 
 		void seed::rem(size_t in) {
-			_seed.erase(_seed.begin()+in);
+			_seed_values.erase(_seed_values.begin()+in);
 		}
 
 		size_t seed::size() const {
-			return _seed.size();
+			return _seed_values.size();
 		}
 
 		void seed::resize(size_t in) {
-			_seed.resize(in);
+			_seed_values.resize(in);
 		}
 
 		void seed::clear() {
-			_seed.clear();
+			_seed_values.clear();
 		}
 	}  // namespace base
 }  // namespace cb

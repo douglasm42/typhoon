@@ -25,7 +25,7 @@ namespace cb {
 	namespace graphic {
 		class Texture {
 		private:
-			size_t _id;
+			GLObject _id;
 			tex::Format _format;
 			tex::Target _target;
 
@@ -76,7 +76,7 @@ namespace cb {
 
 			bool empty() const;
 
-			size_t id() const;
+			GLObject id() const;
 			tex::Format format() const;
 			tex::Target type() const;
 
@@ -100,7 +100,7 @@ namespace cb {
 
 		inline bool Texture::empty() const {return _target == tex::Target::Void;}
 
-		inline size_t Texture::id() const {return _id;}
+		inline GLObject Texture::id() const { return _id; }
 		inline tex::Format Texture::format() const {return _format;}
 		inline tex::Target Texture::type() const {return _target;}
 

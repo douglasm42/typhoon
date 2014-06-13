@@ -15,7 +15,6 @@
 
 #include <base/FormatMacro.h>
 
-#include <boost/locale.hpp>
 #include <locale>
 #include <codecvt>
 
@@ -132,7 +131,7 @@ namespace cb {
 			return result;
 		}
 
-		unsigned int hash(string istr) {
+		size_t hash(string istr) {
 			std::hash<string> strhash;
 			return strhash(istr);
 		}

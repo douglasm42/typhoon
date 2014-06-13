@@ -56,7 +56,7 @@ namespace cb {
 			PhysFSSource(PHYSFS_File *ifile) : _file(ifile) {}
 
 			std::streamsize read(char* s, std::streamsize n) {
-				std::streamsize result = PHYSFS_read(_file, s, sizeof(char_type), n);
+				std::streamsize result = PHYSFS_read(_file, s, sizeof(char_type), (PHYSFS_uint32)n);
 				if(result == n) {
 					return result;
 				} else {
@@ -99,7 +99,7 @@ namespace cb {
 
 			std::streamsize write(const char* s, std::streamsize n)
 			{
-				return PHYSFS_write(_file, s, sizeof(char_type), n);
+				return PHYSFS_write(_file, s, sizeof(char_type), (PHYSFS_uint32)n);
 			}
 
 			io::stream_offset seek(io::stream_offset off, std::ios_base::seekdir way) {

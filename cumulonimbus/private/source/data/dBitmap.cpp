@@ -16,9 +16,10 @@
 #include <base/Log.h>
 #include <base/Exception.h>
 
+#define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 
-#include <stb_image.c>
+#include <stb_image.h>
 #include <stb_image_write.h>
 #include <png.h>
 
@@ -44,7 +45,7 @@ namespace cb {
 			}
 
 			// skip the next 'n' bytes
-			void skip(void *ifile, unsigned ioffset) {
+			void skip(void *ifile, int ioffset) {
 				voidToiFile(ifile)->seekg(ioffset, std::ios::cur);
 			}
 			// returns nonzero if we are at end of file/data
@@ -148,7 +149,7 @@ namespace cb {
 
 			base::log.nothing("canais: %d -> %d", (int)iformat, (int)channels(iformat));
 
-			math::uint8 *stbidata = stbi_load_from_callbacks(&callbacks, iFileToVoid(&istream), &w, &h, &c, channels(iformat));
+			math::uint8 *stbidata = stbi_load_from_callbacks(&callbacks, iFileToVoid(&istream), &w, &h, &c, (int)channels(iformat));
 
 			base::log.nothing("canais: %d -> %d", c, channels(iformat));
 			if(c != (int)channels(iformat) && false) {
@@ -156,7 +157,7 @@ namespace cb {
 				ThrowDet(tokurei::LoadFailed, "Wrong number of channels: %d from %d requested. %d", c, channels(iformat));
 			}
 
-			c = channels(iformat);
+			c = (int)channels(iformat);
 
 			load(w, h, iformat, itype);
 
@@ -221,7 +222,7 @@ namespace cb {
 			base::log.warning("%s() : Use it only for debug.", __func__);
 
 			if(_type == bmp::Type::Byte || _type == bmp::Type::UByte) {
-				if(!stbi_write_png(ifilename.c_str(), _width, _height, channels(_format), _data, _pitch)) {
+				if(!stbi_write_png(ifilename.c_str(), _width, _height, (int)channels(_format), _data, _pitch)) {
 					Throw(tokurei::SaveFailed);
 				}
 			}
