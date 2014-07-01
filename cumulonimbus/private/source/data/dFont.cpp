@@ -98,17 +98,7 @@ namespace cb {
 		:_border(0), _size(0), _border_inner(false), _border_outer(false){
 		}
 
-		Font::Font(const base::string &ifilename)
-		:_border(0), _size(0), _border_inner(false), _border_outer(false){
-			open(ifilename);
-		}
-
-		Font::Font(istream &ifile)
-		:_border(0), _size(0), _border_inner(false), _border_outer(false){
-			open(ifile);
-		}
-
-		Font::Font(MFile &ifile)
+		Font::Font(File &ifile)
 		:_border(0), _size(0), _border_inner(false), _border_outer(false){
 			open(ifile);
 		}
@@ -248,11 +238,11 @@ namespace cb {
 			}
 
 			if(bitmap->width * bitmap->rows) {
-				oglyph._bitmap.load(bitmap->width, bitmap->rows);
+				oglyph._bitmap.load(bitmap->width, bitmap->rows, 1);
 				size_t height = oglyph._bitmap.height();
 
 				for(int r=0 ; r<bitmap->rows ; r++) {
-					math::uint8 *scanline = oglyph._bitmap.row(r);
+					uint8 *scanline = oglyph._bitmap.row(r, 1);
 
 					for(int i=0 ; i<bitmap->width ; i++) {
 						scanline[i] = bitmap->buffer[(height - r - 1)*bitmap->pitch + i];
@@ -272,48 +262,7 @@ namespace cb {
 			}
 		}
 
-		void Font::open(const base::string &ifilename) {
-			iFile file(ifilename);
-			if(file.isOpen()) {
-				open(file);
-			} else {
-				ThrowDet(tokurei::OpenError, "Filename: %s", ifilename.c_str());
-			}
-		}
-
-		void Font::open(istream &ifile) {
-			ifile.seekg(0, std::ios::end);
-			std::streamoff s = ifile.tellg();
-
-			ifile.seekg(0, std::ios::beg);
-
-			char *d = new char[(size_t)s];
-			ifile.read(d, (size_t)s);
-
-			close();
-
-			FT_Library library = ftLibrary();
-			FT_Face face;
-
-			FT_Error error = FT_New_Memory_Face(library, (const unsigned char *)d, (FT_Long)s, 0, &face);
-
-			delete [] d;
-
-			if(error) {
-				ThrowDet(tokurei::OpenError, "Error: %s", ftError(error));
-			}
-			_face << face;
-
-			error = FT_Select_Charmap(&_face, FT_ENCODING_UNICODE);
-			if(error) {
-				close();
-				ThrowDet(tokurei::OpenError, "Error: %s", ftError(error));
-			}
-
-			size(_size);
-		}
-
-		void Font::open(MFile &ifile) {
+		void Font::open(File &ifile) {
 			close();
 
 			FT_Library library = ftLibrary();

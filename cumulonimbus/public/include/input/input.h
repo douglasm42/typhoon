@@ -17,9 +17,14 @@
 
 namespace cb {
 	namespace input {
-		union CbAPI Event;
-		class CbAPI EventQueue;
-		
+		class CbAPI KeyListener;
+		class CbAPI CharListener;
+		class CbAPI MouseListener;
+		class CbAPI WindowListener;
+		class CbAPI QuitListener;
+
+		class CbAPI EventHub;
+
 		class CbAPI Mouse;
 	}  // namespace video
 }  // namespace cb

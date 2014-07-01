@@ -14,214 +14,155 @@
 #include <data/File.h>
 
 #include <base/Log.h>
+#include <base/Exception.h>
 
-#include <physfs.h>
-
-#include <boost/iostreams/stream_buffer.hpp>
-#include <boost/iostreams/categories.hpp>
-#include <boost/iostreams/positioning.hpp>
-
-namespace io = boost::iostreams;
+#include <fstream>
+#include <new>
 
 namespace cb {
 	namespace data {
-		namespace file {
-			void init(const base::string &argv0) {
-				PHYSFS_init(argv0.c_str());
+		void File::load(size_t icapacity) {
+			if(_data) {clear();}
+
+			_data = new (std::nothrow) char[icapacity];
+			if(!_data) {
+				Throw(tokurei::OutOfMemory);
 			}
 
-			void writedir(const base::string &idirectory) {
-				PHYSFS_setWriteDir(idirectory.c_str());
-			}
-
-			void mount(const base::string &idirectory, const base::string &imountpoint) {
-				PHYSFS_mount(idirectory.c_str(), imountpoint.c_str(), true);
-			}
-		}  // namespace file
-
-		KinKey(kin::FileHandle, PHYSFS_File)
-		KinKeyErase(kin::FileHandle, PHYSFS_File)
-
-		struct seekable_source_tag : io::device_tag, io::input_seekable { };
-		struct seekable_sink_tag : io::device_tag, io::output_seekable { };
-
-		class PhysFSSource {
-		private:
-			PHYSFS_File *_file;
-
-		public:
-			typedef char char_type;
-			typedef struct seekable_source_tag category;
-
-			PhysFSSource(PHYSFS_File *ifile) : _file(ifile) {}
-
-			std::streamsize read(char* s, std::streamsize n) {
-				std::streamsize result = PHYSFS_read(_file, s, sizeof(char_type), (PHYSFS_uint32)n);
-				if(result == n) {
-					return result;
-				} else {
-					if(PHYSFS_eof(_file)) {
-						return result;
-					} else {
-						return -1;
-					}
-				}
-			}
-
-			io::stream_offset seek(io::stream_offset off, std::ios_base::seekdir way) {
-				io::stream_offset pos = 0;
-				if(way == std::ios_base::beg) {
-					pos = off;
-				} else if(way == std::ios_base::cur) {
-					pos = PHYSFS_tell(_file) + off;
-				} else if(way == std::ios_base::end) {
-					pos = PHYSFS_fileLength(_file) - off;
-				}
-
-				PHYSFS_seek(_file, pos);
-				return PHYSFS_tell(_file);
-			}
-
-			void setFile(PHYSFS_File *ifile) {_file = ifile;}
-			PHYSFS_File *getFile() {return _file;}
-		};
-
-		class PhysFSSink {
-		private:
-			PHYSFS_File *_file;
-
-		public:
-			typedef char char_type;
-			typedef struct seekable_sink_tag category;
-
-			PhysFSSink(PHYSFS_File *ifile) : _file(ifile) {}
-			~PhysFSSink() {}
-
-			std::streamsize write(const char* s, std::streamsize n)
-			{
-				return PHYSFS_write(_file, s, sizeof(char_type), (PHYSFS_uint32)n);
-			}
-
-			io::stream_offset seek(io::stream_offset off, std::ios_base::seekdir way) {
-				io::stream_offset pos = 0;
-				if(way == std::ios_base::beg) {
-					pos = off;
-				} else if(way == std::ios_base::cur) {
-					pos = PHYSFS_tell(_file) + off;
-				} else if(way == std::ios_base::end) {
-					pos = PHYSFS_fileLength(_file) - off;
-				}
-
-				PHYSFS_seek(_file, pos);
-				return PHYSFS_tell(_file);
-			}
-
-			void setFile(PHYSFS_File *ifile) {_file = ifile;}
-			PHYSFS_File *getFile() {return _file;}
-		};
-
-		typedef io::stream_buffer<PhysFSSource>	PhysFSInputBuf;
-		typedef io::stream_buffer<PhysFSSink>	PhysFSOutputBuf;
-
-		KinKey(kin::FilePhysFSIStreamBuf, PhysFSInputBuf);
-		KinKeyErase(kin::FilePhysFSIStreamBuf, PhysFSInputBuf);
-		KinKey(kin::FilePhysFSOStreamBuf, PhysFSOutputBuf);
-		KinKeyErase(kin::FilePhysFSOStreamBuf, PhysFSOutputBuf);
-
-		//iFileFS -------------------------------------------------------------
-
-		iFile::iFile() :istream(nullptr) {
-			_stream_buf << new PhysFSInputBuf();
-			rdbuf(&_stream_buf);
-		}
-		iFile::iFile(const base::string &ifilename) :istream(nullptr) {
-			_stream_buf << new PhysFSInputBuf();
-			rdbuf(&_stream_buf);
-			open(ifilename);
-		}
-		iFile::~iFile() {
-			close();
-			rdbuf(NULL);
-			kin::erase(_stream_buf);
+			_capacity = icapacity;
+			_size = 0;
 		}
 
-		bool iFile::open(const base::string &ifilename) {
-			close();
-			_file_handle << PHYSFS_openRead(ifilename.c_str());
-			if(_file_handle.empty()) {
-				base::log.warning("iFile::open() : Não foi possivel abrir o arquivo '%s': %s", ifilename.c_str(), PHYSFS_getLastError());
-				return false;
-			}
-			(*_stream_buf).open(*(new PhysFSSource(&_file_handle)));
-			rdbuf(&_stream_buf);
+		void File::load(const base::string &ifilename) {
+			if(_data) {clear();}
 
-			return true;
-		}
+			std::ifstream in(ifilename.c_str(), std::ios::binary);
+			if(in.is_open()) {
+				in.seekg (0, in.end);
+				_size = _capacity = in.tellg();
+				in.seekg (0, in.beg);
 
-		bool iFile::isOpen() {
-			return !_file_handle.empty() && (*_stream_buf).is_open();
-		}
+				_data = new char[_capacity];
 
-		void iFile::close() {
-			if((*_stream_buf).is_open()) {
-				(*_stream_buf).close();
-			}
-			if(!_file_handle.empty()) {
-				PHYSFS_close(&_file_handle);
-				_file_handle << NULL;
-			}
-		}
+				in.read(_data,_size);
 
-		//oFileFS -------------------------------------------------------------
-
-		oFile::oFile() :ostream(nullptr) {
-			_stream_buf << new PhysFSOutputBuf();
-			rdbuf(&_stream_buf);
-		}
-
-		oFile::oFile(const base::string &ifilename, bool iappend) :ostream(nullptr) {
-			_stream_buf << new PhysFSOutputBuf();
-			rdbuf(&_stream_buf);
-			open(ifilename, iappend);
-		}
-
-		oFile::~oFile() {
-			close();
-			rdbuf(NULL);
-			kin::erase(_stream_buf);
-		}
-
-		bool oFile::open(const base::string &ifilename, bool iappend) {
-			close();
-			if(iappend) {
-				_file_handle << PHYSFS_openAppend(ifilename.c_str());
 			} else {
-				_file_handle << PHYSFS_openWrite(ifilename.c_str());
-			}
-			if(_file_handle.empty()) {
-				base::log.info("Não foi possivel abrir o arquivo '%s': %s", ifilename.c_str(), PHYSFS_getLastError());
-				return false;
-			}
-			(*_stream_buf).open(*(new PhysFSSink(&_file_handle)));
-			rdbuf(&_stream_buf);
-
-			seekp(0, std::ios::end);
-
-			return true;
-		}
-
-		bool oFile::isOpen() {
-			return !_file_handle.empty() && (*_stream_buf).is_open();
-		}
-
-		void oFile::close() {
-			if((*_stream_buf).is_open()) {
-				(*_stream_buf).close();
-			}
-			if(!_file_handle.empty()) {
-				PHYSFS_close(&_file_handle);
-				_file_handle << NULL;
+				ThrowDet(tokurei::OpenError, "Could not open file: %s", ifilename.c_str());
 			}
 		}
+
+		void File::load(const char *idata, size_t isize) {
+			if(_data) {clear();}
+
+			_data = new (std::nothrow) char[isize];
+			if(!_data) {
+				Throw(tokurei::OutOfMemory);
+			}
+
+			_capacity = isize;
+			_size = isize;
+
+			for(size_t i=0 ; i<_size ; i++) {
+				_data[i] = idata[i];
+			}
+		}
+
+		void File::load(char *idata, size_t icapacity, size_t isize) {
+			if(_data) {clear();}
+
+			_data = idata;
+			_capacity = icapacity;
+			_size = isize;
+		}
+
+		void File::load(const File &ifile) {
+			if(_data) {clear();}
+
+			_data = new (std::nothrow) char[ifile._capacity];
+			if(!_data) {
+				Throw(tokurei::OutOfMemory);
+			}
+
+			_capacity = ifile._capacity;
+			_size = ifile._size;
+
+			for(size_t i=0 ; i<_size ; i++) {
+				_data[i] = ifile._data[i];
+			}
+		}
+
+		void File::save(const base::string &ifilename) {
+			std::ofstream out(ifilename.c_str(), std::ios::binary | std::ios::trunc);
+			if(out.is_open()) {
+				out.write(_data, (std::streamsize)_size);
+			} else {
+				ThrowDet(tokurei::OpenError, "Could not open file: %s", ifilename.c_str());
+			}
+		}
+
+		void File::append(const base::string &ifilename) {
+			std::ifstream in(ifilename.c_str(), std::ios::binary);
+			if(in.is_open()) {
+				in.seekg (0, in.end);
+				size_t file_size = in.tellg();
+				in.seekg (0, in.beg);
+
+				if(_size + file_size > _capacity) {
+					capacity(_size + file_size);
+				}
+
+				in.read(_data + _size, file_size);
+				_size += file_size;
+
+			} else {
+				ThrowDet(tokurei::OpenError, "Could not open file: %s", ifilename.c_str());
+			}
+		}
+
+		void File::append(const char *idata, size_t isize) {
+			if(_size + isize > _capacity) {
+				capacity(_size + isize);
+			}
+
+			for(size_t i=_size, j=0 ; j<isize ; i++, j++) {
+				_data[i] = idata[j];
+			}
+			_size += isize;
+		}
+
+		void File::append(const File &ifile) {
+			if(_size + ifile._size > _capacity) {
+				capacity(_size + ifile._size);
+			}
+
+			for(size_t i=_size, j=0 ; j<ifile._size ; i++, j++) {
+				_data[i] = ifile._data[j];
+			}
+			_size += ifile._size;
+		}
+
+		void File::capacity(size_t icapacity) {
+			if(_capacity != icapacity) {
+				char *new_data = new (std::nothrow) char[icapacity];
+				if(!_data) {
+					Throw(tokurei::OutOfMemory);
+				}
+
+				for(size_t i=0 ; i<_size ; i++) {
+					new_data[i] = _data[i];
+				}
+				delete [] _data;
+				_data = new_data;
+				_capacity = icapacity;
+			}
+		}
+
+		void File::size(size_t isize) {
+			if(isize > _capacity) {
+				capacity(isize);
+			}
+			_size = isize;
+		}
+
 	}  // namespace data
 }  // namespace cb

@@ -193,11 +193,8 @@ namespace cb {
 			XML();
 			~XML();
 
-			void load(istream &istream);
-			void load(base::string ifilename);
-
-			void save(ostream &ostream);
-			void save(base::string ifilename);
+			void load(File &ifile);
+			void save(File &ifile);
 
 			Node operator[](base::string ikey);
 

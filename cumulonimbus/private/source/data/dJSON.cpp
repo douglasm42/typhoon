@@ -16,6 +16,7 @@
 #include <base/Log.h>
 
 #include <limits>
+#include <sstream>
 
 namespace cb {
 	namespace data {
@@ -131,10 +132,10 @@ namespace cb {
 
 			class StreamSerializer {
 			private:
-				ostream &_file;
+				std::ostringstream &_file;
 
 			public:
-				StreamSerializer(ostream &ifile) : _file(ifile) {}
+				StreamSerializer(std::ostringstream &ifile) : _file(ifile) {}
 
 				void serializeValue(const value &ovalue, string iident) {
 					if(ovalue.isObject()) {
@@ -239,7 +240,7 @@ namespace cb {
 
 			class StreamParser {
 			private:
-				istream &_file;
+				std::istringstream &_file;
 				size_t _line;
 				size_t _column;
 
@@ -252,7 +253,7 @@ namespace cb {
 				}
 
 			public:
-				StreamParser(istream &ifile) : _file(ifile), _line(0), _column(0) {}
+				StreamParser(std::istringstream &ifile) : _file(ifile), _line(0), _column(0) {}
 
 				void parseValue(value &ovalue);
 				void parseObject(object &oobject);
@@ -561,25 +562,23 @@ namespace cb {
 			}
 		}  // namespace json
 
-		void JSON::load(istream &ifile) {
-			json::StreamParser parser(ifile);
+		void JSON::load(File &ifile) {
+			base::string strfile(ifile.data(), ifile.size());
+			std::istringstream instream;
+
+			json::StreamParser parser(instream);
 			parser.parseValue(value);
 		}
 
-		void JSON::load(const base::string &ifilename) {
-			iFile file(ifilename);
-			load(file);
-		}
+		void JSON::save(File &ofile) {
+			ofile.clear();
+			std::ostringstream out;
 
-		void JSON::save(ostream &ofile) {
-			json::StreamSerializer ser(ofile);
+			json::StreamSerializer ser(out);
 			ser.serializeValue(value, "");
-			ofile << std::endl;
-		}
+			out << std::endl;
 
-		void JSON::save(const base::string &ifilename) {
-			oFile file(ifilename);
-			save(file);
+			ofile.append(out.str().c_str(), out.str().size());
 		}
 	}  // namespace data
 }  // namespace cb

@@ -22,7 +22,7 @@
 namespace cb {
 	namespace data {
 		//Output
-		obinstream::obinstream(ostream &iout)
+		obinstream::obinstream(std::ostream &iout)
 		:_stream(iout) {
 		}
 
@@ -76,7 +76,7 @@ namespace cb {
 		void obinstream::write(const long double *ivalue, const size_t in)				{MultiOut(ivalue, in);}
 
 		//Input
-		ibinstream::ibinstream(istream &iout)
+		ibinstream::ibinstream(std::istream &iout)
 		:_stream(iout) {
 		}
 

@@ -20,117 +20,61 @@
 #include <data/Bitmap.h>
 
 #include <video/Display.h>
+#include <video/Placement.h>
 #include <video/Cursor.h>
 
-#include <input/EventQueue.h>
+#include <input/EventHub.h>
 
 namespace cb {
 	namespace video {
 		KinLock(WindowInfo);
 
-		namespace win {
-			class CbAPI Placement {
-			private:
-				size_t _x;
-				size_t _y;
-				size_t _width;
-				size_t _height;
-				bool _maximized;
-				bool _minimized;
-				bool _border;
-
-				void ajust();
-
-			public:
-				Placement()
-				:_x(0), _y(0), _width(0), _height(0), _maximized(false), _minimized(false), _border(false) {
-				}
-
-				Placement(size_t ix, size_t iy, size_t iwidth, size_t iheight, bool imaximized, bool iminimized, bool iborder)
-				:_x(ix), _y(iy), _width(iwidth), _height(iheight), _maximized(imaximized), _minimized(iminimized), _border(iborder) {
-					ajust();
-				}
-
-				size_t x() const {return _x;}
-				size_t y() const {return _y;}
-				size_t width() const {return _width;}
-				size_t height() const {return _height;}
-
-				void size(size_t iwidth, size_t iheight) {
-					_width = iwidth;
-					_height = iheight;
-					ajust();
-				}
-
-
-				void pos(size_t ix, size_t iy) {
-					_x = ix;
-					_y = iy;
-				}
-
-				void maximize() {_maximized = true;}
-				void minimize() {_minimized = true;}
-				void restore() {_minimized = false;}
-
-				bool maximized() const {return _maximized;}
-				void maximized(bool imaximized) {_maximized = imaximized;}
-
-				bool minimized() const {return _minimized;}
-				void minimized(bool iminimized) {_minimized = iminimized;}
-
-				bool border() const {return _border;}
-				void border(bool iborder);
-
-				void centralize() {
-					disp::Mode mode = Display::activeMode();
-					_x = mode.width()/2 - _width/2;
-					_y = mode.height()/2 - _height/2;
-				}
-
-				friend class CbAPI cb::video::Window;
-			};
-		}  // namespace win
-
 		class CbAPI Window {
 		private:
 			kin::WindowInfo _window_info;
-			input::EventQueue _event_queue;
+			Border _border;
+			input::EventHub _event_hub;
 			Cursor _cursor;
 
-			void create(base::string16 ititle, win::Placement iplacement);
+			void create(base::string16 ititle, const Placement &iplacement);
 			void destroy();
 
 		public:
-			Window(base::string16 ititle, win::Placement iplacement);
-			Window(base::string16 ititle, size_t ix, size_t iy, size_t iwidth, size_t iheight, bool imaximized, bool iminimized, bool iborder);
+			Window(base::string16 ititle, const Placement &iplacement);
+			Window(base::string16 ititle, int ix, int iy, int iwidth, int iheight, bool imaximized, bool iminimized, Border iborder);
 			~Window();
 
 			void title(base::string16 ititle);
 			void title(base::string ititle) {title(base::utf16(ititle));}
 
-			void placement(win::Placement iplacement);
-			win::Placement placement();
+			void placement(const Placement &iplacement);
+			Placement placement();
 
-			void resize(size_t iwidth, size_t iheight);
-			void move(size_t ix, size_t iy);
+			void resize(int iwidth, int iheight);
+			void move(int ix, int iy);
 
-			void border(bool iborder);
-			bool border();
+			void border(Border iborder);
+			Border border() const {return _border;}
 
 			void show();
 			void hide();
+
+			void minimize();
+			void maximize();
+			void restore();
+			void close();
 
 			bool active();
 			bool empty();
 
 			void icon(data::ubBitmapRGBA &ibmp);
-			void icon(data::ubBitmapRGB &ibmp, math::u8vec3 itransparent);
+			void icon(data::ubBitmapRGB &ibmp, u8vec3 itransparent);
 
 			Cursor &cursor() {return _cursor;}
 
 			kin::WindowInfo &info() {return _window_info;}
 
-			input::EventQueue &events() {return _event_queue;}
+			input::EventHub &eventhub() {return _event_hub;}
 		};
 	}  // namespace video
 }  // namespace cb

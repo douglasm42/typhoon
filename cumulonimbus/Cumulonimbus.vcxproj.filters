@@ -129,19 +129,10 @@
     <ClInclude Include="public\include\graphic\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="public\include\input\Event.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="public\include\input\EventLoop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="public\include\input\EventQueue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="public\include\input\input.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="public\include\input\KeyCode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="public\include\math\custom\origin.h">
@@ -156,6 +147,57 @@
     <ClInclude Include="public\include\base\Types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="public\include\graphic\VertexBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="public\include\graphic\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="public\include\graphic\Program.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="public\include\graphic\FrameBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="private\include\graphic\TextureTranslate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="public\include\data\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="private\include\input\win32\XInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="public\include\input\KeyListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="public\include\input\Key.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="public\include\input\MouseListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="public\include\input\CharListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="public\include\input\WindowListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="public\include\input\QuitListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="public\include\input\EventHub.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="public\include\video\Placement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="private\include\video\win32\Placement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="private\include\video\win32\WindowStyle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="private\source\base\bDate.cpp">
@@ -165,9 +207,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="private\source\base\bLogFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="private\source\base\bRandom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="private\source\base\bString.cpp">
@@ -195,9 +234,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="private\source\data\dJSON.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="private\source\data\dMFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="private\source\data\dXML.cpp">
@@ -230,16 +266,7 @@
     <ClCompile Include="private\source\input\win32\iwWindowProc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="private\source\input\iEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="private\source\input\iEventLoop.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="private\source\input\iEventQueue.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="private\source\input\iKeyCode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="private\source\video\win32\vwBitmapToIcon.cpp">
@@ -260,9 +287,6 @@
     <ClCompile Include="private\source\video\win32\vwWindowClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="private\source\video\win32\vwWindowPlacement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="dependencies\source\glew.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -270,6 +294,36 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dependencies\source\sqlite3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="private\source\graphic\gVertexBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="private\source\graphic\gShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="private\source\graphic\gProgram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="private\source\graphic\gFrameBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="private\source\data\dMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="private\source\input\win32\iwXInput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="private\source\input\iKey.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="private\source\input\iEventHub.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="private\source\video\win32\vwPlacement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="private\source\video\vPlacement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

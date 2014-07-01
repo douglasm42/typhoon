@@ -15,6 +15,10 @@
 
 #include <graphic/GLEWmx.h>
 
+#include <graphic/VertexBuffer.h>
+
+#include <base/Timer.h>
+
 namespace cb {
 	namespace graphic {
 		void GL::viewport(int ix, int iy, int iwidth, int iheight) {
@@ -31,7 +35,7 @@ namespace cb {
 			}
 		}
 
-		void GL::clearColor(math::vec4 icolor) {
+		void GL::clearColor(vec4 icolor) {
 			glClearColor(icolor.r, icolor.g, icolor.b, icolor.a);
 		}
 
@@ -39,32 +43,74 @@ namespace cb {
 			glClearDepth(idepth);
 		}
 
-		void GL::texSquare() {
+		void GL::texSquare(VertexBuffer &teste, VertexBuffer &grid) {
+			static base::Timer timer;
+			static float angle = 0.0f;
+			static float scale = 45;
+			timer.tick();
+
+			angle += timer.delta() * scale;
+
+			//glEnable(GL_DEPTH_TEST);
+			glEnable(GL_CULL_FACE);
+			glCullFace(GL_BACK);
+
 			GLint vp[4];
 			glGetIntegerv( GL_VIEWPORT, vp );
 
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 			glMatrixMode(GL_PROJECTION);
 			glLoadIdentity();
 			gluPerspective(60.0, (GLfloat)vp[2]/(GLfloat)vp[3], 1.0, 30.0);
 			glMatrixMode(GL_MODELVIEW);
 			glLoadIdentity();
-			glTranslatef(0.0f, 0.0f, -3.6f);
 
-			glEnable(GL_TEXTURE_2D);
-			glBegin(GL_QUADS);
-				glColor3f(1.0f,1.0f,1.0f);
-				glTexCoord2f(0.0f, 1.0f); glVertex3f(-2.0f, -1.0f, 0.0f);
-				glTexCoord2f(0.0f, 0.0f); glVertex3f(-2.0f, 1.0f, 0.0f);
-				glTexCoord2f(1.0f, 0.0f); glVertex3f(0.0f, 1.0f, 0.0f);
-				glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f, -1.0f, 0.0f);
+			gluLookAt(0.0, 2.2, -5.3, 0,0,0,0,1,0);
 
-				glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f, -1.0f, 0.0f);
-				glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f, 1.0f, 0.0f);
-				glTexCoord2f(1.0f, 0.0f); glVertex3f(2.41421f, 1.0f, -1.41421f);
-				glTexCoord2f(1.0f, 1.0f); glVertex3f(2.41421f, -1.0f, -1.41421f);
+			glBegin(GL_LINES);
+			glColor3f(1.0f, 0.0f, 0.0f);
+			glVertex3f(0.0f, 0.0f, 0.0f);
+			glVertex3f(2.0f, 0.0f, 0.0f);
+
+			glColor3f(0.0f, 1.0f, 0.0f);
+			glVertex3f(0.0f, 0.0f, 0.0f);
+			glVertex3f(0.0f, 2.0f, 0.0f);
+
+			glColor3f(0.0f, 0.0f, 1.0f);
+			glVertex3f(0.0f, 0.0f, 0.0f);
+			glVertex3f(0.0f, 0.0f, 2.0f);
 			glEnd();
+
+			glColor3f(1.0f, 1.0f, 1.0f);
+
+			if(GLEW_EXT_texture_filter_anisotropic) {
+				GLfloat largest;
+				glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &largest);
+				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, largest);
+			}
+			glEnable(GL_TEXTURE_2D);
+			//grid.draw();
+
+			glPushMatrix();
+				glRotatef(angle, 0.0f, 0.0f, 1.0f);
+				teste.draw();
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(1.0f, 0.0f, 0.0f);
+				teste.draw();
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(-1.0f, 0.0f, 0.0f);
+				glRotatef(180.0f, 0.0f, 0.0f, 1.0f);
+				teste.draw();
+			glPopMatrix();
+
 			glDisable(GL_TEXTURE_2D);
+			glDisable(GL_BLEND);
 		}
 	}  // namespace graphic
 }  // namespace cb

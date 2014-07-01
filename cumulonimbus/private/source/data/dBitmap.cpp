@@ -28,70 +28,45 @@
 #include <thread>
 #include <mutex>
 
-#define iFileToVoid(file) (static_cast<void *>(file))
-#define voidToiFile(handle) (static_cast<cb::data::istream *>(handle))
+#define CHANNELS(x) (int(x))
 
-#define oFileToVoid(file) (static_cast<void *>(file))
-#define voidTooFile(handle) (static_cast<cb::data::istream *>(handle))
+#define PITCH(bytes_per_pixel, width) ((( (bytes_per_pixel) * (width) + 3) >> 2) << 2)
+
+#define PAGE_SIZE(pitch, height) ((pitch) * (height));
+#define DATA_SIZE(pitch, height, depth) (PAGE_SIZE(pitch, height) * (depth));
+
+#define POSITION3D(x,y,z,c,pitch,page_size,channels) ((page_size)*(z) + (y)*(pitch) + (x)*(channels)+(c))
+#define POSITION2D(x,y,c,pitch,channels) ((y)*(pitch) + (x)*(channels)+(c))
 
 namespace cb {
 	namespace data {
 		std::mutex data_bmp_guard;
 
-		namespace bmp {
-			// fill 'data' with 'size' bytes.  return number of bytes actually read
-			int read(void *ifile, char *idata, int isize) {
-				return (int)voidToiFile(ifile)->read(idata, isize).gcount();
-			}
-
-			// skip the next 'n' bytes
-			void skip(void *ifile, int ioffset) {
-				voidToiFile(ifile)->seekg(ioffset, std::ios::cur);
-			}
-			// returns nonzero if we are at end of file/data
-			int eof(void *ifile) {
-				return voidToiFile(ifile)->eof()?1:0;
-			}
-		}  // namespace data
-
 		size_t sizeType(bmp::Type itype) {
 			size_t sizes[] = {
-					0,						// Void
+					0,				// Void
 
-					sizeof(math::int8),		//Byte
-					sizeof(math::uint8),	//UByte
+					sizeof(int8),	//Byte
+					sizeof(uint8),	//UByte
 
-					sizeof(math::uint16),	//Int16
-					sizeof(math::uint16),	//UInt16
+					sizeof(uint16),	//Int16
+					sizeof(uint16),	//UInt16
 
-					sizeof(math::uint32),	//Int32
-					sizeof(math::uint32),	//UInt32
+					sizeof(uint32),	//Int32
+					sizeof(uint32),	//UInt32
 
-					sizeof(math::float32),	//Float
-					sizeof(math::float64)	//Double
+					sizeof(float32),//Float
+					sizeof(float64)	//Double
 			};
 
 			return sizes[(size_t)itype];
 		}
 
-		size_t channels(bmp::Format iformat) {
-			size_t channelsv[] = {
-					0,	// Void
-
-					1,	//Luminance
-					2,	//LA
-					3,	//RGB
-					4	//RGBA
-			};
-
-			return channelsv[(size_t)iformat];
-		}
-
 		size_t bytesPerPixel(bmp::Format iformat, bmp::Type itype) {
-			return sizeType(itype) * channels(iformat);
+			return sizeType(itype) * CHANNELS(iformat);
 		}
 
-		void Bitmap::load(size_t iwidth, size_t iheight, bmp::Format iformat, bmp::Type itype) {
+		void Bitmap::load(size_t iwidth, size_t iheight, size_t idepth, bmp::Format iformat, bmp::Type itype) {
 			clear();
 			if(iformat != bmp::Format::Void && itype != bmp::Type::Void) {
 				_bytes_per_pixel = bytesPerPixel(iformat, itype);
@@ -100,11 +75,12 @@ namespace cb {
 
 				_width = iwidth;
 				_height = iheight;
-				_pitch = ((_bytes_per_pixel*_width + 3) >> 2) << 2;
+				_depth = idepth;
+				_pitch = PITCH(_bytes_per_pixel,_width);
 
-				_data = malloc(_pitch * _height);
+				_data = malloc(_pitch * _height * _depth);
 				if(!_data) {
-
+					Throw(tokurei::OutOfMemory);
 				}
 			} else {
 				Throw(tokurei::LoadFailed);
@@ -112,21 +88,116 @@ namespace cb {
 		}
 
 		template<class T>
-		void copyImageLoaded(math::uint8 *idata, T *odata, size_t iwidth, size_t iheight, size_t ipitch, size_t ichannels, T min, T max) {
-			size_t bpp = sizeof(T) * ichannels;
+		T castByteNormalized(uint8 ibyte);
 
-			double range = max - min;
+		template<>
+		inline uint8 castByteNormalized<uint8>(uint8 ibyte) {
+			return ibyte;
+		}
 
-			for(size_t i=0 ; i<iheight ; i++) {
-				for(size_t j=0 ; j<iwidth ; j++) {
-					for(size_t k=0 ; k<ichannels ; k++) {
-						odata[i*ipitch + j*bpp + sizeof(T)*k] = T(idata[i*iwidth*ichannels + j*ichannels+k]/255.0 * range + min);
-					}
+		template<>
+		inline int8 castByteNormalized<int8>(uint8 ibyte) {
+			return uint8(int16(ibyte) + INT8_MIN);
+		}
+
+		template<>
+		inline uint16 castByteNormalized<uint16>(uint8 ibyte) {
+			return uint16(ibyte) * (UINT16_MAX/UINT8_MAX);
+		}
+
+		template<>
+		inline int16 castByteNormalized<int16>(uint8 ibyte) {
+			return int16(int32(ibyte) * (UINT16_MAX/UINT8_MAX) + INT16_MIN);
+		}
+
+		template<>
+		inline uint32 castByteNormalized<uint32>(uint8 ibyte) {
+			return uint32(ibyte) * (UINT32_MAX/UINT8_MAX);
+		}
+
+		template<>
+		inline int32 castByteNormalized<int32>(uint8 ibyte) {
+			return int32(int64(ibyte) * (UINT32_MAX/UINT8_MAX) + INT32_MIN);
+		}
+
+		template<>
+		inline float castByteNormalized<float>(uint8 ibyte) {
+			return float(ibyte) / float(UINT8_MAX);
+		}
+
+		template<class T>
+		void copyImageLoaded(uint8 *idata, void *odata, size_t iwidth, size_t iheight, size_t ipitch, size_t ichannels) {
+			size_t pitch = iwidth * ichannels;
+
+			for(size_t y=0 ; y<iheight ; y++) {
+				T *oscanline = reinterpret_cast<T *>(reinterpret_cast<uint8 *>(odata) + y * ipitch);
+				uint8 *iscanline = idata + (iheight - y - 1) * pitch;
+
+				for(size_t i=0 ; i<iwidth * ichannels ; i++) {
+					(*oscanline) = castByteNormalized<T>(*iscanline);
+
+					oscanline++;
+					iscanline++;
 				}
 			}
 		}
 
-		void Bitmap::load(istream &istream, bmp::Format iformat, bmp::Type itype) {
+		template<class T>
+		T castFloatNormalized(float ifloat);
+
+		template<>
+		inline uint8 castFloatNormalized<uint8>(float ifloat) {
+			return uint8(ifloat * UINT8_MAX);
+		}
+
+		template<>
+		inline int8 castFloatNormalized<int8>(float ifloat) {
+			return uint8(int16(ifloat * UINT8_MAX) + INT8_MIN);
+		}
+
+		template<>
+		inline uint16 castFloatNormalized<uint16>(float ifloat) {
+			return uint16(ifloat * UINT16_MAX);
+		}
+
+		template<>
+		inline int16 castFloatNormalized<int16>(float ifloat) {
+			return int16(int32(ifloat * UINT16_MAX) + INT16_MIN);
+		}
+
+		template<>
+		inline uint32 castFloatNormalized<uint32>(float ifloat) {
+			return uint32(double(ifloat) * UINT32_MAX);
+		}
+
+		template<>
+		inline int32 castFloatNormalized<int32>(float ifloat) {
+			return int32(int64(double(ifloat) * UINT32_MAX) + INT32_MIN);
+		}
+
+		template<>
+		inline float castFloatNormalized<float>(float ifloat) {
+			return ifloat;
+		}
+
+		template<class T>
+		void copyImageLoaded(float *idata, void *odata, size_t iwidth, size_t iheight, size_t ipitch, size_t ichannels) {
+			size_t pitch = iwidth * ichannels;
+
+			for(size_t y=0 ; y<iheight ; y++) {
+				T *oscanline = reinterpret_cast<T *>(reinterpret_cast<uint8 *>(odata) + y * ipitch);
+				float *iscanline = idata + (iheight - y - 1) * pitch;
+
+				for(size_t i=0 ; i<iwidth * ichannels ; i++) {
+					(*oscanline) = castFloatNormalized<T>(*iscanline);
+
+					oscanline++;
+					iscanline++;
+				}
+			}
+		}
+
+		void Bitmap::load(const File &ifile, bmp::Format iformat, bmp::Type itype) {
 			if(iformat == bmp::Format::Void) {
 				Throw(tokurei::LoadFailed);
 			}
@@ -135,63 +206,97 @@ namespace cb {
 				Throw(tokurei::LoadFailed);
 			}
 
-			base::log.nothing("canais: %d -> %d", iformat, channels(iformat));
-
-			std::lock_guard<std::mutex> lock(data_bmp_guard);
-
 			int w;
 			int h;
+			int d = 1;
 			int c;
-			stbi_io_callbacks callbacks;
-			callbacks.read = &bmp::read;
-			callbacks.skip = &bmp::skip;
-			callbacks.eof = &bmp::eof;
 
-			base::log.nothing("canais: %d -> %d", (int)iformat, (int)channels(iformat));
+			if(!stbi_is_hdr_from_memory(reinterpret_cast<const stbi_uc *>(ifile.data()), (int)ifile.size())) {
+				uint8 *stbidata = stbi_load_from_memory(reinterpret_cast<const stbi_uc *>(ifile.data()), (int)ifile.size(), &w, &h, &c, CHANNELS(iformat));
 
-			math::uint8 *stbidata = stbi_load_from_callbacks(&callbacks, iFileToVoid(&istream), &w, &h, &c, (int)channels(iformat));
+				if(!stbidata) {
+					ThrowDet(tokurei::LoadFailed, "Reason: %s", stbi_failure_reason());
+				}
 
-			base::log.nothing("canais: %d -> %d", c, channels(iformat));
-			if(c != (int)channels(iformat) && false) {
-				base::log.nothing("erro: %d -> %d", c, (int)channels(iformat));
-				ThrowDet(tokurei::LoadFailed, "Wrong number of channels: %d from %d requested. %d", c, channels(iformat));
+				c = CHANNELS(iformat);
+
+				load((size_t)w, (size_t)h, (size_t)d, iformat, itype);
+
+				switch(itype) {
+				case bmp::Type::Byte:
+					copyImageLoaded<int8>(stbidata, _data, w, h, _pitch, c);
+					break;
+				case bmp::Type::UByte:
+					copyImageLoaded<uint8>(stbidata, _data, w, h, _pitch, c);
+					break;
+
+				case bmp::Type::Int16:
+					copyImageLoaded<int16>(stbidata, _data, w, h, _pitch, c);
+					break;
+				case bmp::Type::UInt16:
+					copyImageLoaded<uint16>(stbidata, _data, w, h, _pitch, c);
+					break;
+
+				case bmp::Type::Int32:
+					copyImageLoaded<int32>(stbidata, _data, w, h, _pitch, c);
+					break;
+				case bmp::Type::UInt32:
+					copyImageLoaded<uint32>(stbidata, _data, w, h, _pitch, c);
+					break;
+
+				case bmp::Type::Float:
+					copyImageLoaded<float>(stbidata, _data, w, h, _pitch, c);
+					break;
+
+				default:
+					Throw(tokurei::LoadFailed);
+				}
+
+				stbi_image_free(stbidata);
+			} else {
+
+				float *stbidata = stbi_loadf_from_memory(reinterpret_cast<const stbi_uc *>(ifile.data()), (int)ifile.size(), &w, &h, &c, CHANNELS(iformat));
+
+				if(!stbidata) {
+					ThrowDet(tokurei::LoadFailed, "Reason: %s", stbi_failure_reason());
+				}
+
+				c = CHANNELS(iformat);
+
+				load((size_t)w, (size_t)h, (size_t)d, iformat, itype);
+
+				switch(itype) {
+				case bmp::Type::Byte:
+					copyImageLoaded<int8>(stbidata, _data, w, h, _pitch, c);
+					break;
+				case bmp::Type::UByte:
+					copyImageLoaded<uint8>(stbidata, _data, w, h, _pitch, c);
+					break;
+
+				case bmp::Type::Int16:
+					copyImageLoaded<int16>(stbidata, _data, w, h, _pitch, c);
+					break;
+				case bmp::Type::UInt16:
+					copyImageLoaded<uint16>(stbidata, _data, w, h, _pitch, c);
+					break;
+
+				case bmp::Type::Int32:
+					copyImageLoaded<int32>(stbidata, _data, w, h, _pitch, c);
+					break;
+				case bmp::Type::UInt32:
+					copyImageLoaded<uint32>(stbidata, _data, w, h, _pitch, c);
+					break;
+
+				case bmp::Type::Float:
+					copyImageLoaded<float>(stbidata, _data, w, h, _pitch, c);
+					break;
+
+				default:
+					Throw(tokurei::LoadFailed);
+				}
+
+				stbi_image_free(stbidata);
 			}
-
-			c = (int)channels(iformat);
-
-			load(w, h, iformat, itype);
-
-			switch(itype) {
-			case bmp::Type::Byte:
-				copyImageLoaded(stbidata, static_cast<math::int8 *>(_data), w, h, _pitch, c, math::int8(SCHAR_MIN), math::int8(SCHAR_MAX));
-				break;
-			case bmp::Type::UByte:
-				copyImageLoaded(stbidata, static_cast<math::uint8 *>(_data), w, h, _pitch, c, math::uint8(0), math::uint8(UCHAR_MAX));
-				break;
-
-			case bmp::Type::Int16:
-				copyImageLoaded(stbidata, static_cast<math::int16 *>(_data), w, h, _pitch, c, math::int16(SHRT_MIN), math::int16(SHRT_MAX));
-				break;
-			case bmp::Type::UInt16:
-				copyImageLoaded(stbidata, static_cast<math::uint16 *>(_data), w, h, _pitch, c, math::uint16(0), math::uint16(USHRT_MAX));
-				break;
-
-			case bmp::Type::Int32:
-				copyImageLoaded(stbidata, static_cast<math::int32 *>(_data), w, h, _pitch, c, math::int32(LONG_MIN), math::int32(LONG_MAX));
-				break;
-			case bmp::Type::UInt32:
-				copyImageLoaded(stbidata, static_cast<math::uint32 *>(_data), w, h, _pitch, c, math::uint32(0), math::uint32(ULONG_MAX));
-				break;
-
-			case bmp::Type::Float:
-				copyImageLoaded(stbidata, static_cast<float *>(_data), w, h, _pitch, c, float(0.0f), float(1.0f));
-				break;
-
-			default:
-				Throw(tokurei::LoadFailed);
-			}
-
-			stbi_image_free(stbidata);
 		}
 
 		void Bitmap::load(const Bitmap &iimg) {
@@ -201,15 +306,124 @@ namespace cb {
 				return;
 			}
 
-			load(iimg._width, iimg._height, iimg._format, iimg._type);
-			size_t size = _pitch * _height;
+			load(iimg._width, iimg._height, iimg._depth, iimg._format, iimg._type);
+			size_t size = _pitch * _height * _depth;
 
 			size = size >> 2;
-			size_t *ldata = static_cast<size_t *>(_data);
-			size_t *lidata = static_cast<size_t *>(iimg._data);
+			size_t *ldata = reinterpret_cast<size_t *>(_data);
+			size_t *lidata = reinterpret_cast<size_t *>(iimg._data);
 
 			for(size_t i=0 ; i<size ; ++i) {
 				ldata[i] = lidata[i];
+			}
+		}
+
+		void Bitmap::loadPage(const File &ifile, size_t iz) {
+			if(_format == bmp::Format::Void) {
+				Throw(tokurei::LoadFailed);
+			}
+
+			if(_type == bmp::Type::Void) {
+				Throw(tokurei::LoadFailed);
+			}
+
+			int w;
+			int h;
+			int d = 1;
+			int c;
+
+			if(iz >= _depth) {
+				Throw(tokurei::OutOfRange);
+			}
+
+			if(!stbi_is_hdr_from_memory(reinterpret_cast<const stbi_uc *>(ifile.data()), (int)ifile.size())) {
+				uint8 *stbidata = stbi_load_from_memory(reinterpret_cast<const stbi_uc *>(ifile.data()), (int)ifile.size(), &w, &h, &c, CHANNELS(_format));
+
+				if(_width != w || _height != h) {
+					ThrowDet(tokurei::LoadFailed, "Image loaded size (%dx%d) incompatible with this image size (%dx%d)", w, h, _width, _height);
+				}
+
+				if(!stbidata) {
+					ThrowDet(tokurei::LoadFailed, "Reason: %s", stbi_failure_reason());
+				}
+
+				c = CHANNELS(_format);
+
+				switch(_type) {
+				case bmp::Type::Byte:
+					copyImageLoaded<int8>(stbidata, page(iz), w, h, _pitch, c);
+					break;
+				case bmp::Type::UByte:
+					copyImageLoaded<uint8>(stbidata, page(iz), w, h, _pitch, c);
+					break;
+
+				case bmp::Type::Int16:
+					copyImageLoaded<int16>(stbidata, page(iz), w, h, _pitch, c);
+					break;
+				case bmp::Type::UInt16:
+					copyImageLoaded<uint16>(stbidata, page(iz), w, h, _pitch, c);
+					break;
+
+				case bmp::Type::Int32:
+					copyImageLoaded<int32>(stbidata, page(iz), w, h, _pitch, c);
+					break;
+				case bmp::Type::UInt32:
+					copyImageLoaded<uint32>(stbidata, page(iz), w, h, _pitch, c);
+					break;
+
+				case bmp::Type::Float:
+					copyImageLoaded<float>(stbidata, page(iz), w, h, _pitch, c);
+					break;
+
+				default:
+					Throw(tokurei::LoadFailed);
+				}
+
+				stbi_image_free(stbidata);
+			} else {
+				float *stbidata = stbi_loadf_from_memory(reinterpret_cast<const stbi_uc *>(ifile.data()), (int)ifile.size(), &w, &h, &c, CHANNELS(_format));
+
+				if(_width != w || _height != h) {
+					ThrowDet(tokurei::LoadFailed, "Image loaded size (%dx%d) incompatible with this image size (%dx%d)", w, h, _width, _height);
+				}
+
+				if(!stbidata) {
+					ThrowDet(tokurei::LoadFailed, "Reason: %s", stbi_failure_reason());
+				}
+
+				c = CHANNELS(_format);
+
+				switch(_type) {
+				case bmp::Type::Byte:
+					copyImageLoaded<int8>(stbidata, page(iz), w, h, _pitch, c);
+					break;
+				case bmp::Type::UByte:
+					copyImageLoaded<uint8>(stbidata, page(iz), w, h, _pitch, c);
+					break;
+
+				case bmp::Type::Int16:
+					copyImageLoaded<int16>(stbidata, page(iz), w, h, _pitch, c);
+					break;
+				case bmp::Type::UInt16:
+					copyImageLoaded<uint16>(stbidata, page(iz), w, h, _pitch, c);
+					break;
+
+				case bmp::Type::Int32:
+					copyImageLoaded<int32>(stbidata, page(iz), w, h, _pitch, c);
+					break;
+				case bmp::Type::UInt32:
+					copyImageLoaded<uint32>(stbidata, page(iz), w, h, _pitch, c);
+					break;
+
+				case bmp::Type::Float:
+					copyImageLoaded<float>(stbidata, page(iz), w, h, _pitch, c);
+					break;
+
+				default:
+					Throw(tokurei::LoadFailed);
+				}
+
+				stbi_image_free(stbidata);
 			}
 		}
 
@@ -222,7 +436,7 @@ namespace cb {
 			base::log.warning("%s() : Use it only for debug.", __func__);
 
 			if(_type == bmp::Type::Byte || _type == bmp::Type::UByte) {
-				if(!stbi_write_png(ifilename.c_str(), _width, _height, (int)channels(_format), _data, _pitch)) {
+				if(!stbi_write_png(ifilename.c_str(), (int)_width, (int)_height, (int)CHANNELS(_format), _data, (int)_pitch)) {
 					Throw(tokurei::SaveFailed);
 				}
 			}

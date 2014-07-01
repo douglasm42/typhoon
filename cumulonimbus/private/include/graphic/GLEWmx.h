@@ -37,4 +37,26 @@ void activateGLEW(GLEWContext *icontext);
 const char *glErrorStr(GLenum error);
 const char *glErrorStrDescription(GLenum error);
 
-void glCheckError();
+#define glCheckError() {\
+	GLenum error = glGetError();\
+	switch(error) {\
+	case GL_NO_ERROR:\
+		return;\
+	case GL_INVALID_ENUM:\
+		Throw(cb::tokurei::GLInvalidEnum);\
+	case GL_INVALID_VALUE:\
+		Throw(cb::tokurei::GLInvalidValue);\
+	case GL_INVALID_OPERATION:\
+		Throw(cb::tokurei::GLInvalidOperation);\
+	case GL_STACK_OVERFLOW:\
+		Throw(cb::tokurei::GLStackOverflow);\
+	case GL_STACK_UNDERFLOW:\
+		Throw(cb::tokurei::GLStackUnderflow);\
+	case GL_OUT_OF_MEMORY:\
+		Throw(cb::tokurei::GLOutOfMemory);\
+	case GL_INVALID_FRAMEBUFFER_OPERATION:\
+		Throw(cb::tokurei::GLInvalidFramebufferOperation);\
+	default:\
+		ThrowDet(cb::tokurei::GLUnknown, "Error code: %p", error);\
+	}\
+}

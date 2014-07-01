@@ -15,7 +15,6 @@
 
 #include <base/base.h>
 
-#include <base/String.h>
 #include <base/Kin.h>
 
 #include <vector>
@@ -39,14 +38,12 @@ namespace cb {
 		/**
 		 * Classe responsavel por guardar a semente do gerador.
 		 *
-		 * A semente é composta somente por números inteiros sem sinal, mas
-		 * pode receber strings também, que são convertidas em números por
-		 * uma função hash presente no arquivo bString.h.
+		 * A semente é composta somente por números inteiros de 32 bits sem sinal.
 		 */
 		class CbAPI seed {
 		private:
 			///Valores da semente a ser utilizada no gerador.
-			std::vector<unsigned int> _seed_values;
+			std::vector<uint32_t> _seed_values;
 
 			///Semente a ser utilizada no gerador.
 			seed_seq _seed_seq;
@@ -67,21 +64,21 @@ namespace cb {
 			 * Inicializa a semente com apenas um número.
 			 * @param iseed Número a ser utilizado.
 			 */
-			seed(unsigned int iseed);
+			seed(uint32_t iseed);
 
 			/**
 			 * Inicializa a semente com um vetor de números.
 			 * @param ivseed Vetor contendo os números.
 			 * @param in Número de elementos do vetor.
 			 */
-			seed(unsigned int ivseed[], size_t in);
+			seed(uint32_t ivseed[], size_t in);
 
 			/**
 			 * Inicializa a semente com dois números.
 			 * @param iseed1 Primeiro número a ser utilizado.
 			 * @param iseed2 Segundo número a ser utilizado.
 			 */
-			seed(unsigned int iseed1, unsigned int iseed2);
+			seed(uint32_t iseed1, uint32_t iseed2);
 
 			/**
 			 * Inicializa a semente com dois números.
@@ -89,7 +86,7 @@ namespace cb {
 			 * @param iseed2 Segundo número a ser utilizado.
 			 * @param iseed3 Terceiro número a ser utilizado.
 			 */
-			seed(unsigned int iseed1, unsigned int iseed2, unsigned int iseed3);
+			seed(uint32_t iseed1, uint32_t iseed2, uint32_t iseed3);
 
 			/**
 			 * Inicializa a semente com dois números.
@@ -98,44 +95,7 @@ namespace cb {
 			 * @param iseed3 Terceiro número a ser utilizado.
 			 * @param iseed4 Quarto número a ser utilizado.
 			 */
-			seed(unsigned int iseed1, unsigned int iseed2, unsigned int iseed3, unsigned int iseed4);
-
-			/**
-			 * Inicializa a semente com apenas uma string.
-			 * @param iseed String a ser utilizada.
-			 */
-			seed(string iseed);
-
-			/**
-			 * Inicializa a semente com um vetor de strings.
-			 * @param ivseed Vetor contendo as strings.
-			 * @param in Número de elementos do vetor.
-			 */
-			seed(string ivseed[], size_t in);
-
-			/**
-			 * Inicializa a semente com duas strings.
-			 * @param iseed1 Primeira string a ser utilizada.
-			 * @param iseed2 Segunda string a ser utilizada.
-			 */
-			seed(string iseed1, string iseed2);
-
-			/**
-			 * Inicializa a semente com duas strings.
-			 * @param iseed1 Primeira string a ser utilizada.
-			 * @param iseed2 Segunda string a ser utilizada.
-			 * @param iseed3 Terceira string a ser utilizada.
-			 */
-			seed(string iseed1, string iseed2, string iseed3);
-
-			/**
-			 * Inicializa a semente com duas strings.
-			 * @param iseed1 Primeira string a ser utilizada.
-			 * @param iseed2 Segunda string a ser utilizada.
-			 * @param iseed3 Terceira string a ser utilizada.
-			 * @param iseed4 Quarta string a ser utilizada.
-			 */
-			seed(string iseed1, string iseed2, string iseed3, string iseed4);
+			seed(uint32_t iseed1, uint32_t iseed2, uint32_t iseed3, uint32_t iseed4);
 
 			/**
 			 * Faiz nada!
@@ -153,7 +113,7 @@ namespace cb {
 			 * @param in Posição a ser acessada.
 			 * @return Referência da posição do número da semente.
 			 */
-			unsigned int &operator[](size_t in);
+			uint32_t &operator[](size_t in);
 
 			/**
 			 * Acessa o número da semente na posição passada por parametro,
@@ -161,19 +121,13 @@ namespace cb {
 			 * @param in Posição a ser acessada.
 			 * @return Referência constante da posição do número da semente.
 			 */
-			const unsigned int &operator[](size_t in) const;
+			const uint32_t &operator[](size_t in) const;
 
 			/**
 			 * Adiciona um número ao final do vetor de números da semente.
 			 * @param iseed Número a ser adicionado.
 			 */
-			void add(unsigned int iseed);
-
-			/**
-			 * Adiciona o hash de uma string ao final do vetor de números da semente.
-			 * @param iseed String a ser utilizada.
-			 */
-			void add(string iseed);
+			void add(uint32_t iseed);
 
 			/**
 			 * Remove o número da semente na posição passada por parametro.
@@ -200,5 +154,79 @@ namespace cb {
 
 			friend class Random;
 		};
+
+		inline seed::seed() {
+		}
+
+		inline seed::seed(const seed &iseed) {
+			_seed_values = iseed._seed_values;
+		}
+
+		inline seed::seed(uint32_t iseed) {
+			_seed_values.clear();
+			_seed_values.push_back(iseed);
+		}
+
+		inline seed::seed(uint32_t ivseed[], size_t in) {
+			_seed_values.clear();
+			_seed_values.insert(_seed_values.begin(), ivseed, ivseed+in);
+		}
+
+		inline seed::seed(uint32_t iseed1, uint32_t iseed2) {
+			_seed_values.clear();
+			_seed_values.push_back(iseed1);
+			_seed_values.push_back(iseed2);
+		}
+
+		inline seed::seed(uint32_t iseed1, uint32_t iseed2, uint32_t iseed3) {
+			_seed_values.clear();
+			_seed_values.push_back(iseed1);
+			_seed_values.push_back(iseed2);
+			_seed_values.push_back(iseed3);
+		}
+
+		inline seed::seed(uint32_t iseed1, uint32_t iseed2, uint32_t iseed3, uint32_t iseed4) {
+			_seed_values.clear();
+			_seed_values.push_back(iseed1);
+			_seed_values.push_back(iseed2);
+			_seed_values.push_back(iseed3);
+			_seed_values.push_back(iseed4);
+		}
+
+		inline seed::~seed() {
+		}
+
+		inline seed_seq &seed::seq() {
+			_seed_seq.generate(_seed_values.begin(), _seed_values.end());
+			return _seed_seq;
+		}
+
+		inline uint32_t &seed::operator[](size_t in) {
+			return _seed_values[in];
+		}
+
+		inline const uint32_t &seed::operator[](size_t in) const {
+			return _seed_values[in];
+		}
+
+		inline void seed::add(uint32_t iseed) {
+			_seed_values.push_back(iseed);
+		}
+
+		inline void seed::rem(size_t in) {
+			_seed_values.erase(_seed_values.begin()+in);
+		}
+
+		inline size_t seed::size() const {
+			return _seed_values.size();
+		}
+
+		inline void seed::resize(size_t in) {
+			_seed_values.resize(in);
+		}
+
+		inline void seed::clear() {
+			_seed_values.clear();
+		}
 	}  // namespace base
 }  // namespace cb

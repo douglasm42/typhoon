@@ -65,7 +65,7 @@ namespace cb {
 			}
 		}
 
-		void Cursor::add(const base::string &ikey, data::ubBitmapRGB &ibmp, size_t ixhotspot, size_t iyhotspot, math::u8vec3 itransparent) {
+		void Cursor::add(const base::string &ikey, data::ubBitmapRGB &ibmp, size_t ixhotspot, size_t iyhotspot, u8vec3 itransparent) {
 			HCURSOR cur = bitmapToIcon(ibmp, ixhotspot, iyhotspot, itransparent, FALSE);
 
 			if(cur) {

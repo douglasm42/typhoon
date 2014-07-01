@@ -18,13 +18,13 @@
 namespace cb {
 	namespace graphic {
 		namespace tex {
-			enum class Wrap : uint8_t {
+			enum class Wrap : uint8 {
 				Repeat = 0,
 				Mirror,
 				Clamp
 			};
 
-			enum class MinFilter : uint8_t {
+			enum class MinFilter : uint8 {
 				Nearest = 0,
 				Linear,
 				NearestMipMapNearest,
@@ -33,12 +33,12 @@ namespace cb {
 				LinearMipMapLinear,
 			};
 
-			enum class MagFilter : uint8_t {
+			enum class MagFilter : uint8 {
 				Nearest = 0,
 				Linear,
 			};
 
-			enum class Format : uint8_t {
+			enum class Format : uint8 {
 				Void = 0,
 
 				Depth,
@@ -116,7 +116,7 @@ namespace cb {
 				CompSRGBA
 			};
 
-			enum class Target : uint8_t {
+			enum class Target : uint8 {
 				Void = 0,
 
 				Tex1D,
@@ -144,12 +144,10 @@ namespace cb {
 
 		}  // namespace tex
 
-		enum class Clear : uint8_t {
+		enum class Clear : uint8 {
 			Color = 1,
 			Depth = 2,
 			ColorDepth = 3
 		};
-
-		typedef unsigned int GLObject;
 	}  // namespace graphic
 }  // namespace cb

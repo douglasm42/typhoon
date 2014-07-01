@@ -39,6 +39,7 @@ namespace cb {
 
 			for(it = _window_list.begin() ; it != _window_list.end() ; ++it) {
 				(*(*it)->info()).dimouse->update();
+				(*(*it)->info()).xinput->update();
 			}
 
 			return true;

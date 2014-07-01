@@ -16,7 +16,7 @@
 #include <input/input.h>
 
 #include <input/win32/DIDevice.h>
-#include <input/EventQueue.h>
+#include <input/EventHub.h>
 
 #include <list>
 
@@ -25,14 +25,14 @@ namespace cb {
 		class CbAPI DIMouse {
 		private:
 			HWND _window;
-			EventQueue *_event_queue;
+			EventHub *_event_hub;
 
 			int _granularity;
 
 			DIDevice _device;
 
 		public:
-			DIMouse(HWND iwindow, EventQueue *ievent_queue);
+			DIMouse(HWND iwindow, EventHub *ievent_hub);
 			~DIMouse();
 
 			void update();

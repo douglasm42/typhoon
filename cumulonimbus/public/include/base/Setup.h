@@ -19,9 +19,12 @@
 #	define CbLinux
 #endif
 
+#if defined _DEBUG
+#	define CbDebug
+#endif
 
 #ifndef __func__
-#define __func__ __FUNCTIONW__
+#define __func__ __FUNCTION__
 #endif
 
 #ifndef thread_local
@@ -55,9 +58,12 @@
 #ifndef CUMULONIMBUS_STATIC
 #	ifdef CUMULONIMBUS_EXPORTS
 #		define CbAPI CUMULONIMBUS_DLL_EXPORT
+#		define CbTemplate
 #	else
 #		define CbAPI CUMULONIMBUS_DLL_IMPORT
+#		define CbTemplate extern
 #	endif
 #else
 #	define CbAPI
+#	define CbTemplate
 #endif

@@ -45,7 +45,7 @@ namespace cb {
 			bool show();
 
 			void add(const base::string &ikey, data::ubBitmapRGBA &ibmp, size_t ixhotspot, size_t iyhotspot);
-			void add(const base::string &ikey, data::ubBitmapRGB &ibmp, size_t ixhotspot, size_t iyhotspot, math::u8vec3 itransparent);
+			void add(const base::string &ikey, data::ubBitmapRGB &ibmp, size_t ixhotspot, size_t iyhotspot, u8vec3 itransparent);
 			void rem(const base::string &ikey);
 
 			void select(const base::string &ikey);

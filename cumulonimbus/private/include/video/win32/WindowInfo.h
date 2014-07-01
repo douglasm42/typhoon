@@ -17,6 +17,7 @@
 
 #include <video/win32/Windows.h>
 #include <input/win32/DIMouse.h>
+#include <input/win32/XInput.h>
 
 namespace cb {
 	namespace video {
@@ -24,6 +25,7 @@ namespace cb {
 		public:
 			HWND window;
 			input::DIMouse *dimouse;
+			input::XInput *xinput;
 
 			w32WindowInfo() :window(nullptr), dimouse(nullptr) {}
 		};

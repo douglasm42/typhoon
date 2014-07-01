@@ -23,7 +23,7 @@
 
 namespace cb {
 	namespace graphic {
-		class Texture {
+		class CbAPI Texture {
 		private:
 			GLObject _id;
 			tex::Format _format;
@@ -41,6 +41,7 @@ namespace cb {
 			size_t _max_level;
 
 		public:
+			Texture();
 			Texture(tex::Target itarget, tex::Format iformat);
 			virtual ~Texture();
 
@@ -48,14 +49,13 @@ namespace cb {
 			void cubeMap(const data::Bitmap &ibmp_xp, const data::Bitmap &ibmp_xm, const data::Bitmap &ibmp_yp, const data::Bitmap &ibmp_ym, const data::Bitmap &ibmp_zp, const data::Bitmap &ibmp_zm);
 
 			void image(const data::Bitmap &ibmp);
-			void image(const std::vector<data::Bitmap> &ivbmp);
 
 			void subImage(const data::Bitmap &ibmp, size_t ilevel, size_t ixoffset);
 			void subImage(const data::Bitmap &ibmp, size_t ilevel, size_t ixoffset, size_t iyoffset);
 			void subImage(const data::Bitmap &ibmp, size_t ilevel, size_t ixoffset, size_t iyoffset, size_t izoffset);
-			void subImage(const std::vector<data::Bitmap> &ivbmp, size_t ilevel, size_t ixoffset, size_t iyoffset, size_t izoffset);
 
-			void clear(tex::Target itarget, tex::Format iformat);
+			void init(tex::Target itarget, tex::Format iformat);
+			void clear();
 
 			void bind() const;
 
@@ -78,7 +78,7 @@ namespace cb {
 
 			GLObject id() const;
 			tex::Format format() const;
-			tex::Target type() const;
+			tex::Target target() const;
 
 			size_t width() const;
 			size_t height() const;
@@ -102,7 +102,7 @@ namespace cb {
 
 		inline GLObject Texture::id() const { return _id; }
 		inline tex::Format Texture::format() const {return _format;}
-		inline tex::Target Texture::type() const {return _target;}
+		inline tex::Target Texture::target() const {return _target;}
 
 		inline size_t Texture::width() const {return _size[0].width;}
 		inline size_t Texture::height() const {return _size[0].height;}

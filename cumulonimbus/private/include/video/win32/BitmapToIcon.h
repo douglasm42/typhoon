@@ -21,6 +21,6 @@
 namespace cb {
 	namespace video {
 		HICON CbAPI bitmapToIcon(data::ubBitmapRGBA &ibmp, size_t ixhotspot, size_t iyhotspot, BOOL iicon);
-		HICON CbAPI bitmapToIcon(data::ubBitmapRGB &ibmp, size_t ixhotspot, size_t iyhotspot, math::u8vec3 itransparent, BOOL iicon);
+		HICON CbAPI bitmapToIcon(data::ubBitmapRGB &ibmp, size_t ixhotspot, size_t iyhotspot, u8vec3 itransparent, BOOL iicon);
 	}  // namespace video
 }  // namespace cb

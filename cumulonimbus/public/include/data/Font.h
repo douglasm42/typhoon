@@ -43,50 +43,23 @@ namespace cb {
 
 				ubBitmapL _bitmap;
 
-				Glyph(size_t iid, int ih_offset_x, int ih_offset_y, int ih_advance, int iv_offset_x, int iv_offset_y, int iv_advance)
-				:_id(iid)
-				,_h_offset_x(ih_offset_x)
-				,_h_offset_y(ih_offset_y)
-				,_h_advance(ih_advance)
-				,_v_offset_x(iv_offset_x)
-				,_v_offset_y(iv_offset_y)
-				,_v_advance(iv_advance) {
-				}
+				Glyph(size_t iid, int ih_offset_x, int ih_offset_y, int ih_advance, int iv_offset_x, int iv_offset_y, int iv_advance);
 
 			public:
-				Glyph()
-				:_id(0)
-				,_h_offset_x(0)
-				,_h_offset_y(0)
-				,_h_advance(0)
-				,_v_offset_x(0)
-				,_v_offset_y(0)
-				,_v_advance(0){
-				}
+				Glyph();
+				Glyph(const Glyph &isrc);
+				~Glyph();
 
-				Glyph(const Glyph &isrc)
-				:_id(isrc._id)
-				,_h_offset_x(isrc._h_offset_x)
-				,_h_offset_y(isrc._h_offset_y)
-				,_h_advance(isrc._h_advance)
-				,_v_offset_x(isrc._v_offset_x)
-				,_v_offset_y(isrc._v_offset_y)
-				,_v_advance(isrc._v_advance)
-				,_bitmap(isrc._bitmap){
-				}
-				~Glyph() {
-				}
+				size_t id() const;
 
-				size_t id() const {return _id;}
+				int hOffsetX() const;
+				int hOffsetY() const;
+				int hAdvance() const;
+				int vOffsetX() const;
+				int vOffsetY() const;
+				int vAdvance() const;
 
-				int hOffsetX() const {return _h_offset_x;}
-				int hOffsetY() const {return _h_offset_y;}
-				int hAdvance() const {return _h_advance;}
-				int vOffsetX() const {return _v_offset_x;}
-				int vOffsetY() const {return _v_offset_y;}
-				int vAdvance() const {return _v_advance;}
-
-				const ubBitmapL &bmp() const {return _bitmap;}
+				const ubBitmapL &bmp() const;
 
 				friend class Font;
 			};
@@ -105,9 +78,7 @@ namespace cb {
 
 		public:
 			Font();
-			Font(const base::string &ifilename);
-			Font(istream &ifile);
-			Font(MFile &ifile);
+			Font(File &ifile);
 			~Font();
 
 			int height();
@@ -116,21 +87,68 @@ namespace cb {
 
 			void size(float isize);
 
-			void border(float iborder) {_border = iborder;}
-			void borderInner(bool iborder_inner) {_border_inner = iborder_inner;}
-			void borderOuter(bool iborder_outer) {_border_outer = iborder_outer;}
+			void border(float iborder);
+			void borderInner(bool iborder_inner);
+			void borderOuter(bool iborder_outer);
 
 			size_t glyphId(size_t ichar);
 
 			void glyph(Glyph &oglyph, size_t iid);
 			void glyphs(Glyph *oglyphs, size_t *iids, size_t in);
 
-			void open(const base::string &ifilename);
-			void open(istream &ifile);
-			void open(MFile &ifile);
+			void open(File &ifile);
 			void close();
 
 			bool isOpen();
 		};
+
+		inline Font::Glyph::Glyph(size_t iid, int ih_offset_x, int ih_offset_y, int ih_advance, int iv_offset_x, int iv_offset_y, int iv_advance)
+		:_id(iid)
+		,_h_offset_x(ih_offset_x)
+		,_h_offset_y(ih_offset_y)
+		,_h_advance(ih_advance)
+		,_v_offset_x(iv_offset_x)
+		,_v_offset_y(iv_offset_y)
+		,_v_advance(iv_advance) {
+		}
+
+		inline Font::Glyph::Glyph()
+		:_id(0)
+		,_h_offset_x(0)
+		,_h_offset_y(0)
+		,_h_advance(0)
+		,_v_offset_x(0)
+		,_v_offset_y(0)
+		,_v_advance(0){
+		}
+
+		inline Font::Glyph::Glyph(const Glyph &isrc)
+		:_id(isrc._id)
+		,_h_offset_x(isrc._h_offset_x)
+		,_h_offset_y(isrc._h_offset_y)
+		,_h_advance(isrc._h_advance)
+		,_v_offset_x(isrc._v_offset_x)
+		,_v_offset_y(isrc._v_offset_y)
+		,_v_advance(isrc._v_advance)
+		,_bitmap(isrc._bitmap){
+		}
+
+		inline Font::Glyph::~Glyph() {
+		}
+
+		inline size_t Font::Glyph::id() const {return _id;}
+
+		inline int Font::Glyph::hOffsetX() const {return _h_offset_x;}
+		inline int Font::Glyph::hOffsetY() const {return _h_offset_y;}
+		inline int Font::Glyph::hAdvance() const {return _h_advance;}
+		inline int Font::Glyph::vOffsetX() const {return _v_offset_x;}
+		inline int Font::Glyph::vOffsetY() const {return _v_offset_y;}
+		inline int Font::Glyph::vAdvance() const {return _v_advance;}
+
+		inline const ubBitmapL &Font::Glyph::bmp() const {return _bitmap;}
+
+		inline void Font::border(float iborder) {_border = iborder;}
+		inline void Font::borderInner(bool iborder_inner) {_border_inner = iborder_inner;}
+		inline void Font::borderOuter(bool iborder_outer) {_border_outer = iborder_outer;}
 	}  // namespace data
 }  // namespace cb

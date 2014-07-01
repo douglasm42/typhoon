@@ -17,16 +17,17 @@
 
 #include <base/String.h>
 
-#include <data/File.h>
+#include <istream>
+#include <ostream>
 
 namespace cb {
 	namespace data {
 		class CbAPI obinstream {
 		private:
-			ostream &_stream;
+			std::ostream &_stream;
 
 		public:
-			obinstream(ostream &iout);
+			obinstream(std::ostream &iout);
 
 			//Output
 			obinstream &operator<<(const base::string &istr);
@@ -73,10 +74,10 @@ namespace cb {
 
 		class CbAPI ibinstream {
 		private:
-			istream &_stream;
+			std::istream &_stream;
 
 		public:
-			ibinstream(istream &iout);
+			ibinstream(std::istream &iout);
 
 			//Input
 			ibinstream &operator>>(base::string &ostr);

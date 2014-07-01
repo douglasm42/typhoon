@@ -42,7 +42,7 @@ namespace cb {
 			typedef long long		linteger_t;
 			typedef base::string	string;
 			typedef base::string16	string16;
-			typedef MFile			blob_t;
+			typedef File			blob_t;
 
 			class CbAPI column {
 			private:

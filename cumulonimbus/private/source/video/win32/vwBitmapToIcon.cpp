@@ -17,13 +17,12 @@ namespace cb {
 	namespace video {
 		HICON CbAPI bitmapToIcon(data::ubBitmapRGBA &ibmp, size_t ixhotspot, size_t iyhotspot, BOOL iicon) {
 			HDC hMemDC;
-			size_t width, height;
 			BITMAPV5HEADER bi;
 			HBITMAP hBitmap, hOldBitmap;
 			void *lpBits;
 
-			width	= ibmp.width();  // width of cursor
-			height	= ibmp.height();  // height of cursor
+			size_t width	= ibmp.width();
+			size_t height	= ibmp.height();
 
 			ZeroMemory(&bi,sizeof(BITMAPV5HEADER));
 			bi.bV5Size			= sizeof(BITMAPV5HEADER);
@@ -51,9 +50,9 @@ namespace cb {
 			// Draw something on the DIB section.
 			hOldBitmap = (HBITMAP)SelectObject(hMemDC, hBitmap);
 
-			for(size_t x=0;x<ibmp.width();++x) {
-				for(size_t y=0;y<ibmp.height();++y) {
-					math::u8vec4 color = ibmp(x,y).vec();
+			for(size_t x=0;x<width;++x) {
+				for(size_t y=0;y<height;++y) {
+					u8vec4 color = ibmp(x,height-y-1,0).vec();
 					SetPixel(hMemDC,x,y,RGB(color.r, color.g, color.b));
 				}
 			}
@@ -73,7 +72,7 @@ namespace cb {
 					// Clear the alpha bits
 					*lpdwPixel &= 0x00FFFFFF;
 					// Set the alpha bits to 0x9F (semi-transparent)
-					DWORD alpha = ibmp(x,y).a;
+					DWORD alpha = ibmp(x,height-y-1,0).a;
 
 					*lpdwPixel |= alpha << 24;
 					lpdwPixel++;
@@ -98,22 +97,25 @@ namespace cb {
 			return icon;
 		}
 
-		HICON CbAPI bitmapToIcon(data::ubBitmapRGB &ibmp, size_t ixhotspot, size_t iyhotspot, math::u8vec3 itransparent, BOOL iicon) {
+		HICON CbAPI bitmapToIcon(data::ubBitmapRGB &ibmp, size_t ixhotspot, size_t iyhotspot, u8vec3 itransparent, BOOL iicon) {
 			HDC hDC        = GetDC(NULL);
 			HDC hAndMaskDC = CreateCompatibleDC(hDC);
 			HDC hXorMaskDC = CreateCompatibleDC(hDC);
  
-			HBITMAP hAndMaskBitmap = CreateCompatibleBitmap(hDC, ibmp.width(), ibmp.height());
-			HBITMAP hXorMaskBitmap = CreateCompatibleBitmap(hDC, ibmp.width(), ibmp.height());
+			size_t width	= ibmp.width();
+			size_t height	= ibmp.height();
+
+			HBITMAP hAndMaskBitmap = CreateCompatibleBitmap(hDC, width, height);
+			HBITMAP hXorMaskBitmap = CreateCompatibleBitmap(hDC, width, height);
  
 			//Select the bitmaps to DC
 			HBITMAP hOldAndMaskBitmap = (HBITMAP)SelectObject(hAndMaskDC,hAndMaskBitmap);
 			HBITMAP hOldXorMaskBitmap = (HBITMAP)SelectObject(hXorMaskDC,hXorMaskBitmap);
  
 			//Scan each pixel of the souce bitmap and create the masks
-			for(size_t x=0;x<ibmp.width();++x) {
-				for(size_t y=0;y<ibmp.height();++y) {
-					math::u8vec3 color = ibmp(x,y).vec();
+			for(size_t x=0;x<width;++x) {
+				for(size_t y=0;y<height;++y) {
+					u8vec3 color = ibmp(x,height-y-1,0).vec();
 					if(color == itransparent) {
 						::SetPixel(hAndMaskDC,x,y,RGB(255,255,255));
 						::SetPixel(hXorMaskDC,x,y,RGB(0,0,0));

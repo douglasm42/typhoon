@@ -20,10 +20,11 @@ namespace cb {
 		class CbAPI Message;
 
 		class CbAPI Display;
+
+		class CbAPI Placement;
+		class CbAPI Cursor;
+		class CbAPI Icon;
+
 		class CbAPI Window;
-
-		class CbAPI EventHub;
-
-		class CbAPI GLContext;
 	}  // namespace video
 }  // namespace cb

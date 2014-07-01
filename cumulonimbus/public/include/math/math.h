@@ -19,6 +19,4 @@
 #include "./glm/glm.hpp"
 #include "./origin.h"
 
-namespace cb {
-	namespace math = glm;
-}  // namespace cb
+using namespace glm;

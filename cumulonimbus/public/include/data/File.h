@@ -18,80 +18,82 @@
 #include <base/String.h>
 #include <base/Kin.h>
 
-#include <istream>
-#include <ostream>
-
-#include <sstream>
-#include <fstream>
+#include <base/Exception.h>
 
 namespace cb {
 	namespace data {
-		KinLock(FileHandle);
-		KinLock(FilePhysFSIStreamBuf);
-		KinLock(FilePhysFSOStreamBuf);
-
-		KinLock(FileMemoryDevice);
-		KinLock(FileMemoryStreamBuf);
-
-		namespace file {
-			void CbAPI init(const base::string &argv0);
-			void CbAPI writedir(const base::string &idirectory);
-			void CbAPI mount(const base::string &idirectory, const base::string &imountpoint);
-		}  // namespace file
-
-		typedef std::istream istream;
-		typedef std::ostream ostream;
-		typedef std::iostream iostream;
-
-		class CbAPI iFile : public istream {
+		class CbAPI File {
 		private:
-			kin::FileHandle _file_handle;
-			kin::FilePhysFSIStreamBuf _stream_buf;
+			char *_data;
+
+			size_t _capacity;
+			size_t _size;
 
 		public:
-			iFile();
-			iFile(const base::string &ifilename);
-			virtual ~iFile();
+			File();
+			File(size_t icapacity);
+			File(const base::string &ifilename);
+			File(const char *idata, size_t isize);
+			File(char *idata, size_t icapacity, size_t isize);
+			File(const File &ifile);
+			~File();
 
-			bool open(const base::string &ifilename);
-			bool isOpen();
-			void close();
-		};
+			void load(size_t icapacity);
+			void load(const base::string &ifilename);
+			void load(const char *idata, size_t isize);
+			void load(char *idata, size_t icapacity, size_t isize);
+			void load(const File &ifile);
 
-		class CbAPI oFile : public ostream {
-		private:
-			kin::FileHandle _file_handle;
-			kin::FilePhysFSOStreamBuf _stream_buf;
+			void save(const base::string &ifilename);
 
-		public:
-			oFile();
-			oFile(const base::string &ifilename, bool iappend = false);
-			virtual ~oFile();
+			void append(const base::string &ifilename);
+			void append(const char *idata, size_t isize);
+			void append(const File &ifile);
 
-			bool open(const base::string &ifilename, bool iappend = false);
-			bool isOpen();
-			void close();
-		};
+			void clear();
 
-		class CbAPI MFile : public iostream {
-		private:
-			kin::FileMemoryDevice _mdevice;
-			kin::FileMemoryStreamBuf _stream_buf;
-
-		public:
-			MFile();
-			MFile(const base::string &ifilename);
-			MFile(const char *idata, size_t isize);
-			MFile(const MFile &imfile) :iostream(nullptr) {open(imfile.data(), imfile.size());}
-			virtual ~MFile();
-
-			bool open(const base::string &ifilename);
-			bool open(const char *idata, size_t isize);
-			bool isOpen();
-			void close();
-
+			char *data();
 			const char *data() const;
+
+			size_t capacity() const;
+			void capacity(size_t icapacity);
+
 			size_t size() const;
+			void size(size_t isize);
+
+			char &operator[](size_t iposition);
+			const char &operator[](size_t iposition) const;
 		};
+
+		inline File::File()												: _data(nullptr), _capacity(0), _size(0) {}
+		inline File::File(size_t icapacity)								: _data(nullptr), _capacity(0), _size(0) {load(icapacity);}
+		inline File::File(const base::string &ifilename)				: _data(nullptr), _capacity(0), _size(0) {load(ifilename);}
+		inline File::File(const char *idata, size_t isize)				: _data(nullptr), _capacity(0), _size(0) {load(idata, isize);}
+		inline File::File(char *idata, size_t icapacity, size_t isize)	: _data(nullptr), _capacity(0), _size(0) {load(idata, icapacity, isize);}
+		inline File::File(const File &ifile)							: _data(nullptr), _capacity(0), _size(0) {load(ifile);}
+		inline File::~File() { clear(); }
+
+		inline void File::clear() {
+			if(_data) {
+				delete [] _data;
+				_data = nullptr;
+				_capacity = 0;
+				_size = 0;
+			}
+		}
+
+		inline char *File::data() { return _data; }
+		inline const char *File::data() const { return _data; }
+		inline size_t File::capacity() const { return _capacity; }
+		inline size_t File::size() const { return _size; }
+
+		inline char &File::operator[](size_t iposition) {
+			Assert(iposition<_size,tokurei::OutOfRange);
+			return _data[iposition];
+		}
+		inline const char &File::operator[](size_t iposition) const {
+			Assert(iposition<_size,tokurei::OutOfRange);
+			return _data[iposition];
+		}
 	}  // namespace data
 }  // namespace cb

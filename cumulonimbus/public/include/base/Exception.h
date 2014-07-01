@@ -61,8 +61,14 @@ namespace cb {
 #define STR2(x) STR1(x)
 #define WHERE (__FILE__ ":" STR2(__LINE__))
 
-#define Assert(exp, ExceptionClass) if(!(exp)) {throw ExceptionClass(WHERE);}
-#define AssertDet(exp, ExceptionClass, detail, ...) if(!(exp)) {throw ExceptionClass(WHERE, detail, ##__VA_ARGS__);}
+#ifdef CbDebug
+#	define Assert(exp, ExceptionClass) if(!(exp)) {throw ExceptionClass(WHERE);}
+#	define AssertDet(exp, ExceptionClass, detail, ...) if(!(exp)) {throw ExceptionClass(WHERE, detail, ##__VA_ARGS__);}
+#else
+#	define Assert(exp, ExceptionClass)
+#	define AssertDet(exp, ExceptionClass, detail, ...)
+#endif
+
 #define Throw(ExceptionClass) throw ExceptionClass(WHERE)
 #define ThrowDet(ExceptionClass, detail, ...) throw ExceptionClass(WHERE, detail, ##__VA_ARGS__)
 

@@ -13,8 +13,9 @@
  */
 #pragma once
 #include <graphic/graphic.h>
-
 #include <graphic/GLTypedefs.h>
+
+#include <graphic/VertexBuffer.h>
 #include <data/Bitmap.h>
 
 #include <vector>
@@ -27,10 +28,10 @@ namespace cb {
 
 			void viewport(int ix, int iy, int iwidth, int iheight);
 			void clear(Clear iflag);
-			void clearColor(math::vec4 icolor);
+			void clearColor(vec4 icolor);
 			void clearDepth(double idepth);
 
-			void texSquare();
+			void texSquare(VertexBuffer &teste, VertexBuffer &grid);
 		};
 	}  // namespace graphic
 }  // namespace cb

@@ -140,11 +140,11 @@ namespace cb {
 				number &num();
 				boolean &boo();
 
-				value &operator[](const int ipos)			{return arr()[ipos];}
-				value &operator[](const base::string &ikey)	{return obj()[ikey];}
-				value &operator[](const char *ikey)			{return obj()[ikey];}
+				value &operator[](const int ipos);
+				value &operator[](const base::string &ikey);
+				value &operator[](const char *ikey);
 
-				bool empty() const {return isNull();}
+				bool empty() const;
 			};
 
 			inline bool value::isNull()		const {return _type==Null;}
@@ -167,6 +167,12 @@ namespace cb {
 			inline string	&value::str()	{if(_type!=String)	{Throw(tokurei::GetFailed);}	return *_data._string;}
 			inline number	&value::num()	{if(_type!=Number)	{Throw(tokurei::GetFailed);}	return _data._number;}
 			inline boolean	&value::boo()	{if(_type!=Boolean)	{Throw(tokurei::GetFailed);}	return _data._boolean;}
+
+			inline value &value::operator[](const int ipos)			{return arr()[ipos];}
+			inline value &value::operator[](const base::string &ikey)	{return obj()[ikey];}
+			inline value &value::operator[](const char *ikey)			{return obj()[ikey];}
+
+			inline bool value::empty() const {return isNull();}
 		}  // namespace json
 
 		class CbAPI JSON {
@@ -174,16 +180,13 @@ namespace cb {
 			json::value value;
 
 			JSON() {}
-			JSON(istream &ifile) {load(ifile);}
-			JSON(const base::string &ifilename) {load(ifilename);}
+			JSON(File &ifile) {load(ifile);}
 			JSON(const JSON &ijson) :value(ijson.value) {}
 			~JSON() {}
 
-			void load(istream &ifile);
-			void load(const base::string &ifilename);
+			void load(File &ifile);
 
-			void save(ostream &ofile);
-			void save(const base::string &ifilename);
+			void save(File &ofile);
 		};
 	}  // namespace data
 }  // namespace cb
