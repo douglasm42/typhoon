@@ -12,11 +12,11 @@
  * ============================================================================
  */
 #pragma once
-#include <video/video.h>
+#include <cb/video/video.h>
 
 #include <video/win32/Windows.h>
 
-#include <video/Placement.h>
+#include <cb/video/Placement.h>
 
 namespace cb {
 	namespace video {

@@ -11,7 +11,7 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <graphic/FrameBuffer.h>
+#include <cb/graphic/FrameBuffer.h>
 
 #include <graphic/GLEWmx.h>
 

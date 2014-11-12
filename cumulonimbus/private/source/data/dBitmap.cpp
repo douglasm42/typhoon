@@ -11,10 +11,10 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <data/Bitmap.h>
+#include <cb/data/Bitmap.h>
 
-#include <base/Log.h>
-#include <base/Exception.h>
+#include <cb/base/Log.h>
+#include <cb/base/Exception.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION

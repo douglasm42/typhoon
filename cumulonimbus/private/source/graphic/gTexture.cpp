@@ -11,7 +11,7 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <graphic/Texture.h>
+#include <cb/graphic/Texture.h>
 
 #include <graphic/GLEWmx.h>
 
@@ -327,6 +327,10 @@ namespace cb {
 
 		void Texture::bind() const {
 			glBindTexture(translateTarget(_target), _id);
+		}
+
+		void Texture::unbind() const {
+			glBindTexture(translateTarget(_target), 0);
 		}
 
 		void Texture::wrap(tex::Wrap iwrap) {

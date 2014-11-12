@@ -13,10 +13,10 @@
  */
 #pragma once
 
-#include <input/input.h>
+#include <cb/input/input.h>
 
 #include <input/win32/DIDevice.h>
-#include <input/EventHub.h>
+#include <cb/input/EventHub.h>
 
 #include <list>
 

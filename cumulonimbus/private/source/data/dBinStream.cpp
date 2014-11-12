@@ -11,7 +11,7 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <data/BinStream.h>
+#include <cb/data/BinStream.h>
 
 #define SingleOut(value) _stream.write((char *)&value, sizeof(value))
 #define MultiOut(pvalue, n) _stream.write((char *)pvalue, n*sizeof(*pvalue))

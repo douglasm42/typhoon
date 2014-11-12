@@ -13,7 +13,7 @@
  */
 #pragma once
 
-#include <graphic/graphic.h>
+#include <cb/graphic/graphic.h>
 
 #include <GL/glew.h>
 
@@ -24,7 +24,7 @@
 #include <GL/GL.h>
 #include <GL/GLU.h>
 
-#include <base/Exception.h>
+#include <cb/base/Exception.h>
 
 GLEWContext *glewGetContext();
 void activateGLEW(GLEWContext *icontext);

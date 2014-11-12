@@ -11,12 +11,12 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <graphic/Program.h>
+#include <cb/graphic/Program.h>
 
 #include <graphic/GLEWmx.h>
 #include <graphic/TextureTranslate.h>
 
-#include <base/Exception.h>
+#include <cb/base/Exception.h>
 
 #ifdef CbDebug
 #	define AssertProgramBind(programid) \

@@ -1,215 +1,136 @@
 --------------------------------------------------------------------------------
--- 01/07/2014 11:44:44 - Log: test.base ----------------------------------------
+-- 12/11/2014 02:07:35 - Log: test.base ----------------------------------------
 --------------------------------------------------------------------------------
 
-11:44:44 - Nothing: w32WindowProc() : Mensagem recebida: WM_GETMINMAXINFO.
-11:44:44 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCREATE.
-11:44:44 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Empty
-11:44:44 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela ativada.
-11:44:44 - Nothing: OpenGLContext::OpenGLContext() : OpenGL 2.1 e GLSL 1.20 escolhidos.
-11:44:45 - Nothing: OpenGLContext::OpenGLContext() : Contexto OpenGL criado: OpenGL 2.1 - GLSL 1.20
-11:44:45 - Nothing: Aqui!
-11:44:45 - Nothing: Card #0
-11:44:45 - Nothing: Card #1
-11:44:45 - Nothing: Card #2
-11:44:45 - Nothing: Card #3
-11:44:45 - Nothing: Card #4
-11:44:45 - Nothing: Card #5
-11:44:45 - Nothing: Card #6
-11:44:45 - Nothing: Card #7
-11:44:45 - Nothing: Card #8
-11:44:45 - Nothing: Card #9
-11:44:45 - Nothing: Card #10
-11:44:45 - Nothing: Card #11
-11:44:45 - Nothing: Card #12
-11:44:45 - Nothing: Card #13
-11:44:45 - Nothing: Card #14
-11:44:45 - Nothing: Card #15
-11:44:45 - Nothing: Card #16
-11:44:45 - Nothing: Card #17
-11:44:45 - Nothing: Card #18
-11:44:45 - Nothing: Card #19
-11:44:45 - Nothing: Card #20
-11:44:45 - Nothing: Card #21
-11:44:45 - Nothing: Card #22
-11:44:45 - Nothing: Card #23
-11:44:45 - Nothing: Card #24
-11:44:45 - Nothing: Card #25
-11:44:45 - Nothing: Card #26
-11:44:45 - Nothing: Card #27
-11:44:45 - Nothing: Card #28
-11:44:45 - Nothing: Card #29
-11:44:45 - Nothing: Card #30
-11:44:45 - Nothing: Card #31
-11:44:45 - Nothing: Card #32
-11:44:45 - Nothing: Card #33
-11:44:45 - Nothing: Card #34
-11:44:45 - Nothing: Card #35
-11:44:45 - Nothing: Card #36
-11:44:45 - Nothing: Card #37
-11:44:45 - Nothing: Card #38
-11:44:45 - Nothing: Card #39
-11:44:45 - Nothing: Card #40
-11:44:45 - Nothing: Card #41
-11:44:45 - Nothing: Card #42
-11:44:45 - Nothing: Card #43
-11:44:45 - Nothing: Card #44
-11:44:45 - Nothing: Card #45
-11:44:45 - Nothing: Card #46
-11:44:45 - Nothing: Card #47
-11:44:45 - Nothing: Card #48
-11:44:45 - Nothing: Card #49
-11:44:45 - Nothing: Card #50
-11:44:45 - Nothing: Card #51
-11:44:45 - Nothing: Aqui2!
-11:44:45 - Nothing: Aqui3!
-11:44:45 - Nothing: Iniciando loop!
-11:44:45 - Nothing: size: 0x0
-11:44:45 - Nothing: Move: [Player 1 : XBox : LThumb Up] - 0.491348
-11:44:45 - Nothing: Move: [Player 2 : XBox : LThumb Up] - 0.491348
-11:44:45 - Nothing: Move: [Player 3 : XBox : LThumb Up] - 0.491348
-11:44:45 - Nothing: Move: [Player 4 : XBox : LThumb Up] - 0.491348
-11:44:45 - Nothing: Press: [Player 0 : Mouse : Left]
-11:44:46 - Nothing: Release: [Player 0 : Mouse : Left]
-11:44:47 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela desativada.
-11:44:48 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela ativada.
-11:44:48 - Nothing: Press: [Player 0 : Mouse : Left]
-11:44:48 - Nothing: Release: [Player 0 : Mouse : Left]
-11:44:50 - Nothing: Press: [Player 0 : Keyboard : F3]
-11:44:50 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Not Empty
-11:44:50 - Nothing: Release: [Player 0 : Keyboard : F3]
-11:44:59 - Nothing: Press: [Player 0 : Keyboard : F3]
-11:44:59 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Empty
-11:44:59 - Nothing: Release: [Player 0 : Keyboard : F3]
-11:45:02 - Nothing: Press: [Player 0 : Keyboard : F3]
-11:45:02 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Not Empty
-11:45:02 - Nothing: Release: [Player 0 : Keyboard : F3]
-11:45:03 - Nothing: Press: [Player 0 : Keyboard : F3]
-11:45:03 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Empty
-11:45:03 - Nothing: Release: [Player 0 : Keyboard : F3]
-11:45:03 - Nothing: Press: [Player 0 : Keyboard : F3]
-11:45:03 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Not Empty
-11:45:04 - Nothing: Release: [Player 0 : Keyboard : F3]
-11:45:04 - Nothing: Press: [Player 0 : Keyboard : F3]
-11:45:04 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Empty
-11:45:04 - Nothing: Release: [Player 0 : Keyboard : F3]
-11:45:05 - Nothing: Press: [Player 0 : Keyboard : F3]
-11:45:05 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Not Empty
-11:45:05 - Nothing: Release: [Player 0 : Keyboard : F3]
-11:45:05 - Nothing: Press: [Player 0 : Keyboard : F1]
-11:45:05 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Not Empty
-11:45:05 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela ativada.
-11:45:07 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela ativada.
-11:45:07 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Not Empty
-11:45:07 - Nothing: size: 500x500
-11:45:07 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela ativada.
-11:45:07 - Nothing: Move: [Player 1 : XBox : LTrigger] - 1.000000
-11:45:07 - Nothing: Move: [Player 1 : XBox : RTrigger] - 1.000000
-11:45:07 - Nothing: Move: [Player 2 : XBox : LTrigger] - 1.000000
-11:45:07 - Nothing: Move: [Player 2 : XBox : RTrigger] - 1.000000
-11:45:07 - Nothing: Move: [Player 3 : XBox : LTrigger] - 1.000000
-11:45:07 - Nothing: Move: [Player 3 : XBox : RTrigger] - 1.000000
-11:45:07 - Nothing: Move: [Player 4 : XBox : LTrigger] - 1.000000
-11:45:07 - Nothing: Move: [Player 4 : XBox : RTrigger] - 1.000000
-11:45:07 - Nothing: Move: [Player 1 : XBox : LTrigger] - 0.000000
-11:45:07 - Nothing: Move: [Player 1 : XBox : RTrigger] - 0.000000
-11:45:07 - Nothing: Move: [Player 2 : XBox : LTrigger] - 0.000000
-11:45:07 - Nothing: Move: [Player 2 : XBox : RTrigger] - 0.000000
-11:45:07 - Nothing: Move: [Player 3 : XBox : LTrigger] - 0.000000
-11:45:07 - Nothing: Move: [Player 3 : XBox : RTrigger] - 0.000000
-11:45:07 - Nothing: Move: [Player 4 : XBox : LTrigger] - 0.000000
-11:45:07 - Nothing: Move: [Player 4 : XBox : RTrigger] - 0.000000
-11:45:10 - Nothing: Press: [Player 0 : Keyboard : F3]
-11:45:10 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Empty
-11:45:10 - Nothing: Release: [Player 0 : Keyboard : F3]
-11:45:11 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela desativada.
-11:45:11 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Empty
-11:45:11 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela ativada.
-11:45:11 - Nothing: size: 160x27
-11:45:11 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Empty
-11:45:11 - Nothing: size: 500x500
-11:45:11 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela ativada.
-11:45:11 - Nothing: Press: [Player 0 : Mouse : Left]
-11:45:11 - Nothing: Move: [Player 1 : XBox : LTrigger] - 1.000000
-11:45:11 - Nothing: Move: [Player 1 : XBox : RTrigger] - 1.000000
-11:45:11 - Nothing: Move: [Player 2 : XBox : LTrigger] - 1.000000
-11:45:11 - Nothing: Move: [Player 2 : XBox : RTrigger] - 1.000000
-11:45:11 - Nothing: Move: [Player 3 : XBox : LTrigger] - 1.000000
-11:45:11 - Nothing: Move: [Player 3 : XBox : RTrigger] - 1.000000
-11:45:11 - Nothing: Move: [Player 4 : XBox : LTrigger] - 1.000000
-11:45:11 - Nothing: Move: [Player 4 : XBox : RTrigger] - 1.000000
-11:45:11 - Nothing: Move: [Player 1 : XBox : LTrigger] - 0.000000
-11:45:11 - Nothing: Move: [Player 1 : XBox : RTrigger] - 0.000000
-11:45:11 - Nothing: Move: [Player 2 : XBox : LTrigger] - 0.000000
-11:45:11 - Nothing: Move: [Player 2 : XBox : RTrigger] - 0.000000
-11:45:11 - Nothing: Move: [Player 3 : XBox : LTrigger] - 0.000000
-11:45:11 - Nothing: Move: [Player 3 : XBox : RTrigger] - 0.000000
-11:45:11 - Nothing: Move: [Player 4 : XBox : LTrigger] - 0.000000
-11:45:11 - Nothing: Move: [Player 4 : XBox : RTrigger] - 0.000000
-11:45:13 - Nothing: Press: [Player 0 : Keyboard : F3]
-11:45:13 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Not Empty
-11:45:13 - Nothing: Release: [Player 0 : Keyboard : F3]
-11:45:14 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela desativada.
-11:45:14 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Not Empty
-11:45:14 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela ativada.
-11:45:14 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Not Empty
-11:45:14 - Nothing: size: 500x500
-11:45:14 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela ativada.
-11:45:14 - Nothing: Press: [Player 0 : Mouse : Left]
-11:45:14 - Nothing: Move: [Player 1 : XBox : LTrigger] - 1.000000
-11:45:14 - Nothing: Move: [Player 1 : XBox : RTrigger] - 1.000000
-11:45:14 - Nothing: Move: [Player 2 : XBox : LTrigger] - 1.000000
-11:45:14 - Nothing: Move: [Player 2 : XBox : RTrigger] - 1.000000
-11:45:14 - Nothing: Move: [Player 3 : XBox : LTrigger] - 1.000000
-11:45:14 - Nothing: Move: [Player 3 : XBox : RTrigger] - 1.000000
-11:45:14 - Nothing: Move: [Player 4 : XBox : LTrigger] - 1.000000
-11:45:14 - Nothing: Move: [Player 4 : XBox : RTrigger] - 1.000000
-11:45:14 - Nothing: Move: [Player 1 : XBox : LTrigger] - 0.000000
-11:45:14 - Nothing: Move: [Player 1 : XBox : RTrigger] - 0.000000
-11:45:14 - Nothing: Move: [Player 2 : XBox : LTrigger] - 0.000000
-11:45:14 - Nothing: Move: [Player 2 : XBox : RTrigger] - 0.000000
-11:45:14 - Nothing: Move: [Player 3 : XBox : LTrigger] - 0.000000
-11:45:14 - Nothing: Move: [Player 3 : XBox : RTrigger] - 0.000000
-11:45:14 - Nothing: Move: [Player 4 : XBox : LTrigger] - 0.000000
-11:45:14 - Nothing: Move: [Player 4 : XBox : RTrigger] - 0.000000
-11:45:17 - Nothing: Press: [Player 0 : Keyboard : F3]
-11:45:17 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Empty
-11:45:17 - Nothing: Release: [Player 0 : Keyboard : F3]
-11:45:19 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela desativada.
-11:45:19 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Empty
-11:45:19 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela ativada.
-11:45:19 - Nothing: size: 160x27
-11:45:19 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Empty
-11:45:19 - Nothing: size: 500x500
-11:45:19 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela ativada.
-11:45:19 - Nothing: Press: [Player 0 : Mouse : Left]
-11:45:19 - Nothing: Move: [Player 1 : XBox : LTrigger] - 1.000000
-11:45:19 - Nothing: Move: [Player 1 : XBox : RTrigger] - 1.000000
-11:45:19 - Nothing: Move: [Player 2 : XBox : LTrigger] - 1.000000
-11:45:19 - Nothing: Move: [Player 2 : XBox : RTrigger] - 1.000000
-11:45:19 - Nothing: Move: [Player 3 : XBox : LTrigger] - 1.000000
-11:45:19 - Nothing: Move: [Player 3 : XBox : RTrigger] - 1.000000
-11:45:19 - Nothing: Move: [Player 4 : XBox : LTrigger] - 1.000000
-11:45:19 - Nothing: Move: [Player 4 : XBox : RTrigger] - 1.000000
-11:45:19 - Nothing: Move: [Player 1 : XBox : LTrigger] - 0.000000
-11:45:19 - Nothing: Move: [Player 1 : XBox : RTrigger] - 0.000000
-11:45:19 - Nothing: Move: [Player 2 : XBox : LTrigger] - 0.000000
-11:45:19 - Nothing: Move: [Player 2 : XBox : RTrigger] - 0.000000
-11:45:19 - Nothing: Move: [Player 3 : XBox : LTrigger] - 0.000000
-11:45:19 - Nothing: Move: [Player 3 : XBox : RTrigger] - 0.000000
-11:45:19 - Nothing: Move: [Player 4 : XBox : LTrigger] - 0.000000
-11:45:19 - Nothing: Move: [Player 4 : XBox : RTrigger] - 0.000000
-11:45:21 - Nothing: Press: [Player 0 : Keyboard : Escape]
-11:45:21 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 144.
-11:45:21 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 70.
-11:45:21 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 71.
-11:45:21 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 134.
-11:45:21 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 6.
-11:45:21 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 28.
-11:45:21 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 8.
-11:45:21 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 641.
-11:45:21 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 642.
-11:45:21 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 2.
-11:45:21 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 130.
+02:07:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_GETMINMAXINFO.
+02:07:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCREATE.
+02:07:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 0
+02:07:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela ativada.
+02:07:35 - Nothing: size: 500x500
+02:07:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_GETMINMAXINFO.
+02:07:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCREATE.
+02:07:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 0
+02:07:35 - Nothing: OpenGLContext::OpenGLContext() : OpenGL 3.0 e GLSL 1.30 escolhidos.
+02:07:35 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 144.
+02:07:35 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 2.
+02:07:35 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 130.
+02:07:35 - Nothing: OpenGLContext::OpenGLContext() : Contexto OpenGL criado: OpenGL 3.0 - GLSL 1.30
+02:07:35 - Nothing: Aqui!
+02:07:35 - Nothing: Card #0
+02:07:35 - Nothing: Card #1
+02:07:35 - Nothing: Card #2
+02:07:35 - Nothing: Card #3
+02:07:35 - Nothing: Card #4
+02:07:35 - Nothing: Card #5
+02:07:35 - Nothing: Card #6
+02:07:35 - Nothing: Card #7
+02:07:35 - Nothing: Card #8
+02:07:35 - Nothing: Card #9
+02:07:35 - Nothing: Card #10
+02:07:35 - Nothing: Card #11
+02:07:35 - Nothing: Card #12
+02:07:35 - Nothing: Card #13
+02:07:35 - Nothing: Card #14
+02:07:35 - Nothing: Card #15
+02:07:35 - Nothing: Card #16
+02:07:35 - Nothing: Card #17
+02:07:35 - Nothing: Card #18
+02:07:35 - Nothing: Card #19
+02:07:35 - Nothing: Card #20
+02:07:35 - Nothing: Card #21
+02:07:35 - Nothing: Card #22
+02:07:35 - Nothing: Card #23
+02:07:35 - Nothing: Card #24
+02:07:35 - Nothing: Card #25
+02:07:35 - Nothing: Card #26
+02:07:35 - Nothing: Card #27
+02:07:35 - Nothing: Card #28
+02:07:35 - Nothing: Card #29
+02:07:35 - Nothing: Card #30
+02:07:35 - Nothing: Card #31
+02:07:35 - Nothing: Card #32
+02:07:35 - Nothing: Card #33
+02:07:35 - Nothing: Card #34
+02:07:35 - Nothing: Card #35
+02:07:35 - Nothing: Card #36
+02:07:35 - Nothing: Card #37
+02:07:35 - Nothing: Card #38
+02:07:35 - Nothing: Card #39
+02:07:35 - Nothing: Card #40
+02:07:35 - Nothing: Card #41
+02:07:35 - Nothing: Card #42
+02:07:35 - Nothing: Card #43
+02:07:35 - Nothing: Card #44
+02:07:35 - Nothing: Card #45
+02:07:35 - Nothing: Card #46
+02:07:35 - Nothing: Card #47
+02:07:35 - Nothing: Card #48
+02:07:35 - Nothing: Card #49
+02:07:35 - Nothing: Card #50
+02:07:35 - Nothing: Card #51
+02:07:35 - Nothing: Aqui2!
+02:07:35 - Nothing: Aqui3!
+02:07:35 - Nothing: Iniciando loop!
+02:07:35 - Nothing: size: 0x0
+02:07:36 - Nothing: Press: [F3]
+02:07:36 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 1
+02:07:36 - Nothing: size: 516x538
+02:07:36 - Nothing: size: 516x538
+02:07:36 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 1
+02:07:36 - Nothing: size: 500x500
+02:07:36 - Nothing: size: 500x500
+02:07:36 - Nothing: Release: [F3]
+02:07:36 - Nothing: Press: [F3]
+02:07:36 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 1
+02:07:36 - Nothing: size: 484x462
+02:07:36 - Nothing: size: 484x462
+02:07:36 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 1
+02:07:36 - Nothing: size: 500x500
+02:07:36 - Nothing: size: 500x500
+02:07:36 - Nothing: Release: [F3]
+02:07:37 - Nothing: Press: [F3]
+02:07:37 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 1
+02:07:37 - Nothing: size: 516x538
+02:07:37 - Nothing: size: 516x538
+02:07:37 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 1
+02:07:37 - Nothing: size: 500x500
+02:07:37 - Nothing: size: 500x500
+02:07:37 - Nothing: Release: [F3]
+02:07:37 - Nothing: Press: [F3]
+02:07:37 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 1
+02:07:37 - Nothing: size: 484x462
+02:07:37 - Nothing: size: 484x462
+02:07:37 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 1
+02:07:37 - Nothing: size: 500x500
+02:07:37 - Nothing: size: 500x500
+02:07:37 - Nothing: Release: [F3]
+02:07:37 - Nothing: Press: [F3]
+02:07:37 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 1
+02:07:37 - Nothing: size: 516x538
+02:07:37 - Nothing: size: 516x538
+02:07:37 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 1
+02:07:37 - Nothing: size: 500x500
+02:07:37 - Nothing: size: 500x500
+02:07:38 - Nothing: Release: [F3]
+02:07:38 - Nothing: Press: [F3]
+02:07:38 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 1
+02:07:38 - Nothing: size: 484x462
+02:07:38 - Nothing: size: 484x462
+02:07:38 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 1
+02:07:38 - Nothing: size: 500x500
+02:07:38 - Nothing: size: 500x500
+02:07:38 - Nothing: Release: [F3]
+02:07:38 - Nothing: Press: [Escape]
+02:07:38 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 144.
+02:07:38 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 70.
+02:07:38 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 71.
+02:07:38 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 134.
+02:07:38 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 6.
+02:07:38 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 28.
+02:07:38 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 8.
+02:07:38 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 641.
+02:07:38 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 642.
+02:07:38 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 2.
+02:07:38 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 130.
 
 --------------------------------------------------------------------------------

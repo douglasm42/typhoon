@@ -11,7 +11,7 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <data/Database.h>
+#include <cb/data/Database.h>
 
 #include <sqlite3.h>
 

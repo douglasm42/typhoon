@@ -11,9 +11,9 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <data/Mesh.h>
+#include <cb/data/Mesh.h>
 
-#include <base/Log.h>
+#include <cb/base/Log.h>
 
 namespace cb {
 	namespace data {

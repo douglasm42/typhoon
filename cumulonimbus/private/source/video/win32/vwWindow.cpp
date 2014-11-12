@@ -11,9 +11,9 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <video/Window.h>
-#include <base/Exception.h>
-#include <base/Log.h>
+#include <cb/video/Window.h>
+#include <cb/base/Exception.h>
+#include <cb/base/Log.h>
 
 #include <video/win32/Windows.h>
 #include <video/win32/WindowClass.h>
@@ -22,13 +22,18 @@
 #include <video/win32/Placement.h>
 #include <video/win32/WindowStyle.h>
 
-#include <input/EventLoop.h>
+#include <cb/input/EventLoop.h>
 
-#include <graphic/GLContext.h>
+#include <cb/graphic/GLContext.h>
 
 namespace cb {
 	namespace video {
 		KinKey(kin::WindowInfo, w32WindowInfo);
+
+		Window::Window() :_border(Border::System), _cursor(this) {
+			_window_info << new w32WindowInfo;
+			createDummy();
+		}
 
 		Window::Window(base::string16 ititle, const Placement &iplacement) :_border(iplacement.border()), _cursor(this) {
 			_window_info << new w32WindowInfo;
@@ -80,10 +85,43 @@ namespace cb {
 			input::EventLoop::bind(this);
 		}
 
+		void Window::createDummy() {
+			if(!empty()) {
+				Throw(tokurei::CreateError);
+			}
+
+			w32WindowClass::reg();
+
+			Placement placement(0, 0, 100, 100, false, false, Border::System);
+			WINDOWPLACEMENT wp;
+			getPlacement(placement, wp);
+
+			(*_window_info).window = CreateWindowEx(
+				getStyleEx(_border),
+				w32WindowClass::name(),
+				L"Dummy",
+				getStyle(_border),
+				0, 0,
+				wp.rcNormalPosition.right-wp.rcNormalPosition.left,
+				wp.rcNormalPosition.bottom-wp.rcNormalPosition.top,
+				NULL, NULL, GetModuleHandleW(NULL), reinterpret_cast<LPVOID>(this)
+			);
+
+			if(!(*_window_info).window) {
+				Throw(tokurei::CreateError);
+			}
+
+			(*_window_info).dimouse = new input::DIMouse((*_window_info).window, &_event_hub);
+			(*_window_info).xinput = new input::XInput(&_event_hub);
+
+			input::EventLoop::bind(this);
+		}
+
 		void Window::destroy() {
 			if(!empty()) {
 				input::EventLoop::unbind(this);
 				delete (*_window_info).dimouse;
+				delete (*_window_info).xinput;
 
 				SetWindowLongPtr((*_window_info).window, GWLP_USERDATA, LONG(NULL));
 
@@ -109,6 +147,7 @@ namespace cb {
 				border(iplacement.border());
 			}
 			SetWindowPlacement((*_window_info).window, &wplacement);
+			UpdateWindow((*_window_info).window);
 		}
 
 		Placement Window::placement() {
@@ -134,13 +173,27 @@ namespace cb {
 		void Window::border(Border iborder) {
 			if(_border != iborder) {
 				_border = iborder;
-				Placement p = placement();
-				p.border(iborder);
+
+				POINT corner = {0, 0};
+				ClientToScreen((*_window_info).window, &corner);
+
+				RECT client;
+				GetClientRect((*_window_info).window, &client);
+				client.left		+= corner.x;
+				client.top		+= corner.y;
+				client.right	+= corner.x;
+				client.bottom	+= corner.y;
+
+				if(iborder != Border::Empty) {
+					AdjustWindowRectEx(&client, getStyle(iborder), FALSE, getStyleEx(iborder));
+				}
 
 				SetWindowLong((*_window_info).window, GWL_STYLE, getStyle(iborder));
 				SetWindowLong((*_window_info).window, GWL_EXSTYLE, getStyleEx(iborder));
 
-				placement(p);
+				SetWindowPos((*_window_info).window, 0, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+				//UpdateWindow((*_window_info).window);
+				//SetWindowPos((*_window_info).window, 0, client.left, client.top, client.right - client.left, client.bottom - client.top, SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED | SWP_SHOWWINDOW);
 			}
 		}
 

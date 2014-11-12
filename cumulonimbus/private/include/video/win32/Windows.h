@@ -13,7 +13,7 @@
  */
 #pragma once
 
-#include <video/video.h>
+#include <cb/video/video.h>
 
 #ifdef __MINGW32__
 	#ifndef WINVER

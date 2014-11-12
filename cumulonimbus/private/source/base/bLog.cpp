@@ -11,13 +11,13 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <base/Log.h>
-#include <base/LogFile.h>
+#include <cb/base/Log.h>
+#include <cb/base/LogFile.h>
 
-#include <base/FormatMacro.h>
-#include <base/Exception.h>
+#include <cb/base/FormatMacro.h>
+#include <cb/base/Exception.h>
 
-#include <video/Message.h>
+#include <cb/video/Message.h>
 
 #include <iostream>
 

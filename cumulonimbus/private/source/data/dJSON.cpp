@@ -11,9 +11,9 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <data/JSON.h>
+#include <cb/data/JSON.h>
 
-#include <base/Log.h>
+#include <cb/base/Log.h>
 
 #include <limits>
 #include <sstream>

@@ -11,9 +11,9 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <data/XML.h>
+#include <cb/data/XML.h>
 
-#include <base/Exception.h>
+#include <cb/base/Exception.h>
 
 #include <pugixml.hpp>
 

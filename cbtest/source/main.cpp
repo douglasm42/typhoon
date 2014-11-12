@@ -11,27 +11,32 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <base/Entry.h>
+#include <cb/base/Entry.h>
 
-#include <video/Window.h>
-#include <graphic/GLContext.h>
-#include <input/EventLoop.h>
+#include <cb/base/Timer.h>
 
-#include <input/KeyListener.h>
-#include <input/CharListener.h>
-#include <input/MouseListener.h>
-#include <input/WindowListener.h>
-#include <input/QuitListener.h>
+#include <cb/video/Window.h>
+#include <cb/graphic/GLContext.h>
+#include <cb/input/EventLoop.h>
 
-#include <data/File.h>
-#include <data/Bitmap.h>
-#include <data/Mesh.h>
+#include <cb/input/KeyListener.h>
+#include <cb/input/CharListener.h>
+#include <cb/input/MouseListener.h>
+#include <cb/input/WindowListener.h>
+#include <cb/input/QuitListener.h>
 
-#include <graphic/GL.h>
-#include <graphic/Texture.h>
-#include <graphic/Shader.h>
-#include <graphic/Program.h>
-#include <graphic/FrameBuffer.h>
+#include <cb/data/File.h>
+#include <cb/data/Bitmap.h>
+#include <cb/data/Mesh.h>
+
+#include <cb/graphic/GL.h>
+#include <cb/graphic/Texture.h>
+#include <cb/graphic/Shader.h>
+#include <cb/graphic/Program.h>
+#include <cb/graphic/FrameBuffer.h>
+
+#include <cb/math/math.h>
+#include <cb/math/glm/gtc/matrix_inverse.hpp>
 
 #include <iostream>
 using namespace std;
@@ -79,9 +84,7 @@ public:
 		base::log.nothing("Release: %s", ikey.str().c_str());
 	}
 	virtual void onKeyMove(input::Key ikey, float ivalue) {
-		if(ikey.type() == input::Key::XController) {
-			base::log.nothing("Move: %s - %f", ikey.str().c_str(), ivalue);
-		}
+		base::log.nothing("Move: %s - %f", ikey.str().c_str(), ivalue);
 	}
 
 	virtual void onChar(char32_t ichar) {}
@@ -111,11 +114,9 @@ public:
 int cbEntry(int argc, char **argv) {
 	base::log.init("log.txt", "test.base");
 
-	graphic::GL gl;
+	video::Window win(base::utf16("Testando!"), 100, 100, 500, 500, false, false, video::Border::System);
 
-	video::Window win(base::utf16("Testando!"), 100, 100, 500, 500, false, false, video::Border::Empty);
-
-	graphic::GLContext context(win, graphic::Version::v21);
+	graphic::GLContext context(win, graphic::Version::v30);
 
 	win.show();
 
@@ -187,7 +188,7 @@ int cbEntry(int argc, char **argv) {
 	}
 
 	data::Mesh gridmesh(data::Mesh::Format(3,2,0,3,0));
-	gridmesh.plane(100,100,100,100);
+	gridmesh.plane(1,1,1,1);
 	graphic::VertexBuffer gridvb;
 	gridvb.load(gridmesh);
 
@@ -240,7 +241,7 @@ int cbEntry(int argc, char **argv) {
 	win.cursor().select("hand.point");
 	base::log.nothing("Iniciando loop!");
 
-	gl.clearColor(graphic::color::sky1);
+	graphic::gl::clearColor(graphic::tango::sky1);
 
 	data::Mesh mesh(data::Mesh::Format(3,2,0,3,0));
 	data::Mesh::Vertex v;
@@ -308,7 +309,7 @@ int cbEntry(int argc, char **argv) {
 
 	size_t w,h;
 
-	vec4 clearcolor = graphic::color::sky1;
+	vec4 clearcolor = graphic::tango::sky1;
 
 	int i = 0;
 
@@ -323,7 +324,22 @@ int cbEntry(int argc, char **argv) {
 	ltn.width = win.placement().width();
 	ltn.height = win.placement().height();
 
+	base::Timer t;
+	float light = 0.0f;
+	float dir = 1.0f;
+	float vel = 1.0f;
+
 	while(!win.empty() && input::EventLoop::update()) {
+		t.tick();
+		light += dir*vel*t.delta();
+		if(light > 1.0f) {
+			light = 1.0f;
+			dir = -1.0f;
+		} else if(light < 0.0f) {
+			light = 0.0f;
+			dir = 1.0f;
+		}
+
 		if(ltn.maximize) {
 			if(win.placement().maximized()) {
 				win.restore();
@@ -346,14 +362,27 @@ int cbEntry(int argc, char **argv) {
 			win.placement(p);
 		}
 
-		gl.viewport(0, 0, ltn.width, ltn.height);
-		gl.clearColor(clearcolor);
-		gl.clear(graphic::Clear::ColorDepth);
+		origin o;
+		transf t;
+
+		mat4 proj = perspective(60.0f, 640.0f/480.0f, 0.1f, 1000.0f);
+		mat4 view = lookAt(vec3(0,5,-3), vec3(0,0,0), vec3(0,1,0));
+
+		t.update(proj, inverse(proj), view);
+
+		graphic::gl::viewport(0, 0, ltn.width, ltn.height);
+		graphic::gl::clearColor(clearcolor);
+		graphic::gl::clear(graphic::Clear::ColorDepth);
 
 		cards_tex[i].bind();
 		//texuvmap.bind();
 		//texgrid.bind();
-		gl.texSquare(teste, gridvb);
+		graphic::gl::texSquare(teste, gridvb);
+		cards_tex[i].unbind();
+
+		prog.bind();
+		graphic::gl::shaderTest();
+		prog.unbind();
 
 		context.swap();
 

@@ -11,7 +11,7 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <video/Placement.h>
+#include <cb/video/Placement.h>
 
 #include <video/win32/Windows.h>
 #include <video/win32/WindowStyle.h>

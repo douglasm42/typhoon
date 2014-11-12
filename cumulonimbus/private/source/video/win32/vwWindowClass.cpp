@@ -11,7 +11,7 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <base/Exception.h>
+#include <cb/base/Exception.h>
 
 #include <video/win32/WindowClass.h>
 #include <input/win32/WindowProc.h>

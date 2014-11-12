@@ -11,526 +11,318 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <input/Key.h>
+#include <cb/input/Key.h>
+
+#include <cb/base/Exception.h>
 
 namespace cb {
 	namespace input {
-		std::string Key::str(Key::Type itype) {
-			switch(itype) {
-			case Type::Keyboard:
-				return "Keyboard";
-			case Type::Mouse:
-				return "Mouse";
-			case Type::XController:
-				return "XBox";
-			case Type::Controller:
-				return "Controller";
+		std::map<base::string, Key::Code> Key::_serialized_to_code;
+		std::map<Key::Code, base::string> Key::_code_to_serialized;
+		std::map<Key::Code, base::string> Key::_code_to_str;
+		std::mutex Key::_map_init;
+
+#		define mapCode(code, code_str) _code_to_str[code] = code_str;	_code_to_serialized[code] = #code;	_serialized_to_code[#code] = code;
+
+		void Key::initConversionMaps() {
+			std::lock_guard<std::mutex> lock(_map_init);
+			if(!_serialized_to_code.empty()) {
+				return;
+			}
+
+			mapCode(Null, "Null");
+
+			//Keyboard
+			mapCode(KBEsc, "Escape");
+
+			mapCode(KBTab, "Tab");
+			mapCode(KBEnter, "Enter");
+			mapCode(KBSpace, "Space");
+			mapCode(KBBackspace, "Backspace");
+
+			mapCode(KBPageUp, "Page Up");
+			mapCode(KBPageDown, "Page Down");
+			mapCode(KBEnd, "End");
+			mapCode(KBHome, "Home");
+			mapCode(KBInsert, "Insert");
+			mapCode(KBDelete, "Delete");
+			mapCode(KBClear, "Clear");
+
+			mapCode(KBPrintScreen, "Print Screen");
+			mapCode(KBBreak, "Pause/Break");
+			mapCode(KBSleep, "Sleep");
+			mapCode(KBApplication, "Application");
+
+			mapCode(KBCapsLock, "Caps Lock");
+			mapCode(KBNumLock, "Num Lock");
+			mapCode(KBScrollLock, "Scroll Lock");
+
+			mapCode(KBLeft, "Left");
+			mapCode(KBUp, "Up");
+			mapCode(KBRight, "Right");
+			mapCode(KBDown, "Down");
+
+			mapCode(KB0, "0");
+			mapCode(KB1, "1");
+			mapCode(KB2, "2");
+			mapCode(KB3, "3");
+			mapCode(KB4, "4");
+			mapCode(KB5, "5");
+			mapCode(KB6, "6");
+			mapCode(KB7, "7");
+			mapCode(KB8, "8");
+			mapCode(KB9, "9");
+
+			mapCode(KBA, "A");
+			mapCode(KBB, "B");
+			mapCode(KBC, "C");
+			mapCode(KBD, "D");
+			mapCode(KBE, "E");
+			mapCode(KBF, "F");
+			mapCode(KBG, "G");
+			mapCode(KBH, "H");
+			mapCode(KBI, "I");
+			mapCode(KBJ, "J");
+			mapCode(KBK, "K");
+			mapCode(KBL, "L");
+			mapCode(KBM, "M");
+			mapCode(KBN, "N");
+			mapCode(KBO, "O");
+			mapCode(KBP, "P");
+			mapCode(KBQ, "Q");
+			mapCode(KBR, "R");
+			mapCode(KBS, "S");
+			mapCode(KBT, "T");
+			mapCode(KBU, "U");
+			mapCode(KBV, "V");
+			mapCode(KBW, "W");
+			mapCode(KBX, "X");
+			mapCode(KBY, "Y");
+			mapCode(KBZ, "Z");
+
+			mapCode(KBNum0, "Num 0");
+			mapCode(KBNum1, "Num 1");
+			mapCode(KBNum2, "Num 2");
+			mapCode(KBNum3, "Num 3");
+			mapCode(KBNum4, "Num 4");
+			mapCode(KBNum5, "Num 5");
+			mapCode(KBNum6, "Num 6");
+			mapCode(KBNum7, "Num 7");
+			mapCode(KBNum8, "Num 8");
+			mapCode(KBNum9, "Num 9");
+			mapCode(KBNumMult, "Num *");
+			mapCode(KBNumPlus, "Num +");
+			mapCode(KBNumMinus, "Num -");
+			mapCode(KBNumDel, "Num Delete");
+			mapCode(KBNumDiv, "Num /");
+			mapCode(KBNumPeriod, "Num .");
+
+			mapCode(KBF1, "F1");
+			mapCode(KBF2, "F2");
+			mapCode(KBF3, "F3");
+			mapCode(KBF4, "F4");
+			mapCode(KBF5, "F5");
+			mapCode(KBF6, "F6");
+			mapCode(KBF7, "F7");
+			mapCode(KBF8, "F8");
+			mapCode(KBF9, "F9");
+			mapCode(KBF10, "F10");
+			mapCode(KBF11, "F11");
+			mapCode(KBF12, "F12");
+
+			mapCode(KBLeftShift, "Left Shift");
+			mapCode(KBRightShift, "Right Shift");
+			mapCode(KBLeftCtrl, "Left Ctrl");
+			mapCode(KBRightCtrl, "Right Ctrl");
+			mapCode(KBLeftAlt, "Left Alt");
+			mapCode(KBRightAlt, "Right Alt");
+			mapCode(KBLeftSuper, "Left Super");
+			mapCode(KBRightSuper, "Right Super");
+
+			mapCode(KBCedille, "Ç");
+			mapCode(KBEqual, "=");
+			mapCode(KBComma, ",");
+			mapCode(KBMinus, "-");
+			mapCode(KBPeriod, ".");
+			mapCode(KBSemicolon, ";");
+			mapCode(KBApostrophe, "");
+			mapCode(KBAgudo, "´");
+			mapCode(KBBracketClose, "]");
+			mapCode(KBBracketOpen, "[");
+			mapCode(KBTil, "~");
+			mapCode(KBSlash, "/");
+			mapCode(KBBackslash, "\\");
+
+			//Mouse
+			mapCode(MouseHu, "H+");
+			mapCode(MouseHd, "H-");
+			mapCode(MouseVu, "V+");
+			mapCode(MouseVd, "V-");
+			mapCode(MouseMu, "Scroll+");
+			mapCode(MouseMd, "Scroll-");
+
+			mapCode(MouseLeft, "Mouse Left");
+			mapCode(MouseRight, "Mouse Right");
+			mapCode(MouseMiddle, "Mouse Middle");
+			mapCode(MouseX1, "Mouse X1");
+			mapCode(MouseX2, "Mouse X2");
+			mapCode(MouseX3, "Mouse X3");
+			mapCode(MouseX4, "Mouse X4");
+			mapCode(MouseX5, "Mouse X5");
+			
+			//XInput
+			mapCode(XbA, "A");
+			mapCode(XbB, "B");
+			mapCode(XbX, "X");
+			mapCode(XbY, "Y");
+
+			mapCode(XbStart, "Start");
+			mapCode(XbBack, "Back");
+
+			mapCode(XbLeft, "Left");
+			mapCode(XbUp, "Up");
+			mapCode(XbRight, "Right");
+			mapCode(XbDown, "Down");
+
+			mapCode(XbLThumb, "LThumb");
+			mapCode(XbLThumbLeft, "LThumb Left");
+			mapCode(XbLThumbUp, "LThumb Up");
+			mapCode(XbLThumbRight, "LThumb Right");
+			mapCode(XbLThumbDown, "LThumb Down");
+
+			mapCode(XbLThumbUpLeft, "LThumb Up Left");
+			mapCode(XbLThumbUpRight, "LThumb Up Right");
+			mapCode(XbLThumbDownLeft, "LThumb Down Left");
+			mapCode(XbLThumbDownRight, "LThumb Down Right");
+
+			mapCode(XbRThumb, "RThumb");
+			mapCode(XbRThumbLeft, "RThumb Left");
+			mapCode(XbRThumbUp, "RThumb Up");
+			mapCode(XbRThumbRight, "RThumb Right");
+			mapCode(XbRThumbDown, "RThumb Down");
+
+			mapCode(XbRThumbUpLeft, "RThumb Up Left");
+			mapCode(XbRThumbUpRight, "RThumb Up Right");
+			mapCode(XbRThumbDownLeft, "RThumb Down Left");
+			mapCode(XbRThumbDownRight, "RThumb Down Right");
+
+			mapCode(XbLTrigger, "LTrigger");
+			mapCode(XbLShoulder, "LButton");
+
+			mapCode(XbRTrigger, "RTrigger");
+			mapCode(XbRShoulder, "RButton");
+
+			//Controller
+			mapCode(CButton01, "Button 1");
+			mapCode(CButton02, "Button 2");
+			mapCode(CButton03, "Button 3");
+			mapCode(CButton04, "Button 4");
+			mapCode(CButton05, "Button 5");
+			mapCode(CButton06, "Button 6");
+			mapCode(CButton07, "Button 7");
+			mapCode(CButton08, "Button 8");
+
+			mapCode(CButton09, "Button 9");
+			mapCode(CButton10, "Button 10");
+			mapCode(CButton11, "Button 11");
+			mapCode(CButton12, "Button 12");
+			mapCode(CButton13, "Button 13");
+			mapCode(CButton14, "Button 14");
+			mapCode(CButton15, "Button 15");
+			mapCode(CButton16, "Button 16");
+
+			mapCode(CButton17, "Button 17");
+			mapCode(CButton18, "Button 18");
+			mapCode(CButton19, "Button 19");
+			mapCode(CButton20, "Button 20");
+			mapCode(CButton21, "Button 21");
+			mapCode(CButton22, "Button 22");
+			mapCode(CButton23, "Button 23");
+			mapCode(CButton24, "Button 24");
+
+			mapCode(CButton25, "Button 25");
+			mapCode(CButton26, "Button 26");
+			mapCode(CButton27, "Button 27");
+			mapCode(CButton28, "Button 28");
+			mapCode(CButton29, "Button 29");
+			mapCode(CButton30, "Button 30");
+			mapCode(CButton31, "Button 31");
+			mapCode(CButton32, "Button 32");
+
+			mapCode(CAxisXp, "X+");
+			mapCode(CAxisXm, "X-");
+			mapCode(CAxisYp, "Y+");
+			mapCode(CAxisYm, "Y-");
+			mapCode(CAxisZp, "Z+");
+			mapCode(CAxisZm, "Z-");
+
+			mapCode(CAxisRXp, "RX+");
+			mapCode(CAxisRXm, "RX-");
+			mapCode(CAxisRYp, "RY+");
+			mapCode(CAxisRYm, "RY-");
+			mapCode(CAxisRZp, "RZ+");
+			mapCode(CAxisRZm, "RZ-");
+
+			mapCode(CSliderUp, "SliderU+");
+			mapCode(CSliderUm, "SliderU-");
+			mapCode(CSliderVp, "SliderV+");
+			mapCode(CSliderVm, "SliderV-");
+
+			mapCode(CPOV1Left, "Left");
+			mapCode(CPOV1Up, "Up");
+			mapCode(CPOV1Right, "Right");
+			mapCode(CPOV1Down, "Down");
+
+			mapCode(CPOV2Left, "Left2");
+			mapCode(CPOV2Up, "Up2");
+			mapCode(CPOV2Right, "Right2");
+			mapCode(CPOV2Down, "Down2");
+
+			mapCode(CPOV3Left, "Left3");
+			mapCode(CPOV3Up, "Up3");
+			mapCode(CPOV3Right, "Right3");
+			mapCode(CPOV3Down, "Down3");
+
+			mapCode(CPOV4Left, "Left4");
+			mapCode(CPOV4Up, "Up4");
+			mapCode(CPOV4Right, "Right4");
+			mapCode(CPOV4Down, "Down4");
+		}
+
+		base::string Key::toStr(Code icode) {
+			initConversionMaps();
+			std::map<Key::Code, base::string>::iterator it = _code_to_serialized.find(icode);
+			if(it != _code_to_serialized.end()) {
+				return it->second;
+			} else {
+				ThrowDet(tokurei::FileSerializeError, "Key code not found.");
 			}
 		}
-		
-		std::string Key::str(Key::User iuser) {
-			switch(iuser) {
-			case User::Player0:
-				return "Player 0";
-			case User::Player1:
-				return "Player 1";
-			case User::Player2:
-				return "Player 2";
-			case User::Player3:
-				return "Player 3";
-			case User::Player4:
-				return "Player 4";
-			case User::Player5:
-				return "Player 5";
-			case User::Player6:
-				return "Player 6";
-			case User::Player7:
-				return "Player 7";
-			case User::Player8:
-				return "Player 8";
+
+		base::string Key::toStr(int iplayer) {
+			return std::to_string(iplayer);
+		}
+
+		Key::Code Key::toCode(base::string icode) {
+			initConversionMaps();
+			std::map<base::string, Key::Code>::iterator it = _serialized_to_code.find(icode);
+			if(it != _serialized_to_code.end()) {
+				return it->second;
+			} else {
+				ThrowDet(tokurei::FileSerializeError, "Key serialized code not found.");
 			}
+		}
+
+		int Key::toPlayer(base::string iplayer) {
+			return std::stoi(iplayer);
 		}
 
 		std::string Key::str(Key::Code ikey) {
-			switch(ikey) {
-			case Code::Null:
-				return "Null";
-
-			//Keyboard
-			case Code::KBEsc:
-				return "Escape";
-
-			case Code::KBTab:
-				return "Tab";
-			case Code::KBEnter:
-				return "Enter";
-			case Code::KBSpace:
-				return "Space";
-			case Code::KBBackspace:
-				return "Backspace";
-
-			case Code::KBPageUp:
-				return "Page Up";
-			case Code::KBPageDown:
-				return "Page Down";
-			case Code::KBEnd:
-				return "End";
-			case Code::KBHome:
-				return "Home";
-			case Code::KBInsert:
-				return "Insert";
-			case Code::KBDelete:
-				return "Delete";
-			case Code::KBClear:
-				return "Clear";
-
-			case Code::KBPrintScreen:
-				return "Print Screen";
-			case Code::KBBreak:
-				return "Pause/Break";
-			case Code::KBSleep:
-				return "Sleep";
-			case Code::KBApplication:
-				return "Application";
-
-			case Code::KBCapsLock:
-				return "Caps Lock";
-			case Code::KBNumLock:
-				return "Num Lock";
-			case Code::KBScrollLock:
-				return "Scroll Lock";
-
-			case Code::KBLeft:
-				return "Left";
-			case Code::KBUp:
-				return "Up";
-			case Code::KBRight:
-				return "Right";
-			case Code::KBDown:
-				return "Down";
-
-			case Code::KB0:
-				return "0";
-			case Code::KB1:
-				return "1";
-			case Code::KB2:
-				return "2";
-			case Code::KB3:
-				return "3";
-			case Code::KB4:
-				return "4";
-			case Code::KB5:
-				return "5";
-			case Code::KB6:
-				return "6";
-			case Code::KB7:
-				return "7";
-			case Code::KB8:
-				return "8";
-			case Code::KB9:
-				return "9";
-
-			case Code::KBA:
-				return "A";
-			case Code::KBB:
-				return "B";
-			case Code::KBC:
-				return "C";
-			case Code::KBD:
-				return "D";
-			case Code::KBE:
-				return "E";
-			case Code::KBF:
-				return "F";
-			case Code::KBG:
-				return "G";
-			case Code::KBH:
-				return "H";
-			case Code::KBI:
-				return "I";
-			case Code::KBJ:
-				return "J";
-			case Code::KBK:
-				return "K";
-			case Code::KBL:
-				return "L";
-			case Code::KBM:
-				return "M";
-			case Code::KBN:
-				return "N";
-			case Code::KBO:
-				return "O";
-			case Code::KBP:
-				return "P";
-			case Code::KBQ:
-				return "Q";
-			case Code::KBR:
-				return "R";
-			case Code::KBS:
-				return "S";
-			case Code::KBT:
-				return "T";
-			case Code::KBU:
-				return "U";
-			case Code::KBV:
-				return "V";
-			case Code::KBW:
-				return "W";
-			case Code::KBX:
-				return "X";
-			case Code::KBY:
-				return "Y";
-			case Code::KBZ:
-				return "Z";
-
-			case Code::KBNum0:
-				return "Num 0";
-			case Code::KBNum1:
-				return "Num 1";
-			case Code::KBNum2:
-				return "Num 2";
-			case Code::KBNum3:
-				return "Num 3";
-			case Code::KBNum4:
-				return "Num 4";
-			case Code::KBNum5:
-				return "Num 5";
-			case Code::KBNum6:
-				return "Num 6";
-			case Code::KBNum7:
-				return "Num 7";
-			case Code::KBNum8:
-				return "Num 8";
-			case Code::KBNum9:
-				return "Num 9";
-			case Code::KBNumMult:
-				return "Num *";
-			case Code::KBNumPlus:
-				return "Num +";
-			case Code::KBNumMinus:
-				return "Num -";
-			case Code::KBNumDel:
-				return "Num Delete";
-			case Code::KBNumDiv:
-				return "Num /";
-			case Code::KBNumPeriod:
-				return "Num .";
-
-			case Code::KBF1:
-				return "F1";
-			case Code::KBF2:
-				return "F2";
-			case Code::KBF3:
-				return "F3";
-			case Code::KBF4:
-				return "F4";
-			case Code::KBF5:
-				return "F5";
-			case Code::KBF6:
-				return "F6";
-			case Code::KBF7:
-				return "F7";
-			case Code::KBF8:
-				return "F8";
-			case Code::KBF9:
-				return "F9";
-			case Code::KBF10:
-				return "F10";
-			case Code::KBF11:
-				return "F11";
-			case Code::KBF12:
-				return "F12";
-
-			case Code::KBLeftShift:
-				return "Left Shift";
-			case Code::KBRightShift:
-				return "Right Shift";
-			case Code::KBLeftCtrl:
-				return "Left Ctrl";
-			case Code::KBRightCtrl:
-				return "Right Ctrl";
-			case Code::KBLeftAlt:
-				return "Left Alt";
-			case Code::KBRightAlt:
-				return "Right Alt";
-			case Code::KBLeftSuper:
-				return "Left Super";
-			case Code::KBRightSuper:
-				return "Right Super";
-
-			case Code::KBCedille:
-				return "Ç";
-			case Code::KBEqual:
-				return "=";
-			case Code::KBComma:
-				return ",";
-			case Code::KBMinus:
-				return "-";
-			case Code::KBPeriod:
-				return ".";
-			case Code::KBSemicolon:
-				return ";";
-			case Code::KBApostrophe:
-				return "";
-			case Code::KBAgudo:
-				return "´";
-			case Code::KBBracketClose:
-				return "]";
-			case Code::KBBracketOpen:
-				return "[";
-			case Code::KBTil:
-				return "~";
-			case Code::KBSlash:
-				return "/";
-			case Code::KBBackslash:
-				return "\\";
-
-			//Mouse
-			case Code::MouseHu:
-				return "H+";
-			case Code::MouseHd:
-				return "H-";
-			case Code::MouseVu:
-				return "V+";
-			case Code::MouseVd:
-				return "V-";
-			case Code::MouseMu:
-				return "Scroll+";
-			case Code::MouseMd:
-				return "Scroll-";
-
-			case Code::MouseLeft:
-				return "Left";
-			case Code::MouseRight:
-				return "Right";
-			case Code::MouseMiddle:
-				return "Middle";
-			case Code::MouseX1:
-				return "X1";
-			case Code::MouseX2:
-				return "X2";
-			case Code::MouseX3:
-				return "X3";
-			case Code::MouseX4:
-				return "X4";
-			case Code::MouseX5:
-				return "X5";
-			
-			//XInput
-			case Code::XbA:
-				return "A";
-			case Code::XbB:
-				return "B";
-			case Code::XbX:
-				return "X";
-			case Code::XbY:
-				return "Y";
-
-			case Code::XbStart:
-				return "Start";
-			case Code::XbBack:
-				return "Back";
-
-			case Code::XbLeft:
-				return "Left";
-			case Code::XbUp:
-				return "Up";
-			case Code::XbRight:
-				return "Right";
-			case Code::XbDown:
-				return "Down";
-
-			case Code::XbLThumb:
-				return "LThumb";
-			case Code::XbLThumbLeft:
-				return "LThumb Left";
-			case Code::XbLThumbUp:
-				return "LThumb Up";
-			case Code::XbLThumbRight:
-				return "LThumb Right";
-			case Code::XbLThumbDown:
-				return "LThumb Down";
-
-			case Code::XbLThumbUpLeft:
-				return "LThumb Up Left";
-			case Code::XbLThumbUpRight:
-				return "LThumb Up Right";
-			case Code::XbLThumbDownLeft:
-				return "LThumb Down Left";
-			case Code::XbLThumbDownRight:
-				return "LThumb Down Right";
-
-			case Code::XbRThumb:
-				return "RThumb";
-			case Code::XbRThumbLeft:
-				return "RThumb Left";
-			case Code::XbRThumbUp:
-				return "RThumb Up";
-			case Code::XbRThumbRight:
-				return "RThumb Right";
-			case Code::XbRThumbDown:
-				return "RThumb Down";
-
-			case Code::XbRThumbUpLeft:
-				return "RThumb Up Left";
-			case Code::XbRThumbUpRight:
-				return "RThumb Up Right";
-			case Code::XbRThumbDownLeft:
-				return "RThumb Down Left";
-			case Code::XbRThumbDownRight:
-				return "RThumb Down Right";
-
-			case Code::XbLTrigger:
-				return "LTrigger";
-			case Code::XbLShoulder:
-				return "LButton";
-
-			case Code::XbRTrigger:
-				return "RTrigger";
-			case Code::XbRShoulder:
-				return "RButton";
-
-			//Controller
-			case Code::CButton01:
-				return "Button 1";
-			case Code::CButton02:
-				return "Button 2";
-			case Code::CButton03:
-				return "Button 3";
-			case Code::CButton04:
-				return "Button 4";
-			case Code::CButton05:
-				return "Button 5";
-			case Code::CButton06:
-				return "Button 6";
-			case Code::CButton07:
-				return "Button 7";
-			case Code::CButton08:
-				return "Button 8";
-
-			case Code::CButton09:
-				return "Button 9";
-			case Code::CButton10:
-				return "Button 10";
-			case Code::CButton11:
-				return "Button 11";
-			case Code::CButton12:
-				return "Button 12";
-			case Code::CButton13:
-				return "Button 13";
-			case Code::CButton14:
-				return "Button 14";
-			case Code::CButton15:
-				return "Button 15";
-			case Code::CButton16:
-				return "Button 16";
-
-			case Code::CButton17:
-				return "Button 17";
-			case Code::CButton18:
-				return "Button 18";
-			case Code::CButton19:
-				return "Button 19";
-			case Code::CButton20:
-				return "Button 20";
-			case Code::CButton21:
-				return "Button 21";
-			case Code::CButton22:
-				return "Button 22";
-			case Code::CButton23:
-				return "Button 23";
-			case Code::CButton24:
-				return "Button 24";
-
-			case Code::CButton25:
-				return "Button 25";
-			case Code::CButton26:
-				return "Button 26";
-			case Code::CButton27:
-				return "Button 27";
-			case Code::CButton28:
-				return "Button 28";
-			case Code::CButton29:
-				return "Button 29";
-			case Code::CButton30:
-				return "Button 30";
-			case Code::CButton31:
-				return "Button 31";
-			case Code::CButton32:
-				return "Button 32";
-
-			case Code::CAxisXp:
-				return "X+";
-			case Code::CAxisXm:
-				return "X-";
-			case Code::CAxisYp:
-				return "Y+";
-			case Code::CAxisYm:
-				return "Y-";
-			case Code::CAxisZp:
-				return "Z+";
-			case Code::CAxisZm:
-				return "Z-";
-
-			case Code::CAxisRXp:
-				return "RX+";
-			case Code::CAxisRXm:
-				return "RX-";
-			case Code::CAxisRYp:
-				return "RY+";
-			case Code::CAxisRYm:
-				return "RY-";
-			case Code::CAxisRZp:
-				return "RZ+";
-			case Code::CAxisRZm:
-				return "RZ-";
-
-			case Code::CSliderUp:
-				return "SliderU+";
-			case Code::CSliderUm:
-				return "SliderU-";
-			case Code::CSliderVp:
-				return "SliderV+";
-			case Code::CSliderVm:
-				return "SliderV-";
-
-			case Code::CPOV1Left:
-				return "Left";
-			case Code::CPOV1Up:
-				return "Up";
-			case Code::CPOV1Right:
-				return "Right";
-			case Code::CPOV1Down:
-				return "Down";
-
-			case Code::CPOV2Left:
-				return "Left2";
-			case Code::CPOV2Up:
-				return "Up2";
-			case Code::CPOV2Right:
-				return "Right2";
-			case Code::CPOV2Down:
-				return "Down2";
-
-			case Code::CPOV3Left:
-				return "Left3";
-			case Code::CPOV3Up:
-				return "Up3";
-			case Code::CPOV3Right:
-				return "Right3";
-			case Code::CPOV3Down:
-				return "Down3";
-
-			case Code::CPOV4Left:
-				return "Left4";
-			case Code::CPOV4Up:
-				return "Up4";
-			case Code::CPOV4Right:
-				return "Right4";
-			case Code::CPOV4Down:
-				return "Down4";
-				
-			default:
+			initConversionMaps();
+			std::map<Key::Code, base::string>::iterator it = _code_to_str.find(ikey);
+			if(it != _code_to_str.end()) {
+				return it->second;
+			} else {
 				return "Unknown";
 			}
 		}

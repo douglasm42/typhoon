@@ -13,7 +13,7 @@
  */
 #pragma once
 
-#include <input/input.h>
+#include <cb/input/input.h>
 
 #include <video/win32/Windows.h>
 

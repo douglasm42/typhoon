@@ -11,8 +11,8 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <input/EventLoop.h>
-#include <video/Window.h>
+#include <cb/input/EventLoop.h>
+#include <cb/video/Window.h>
 #include <video/win32/Windows.h>
 #include <video/win32/WindowInfo.h>
 

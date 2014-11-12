@@ -11,13 +11,14 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <graphic/GLContext.h>
+#include <cb/graphic/GLContext.h>
 #include <graphic/GLEWmx.h>
+#include <cb/graphic/PixelFormat.h>
 
-#include <base/Exception.h>
-#include <base/Log.h>
+#include <cb/base/Exception.h>
+#include <cb/base/Log.h>
 
-#include <video/Window.h>
+#include <cb/video/Window.h>
 #include <video/win32/Windows.h>
 #include <video/win32/WindowInfo.h>
 
@@ -36,45 +37,18 @@ namespace cb {
 		KinKey(video::kin::WindowInfo, video::w32WindowInfo);
 		KinKey(kin::GLContextInfo, w32GLContextInfo);
 
-		GLContext::GLContext(video::Window &iwindow, Version iversion) {
+		GLContext::GLContext() {
 			_context_info << new w32GLContextInfo;
+			_dummy = true;
 			_is_active = false;
 
-			_window = &iwindow;
+			_window = new video::Window;
 
 			//Inicializa o device context para a criação do contexto do OpenGL.
 			(*_context_info)._device_context = GetDC((*_window->info()).window);
 
-			//Cria uma descrição de formato de pixel para a criação do contexto do OpenGL.
-			PIXELFORMATDESCRIPTOR pixel_format;
-			memset(&pixel_format, 0, sizeof(PIXELFORMATDESCRIPTOR));
-			pixel_format.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-			pixel_format.nVersion = 1;
-			pixel_format.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-			pixel_format.iPixelType = PFD_TYPE_RGBA;
-			pixel_format.cColorBits = 32;
-			pixel_format.cDepthBits = 0;
-
-			//Ativa e verifica se o formato de pixel escolhido é valido.
-			int pixel_format_id = ChoosePixelFormat((*_context_info)._device_context, &pixel_format);
-			if(pixel_format_id == 0) {
-				char *lpMsgBuf;
-				DWORD dw = GetLastError(); 
-
-				FormatMessageA(
-					FORMAT_MESSAGE_ALLOCATE_BUFFER | 
-					FORMAT_MESSAGE_FROM_SYSTEM |
-					FORMAT_MESSAGE_IGNORE_INSERTS,
-					NULL,
-					dw,
-					MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-					(LPSTR)&lpMsgBuf,
-					0, NULL );
-				ThrowDet(tokurei::CreateError, "Error: %s", lpMsgBuf);
-			}
-			if(SetPixelFormat((*_context_info)._device_context, pixel_format_id, &pixel_format) == FALSE) {
-				ThrowDet(tokurei::CreateError, "Error: %d", GetLastError());
-			}
+			PixelFormat pf(*_window, BPP::c32, Depth::d24, true);
+			pf.set(*_window);
 
 			//Cria e ativa o contexto do graphic primario.
 			(*_context_info)._opengl_context = wglCreateContext((*_context_info)._device_context);
@@ -89,54 +63,67 @@ namespace cb {
 			if(wglewInit() != GLEW_OK) {
 				Throw(tokurei::CreateError);
 			}
+		}
 
-			std::string version_name;
-			//Prepara os atributos para a criação do contexto do OpenGL 2.1
-			int attribs[] = {
-				WGL_CONTEXT_MAJOR_VERSION_ARB, 0,
-				WGL_CONTEXT_MINOR_VERSION_ARB, 0,
-				WGL_CONTEXT_FLAGS_ARB, 0,
-				0
-			};
+		GLContext::GLContext(video::Window &iwindow, Version iversion) {
+			_context_info << new w32GLContextInfo;
+			_dummy = false;
+			_is_active = false;
 
-			//Seleciona a versão requisitada.
-			if(GLEW_VERSION_4_3 && iversion >= Version::v43) {
-				base::log.nothing("OpenGLContext::OpenGLContext() : OpenGL 4.3 e GLSL 4.30 escolhidos.");
-				attribs[1] = 4;
-				attribs[3] = 3;
-				version_name = "OpenGL 4.3 - GLSL 4.30";
-				_version = Version::v43;
-			} else if(GLEW_VERSION_3_3 && iversion >= Version::v33) {
-				base::log.nothing("OpenGLContext::OpenGLContext() : OpenGL 3.3 e GLSL 3.30 escolhidos.");
-				attribs[1] = 3;
-				attribs[3] = 3;
-				version_name = "OpenGL 3.3 - GLSL 3.30";
-				_version = Version::v33;
-			} else if(GLEW_VERSION_3_0 && iversion >= Version::v30) {
-				base::log.nothing("OpenGLContext::OpenGLContext() : OpenGL 3.0 e GLSL 1.30 escolhidos.");
-				attribs[1] = 3;
-				attribs[3] = 0;
-				version_name = "OpenGL 3.0 - GLSL 1.30";
-				_version = Version::v30;
-			} else if(GLEW_VERSION_2_1 && iversion >= Version::v21) {
-				base::log.nothing("OpenGLContext::OpenGLContext() : OpenGL 2.1 e GLSL 1.20 escolhidos.");
-				attribs[1] = 2;
-				attribs[3] = 1;
-				version_name = "OpenGL 2.1 - GLSL 1.20";
-				_version = Version::v21;
-			} else {
-				//Exceção lançada caso nenhuma versão suportada estiver disponivel.
-				Throw(tokurei::CreateError);
-			}
+			_window = &iwindow;
+
+			//Inicializa o device context para a criação do contexto do OpenGL.
+			(*_context_info)._device_context = GetDC((*_window->info()).window);
+
+			GLContext *dummy = new GLContext;
+
+			PixelFormat pf(iwindow, BPP::c32, Depth::d24, true, true, 8);
+			pf.set(iwindow);
 
 			//Verifica se a criação de contextos de versões específicas está disponivel.
 			if(WGLEW_ARB_create_context) {
-				//Cria o contexto específico e substitui o antigo contexto.
-				HGLRC temp = (*_context_info)._opengl_context;
+				std::string version_name;
+				//Prepara os atributos para a criação do contexto do OpenGL 2.1
+				int attribs[] = {
+					WGL_CONTEXT_MAJOR_VERSION_ARB, 0,
+					WGL_CONTEXT_MINOR_VERSION_ARB, 0,
+					WGL_CONTEXT_FLAGS_ARB, 0,
+					0
+				};
+
+				//Seleciona a versão requisitada.
+				if(GLEW_VERSION_4_3 && iversion >= Version::v43) {
+					base::log.nothing("OpenGLContext::OpenGLContext() : OpenGL 4.3 e GLSL 4.30 escolhidos.");
+					attribs[1] = 4;
+					attribs[3] = 3;
+					version_name = "OpenGL 4.3 - GLSL 4.30";
+					_version = Version::v43;
+				} else if(GLEW_VERSION_3_3 && iversion >= Version::v33) {
+					base::log.nothing("OpenGLContext::OpenGLContext() : OpenGL 3.3 e GLSL 3.30 escolhidos.");
+					attribs[1] = 3;
+					attribs[3] = 3;
+					version_name = "OpenGL 3.3 - GLSL 3.30";
+					_version = Version::v33;
+				} else if(GLEW_VERSION_3_0 && iversion >= Version::v30) {
+					base::log.nothing("OpenGLContext::OpenGLContext() : OpenGL 3.0 e GLSL 1.30 escolhidos.");
+					attribs[1] = 3;
+					attribs[3] = 0;
+					version_name = "OpenGL 3.0 - GLSL 1.30";
+					_version = Version::v30;
+				} else if(GLEW_VERSION_2_1 && iversion >= Version::v21) {
+					base::log.nothing("OpenGLContext::OpenGLContext() : OpenGL 2.1 e GLSL 1.20 escolhidos.");
+					attribs[1] = 2;
+					attribs[3] = 1;
+					version_name = "OpenGL 2.1 - GLSL 1.20";
+					_version = Version::v21;
+				} else {
+					//Exceção lançada caso nenhuma versão suportada estiver disponivel.
+					Throw(tokurei::CreateError);
+				}
+
 				(*_context_info)._opengl_context = wglCreateContextAttribsARB((*_context_info)._device_context, 0, attribs);
-				wglMakeCurrent(NULL, NULL);
-				wglDeleteContext(temp);
-				wglMakeCurrent((*_context_info)._device_context, (*_context_info)._opengl_context);
+				delete dummy;
+				activate();
 
 				//Inicializa a GLEW
 				if(glewInit() != GLEW_OK) {
@@ -150,13 +137,34 @@ namespace cb {
 
 				base::log.nothing("OpenGLContext::OpenGLContext() : Contexto OpenGL criado: %s", version_name.c_str());
 			} else {
+				delete dummy;
+
+				_version = Version::Legacy;
+
+				(*_context_info)._opengl_context = wglCreateContext((*_context_info)._device_context);
+				activate();
+
+				//Inicializa a GLEW
+				if(glewInit() != GLEW_OK) {
+					Throw(tokurei::CreateError);
+				}
+
+				//Inicializa a WGLEW
+				if(wglewInit() != GLEW_OK) {
+					Throw(tokurei::CreateError);
+				}
+
 				base::log.nothing("OpenGLContext::OpenGLContext() : Contexto OpenGL não foi possivel criar o contexto específico.");
 			}
 		}
 
 		GLContext::~GLContext() {
+			video::Window *win = _window;
 			unbind();
-
+			wglDeleteContext((*_context_info)._opengl_context);
+			if(_dummy) {
+				delete win;
+			}
 			delete &_context_info;
 		}
 

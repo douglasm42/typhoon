@@ -11,7 +11,7 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <graphic/VertexBuffer.h>
+#include <cb/graphic/VertexBuffer.h>
 
 #include <graphic/GLEWmx.h>
 

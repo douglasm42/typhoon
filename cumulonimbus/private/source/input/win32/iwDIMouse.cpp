@@ -13,7 +13,7 @@
  */
 #include <input/win32/DIMouse.h>
 
-#include <base/Log.h>
+#include <cb/base/Log.h>
 
 namespace cb {
 	namespace input {

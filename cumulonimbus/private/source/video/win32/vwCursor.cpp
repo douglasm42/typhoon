@@ -11,12 +11,12 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <video/Cursor.h>
+#include <cb/video/Cursor.h>
 
-#include <base/Exception.h>
-#include <base/Log.h>
+#include <cb/base/Exception.h>
+#include <cb/base/Log.h>
 
-#include <video/Window.h>
+#include <cb/video/Window.h>
 
 #include <video/win32/Windows.h>
 #include <video/win32/WindowInfo.h>

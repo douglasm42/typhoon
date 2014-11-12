@@ -13,10 +13,10 @@
  */
 #pragma once
 
-#include <video/video.h>
+#include <cb/video/video.h>
 
 #include <video/win32/Windows.h>
-#include <data/Bitmap.h>
+#include <cb/data/Bitmap.h>
 
 namespace cb {
 	namespace video {

@@ -12,7 +12,7 @@
  * ============================================================================
  */
 #pragma once
-#include <graphic/Texture.h>
+#include <cb/graphic/Texture.h>
 
 #include <graphic/GLEWmx.h>
 

@@ -12,12 +12,12 @@
  * ============================================================================
  */
 #pragma once
-#include <input/input.h>
+#include <cb/input/input.h>
 
 #include <video/win32/Windows.h>
 #include <XInput.h>
 
-#include <input/Key.h>
+#include <cb/input/Key.h>
 
 namespace cb {
 	namespace input {

@@ -14,10 +14,12 @@
 #include <input/win32/XInput.h>
 
 #include <video/win32/Windows.h>
-#include <input/EventHub.h>
-#include <input/Key.h>
+#include <cb/input/EventHub.h>
+#include <cb/input/Key.h>
 
-#include <math/math.h>
+#include <cb/base/Log.h>
+
+#include <cb/math/math.h>
 
 namespace cb {
 	namespace input {
@@ -137,12 +139,12 @@ namespace cb {
 			while(result == ERROR_SUCCESS) {
 				if(keystroke.Flags & XINPUT_KEYSTROKE_KEYDOWN) {
 					_event_hub->onKeyPress(Key(
-						Key::User(Key::Player1 + keystroke.UserIndex),
+						1 + keystroke.UserIndex,
 						translateVK(keystroke.VirtualKey)
 					));
 				} else if(keystroke.Flags & XINPUT_KEYSTROKE_KEYUP) {
 					_event_hub->onKeyRelease(Key(
-						Key::User(Key::Player1 + keystroke.UserIndex),
+						1 + keystroke.UserIndex,
 						translateVK(keystroke.VirtualKey)
 					));
 				}
@@ -152,54 +154,56 @@ namespace cb {
 
 			XINPUT_STATE state;
 			for(DWORD i=0 ; i<4 ; i++) {
-				XInputGetState(i, &state);
-				if(_state_old[i].bLeftTrigger != state.Gamepad.bLeftTrigger) {
-					_event_hub->onKeyMove(
-						Key(Key::User(Key::Player1 + i), Key::XbLTrigger),
-						float(state.Gamepad.bLeftTrigger) / 255.0f
+				DWORD result = XInputGetState(i, &state);
+				if(result == ERROR_SUCCESS) {
+					if(_state_old[i].bLeftTrigger != state.Gamepad.bLeftTrigger) {
+						_event_hub->onKeyMove(
+							Key(1 + i, Key::XbLTrigger),
+							float(state.Gamepad.bLeftTrigger) / 255.0f
+						);
+						_state_old[i].bLeftTrigger = state.Gamepad.bLeftTrigger;
+					}
+
+					if(_state_old[i].bRightTrigger != state.Gamepad.bRightTrigger) {
+						_event_hub->onKeyMove(
+							Key(1 + i, Key::XbRTrigger),
+							float(state.Gamepad.bRightTrigger) / 255.0f
+						);
+						_state_old[i].bRightTrigger = state.Gamepad.bRightTrigger;
+					}
+
+					fireThumbEvents(
+						Key(1 + i, Key::XbLThumbRight),
+						Key(1 + i, Key::XbLThumbLeft),
+						state.Gamepad.sThumbLX,
+						_state_old[i].sThumbLX,
+						XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE
 					);
-					_state_old[i].bLeftTrigger = state.Gamepad.bLeftTrigger;
-				}
 
-				if(_state_old[i].bRightTrigger != state.Gamepad.bRightTrigger) {
-					_event_hub->onKeyMove(
-						Key(Key::User(Key::Player1 + i), Key::XbRTrigger),
-						float(state.Gamepad.bRightTrigger) / 255.0f
+					fireThumbEvents(
+						Key(1 + i, Key::XbLThumbUp),
+						Key(1 + i, Key::XbLThumbDown),
+						state.Gamepad.sThumbLY,
+						_state_old[i].sThumbLY,
+						XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE
 					);
-					_state_old[i].bRightTrigger = state.Gamepad.bRightTrigger;
+
+					fireThumbEvents(
+						Key(1 + i, Key::XbRThumbRight),
+						Key(1 + i, Key::XbRThumbLeft),
+						state.Gamepad.sThumbRX,
+						_state_old[i].sThumbRX,
+						XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE
+					);
+
+					fireThumbEvents(
+						Key(1 + i, Key::XbRThumbUp),
+						Key(1 + i, Key::XbRThumbDown),
+						state.Gamepad.sThumbRY,
+						_state_old[i].sThumbRY,
+						XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE
+					);
 				}
-
-				fireThumbEvents(
-					Key(Key::User(Key::Player1 + i), Key::XbLThumbRight),
-					Key(Key::User(Key::Player1 + i), Key::XbLThumbLeft),
-					state.Gamepad.sThumbLX,
-					_state_old[i].sThumbLX,
-					XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE
-				);
-
-				fireThumbEvents(
-					Key(Key::User(Key::Player1 + i), Key::XbLThumbUp),
-					Key(Key::User(Key::Player1 + i), Key::XbLThumbDown),
-					state.Gamepad.sThumbLY,
-					_state_old[i].sThumbLY,
-					XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE
-				);
-
-				fireThumbEvents(
-					Key(Key::User(Key::Player1 + i), Key::XbRThumbRight),
-					Key(Key::User(Key::Player1 + i), Key::XbRThumbLeft),
-					state.Gamepad.sThumbRX,
-					_state_old[i].sThumbRX,
-					XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE
-				);
-
-				fireThumbEvents(
-					Key(Key::User(Key::Player1 + i), Key::XbRThumbUp),
-					Key(Key::User(Key::Player1 + i), Key::XbRThumbDown),
-					state.Gamepad.sThumbRY,
-					_state_old[i].sThumbRY,
-					XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE
-				);
 			}
 		}
 	}  // namespace input

@@ -13,12 +13,12 @@
  */
 #include <input/win32/WindowProc.h>
 
-#include <video/Window.h>
+#include <cb/video/Window.h>
 
-#include <base/Log.h>
-#include <base/Exception.h>
+#include <cb/base/Log.h>
+#include <cb/base/Exception.h>
 
-#include <input/Key.h>
+#include <cb/input/Key.h>
 
 #include <map>
 
@@ -676,6 +676,7 @@ namespace cb {
 					return 0;
 				case WM_SIZE:
 					if(LOWORD(ilparam) && HIWORD(ilparam)) {
+						base::log.nothing("size: %dx%d", LOWORD(ilparam), HIWORD(ilparam));
 						window->eventhub().onResize(LOWORD(ilparam), HIWORD(ilparam));
 						window->cursor().onResize();
 					}
@@ -757,11 +758,10 @@ namespace cb {
 						return 0;
 					}
 				case WM_NCCALCSIZE: {
+						base::log.nothing("w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. %d", iwparam);
 						if(window->placement().border() == video::Border::Empty) {
-							base::log.nothing("w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Empty");
-							return 0;
+							return WVR_REDRAW;
 						} else {
-							base::log.nothing("w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. Not Empty");
 							return DefWindowProc(iwindow_handler,imessage,iwparam,ilparam);
 						}
 					}

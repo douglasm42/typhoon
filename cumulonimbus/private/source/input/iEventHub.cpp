@@ -11,15 +11,15 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <input/EventHub.h>
+#include <cb/input/EventHub.h>
 
-#include <input/KeyListener.h>
-#include <input/CharListener.h>
-#include <input/MouseListener.h>
-#include <input/WindowListener.h>
-#include <input/QuitListener.h>
+#include <cb/input/KeyListener.h>
+#include <cb/input/CharListener.h>
+#include <cb/input/MouseListener.h>
+#include <cb/input/WindowListener.h>
+#include <cb/input/QuitListener.h>
 
-#include <base/Exception.h>
+#include <cb/base/Exception.h>
 
 namespace cb {
 	namespace input {
