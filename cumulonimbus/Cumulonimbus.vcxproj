@@ -18,6 +18,137 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\cb\base\base.h" />
+    <ClInclude Include="include\cb\base\Date.h" />
+    <ClInclude Include="include\cb\base\Entry.h" />
+    <ClInclude Include="include\cb\base\Exception.h" />
+    <ClInclude Include="include\cb\base\FormatMacro.h" />
+    <ClInclude Include="include\cb\base\Kin.h" />
+    <ClInclude Include="include\cb\base\Log.h" />
+    <ClInclude Include="include\cb\base\LogFile.h" />
+    <ClInclude Include="include\cb\base\Random.h" />
+    <ClInclude Include="include\cb\base\Serializable.h" />
+    <ClInclude Include="include\cb\base\Setup.h" />
+    <ClInclude Include="include\cb\base\String.h" />
+    <ClInclude Include="include\cb\base\Timer.h" />
+    <ClInclude Include="include\cb\base\Types.h" />
+    <ClInclude Include="include\cb\data\BinStream.h" />
+    <ClInclude Include="include\cb\data\Bitmap.h" />
+    <ClInclude Include="include\cb\data\data.h" />
+    <ClInclude Include="include\cb\data\Database.h" />
+    <ClInclude Include="include\cb\data\File.h" />
+    <ClInclude Include="include\cb\data\Font.h" />
+    <ClInclude Include="include\cb\data\JSON.h" />
+    <ClInclude Include="include\cb\data\Mesh.h" />
+    <ClInclude Include="include\cb\data\XML.h" />
+    <ClInclude Include="include\cb\graphic\Color.h" />
+    <ClInclude Include="include\cb\graphic\DummyGLContext.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\FrameBuffer.h" />
+    <ClInclude Include="include\cb\graphic\GL.h" />
+    <ClInclude Include="include\cb\graphic\GLContext.h" />
+    <ClInclude Include="include\cb\graphic\GLEWmx.h" />
+    <ClInclude Include="include\cb\graphic\GLTypedefs.h" />
+    <ClInclude Include="include\cb\graphic\graphic.h" />
+    <ClInclude Include="include\cb\graphic\Legacy.h" />
+    <ClInclude Include="include\cb\graphic\PixelFormat.h" />
+    <ClInclude Include="include\cb\graphic\Program.h" />
+    <ClInclude Include="include\cb\graphic\Shader.h" />
+    <ClInclude Include="include\cb\graphic\Texture.h" />
+    <ClInclude Include="include\cb\graphic\TextureTranslate.h" />
+    <ClInclude Include="include\cb\graphic\VertexBuffer.h" />
+    <ClInclude Include="include\cb\input\CharListener.h" />
+    <ClInclude Include="include\cb\input\EventHub.h" />
+    <ClInclude Include="include\cb\input\EventLoop.h" />
+    <ClInclude Include="include\cb\input\input.h" />
+    <ClInclude Include="include\cb\input\Key.h" />
+    <ClInclude Include="include\cb\input\KeyListener.h" />
+    <ClInclude Include="include\cb\input\MouseListener.h" />
+    <ClInclude Include="include\cb\input\QuitListener.h" />
+    <ClInclude Include="include\cb\input\win32\DIDevice.h" />
+    <ClInclude Include="include\cb\input\win32\DIMouse.h" />
+    <ClInclude Include="include\cb\input\win32\WindowProc.h" />
+    <ClInclude Include="include\cb\input\win32\XInput.h" />
+    <ClInclude Include="include\cb\input\WindowListener.h" />
+    <ClInclude Include="include\cb\math\custom\origin.h" />
+    <ClInclude Include="include\cb\math\math.h" />
+    <ClInclude Include="include\cb\math\origin.h" />
+    <ClInclude Include="include\cb\video\Cursor.h" />
+    <ClInclude Include="include\cb\video\Display.h" />
+    <ClInclude Include="include\cb\video\DummyWindow.h" />
+    <ClInclude Include="include\cb\video\Icon.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\cb\video\Message.h" />
+    <ClInclude Include="include\cb\video\Placement.h" />
+    <ClInclude Include="include\cb\video\video.h" />
+    <ClInclude Include="include\cb\video\win32\BitmapToIcon.h" />
+    <ClInclude Include="include\cb\video\win32\WindowClass.h" />
+    <ClInclude Include="include\cb\video\win32\Windows.h" />
+    <ClInclude Include="include\cb\video\win32\WindowStyle.h" />
+    <ClInclude Include="include\cb\video\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\base\bDate.cpp" />
+    <ClCompile Include="source\base\bLog.cpp" />
+    <ClCompile Include="source\base\bLogFile.cpp" />
+    <ClCompile Include="source\base\bString.cpp" />
+    <ClCompile Include="source\data\dBinStream.cpp" />
+    <ClCompile Include="source\data\dBitmap.cpp" />
+    <ClCompile Include="source\data\dDatabase.cpp" />
+    <ClCompile Include="source\data\dDatabaseColumn.cpp" />
+    <ClCompile Include="source\data\dDatabaseQuerry.cpp" />
+    <ClCompile Include="source\data\dFile.cpp" />
+    <ClCompile Include="source\data\dFont.cpp" />
+    <ClCompile Include="source\data\dJSON.cpp" />
+    <ClCompile Include="source\data\dMesh.cpp" />
+    <ClCompile Include="source\data\dXML.cpp" />
+    <ClCompile Include="source\dependencies\glew.c" />
+    <ClCompile Include="source\dependencies\sqlite3.c" />
+    <ClCompile Include="source\graphic\gColor.cpp" />
+    <ClCompile Include="source\graphic\gFrameBuffer.cpp" />
+    <ClCompile Include="source\graphic\gGL.cpp" />
+    <ClCompile Include="source\graphic\gGLEWmx.cpp" />
+    <ClCompile Include="source\graphic\gLegacy.cpp" />
+    <ClCompile Include="source\graphic\gProgram.cpp" />
+    <ClCompile Include="source\graphic\gShader.cpp" />
+    <ClCompile Include="source\graphic\gTexture.cpp" />
+    <ClCompile Include="source\graphic\gVertexBuffer.cpp" />
+    <ClCompile Include="source\graphic\win32\gwDummyGLContext.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="source\graphic\win32\gwGLContext.cpp" />
+    <ClCompile Include="source\graphic\win32\gwPixelFormat.cpp" />
+    <ClCompile Include="source\input\iEventHub.cpp" />
+    <ClCompile Include="source\input\iEventLoop.cpp" />
+    <ClCompile Include="source\input\iKey.cpp" />
+    <ClCompile Include="source\input\win32\iwDIDevice.cpp" />
+    <ClCompile Include="source\input\win32\iwDIMouse.cpp" />
+    <ClCompile Include="source\input\win32\iwEventLoop.cpp" />
+    <ClCompile Include="source\input\win32\iwWindowProc.cpp" />
+    <ClCompile Include="source\input\win32\iwXInput.cpp" />
+    <ClCompile Include="source\video\vPlacement.cpp" />
+    <ClCompile Include="source\video\win32\vwBitmapToIcon.cpp" />
+    <ClCompile Include="source\video\win32\vwCursor.cpp" />
+    <ClCompile Include="source\video\win32\vwDisplay.cpp" />
+    <ClCompile Include="source\video\win32\vwDummyWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="source\video\win32\vwIcon.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="source\video\win32\vwMessage.cpp" />
+    <ClCompile Include="source\video\win32\vwPlacement.cpp" />
+    <ClCompile Include="source\video\win32\vwWindow.cpp" />
+    <ClCompile Include="source\video\win32\vwWindowClass.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{68AF355D-C708-4269-B873-11E599811F52}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -68,29 +199,29 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)\dependencies\include;$(ProjectDir)\dependencies\include\freetype2;$(ProjectDir)private\include;$(ProjectDir)public\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)\dependencies\lib\$(PlatformShortName)\$(Configuration);$(DXSDK_DIR)Lib\$(PlatformShortName);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)Include;$(SolutionDir)\dependencies\include;$(SolutionDir)\dependencies\include\freetype2;$(ProjectDir)\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\dependencies\lib\$(PlatformShortName)\$(Configuration);$(DXSDK_DIR)Lib\$(PlatformShortName);$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(PlatformShortName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)\dependencies\include;$(ProjectDir)\dependencies\include\freetype2;$(ProjectDir)private\include;$(ProjectDir)public\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)\dependencies\lib\$(PlatformShortName)\$(Configuration);$(DXSDK_DIR)Lib\$(PlatformShortName);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)Include;$(SolutionDir)\dependencies\include;$(SolutionDir)\dependencies\include\freetype2;$(ProjectDir)\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\dependencies\lib\$(PlatformShortName)\$(Configuration);$(DXSDK_DIR)Lib\$(PlatformShortName);$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(PlatformShortName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)\dependencies\include;$(ProjectDir)\dependencies\include\freetype2;$(ProjectDir)private\include;$(ProjectDir)public\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)\dependencies\lib\$(PlatformShortName)\$(Configuration);$(DXSDK_DIR)Lib\$(PlatformShortName);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)Include;$(SolutionDir)\dependencies\include;$(SolutionDir)\dependencies\include\freetype2;$(ProjectDir)\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\dependencies\lib\$(PlatformShortName)\$(Configuration);$(DXSDK_DIR)Lib\$(PlatformShortName);$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(PlatformShortName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)\dependencies\include;$(ProjectDir)\dependencies\include\freetype2;$(ProjectDir)private\include;$(ProjectDir)public\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)\dependencies\lib\$(PlatformShortName)\$(Configuration);$(DXSDK_DIR)Lib\$(PlatformShortName);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)Include;$(SolutionDir)\dependencies\include;$(SolutionDir)\dependencies\include\freetype2;$(ProjectDir)\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\dependencies\lib\$(PlatformShortName)\$(Configuration);$(DXSDK_DIR)Lib\$(PlatformShortName);$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(PlatformShortName)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -162,212 +293,6 @@
       <AdditionalDependencies>freetype253MT.lib;libpng16.lib;zlibstat.lib;opengl32.lib;glu32.lib;dinput8.lib;dxguid.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="private\include\graphic\GLEWmx.h" />
-    <ClInclude Include="private\include\graphic\TextureTranslate.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="private\include\input\win32\DIDevice.h" />
-    <ClInclude Include="private\include\input\win32\DIMouse.h" />
-    <ClInclude Include="private\include\input\win32\WindowProc.h" />
-    <ClInclude Include="private\include\input\win32\XInput.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="private\include\video\win32\BitmapToIcon.h" />
-    <ClInclude Include="private\include\video\win32\Placement.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="private\include\video\win32\WindowClass.h" />
-    <ClInclude Include="private\include\video\win32\WindowInfo.h" />
-    <ClInclude Include="private\include\video\win32\Windows.h" />
-    <ClInclude Include="private\include\video\win32\WindowStyle.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="public\include\cb\base\base.h" />
-    <ClInclude Include="public\include\cb\base\Date.h" />
-    <ClInclude Include="public\include\cb\base\Entry.h" />
-    <ClInclude Include="public\include\cb\base\Exception.h" />
-    <ClInclude Include="public\include\cb\base\FormatMacro.h" />
-    <ClInclude Include="public\include\cb\base\Kin.h" />
-    <ClInclude Include="public\include\cb\base\Log.h" />
-    <ClInclude Include="public\include\cb\base\LogFile.h" />
-    <ClInclude Include="public\include\cb\base\Random.h" />
-    <ClInclude Include="public\include\cb\base\Serializable.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="public\include\cb\base\Setup.h" />
-    <ClInclude Include="public\include\cb\base\String.h" />
-    <ClInclude Include="public\include\cb\base\Timer.h" />
-    <ClInclude Include="public\include\cb\base\Types.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="public\include\cb\data\BinStream.h" />
-    <ClInclude Include="public\include\cb\data\Bitmap.h" />
-    <ClInclude Include="public\include\cb\data\data.h" />
-    <ClInclude Include="public\include\cb\data\Database.h" />
-    <ClInclude Include="public\include\cb\data\File.h" />
-    <ClInclude Include="public\include\cb\data\Font.h" />
-    <ClInclude Include="public\include\cb\data\JSON.h" />
-    <ClInclude Include="public\include\cb\data\Mesh.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="public\include\cb\data\XML.h" />
-    <ClInclude Include="public\include\cb\graphic\Color.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="public\include\cb\graphic\FrameBuffer.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="public\include\cb\graphic\GL.h" />
-    <ClInclude Include="public\include\cb\graphic\GLContext.h" />
-    <ClInclude Include="public\include\cb\graphic\GLTypedefs.h" />
-    <ClInclude Include="public\include\cb\graphic\graphic.h" />
-    <ClInclude Include="public\include\cb\graphic\Legacy.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="public\include\cb\graphic\PixelFormat.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="public\include\cb\graphic\Program.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="public\include\cb\graphic\Shader.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="public\include\cb\graphic\VertexBuffer.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="public\include\cb\graphic\Texture.h" />
-    <ClInclude Include="public\include\cb\input\CharListener.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="public\include\cb\input\EventHub.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="public\include\cb\input\EventLoop.h" />
-    <ClInclude Include="public\include\cb\input\input.h" />
-    <ClInclude Include="public\include\cb\input\Key.h" />
-    <ClInclude Include="public\include\cb\input\KeyListener.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="public\include\cb\input\MouseListener.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="public\include\cb\input\QuitListener.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="public\include\cb\input\WindowListener.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="public\include\cb\math\custom\origin.h" />
-    <ClInclude Include="public\include\cb\math\math.h" />
-    <ClInclude Include="public\include\cb\math\origin.h" />
-    <ClInclude Include="public\include\cb\video\Cursor.h" />
-    <ClInclude Include="public\include\cb\video\Display.h" />
-    <ClInclude Include="public\include\cb\video\Message.h" />
-    <ClInclude Include="public\include\cb\video\Placement.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="public\include\cb\video\video.h" />
-    <ClInclude Include="public\include\cb\video\Window.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="dependencies\source\glew.c" />
-    <ClCompile Include="dependencies\source\pugixml.cpp" />
-    <ClCompile Include="dependencies\source\sqlite3.c" />
-    <ClCompile Include="private\source\base\bDate.cpp" />
-    <ClCompile Include="private\source\base\bLog.cpp" />
-    <ClCompile Include="private\source\base\bLogFile.cpp" />
-    <ClCompile Include="private\source\base\bString.cpp" />
-    <ClCompile Include="private\source\data\dBinStream.cpp" />
-    <ClCompile Include="private\source\data\dBitmap.cpp" />
-    <ClCompile Include="private\source\data\dDatabase.cpp" />
-    <ClCompile Include="private\source\data\dDatabaseColumn.cpp" />
-    <ClCompile Include="private\source\data\dDatabaseQuerry.cpp" />
-    <ClCompile Include="private\source\data\dFile.cpp" />
-    <ClCompile Include="private\source\data\dFont.cpp" />
-    <ClCompile Include="private\source\data\dJSON.cpp" />
-    <ClCompile Include="private\source\data\dMesh.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="private\source\data\dXML.cpp" />
-    <ClCompile Include="private\source\graphic\gFrameBuffer.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="private\source\graphic\gGL.cpp" />
-    <ClCompile Include="private\source\graphic\gGLEWmx.cpp" />
-    <ClCompile Include="private\source\graphic\gLegacy.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="private\source\graphic\gProgram.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="private\source\graphic\gColor.cpp" />
-    <ClCompile Include="private\source\graphic\gShader.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="private\source\graphic\gTexture.cpp" />
-    <ClCompile Include="private\source\graphic\gVertexBuffer.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="private\source\graphic\win32\gwGLContext.cpp" />
-    <ClCompile Include="private\source\graphic\win32\gwPixelFormat.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="private\source\input\iEventHub.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="private\source\input\iEventLoop.cpp" />
-    <ClCompile Include="private\source\input\iKey.cpp" />
-    <ClCompile Include="private\source\input\win32\iwDIDevice.cpp" />
-    <ClCompile Include="private\source\input\win32\iwDIMouse.cpp" />
-    <ClCompile Include="private\source\input\win32\iwEventLoop.cpp" />
-    <ClCompile Include="private\source\input\win32\iwWindowProc.cpp" />
-    <ClCompile Include="private\source\input\win32\iwXInput.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="private\source\video\vPlacement.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="private\source\video\win32\vwBitmapToIcon.cpp" />
-    <ClCompile Include="private\source\video\win32\vwCursor.cpp" />
-    <ClCompile Include="private\source\video\win32\vwDisplay.cpp" />
-    <ClCompile Include="private\source\video\win32\vwMessage.cpp" />
-    <ClCompile Include="private\source\video\win32\vwWindow.cpp" />
-    <ClCompile Include="private\source\video\win32\vwWindowClass.cpp" />
-    <ClCompile Include="private\source\video\win32\vwPlacement.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

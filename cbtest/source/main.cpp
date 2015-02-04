@@ -34,6 +34,7 @@
 #include <cb/graphic/Shader.h>
 #include <cb/graphic/Program.h>
 #include <cb/graphic/FrameBuffer.h>
+#include <cb/graphic/PixelFormat.h>
 
 #include <cb/math/math.h>
 #include <cb/math/glm/gtc/matrix_inverse.hpp>
@@ -114,11 +115,20 @@ public:
 int cbEntry(int argc, char **argv) {
 	base::log.init("log.txt", "test.base");
 
-	video::Window win(base::utf16("Testando!"), 100, 100, 500, 500, false, false, video::Border::System);
+	video::Placement placement(100,100,500,500,false, false);
+
+	video::Window win("Testando!", video::Border::System);
+	video::Window winBorderless("Testando!", video::Border::Empty);
+	bool border = true;
+	win.placement(placement);
 
 	graphic::GLContext context(win, graphic::Version::v30);
 
 	win.show();
+	context.activate();
+
+	graphic::PixelFormat pf(winBorderless, graphic::BPP::c32, graphic::Depth::d24, true, true, 8);
+	pf.set(winBorderless);
 
 	data::File curfile;
 
@@ -126,21 +136,23 @@ int cbEntry(int argc, char **argv) {
 	{
 		data::ubBitmapRGBA curimg(curfile);
 		win.cursor().add("hand.point", curimg, 3, 0);
+		winBorderless.cursor().add("hand.point", curimg, 3, 0);
 	}
 
 	curfile.load("cursor_hand_point_click.png");
 	{
 		data::ubBitmapRGBA curimg(curfile);
 		win.cursor().add("hand.click", curimg, 3, 0);
+		winBorderless.cursor().add("hand.click", curimg, 3, 0);
 	}
 
 	curfile.load("cumulonimbus_icon.png");
 	{
 		data::ubBitmapRGBA curimg(curfile);
 		win.icon(curimg);
+		winBorderless.icon(curimg);
 	}
 
-	context.activate();
 	graphic::Texture texuvmap(graphic::tex::Target::Tex2D, graphic::tex::Format::RGBA8);
 	curfile.load("gizmos/grid.png");
 	{
@@ -239,6 +251,7 @@ int cbEntry(int argc, char **argv) {
 	base::log.nothing("Aqui3!");
 
 	win.cursor().select("hand.point");
+	winBorderless.cursor().select("hand.point");
 	base::log.nothing("Iniciando loop!");
 
 	graphic::gl::clearColor(graphic::tango::sky1);
@@ -320,6 +333,12 @@ int cbEntry(int argc, char **argv) {
 	win.eventhub().bind((input::WindowListener*)&ltn);
 	win.eventhub().bind((input::QuitListener*)&ltn);
 
+	winBorderless.eventhub().bind((input::KeyListener*)&ltn);
+	winBorderless.eventhub().bind((input::CharListener*)&ltn);
+	winBorderless.eventhub().bind((input::MouseListener*)&ltn);
+	winBorderless.eventhub().bind((input::WindowListener*)&ltn);
+	winBorderless.eventhub().bind((input::QuitListener*)&ltn);
+
 	base::log.nothing("size: %dx%d", ltn.width, ltn.height);
 	ltn.width = win.placement().width();
 	ltn.height = win.placement().height();
@@ -329,7 +348,7 @@ int cbEntry(int argc, char **argv) {
 	float dir = 1.0f;
 	float vel = 1.0f;
 
-	while(!win.empty() && input::EventLoop::update()) {
+	while(input::EventLoop::update()) {
 		t.tick();
 		light += dir*vel*t.delta();
 		if(light > 1.0f) {
@@ -353,13 +372,20 @@ int cbEntry(int argc, char **argv) {
 		}
 
 		if(ltn.border) {
-			video::Placement p = win.placement();
-			if(p.border() == video::Border::Empty) {
-				p.border(video::Border::System);
-			} else if(p.border() == video::Border::System) {
-				p.border(video::Border::Empty);
+			video::Placement p;
+			if(border) {
+				p = win.placement();
+				win.hide();
+				winBorderless.placement(p);
+				border = false;
+				context.bind(winBorderless);
+			} else {
+				p = winBorderless.placement();
+				winBorderless.hide();
+				win.placement(p);
+				border = true;
+				context.bind(win);
 			}
-			win.placement(p);
 		}
 
 		origin o;
