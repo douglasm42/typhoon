@@ -475,6 +475,14 @@ namespace cb {
 			virtual ~CubeMap();
 
 			void loadBlank(uint32 ilod, uint32 iwidth, uint32 iheight);
+
+			void loadBlankXp(uint32 ilod, uint32 iwidth, uint32 iheight);
+			void loadBlankXm(uint32 ilod, uint32 iwidth, uint32 iheight);
+			void loadBlankYp(uint32 ilod, uint32 iwidth, uint32 iheight);
+			void loadBlankYm(uint32 ilod, uint32 iwidth, uint32 iheight);
+			void loadBlankZp(uint32 ilod, uint32 iwidth, uint32 iheight);
+			void loadBlankZm(uint32 ilod, uint32 iwidth, uint32 iheight);
+
 			void loadImage(uint32 ilod, CubeMapFace iface, const data::Bitmap &ibmp);
 			void loadImage(uint32 ilod, const data::Bitmap &ibmp_xp, const data::Bitmap &ibmp_xm, const data::Bitmap &ibmp_yp, const data::Bitmap &ibmp_ym, const data::Bitmap &ibmp_zp, const data::Bitmap &ibmp_zm);
 
@@ -487,9 +495,40 @@ namespace cb {
 
 			void loadSubImage(uint32 ilod, CubeMapFace iface, const data::Bitmap &ibmp, uint32 ixoffset, uint32 iyoffset);
 
+			void loadSubImageXp(uint32 ilod, const data::Bitmap &ibmp, uint32 ixoffset, uint32 iyoffset);
+			void loadSubImageXm(uint32 ilod, const data::Bitmap &ibmp, uint32 ixoffset, uint32 iyoffset);
+			void loadSubImageYp(uint32 ilod, const data::Bitmap &ibmp, uint32 ixoffset, uint32 iyoffset);
+			void loadSubImageYm(uint32 ilod, const data::Bitmap &ibmp, uint32 ixoffset, uint32 iyoffset);
+			void loadSubImageZp(uint32 ilod, const data::Bitmap &ibmp, uint32 ixoffset, uint32 iyoffset);
+			void loadSubImageZm(uint32 ilod, const data::Bitmap &ibmp, uint32 ixoffset, uint32 iyoffset);
+
 			void addBlankLOD();
-			void addImageLOD(const data::Bitmap &ibmp);
-			void addCubeMapLOD(const data::Bitmap &ibmp_xp, const data::Bitmap &ibmp_xm, const data::Bitmap &ibmp_yp, const data::Bitmap &ibmp_ym, const data::Bitmap &ibmp_zp, const data::Bitmap &ibmp_zm);
+
+			void addBlankXpLOD();
+			void addBlankXmLOD();
+			void addBlankYpLOD();
+			void addBlankYmLOD();
+			void addBlankZpLOD();
+			void addBlankZmLOD();
+
+			void addImageLOD(CubeMapFace iface, const data::Bitmap &ibmp);
+			void addImageLOD(const data::Bitmap &ibmp_xp, const data::Bitmap &ibmp_xm, const data::Bitmap &ibmp_yp, const data::Bitmap &ibmp_ym, const data::Bitmap &ibmp_zp, const data::Bitmap &ibmp_zm);
+
+			void addImageXpLOD(const data::Bitmap &ibmp);
+			void addImageXmLOD(const data::Bitmap &ibmp);
+			void addImageYpLOD(const data::Bitmap &ibmp);
+			void addImageYmLOD(const data::Bitmap &ibmp);
+			void addImageZpLOD(const data::Bitmap &ibmp);
+			void addImageZmLOD(const data::Bitmap &ibmp);
+
+			void addSubImageLOD(CubeMapFace iface, const data::Bitmap &ibmp, uint32 ixoffset, uint32 iyoffset);
+
+			void addSubImageXpLOD(const data::Bitmap &ibmp, uint32 ixoffset, uint32 iyoffset);
+			void addSubImageXmLOD(const data::Bitmap &ibmp, uint32 ixoffset, uint32 iyoffset);
+			void addSubImageYpLOD(const data::Bitmap &ibmp, uint32 ixoffset, uint32 iyoffset);
+			void addSubImageYmLOD(const data::Bitmap &ibmp, uint32 ixoffset, uint32 iyoffset);
+			void addSubImageZpLOD(const data::Bitmap &ibmp, uint32 ixoffset, uint32 iyoffset);
+			void addSubImageZmLOD(const data::Bitmap &ibmp, uint32 ixoffset, uint32 iyoffset);
 
 			void setWrap(Wrap iwrap);
 			void setWrapS(Wrap iwrap);
