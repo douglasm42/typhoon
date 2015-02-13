@@ -11,156 +11,88 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <base/Setup.h>
-#ifdef CbWindows
+#include <cb/video/Cursor.h>
 
-#include <video/Cursor.h>
+#include <cb/base/Exception.h>
+#include <cb/base/Log.h>
 
-#include <base/Exception.h>
-#include <base/Log.h>
-
-#include <video/Window.h>
-
-#include <video/win32/Windows.h>
-#include <video/win32/WindowInfo.h>
-#include <video/win32/BitmapToIcon.h>
+#include <cb/video/win32/BitmapToIcon.h>
 
 namespace cb {
 	namespace video {
-		KinKey(kin::CursorHandler, HICON__);
-		KinKey(kin::WindowInfo, w32WindowInfo);
+		Cursor::Cursor(const data::ubBitmapRGBA &ibmp, size_t ixhotspot, size_t iyhotspot) {
+			HCURSOR cur = bitmapToIcon(ibmp, ixhotspot, iyhotspot, FALSE);
 
-		Cursor::Cursor(Window *iwindow):_window(iwindow), _show(true), _hold(false) {
-		}
-		
-		Cursor::~Cursor() {
-			SetCursor(NULL);
-			std::map<base::string, kin::CursorHandler>::iterator it;
-			for(it=_cursors.begin() ; it != _cursors.end() ; ++it) {
-				DestroyIcon(&it->second);
+			if(cur) {
+				_w_hcursor = cur;
+			} else {
+				Throw(tokurei::CreateError);
 			}
 		}
 
-		void Cursor::show(bool ishow) {
-			_show = ishow;
-			if(_show) {
+		Cursor::Cursor(const data::ubBitmapRGB &ibmp, size_t ixhotspot, size_t iyhotspot, u8vec3 itransparent) {
+			HCURSOR cur = bitmapToIcon(ibmp, ixhotspot, iyhotspot, itransparent, FALSE);
+
+			if(cur) {
+				_w_hcursor = cur;
+			} else {
+				Throw(tokurei::CreateError);
+			}
+		}
+
+		Cursor::~Cursor() {
+			DestroyIcon(_w_hcursor);
+		}
+
+		void Cursor::wSet(Cursor *icursor) {
+			SetCursor(icursor->wGetHCURSOR());
+		}
+
+		void Cursor::wShow(bool ishow_cursor) {
+			if(ishow_cursor) {
 				while(ShowCursor(TRUE) < 0);
 			} else {
 				while(ShowCursor(FALSE) >= 0);
 			}
 		}
 
-		bool Cursor::show() {
-			return _show;
-		}
-
-		void Cursor::add(const base::string &ikey, data::ubBitmapRGBA &ibmp, size_t ixhotspot, size_t iyhotspot) {
-			HCURSOR cur = bitmapToIcon(ibmp, ixhotspot, iyhotspot, FALSE);
-
-			if(cur) {
-				std::map<base::string, kin::CursorHandler>::iterator it = _cursors.find(ikey);
-				if(it != _cursors.end()) {
-					rem(ikey);
-				}
-				_cursors[ikey] << cur;
-			} else {
-				Throw(tokurei::CreateError);
-			}
-		}
-
-		void Cursor::add(const base::string &ikey, data::ubBitmapRGB &ibmp, size_t ixhotspot, size_t iyhotspot, math::u8vec3 itransparent) {
-			HCURSOR cur = bitmapToIcon(ibmp, ixhotspot, iyhotspot, itransparent, FALSE);
-
-			if(cur) {
-				std::map<base::string, kin::CursorHandler>::iterator it = _cursors.find(ikey);
-				if(it != _cursors.end()) {
-					rem(ikey);
-				}
-				_cursors[ikey] << cur;
-			} else {
-				Throw(tokurei::CreateError);
-			}
-		}
-
-		void Cursor::rem(const base::string &ikey) {
-			std::map<base::string, kin::CursorHandler>::iterator it = _cursors.find(ikey);
-			if(it != _cursors.end()) {
-				if(GetCursor() == &(it->second)) {
-					SetCursor(NULL);
-				}
-				if(it->second._pointer == _active._pointer) {
-					_active << nullptr;
-				}
-				DestroyIcon(&it->second);
-				_cursors.erase(it);
-			}
-		}
-
-		void Cursor::select(const base::string &ikey) {
-			std::map<base::string, kin::CursorHandler>::iterator it = _cursors.find(ikey);
-			if(it != _cursors.end()) {
-				if(it->second._pointer != _active._pointer) {
-					bool reset = false;
-					if(GetCursor() == &(_active)) {
-						reset = true;
-					}
-					_active._pointer = it->second._pointer;
-					if(reset) {
-						onCursorSet();
-					}
-				}
-			} else {
-				ThrowDet(tokurei::SetFailed, "Key: %s", ikey.c_str());
-			}
-		}
-
-		void Cursor::hold(bool ihold) {
-			_hold = ihold;
-			if(GetActiveWindow() == (*_window->info()).window) {
-				onActivate();
-			}
-		}
-
-		void Cursor::move(size_t ix, size_t iy) {
-			POINT pt = {ix, iy};
-			ClientToScreen((*_window->info()).window, &pt);
-			SetCursorPos(pt.x,pt.y);
-		}
-
-		void Cursor::onActivate() {
-			show(_show);
-			if(_hold) {
+		void Cursor::wHold(HWND iwindow, bool ihold_cursor) {
+			if(ihold_cursor) {
 				//Prende o cursor dentro da janela.
 				POINT p = {0, 0};
-				ClientToScreen((*_window->info()).window, &p);
+				ClientToScreen(iwindow, &p);
+
 				RECT rect;
-				GetClientRect((*_window->info()).window, &rect);
+				GetClientRect(iwindow, &rect);
 				rect.left += p.x;
 				rect.right += p.x;
 				rect.top += p.y;
 				rect.bottom += p.y;
 				ClipCursor(&rect);
 			} else {
-				//Desprende o cursor de dentro da janela.
 				ClipCursor(NULL);
 			}
 		}
 
-		void Cursor::onDeactivate() {
-			ClipCursor(NULL);
-			while(ShowCursor(TRUE) < 0);
-		}
-
-		void Cursor::onResize() {
-			if(GetActiveWindow() == (*_window->info()).window) {
-				onActivate();
+		void Cursor::wSetPosition(HWND iwindow, ivec2 iposition) {
+			POINT pt = {iposition.x, iposition.y};
+			if(!ClientToScreen(iwindow, &pt)) {
+				Throw(tokurei::SetFailed);
+			}
+			if(!SetCursorPos(pt.x,pt.y)) {
+				Throw(tokurei::SetFailed);
 			}
 		}
 
-		void Cursor::onCursorSet() {
-			SetCursor(&_active);
+		ivec2 Cursor::wGetPosition(HWND iwindow) {
+			POINT pt = {0,0};
+			if(!GetCursorPos(&pt)) {
+				Throw(tokurei::GetFailed);
+			}
+			if(!ScreenToClient(iwindow, &pt)) {
+				Throw(tokurei::SetFailed);
+			}
+			return ivec2(pt.x, pt.y);
 		}
 	}  // namespace video
 }  // namespace cb
-
-#endif

@@ -11,10 +11,10 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <input/win32/DIDevice.h>
+#include <cb/input/win32/DIDevice.h>
 
-#include <base/Exception.h>
-#include <base/Log.h>
+#include <cb/base/Exception.h>
+#include <cb/base/Log.h>
 
 namespace cb {
 	namespace input {
@@ -52,7 +52,7 @@ namespace cb {
 			_device->SetCooperativeLevel(iwindow, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
 			_device->SetDataFormat(idataformat);
 
-			_buffer_size = property(DIPROP_BUFFERSIZE, 0, DIPH_DEVICE);
+			_buffer_size = (DWORD)getProperty(DIPROP_BUFFERSIZE, 0, DIPH_DEVICE);
 		}
 
 		DIDevice::~DIDevice() {
@@ -63,12 +63,12 @@ namespace cb {
 			DirectInput::unreg();
 		}
 
-		void DIDevice::bufferSize(DWORD isize) {
+		void DIDevice::setBufferSize(DWORD isize) {
 			_buffer_size = isize;
-			property(DIPROP_BUFFERSIZE, 0, DIPH_DEVICE, _buffer_size);
+			setProperty(DIPROP_BUFFERSIZE, 0, DIPH_DEVICE, _buffer_size);
 		}
 
-		DWORD DIDevice::data(DIDEVICEOBJECTDATA **odata) {
+		DWORD DIDevice::getData(DIDEVICEOBJECTDATA **odata) {
 			_device->Acquire();
 
 			(*odata) = new DIDEVICEOBJECTDATA[_buffer_size];
@@ -79,7 +79,7 @@ namespace cb {
 			return n;
 		}
 
-		void DIDevice::property(REFGUID iprop, DWORD iobj, DWORD ihow, DWORD idata) {
+		void DIDevice::setProperty(REFGUID iprop, DWORD iobj, DWORD ihow, DWORD idata) {
 			DIPROPDWORD prop;
 			prop.diph.dwSize = sizeof(DIPROPDWORD);
 			prop.diph.dwHeaderSize = sizeof(DIPROPHEADER);
@@ -93,7 +93,7 @@ namespace cb {
 			}
 		}
 
-		UINT_PTR DIDevice::property(REFGUID iprop, DWORD iobj, DWORD ihow) const {
+		UINT_PTR DIDevice::getProperty(REFGUID iprop, DWORD iobj, DWORD ihow) const {
 			DIPROPDWORD prop;
 			prop.diph.dwSize = sizeof(DIPROPDWORD);
 			prop.diph.dwHeaderSize = sizeof(DIPROPHEADER);

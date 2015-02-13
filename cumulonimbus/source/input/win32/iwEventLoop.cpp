@@ -11,18 +11,12 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <base/Setup.h>
-#ifdef CbWindows
-
-#include <input/EventLoop.h>
-#include <video/Window.h>
-#include <video/win32/Windows.h>
-#include <video/win32/WindowInfo.h>
+#include <cb/input/EventLoop.h>
+#include <cb/video/Window.h>
+#include <cb/video/win32/Windows.h>
 
 namespace cb {
 	namespace input {
-		KinKey(video::kin::WindowInfo, video::w32WindowInfo);
-
 		void EventLoop::postQuit() {
 			PostQuitMessage(0);
 		}
@@ -41,12 +35,11 @@ namespace cb {
 			}
 
 			for(it = _window_list.begin() ; it != _window_list.end() ; ++it) {
-				(*(*it)->info()).dimouse->update();
+				(*it)->wGetDIMouse()->update();
+				(*it)->wGetXInput()->update();
 			}
 
 			return true;
 		}
 	}  // namespace input
 }  // namespace cb
-
-#endif

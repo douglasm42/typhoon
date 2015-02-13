@@ -11,13 +11,10 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <base/Setup.h>
-#ifdef CbWindows
+#include <cb/base/Exception.h>
 
-#include <base/Exception.h>
-
-#include <video/win32/WindowClass.h>
-#include <input/win32/WindowProc.h>
+#include <cb/video/win32/WindowClass.h>
+#include <cb/input/win32/WindowProc.h>
 
 namespace cb {
 	namespace video {
@@ -57,5 +54,3 @@ namespace cb {
 		}
 	}  // namespace video
 }  // namespace cb
-
-#endif

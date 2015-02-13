@@ -11,7 +11,7 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <base/Date.h>
+#include <cb/base/Date.h>
 
 #define BOLT_BASE_DATE_BUFFER_CHUNK_SIZE 1024
 

@@ -11,21 +11,18 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <base/Setup.h>
-#ifdef CbWindows
+#include <cb/video/Display.h>
 
-#include <video/Display.h>
+#include <cb/base/Exception.h>
+#include <cb/base/Log.h>
 
-#include <base/Exception.h>
-#include <base/Log.h>
-
-#include <video/win32/Windows.h>
+#include <cb/video/win32/Windows.h>
 
 #include <algorithm>
 
 namespace cb {
 	namespace video {
-		void Display::activate(disp::Mode idisplay_mode) {
+		void Display::activate(Display::Mode idisplay_mode) {
 			DEVMODE screen_settings;
 			screen_settings.dmSize = sizeof(DEVMODE);
 			EnumDisplaySettings(NULL,ENUM_CURRENT_SETTINGS,&screen_settings);
@@ -50,28 +47,28 @@ namespace cb {
 			ChangeDisplaySettings(NULL,0);
 		}
 
-		disp::Mode Display::activeMode() {
+		Display::Mode Display::getActiveMode() {
 			DEVMODE screen_settings;
 			screen_settings.dmSize = sizeof(DEVMODE);
 			EnumDisplaySettings(NULL,ENUM_CURRENT_SETTINGS,&screen_settings);
-			return disp::Mode(screen_settings.dmPelsWidth, screen_settings.dmPelsHeight);
+			return Display::Mode(screen_settings.dmPelsWidth, screen_settings.dmPelsHeight);
 		}
 
-		disp::Mode Display::defaultMode() {
+		Display::Mode Display::getDefaultMode() {
 			DEVMODE screen_settings;
 			screen_settings.dmSize = sizeof(DEVMODE);
 			EnumDisplaySettings(NULL,ENUM_REGISTRY_SETTINGS,&screen_settings);
-			return disp::Mode(screen_settings.dmPelsWidth, screen_settings.dmPelsHeight);
+			return Display::Mode(screen_settings.dmPelsWidth, screen_settings.dmPelsHeight);
 		}
 
-		void Display::modes(std::vector<disp::Mode> &odisplay_modes_list) {
+		void Display::getModes(std::vector<Display::Mode> &odisplay_modes_list) {
 			int i=0;
 			odisplay_modes_list.clear();
 			DEVMODE screen_settings;
 			screen_settings.dmSize = sizeof(DEVMODE);
 			while(EnumDisplaySettings(NULL,i,&screen_settings)) {
 				if(screen_settings.dmBitsPerPel == 32) {
-					disp::Mode disp(screen_settings.dmPelsWidth, screen_settings.dmPelsHeight);
+					Display::Mode disp(screen_settings.dmPelsWidth, screen_settings.dmPelsHeight);
 					size_t k;
 					for(k=0 ; k<odisplay_modes_list.size() && (odisplay_modes_list[k].width() != disp.width() || odisplay_modes_list[k].height() != disp.height()); k++);
 					if(k == odisplay_modes_list.size() && disp.width() >= 640 && disp.height() >= 480) {
@@ -85,5 +82,3 @@ namespace cb {
 		}
 	}  // namespace video
 }  // namespace cb
-
-#endif

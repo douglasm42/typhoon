@@ -11,9 +11,9 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <base/LogFile.h>
+#include <cb/base/LogFile.h>
 
-#include <base/Exception.h>
+#include <cb/base/Exception.h>
 
 #include <fstream>
 #include <iostream>

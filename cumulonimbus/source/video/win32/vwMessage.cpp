@@ -11,10 +11,7 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <base/Setup.h>
-#ifdef CbWindows
-
-#include <video/Message.h>
+#include <cb/video/Message.h>
 
 #include <string.h>
 #include <stdlib.h>
@@ -24,7 +21,6 @@
 
 namespace cb {
 	namespace video {
-
 		void Message::show() {
 			_message_lines.push_back(base::string16());
 			_message_lines.push_back(base::utf16("Sorry about the inconvenience,"));
@@ -48,5 +44,3 @@ namespace cb {
 		}
 	}  // namespace video
 }  // namespace cb
-
-#endif

@@ -194,3 +194,4 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 test/log.txt
+cumulonimbus/dependencies/

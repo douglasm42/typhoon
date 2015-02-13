@@ -1,95 +1,357 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="dependencies">
-      <UniqueIdentifier>{57d63d38-9f2b-492a-ad35-18a5c80d61e7}</UniqueIdentifier>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\base\bDate.cpp" />
-    <ClCompile Include="source\base\bLog.cpp" />
-    <ClCompile Include="source\base\bLogFile.cpp" />
-    <ClCompile Include="source\base\bRandom.cpp" />
-    <ClCompile Include="source\base\bString.cpp" />
-    <ClCompile Include="source\data\dBinStream.cpp" />
-    <ClCompile Include="source\data\dBitmap.cpp" />
-    <ClCompile Include="source\data\dDatabase.cpp" />
-    <ClCompile Include="source\data\dDatabaseColumn.cpp" />
-    <ClCompile Include="source\data\dDatabaseQuerry.cpp" />
-    <ClCompile Include="source\data\dFile.cpp" />
-    <ClCompile Include="source\data\dFont.cpp" />
-    <ClCompile Include="source\data\dJSON.cpp" />
-    <ClCompile Include="source\data\dMFile.cpp" />
-    <ClCompile Include="source\data\dXML.cpp" />
-    <ClCompile Include="source\video\linux\vlMessage.cpp" />
-    <ClCompile Include="source\video\linux\vlWindow.cpp" />
-    <ClCompile Include="source\video\linux\vlXlib.cpp" />
-    <ClCompile Include="source\video\win32\vwDisplay.cpp" />
-    <ClCompile Include="source\video\win32\vwMessage.cpp" />
-    <ClCompile Include="source\video\win32\vwWindow.cpp" />
-    <ClCompile Include="source\video\win32\vwWindowPlacement.cpp" />
-    <ClCompile Include="source\input\iKeyCode.cpp" />
-    <ClCompile Include="source\input\win32\iwEventLoop.cpp" />
-    <ClCompile Include="source\input\iEventLoop.cpp" />
-    <ClCompile Include="source\input\win32\iwWindowProc.cpp" />
-    <ClCompile Include="source\video\win32\vwCursor.cpp" />
-    <ClCompile Include="source\input\win32\iwDIDevice.cpp" />
-    <ClCompile Include="source\input\win32\iwDIMouse.cpp" />
-    <ClCompile Include="..\..\dependencies\msvc\source\glew.c" />
-    <ClCompile Include="..\..\dependencies\msvc\source\sqlite3.c" />
-    <ClCompile Include="source\input\iEventQueue.cpp" />
-    <ClCompile Include="source\video\win32\vwWindowClass.cpp" />
-    <ClCompile Include="source\input\iEvent.cpp" />
-    <ClCompile Include="source\video\win32\vwBitmapToIcon.cpp" />
-    <ClCompile Include="source\graphic\vGLEWmx.cpp" />
-    <ClCompile Include="source\graphic\win32\vwGLContext.cpp" />
+    <ClInclude Include="include\cb\base\base.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\base\Date.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\base\Entry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\base\Exception.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\base\FormatMacro.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\base\Kin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\base\Log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\base\LogFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\base\Random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\base\Serializable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\base\Setup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\base\String.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\base\Timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\base\Types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\data\BinStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\data\Bitmap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\data\data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\data\Database.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\data\File.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\data\Font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\data\JSON.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\data\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\data\XML.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\Color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\FrameBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\GL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\GLContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\GLEWmx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\GLTypedefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\graphic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\Legacy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\PixelFormat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\Program.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\TextureTranslate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\VertexBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\input\win32\DIDevice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\input\win32\DIMouse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\input\win32\WindowProc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\input\win32\XInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\input\CharListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\input\EventHub.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\input\EventLoop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\input\input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\input\Key.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\input\KeyListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\input\MouseListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\input\QuitListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\input\WindowListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\math\custom\origin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\math\math.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\math\origin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\video\win32\BitmapToIcon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\video\win32\WindowClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\video\win32\Windows.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\video\win32\WindowStyle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\video\Cursor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\video\Display.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\video\Message.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\video\Placement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\video\video.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\video\Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\DummyGLContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\video\DummyWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\video\Icon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\base\base.h" />
-    <ClInclude Include="include\base\Date.h" />
-    <ClInclude Include="include\base\Entry.h" />
-    <ClInclude Include="include\base\Exception.h" />
-    <ClInclude Include="include\base\FormatMacro.h" />
-    <ClInclude Include="include\base\Kin.h" />
-    <ClInclude Include="include\base\Log.h" />
-    <ClInclude Include="include\base\LogFile.h" />
-    <ClInclude Include="include\base\Random.h" />
-    <ClInclude Include="include\base\Setup.h" />
-    <ClInclude Include="include\base\String.h" />
-    <ClInclude Include="include\base\Timer.h" />
-    <ClInclude Include="include\data\BinStream.h" />
-    <ClInclude Include="include\data\Bitmap.h" />
-    <ClInclude Include="include\data\data.h" />
-    <ClInclude Include="include\data\Database.h" />
-    <ClInclude Include="include\data\File.h" />
-    <ClInclude Include="include\data\Font.h" />
-    <ClInclude Include="include\data\JSON.h" />
-    <ClInclude Include="include\data\XML.h" />
-    <ClInclude Include="include\input\input.h" />
-    <ClInclude Include="include\math\custom\origin.h" />
-    <ClInclude Include="include\math\math.h" />
-    <ClInclude Include="include\math\origin.h" />
-    <ClInclude Include="include\video\Display.h" />
-    <ClInclude Include="include\video\Message.h" />
-    <ClInclude Include="include\video\video.h" />
-    <ClInclude Include="include\video\Window.h" />
-    <ClInclude Include="include\input\KeyCode.h" />
-    <ClInclude Include="include\input\EventLoop.h" />
-    <ClInclude Include="include\video\Cursor.h" />
-    <ClInclude Include="include\input\Event.h" />
-    <ClInclude Include="include\input\EventQueue.h" />
-    <ClInclude Include="kininclude\video\linux\Xlib.h" />
-    <ClInclude Include="kininclude\video\win32\BitmapToIcon.h" />
-    <ClInclude Include="kininclude\video\win32\WindowClass.h" />
-    <ClInclude Include="kininclude\video\win32\WindowInfo.h" />
-    <ClInclude Include="kininclude\video\win32\Windows.h" />
-    <ClInclude Include="kininclude\input\win32\WindowProc.h" />
-    <ClInclude Include="kininclude\input\win32\DIDevice.h" />
-    <ClInclude Include="kininclude\input\win32\DIMouse.h" />
-    <ClInclude Include="include\graphic\graphic.h" />
-    <ClInclude Include="kininclude\graphic\GLEWmx.h" />
-    <ClInclude Include="include\graphic\GLContext.h" />
-    <ClInclude Include="include\graphic\FrameBuffer.h" />
-    <ClInclude Include="include\graphic\Texture.h" />
+    <ClCompile Include="source\base\bDate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\base\bLog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\base\bLogFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\base\bString.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\data\dBinStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\data\dBitmap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\data\dDatabase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\data\dDatabaseColumn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\data\dDatabaseQuerry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\data\dFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\data\dFont.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\data\dJSON.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\data\dMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\data\dXML.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\dependencies\glew.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\dependencies\sqlite3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\win32\gwGLContext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\win32\gwPixelFormat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\gColor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\gFrameBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\gGL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\gGLEWmx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\gLegacy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\gProgram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\gShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\gTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\gVertexBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\input\win32\iwDIDevice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\input\win32\iwDIMouse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\input\win32\iwEventLoop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\input\win32\iwWindowProc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\input\win32\iwXInput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\input\iEventHub.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\input\iEventLoop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\input\iKey.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\video\win32\vwBitmapToIcon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\video\win32\vwCursor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\video\win32\vwDisplay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\video\win32\vwMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\video\win32\vwPlacement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\video\win32\vwWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\video\win32\vwWindowClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\video\vPlacement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\win32\gwDummyGLContext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\video\win32\vwDummyWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\video\win32\vwIcon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

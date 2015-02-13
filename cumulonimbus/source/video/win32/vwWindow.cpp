@@ -11,245 +11,256 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <base/Setup.h>
-#ifdef CbWindows
+#include <cb/video/Window.h>
+#include <cb/base/Exception.h>
+#include <cb/base/Log.h>
 
-#include <video/Window.h>
-#include <base/Exception.h>
-#include <base/Log.h>
+#include <cb/video/win32/Windows.h>
 
-#include <video/win32/Windows.h>
-#include <video/win32/WindowClass.h>
-#include <video/win32/WindowInfo.h>
-#include <video/win32/BitmapToIcon.h>
+#include <cb/video/win32/WindowClass.h>
+#include <cb/video/win32/WindowStyle.h>
 
-#include <input/EventLoop.h>
-
-#include <graphic/GLContext.h>
+#include <cb/input/EventLoop.h>
 
 namespace cb {
 	namespace video {
-		KinKey(kin::WindowInfo, w32WindowInfo);
+		Window::Window(base::string ititle, Border iborder)
+		:_w_hwnd(nullptr)
+		,_w_dimouse(nullptr)
+		,_w_xinput(nullptr)
+		
+		,_border(iborder)
 
-		Window::Window(base::string16 ititle, win::Placement iplacement) :_cursor(this) {
-			_window_info << new w32WindowInfo;
-			create(ititle, iplacement);
+		,_width()
+		,_height()
+
+		,_cursor(nullptr)
+		,_cursor_show(true)
+		,_cursor_hold(false)
+		,_cursor_held_position(0,0)
+
+		,_big_icon(nullptr)
+		,_small_icon(nullptr)
+
+		,_event_hub(nullptr) {
+			create(base::utf16(ititle), iborder);
 		}
 
-		Window::Window(base::string16 ititle, size_t ix, size_t iy, size_t iwidth, size_t iheight, bool imaximized, bool iminimized, bool iborder) :_cursor(this) {
-			_window_info << new w32WindowInfo;
-			create(ititle, win::Placement(ix, iy, iwidth, iheight, imaximized, iminimized, iborder));
+		Window::Window(base::string16 ititle, Border iborder)
+		:_w_hwnd(nullptr)
+		,_w_dimouse(nullptr)
+		,_w_xinput(nullptr)
+		
+		,_border(iborder)
+
+		,_width()
+		,_height()
+
+		,_cursor(nullptr)
+		,_cursor_show(true)
+		,_cursor_hold(false)
+		,_cursor_held_position(0,0)
+
+		,_big_icon(nullptr)
+		,_small_icon(nullptr)
+
+		,_event_hub(nullptr) {
+			create(ititle, iborder);
 		}
 
 		Window::~Window() {
-			destroy();
-			delete (&_window_info);
+			input::EventLoop::unbind(this);
+
+			delete _w_dimouse;
+			delete _w_xinput;
+
+			SetWindowLongPtr(_w_hwnd, GWLP_USERDATA, LONG(NULL));
+
+			if(!DestroyWindow(_w_hwnd)) {
+				Throw(tokurei::DeleteError);
+			}
+			
+			w32WindowClass::unreg();
+
+			_w_hwnd = nullptr;
 		}
 
-		void Window::create(base::string16 ititle, win::Placement iplacement) {
-			if(!empty()) {
-				Throw(tokurei::CreateError);
-			}
-
+		void Window::create(base::string16 ititle, Border iborder) {
 			w32WindowClass::reg();
 
-			DWORD style_ex = 0;
-			DWORD style = WS_OVERLAPPEDWINDOW;
-
-			RECT window_rectangle;
-			window_rectangle.left   = (long)0;
-			window_rectangle.top    = (long)0;
-			window_rectangle.right  = (long)100;
-			window_rectangle.bottom = (long)100;
-
-			AdjustWindowRectEx(&window_rectangle, style, FALSE, style_ex);
-
-			(*_window_info).window = CreateWindowEx(
-				style_ex,
-				w32WindowClass::name(),
+			_w_hwnd = CreateWindowEx(
+				getStyleEx(_border),
+				w32WindowClass::getName(),
 				(const wchar_t *)ititle.c_str(),
-				style,
+				getStyle(_border),
 				0, 0,
-				window_rectangle.right-window_rectangle.left,
-				window_rectangle.bottom-window_rectangle.top,
-				NULL, NULL, GetModuleHandleW(NULL), NULL
+				100,
+				100,
+				NULL, NULL, GetModuleHandleW(NULL), reinterpret_cast<LPVOID>(this)
 			);
 
-			if(!(*_window_info).window) {
+			if(!_w_hwnd) {
 				Throw(tokurei::CreateError);
 			}
 
-			SetWindowLongPtr((*_window_info).window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-
-			placement(iplacement);
-
-			(*_window_info).dimouse = new input::DIMouse((*_window_info).window, &_event_queue);
+			_w_dimouse = new input::DIMouse(_w_hwnd, _event_hub);
+			_w_xinput = new input::XInput(_event_hub);
 
 			input::EventLoop::bind(this);
 		}
 
-		void Window::destroy() {
-			if(!empty()) {
-				input::EventLoop::unbind(this);
-				delete (*_window_info).dimouse;
-
-				SetWindowLongPtr((*_window_info).window, GWLP_USERDATA, LONG(NULL));
-
-				if(!DestroyWindow((*_window_info).window)) {
-					Throw(tokurei::DeleteError);
-				}
-			
-				w32WindowClass::unreg();
-
-				(*_window_info).window = nullptr;
-			}
+		void Window::setTitle(base::string16 ititle) {
+			SetWindowText(_w_hwnd, (const wchar_t *)ititle.c_str());
 		}
 
-		void Window::title(base::string16 ititle) {
-			SetWindowText((*_window_info).window, (const wchar_t *)ititle.c_str());
+		void Window::setPlacement(const Placement &iplacement) {
+			WINDOWPLACEMENT wplacement;
+			Placement::wConvert(iplacement, _border, wplacement);
+
+			SetWindowPlacement(_w_hwnd, &wplacement);
 		}
 
-		void Window::placement(win::Placement iplacement) {
+		Placement Window::getPlacement() {
 			WINDOWPLACEMENT wplacement;
 			wplacement.length = sizeof(WINDOWPLACEMENT);
 
-			wplacement.ptMaxPosition.x = 0;
-			wplacement.ptMaxPosition.y = 0;
+			GetWindowPlacement(_w_hwnd, &wplacement);
 
-			wplacement.ptMinPosition.x = 0;
-			wplacement.ptMinPosition.y = 0;
-
-			wplacement.rcNormalPosition.left = iplacement.x();
-			wplacement.rcNormalPosition.top = iplacement.y();
-			wplacement.rcNormalPosition.right = wplacement.rcNormalPosition.left + iplacement.width();
-			wplacement.rcNormalPosition.bottom = wplacement.rcNormalPosition.top + iplacement.height();
-
-			wplacement.flags = 0;
-
-			if(iplacement.minimized()) {
-				wplacement.showCmd = SW_MINIMIZE;
-				if(iplacement.maximized()) {
-					wplacement.flags = WPF_RESTORETOMAXIMIZED;
-				}
-			} else if(iplacement.maximized()) {
-				wplacement.showCmd = SW_MAXIMIZE;
-			} else {
-				wplacement.showCmd = SW_RESTORE;
-			}
-
-			if(border() != iplacement.border()) {
-				border(iplacement.border());
-			}
-			SetWindowPlacement((*_window_info).window, &wplacement);
-		}
-
-		win::Placement Window::placement() {
-			WINDOWPLACEMENT wplacement;
-			wplacement.length = sizeof(WINDOWPLACEMENT);
-
-			GetWindowPlacement((*_window_info).window, &wplacement);
-
-			win::Placement oplacement;
-
-			oplacement.pos(wplacement.rcNormalPosition.left, wplacement.rcNormalPosition.top);
-			oplacement.size(wplacement.rcNormalPosition.right - wplacement.rcNormalPosition.left, wplacement.rcNormalPosition.bottom - wplacement.rcNormalPosition.top);
-
-			if(wplacement.flags == WPF_RESTORETOMAXIMIZED || wplacement.showCmd == SW_MAXIMIZE) {
-				oplacement.maximized(true);
-			} else {
-				oplacement.maximized(false);
-			}
-
-			if(wplacement.showCmd == SW_MINIMIZE) {
-				oplacement.minimized(true);
-			} else {
-				oplacement.minimized(false);
-			}
-
-			oplacement._border = border();
+			Placement oplacement;
+			Placement::wConvert(wplacement, _border, oplacement);
 
 			return oplacement;
 		}
 
-		void Window::resize(size_t iwidth, size_t iheight) {
-			SetWindowPos((*_window_info).window, 0, 0, 0, iwidth, iheight, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
-		}
-
-		void Window::move(size_t ix, size_t iy) {
-			SetWindowPos((*_window_info).window, 0, ix, iy, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
-		}
-
-		void Window::border(bool iborder) {
-			if(border() != iborder) {
-				win::Placement p = placement();
-				p.border(iborder);
-
-				DWORD style_ex = 0;
-				DWORD style = 0;
-
-				if(iborder) {
-					style_ex = 0;
-					style = WS_OVERLAPPEDWINDOW;
-				} else {
-					style_ex = WS_EX_TOPMOST;
-					style = WS_POPUP;
-				}
-
-				SetWindowLong((*_window_info).window, GWL_STYLE, style);
-				SetWindowLong((*_window_info).window, GWL_EXSTYLE, style_ex);
-
-				placement(p);
-			}
-		}
-
-		bool Window::border() {
-			DWORD style = 0;
-
-			style = GetWindowLong((*_window_info).window, GWL_STYLE);
-
-			if((style & WS_POPUP) != 0) {
-				return false;
-			} else {
-				return true;
-			}
-		}
-
 		void Window::show() {
-			ShowWindow((*_window_info).window, SW_SHOW);
+			ShowWindow(_w_hwnd, SW_SHOW);
 		}
 
 		void Window::hide() {
-			ShowWindow((*_window_info).window, SW_HIDE);
+			ShowWindow(_w_hwnd, SW_HIDE);
 		}
 
-		bool Window::active() {
-			return GetActiveWindow() == (*_window_info).window;
+		void Window::minimize() {
+			SendMessage(_w_hwnd, WM_SYSCOMMAND, SC_MINIMIZE, -1);
 		}
 
-		bool Window::empty() {
-			return !(*_window_info).window;
+		void Window::maximize() {
+			SendMessage(_w_hwnd, WM_SYSCOMMAND, SC_MAXIMIZE, -1);
 		}
 
-		void Window::icon(data::ubBitmapRGBA &ibmp) {
-			HICON icon = bitmapToIcon(ibmp, 0, 0, TRUE);
-			if(icon) {
-				SendMessage((*_window_info).window, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(icon));
-				SendMessage((*_window_info).window, WM_SETICON, ICON_SMALL, reinterpret_cast<LPARAM>(icon));
-			} else {
-				Throw(tokurei::SetFailed);
+		void Window::restore() {
+			SendMessage(_w_hwnd, WM_SYSCOMMAND, SC_RESTORE, -1);
+		}
+
+		void Window::close() {
+			SendMessage(_w_hwnd, WM_SYSCOMMAND, SC_CLOSE, -1);
+		}
+
+		bool Window::isActive() const {
+			return GetActiveWindow() == _w_hwnd;
+		}
+
+		void Window::setCursor(Cursor *icursor) {
+			_cursor = icursor;
+		}
+
+		bool Window::cursorIsShown() {
+			return _cursor_show;
+		}
+
+		void Window::cursorShow(bool ishow) {
+			_cursor_show = ishow;
+
+			if(isActive() && !_cursor_hold) {
+				Cursor::wShow(ishow);
 			}
 		}
 
-		void Window::icon(data::ubBitmapRGB &ibmp, math::u8vec3 itransparent) {
-			HICON icon = bitmapToIcon(ibmp, 0, 0, itransparent, TRUE);
-			if(icon) {
-				SendMessage((*_window_info).window, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(icon));
-				SendMessage((*_window_info).window, WM_SETICON, ICON_SMALL, reinterpret_cast<LPARAM>(icon));
+		bool Window::cursorIsHeld() {
+			return _cursor_hold;
+		}
+
+		void Window::cursorSetHold(bool ihold) {
+			if(!_cursor_hold && ihold) {
+				_cursor_held_position = cursorGetPosition();
+			}
+
+			if(isActive() && _cursor_hold && !ihold) {
+				cursorSetPosition(_cursor_held_position);
+			}
+
+			_cursor_hold = ihold;
+			ShowCursor(_cursor_show);
+
+			if(isActive()) {
+				Cursor::wHold(_w_hwnd, _cursor_hold);
+			}
+		}
+
+		void Window::cursorSetPosition(ivec2 iposition) {
+			Cursor::wSetPosition(_w_hwnd, iposition);
+		}
+
+		ivec2 Window::cursorGetPosition() {
+			if(_cursor_hold) {
+				return _cursor_held_position;
 			} else {
-				Throw(tokurei::SetFailed);
+				return Cursor::wGetPosition(_w_hwnd);
+			}
+		}
+
+		void Window::setBigIcon(Icon *ibig_icon) {
+			_big_icon = ibig_icon;
+			if(_big_icon) {
+				SendMessage(_w_hwnd, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(_big_icon->wGetHICON()));
+			} else {
+				SendMessage(_w_hwnd, WM_SETICON, ICON_BIG, NULL);
+			}
+		}
+
+		void Window::setSmallIcon(Icon *ismall_icon) {
+			_small_icon = ismall_icon;
+			if(_small_icon) {
+				SendMessage(_w_hwnd, WM_SETICON, ICON_SMALL, reinterpret_cast<LPARAM>(_small_icon->wGetHICON()));
+			} else {
+				SendMessage(_w_hwnd, WM_SETICON, ICON_SMALL, NULL);
+			}
+		}
+
+		void Window::setEventHub(input::EventHub *ievent_hub) {
+			_event_hub = ievent_hub;
+
+			_w_dimouse->setEventHub(ievent_hub);
+			_w_xinput->setEventHub(ievent_hub);
+
+			_event_hub->onResize(_width, _height);
+		}
+
+		void Window::onResize(size_t iwidth, size_t iheight) {
+			_width = iwidth;
+			_height = iheight;
+		}
+
+		void Window::onActivate() {
+			cursorSetHold(_cursor_hold);
+		}
+
+		void Window::onDeactivate() {
+			cursorSetHold(_cursor_hold);
+		}
+
+		void Window::onClose() {
+			Cursor::wHold(nullptr, false);
+		}
+
+		void Window::setPixelFormat(graphic::PixelFormat &ipf) {
+			if(ipf.isValid()) {
+				if(SetPixelFormat(GetDC(_w_hwnd), ipf.wGetPixelFormatId(), &ipf.wGetPFD()) == FALSE) {
+					ThrowDet(tokurei::SetFailed, "Error: %d", GetLastError());
+				}
+			} else {
+				ThrowDet(tokurei::SetFailed, "PixelFormat invalid.");
 			}
 		}
 	}  // namespace video
 }  // namespace cb
-
-#endif

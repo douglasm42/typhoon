@@ -1,0 +1,722 @@
+--------------------------------------------------------------------------------
+-- 16/11/2014 14:53:35 - Log: test.base ----------------------------------------
+--------------------------------------------------------------------------------
+
+14:53:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_GETMINMAXINFO.
+14:53:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCREATE.
+14:53:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 0
+14:53:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_GETMINMAXINFO.
+14:53:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCREATE.
+14:53:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 0
+14:53:35 - Nothing: size: 132x100
+14:53:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 1
+14:53:35 - Nothing: size: 500x500
+14:53:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela ativada.
+14:53:35 - Nothing: size: 500x500
+14:53:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_GETMINMAXINFO.
+14:53:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCREATE.
+14:53:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 0
+14:53:36 - Nothing: OpenGLContext::OpenGLContext() : OpenGL 3.0 e GLSL 1.30 escolhidos.
+14:53:36 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 144.
+14:53:36 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 2.
+14:53:36 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 130.
+14:53:36 - Nothing: OpenGLContext::OpenGLContext() : Contexto OpenGL criado: OpenGL 3.0 - GLSL 1.30
+14:53:36 - Nothing: Aqui!
+14:53:36 - Nothing: Card #0
+14:53:36 - Nothing: Card #1
+14:53:36 - Nothing: Card #2
+14:53:36 - Nothing: Card #3
+14:53:36 - Nothing: Card #4
+14:53:36 - Nothing: Card #5
+14:53:36 - Nothing: Card #6
+14:53:36 - Nothing: Card #7
+14:53:36 - Nothing: Card #8
+14:53:36 - Nothing: Card #9
+14:53:36 - Nothing: Card #10
+14:53:36 - Nothing: Card #11
+14:53:36 - Nothing: Card #12
+14:53:36 - Nothing: Card #13
+14:53:36 - Nothing: Card #14
+14:53:36 - Nothing: Card #15
+14:53:36 - Nothing: Card #16
+14:53:36 - Nothing: Card #17
+14:53:36 - Nothing: Card #18
+14:53:36 - Nothing: Card #19
+14:53:36 - Nothing: Card #20
+14:53:36 - Nothing: Card #21
+14:53:36 - Nothing: Card #22
+14:53:36 - Nothing: Card #23
+14:53:36 - Nothing: Card #24
+14:53:36 - Nothing: Card #25
+14:53:36 - Nothing: Card #26
+14:53:36 - Nothing: Card #27
+14:53:36 - Nothing: Card #28
+14:53:36 - Nothing: Card #29
+14:53:36 - Nothing: Card #30
+14:53:36 - Nothing: Card #31
+14:53:36 - Nothing: Card #32
+14:53:36 - Nothing: Card #33
+14:53:36 - Nothing: Card #34
+14:53:36 - Nothing: Card #35
+14:53:36 - Nothing: Card #36
+14:53:36 - Nothing: Card #37
+14:53:36 - Nothing: Card #38
+14:53:36 - Nothing: Card #39
+14:53:36 - Nothing: Card #40
+14:53:36 - Nothing: Card #41
+14:53:36 - Nothing: Card #42
+14:53:36 - Nothing: Card #43
+14:53:36 - Nothing: Card #44
+14:53:36 - Nothing: Card #45
+14:53:36 - Nothing: Card #46
+14:53:36 - Nothing: Card #47
+14:53:36 - Nothing: Card #48
+14:53:36 - Nothing: Card #49
+14:53:36 - Nothing: Card #50
+14:53:36 - Nothing: Card #51
+14:53:36 - Nothing: Aqui2!
+14:53:36 - Nothing: Aqui3!
+14:53:36 - Nothing: Iniciando loop!
+14:53:36 - Nothing: size: 0x0
+14:53:37 - Nothing: Move: [H-] - -4.000000
+14:53:37 - Nothing: Move: [H-] - -16.000000
+14:53:37 - Nothing: Move: [H-] - -8.000000
+14:53:37 - Nothing: Move: [V-] - -3.000000
+14:53:37 - Nothing: Move: [H-] - -22.000000
+14:53:37 - Nothing: Move: [V-] - -4.000000
+14:53:37 - Nothing: Move: [H-] - -22.000000
+14:53:37 - Nothing: Move: [V-] - -7.000000
+14:53:37 - Nothing: Move: [H-] - -46.000000
+14:53:37 - Nothing: Move: [V-] - -11.000000
+14:53:37 - Nothing: Move: [H-] - -47.000000
+14:53:37 - Nothing: Move: [V-] - -16.000000
+14:53:37 - Nothing: Move: [H-] - -76.000000
+14:53:37 - Nothing: Move: [V-] - -9.000000
+14:53:37 - Nothing: Move: [H-] - -54.000000
+14:53:37 - Nothing: Move: [V-] - -2.000000
+14:53:37 - Nothing: Move: [H-] - -79.000000
+14:53:37 - Nothing: Move: [V-] - -3.000000
+14:53:37 - Nothing: Move: [H-] - -49.000000
+14:53:37 - Nothing: Move: [V-] - -8.000000
+14:53:37 - Nothing: Move: [H-] - -22.000000
+14:53:37 - Nothing: Move: [V-] - -6.000000
+14:53:37 - Nothing: Move: [H-] - -12.000000
+14:53:37 - Nothing: Move: [H-] - -2.000000
+14:53:37 - Nothing: Move: [V-] - -7.000000
+14:53:37 - Nothing: Move: [H-] - -10.000000
+14:53:37 - Nothing: Move: [V-] - -7.000000
+14:53:37 - Nothing: Move: [H-] - -12.000000
+14:53:37 - Nothing: Move: [V-] - -8.000000
+14:53:37 - Nothing: Move: [H-] - -15.000000
+14:53:37 - Nothing: Move: [V-] - -12.000000
+14:53:37 - Nothing: Move: [H-] - -25.000000
+14:53:37 - Nothing: Move: [V-] - -14.000000
+14:53:37 - Nothing: Move: [H-] - -27.000000
+14:53:37 - Nothing: Move: [V-] - -13.000000
+14:53:37 - Nothing: Move: [H-] - -34.000000
+14:53:37 - Nothing: Move: [V-] - -11.000000
+14:53:37 - Nothing: Move: [H-] - -41.000000
+14:53:37 - Nothing: Move: [V-] - -10.000000
+14:53:37 - Nothing: Move: [H-] - -36.000000
+14:53:37 - Nothing: Move: [V-] - -14.000000
+14:53:37 - Nothing: Move: [H-] - -37.000000
+14:53:37 - Nothing: Move: [V-] - -6.000000
+14:53:37 - Nothing: Move: [H-] - -11.000000
+14:53:37 - Nothing: Move: [V-] - -2.000000
+14:53:37 - Nothing: Move: [H-] - -3.000000
+14:53:37 - Nothing: Move: [V-] - -1.000000
+14:53:37 - Nothing: Move: [H-] - -1.000000
+14:53:37 - Nothing: Move: [V-] - -19.000000
+14:53:37 - Nothing: Move: [H+] - 21.000000
+14:53:37 - Nothing: Move: [V-] - -19.000000
+14:53:37 - Nothing: Move: [H+] - 29.000000
+14:53:37 - Nothing: Move: [V-] - -24.000000
+14:53:37 - Nothing: Move: [H+] - 30.000000
+14:53:37 - Nothing: Move: [V-] - -26.000000
+14:53:37 - Nothing: Move: [H+] - 24.000000
+14:53:37 - Nothing: Move: [V-] - -22.000000
+14:53:37 - Nothing: Move: [H+] - 16.000000
+14:53:37 - Nothing: Move: [V-] - -21.000000
+14:53:37 - Nothing: Move: [H+] - 13.000000
+14:53:37 - Nothing: Move: [V-] - -18.000000
+14:53:37 - Nothing: Move: [H+] - 11.000000
+14:53:37 - Nothing: Move: [V-] - -3.000000
+14:53:37 - Nothing: Move: [H+] - 1.000000
+14:53:37 - Nothing: Move: [V-] - -1.000000
+14:53:37 - Nothing: Move: [H-] - -1.000000
+14:53:38 - Nothing: Move: [V+] - 4.000000
+14:53:38 - Nothing: Move: [H+] - 1.000000
+14:53:38 - Nothing: Move: [V+] - 2.000000
+14:53:38 - Nothing: Move: [H-] - -6.000000
+14:53:38 - Nothing: Move: [H-] - -15.000000
+14:53:38 - Nothing: Move: [H-] - -29.000000
+14:53:38 - Nothing: Move: [V+] - 5.000000
+14:53:38 - Nothing: Move: [H-] - -58.000000
+14:53:38 - Nothing: Move: [V+] - 10.000000
+14:53:38 - Nothing: Move: [H-] - -62.000000
+14:53:38 - Nothing: Move: [V+] - 6.000000
+14:53:38 - Nothing: Move: [H-] - -11.000000
+14:53:38 - Nothing: Move: [V+] - 18.000000
+14:53:38 - Nothing: Move: [H-] - -12.000000
+14:53:38 - Nothing: Move: [V+] - 3.000000
+14:53:38 - Nothing: Move: [V+] - 2.000000
+14:53:38 - Nothing: Move: [H+] - 6.000000
+14:53:38 - Nothing: Move: [V+] - 2.000000
+14:53:38 - Nothing: Move: [H+] - 2.000000
+14:53:38 - Nothing: Move: [V+] - 6.000000
+14:53:38 - Nothing: Move: [H+] - 1.000000
+14:53:38 - Nothing: Move: [V+] - 3.000000
+14:53:38 - Nothing: Move: [V+] - 3.000000
+14:53:38 - Nothing: Move: [H+] - 2.000000
+14:53:38 - Nothing: Move: [V+] - 4.000000
+14:53:38 - Nothing: Move: [H+] - 2.000000
+14:53:38 - Nothing: Move: [V+] - 10.000000
+14:53:38 - Nothing: Move: [H+] - 13.000000
+14:53:38 - Nothing: Move: [V+] - 9.000000
+14:53:38 - Nothing: Move: [H+] - 11.000000
+14:53:38 - Nothing: Move: [V+] - 17.000000
+14:53:38 - Nothing: Move: [H+] - 11.000000
+14:53:38 - Nothing: Move: [V+] - 11.000000
+14:53:38 - Nothing: Move: [H+] - 4.000000
+14:53:38 - Nothing: Move: [V+] - 7.000000
+14:53:38 - Nothing: Move: [H+] - 2.000000
+14:53:38 - Nothing: Move: [V+] - 10.000000
+14:53:38 - Nothing: Move: [H+] - 2.000000
+14:53:38 - Nothing: Move: [V+] - 3.000000
+14:53:38 - Nothing: Move: [V+] - 5.000000
+14:53:38 - Nothing: Move: [H+] - 2.000000
+14:53:38 - Nothing: Move: [V+] - 7.000000
+14:53:38 - Nothing: Move: [H+] - 8.000000
+14:53:38 - Nothing: Move: [V+] - 4.000000
+14:53:38 - Nothing: Move: [H+] - 5.000000
+14:53:38 - Nothing: Move: [V+] - 2.000000
+14:53:38 - Nothing: Move: [H+] - 3.000000
+14:53:38 - Nothing: Move: [V+] - 4.000000
+14:53:38 - Nothing: Move: [H+] - 8.000000
+14:53:38 - Nothing: Move: [V+] - 1.000000
+14:53:38 - Nothing: Move: [H+] - 4.000000
+14:53:38 - Nothing: Move: [V-] - -4.000000
+14:53:38 - Nothing: Move: [H+] - 24.000000
+14:53:38 - Nothing: Move: [V+] - 10.000000
+14:53:38 - Nothing: Move: [H+] - 18.000000
+14:53:38 - Nothing: Move: [V+] - 6.000000
+14:53:38 - Nothing: Move: [H+] - 3.000000
+14:53:38 - Nothing: Move: [V+] - 5.000000
+14:53:38 - Nothing: Move: [H+] - 1.000000
+14:53:38 - Nothing: Move: [V+] - 2.000000
+14:53:38 - Nothing: Move: [V+] - 2.000000
+14:53:39 - Nothing: Move: [V+] - 2.000000
+14:53:39 - Nothing: Move: [V+] - 1.000000
+14:53:39 - Nothing: Move: [V+] - 2.000000
+14:53:39 - Nothing: Move: [V+] - 4.000000
+14:53:39 - Nothing: Move: [H-] - -2.000000
+14:53:39 - Nothing: Move: [V+] - 6.000000
+14:53:39 - Nothing: Move: [H-] - -7.000000
+14:53:39 - Nothing: Move: [V+] - 3.000000
+14:53:39 - Nothing: Move: [H-] - -33.000000
+14:53:39 - Nothing: Move: [V-] - -4.000000
+14:53:39 - Nothing: Move: [H-] - -17.000000
+14:53:39 - Nothing: Move: [V-] - -1.000000
+14:53:39 - Nothing: Move: [H-] - -6.000000
+14:53:39 - Nothing: Move: [H-] - -3.000000
+14:53:39 - Nothing: Move: [H-] - -2.000000
+14:53:39 - Nothing: Move: [V-] - -1.000000
+14:53:39 - Nothing: Move: [H-] - -2.000000
+14:53:39 - Nothing: Move: [V-] - -1.000000
+14:53:39 - Nothing: Move: [H-] - -1.000000
+14:53:39 - Nothing: Move: [V-] - -1.000000
+14:53:39 - Nothing: Move: [H+] - 1.000000
+14:53:39 - Nothing: Move: [V-] - -2.000000
+14:53:39 - Nothing: Move: [H+] - 4.000000
+14:53:39 - Nothing: Move: [V-] - -4.000000
+14:53:39 - Nothing: Move: [H+] - 10.000000
+14:53:39 - Nothing: Move: [V-] - -10.000000
+14:53:39 - Nothing: Move: [H+] - 26.000000
+14:53:39 - Nothing: Move: [V-] - -2.000000
+14:53:39 - Nothing: Move: [H+] - 10.000000
+14:53:39 - Nothing: Move: [V-] - -2.000000
+14:53:39 - Nothing: Move: [H+] - 12.000000
+14:53:39 - Nothing: Move: [V-] - -2.000000
+14:53:39 - Nothing: Move: [H+] - 54.000000
+14:53:39 - Nothing: Move: [V+] - 4.000000
+14:53:39 - Nothing: Move: [H+] - 19.000000
+14:53:39 - Nothing: Move: [V+] - 16.000000
+14:53:39 - Nothing: Move: [H+] - 18.000000
+14:53:39 - Nothing: Move: [V+] - 1.000000
+14:53:39 - Nothing: Move: [H+] - 8.000000
+14:53:40 - Nothing: Move: [V+] - 6.000000
+14:53:40 - Nothing: Move: [H+] - 5.000000
+14:53:40 - Nothing: Move: [V+] - 5.000000
+14:53:40 - Nothing: Move: [H+] - 3.000000
+14:53:40 - Nothing: Move: [V-] - -36.000000
+14:53:40 - Nothing: Move: [H-] - -2.000000
+14:53:40 - Nothing: Move: [V-] - -42.000000
+14:53:40 - Nothing: Move: [H-] - -2.000000
+14:53:40 - Nothing: Move: [V-] - -33.000000
+14:53:40 - Nothing: Move: [H+] - 3.000000
+14:53:40 - Nothing: Move: [V-] - -19.000000
+14:53:40 - Nothing: Move: [H+] - 5.000000
+14:53:40 - Nothing: Move: [V-] - -19.000000
+14:53:40 - Nothing: Move: [H+] - 5.000000
+14:53:40 - Nothing: Move: [V-] - -29.000000
+14:53:40 - Nothing: Move: [H+] - 16.000000
+14:53:40 - Nothing: Move: [V-] - -17.000000
+14:53:40 - Nothing: Move: [H+] - 11.000000
+14:53:40 - Nothing: Move: [V-] - -3.000000
+14:53:40 - Nothing: Move: [H+] - 2.000000
+14:53:40 - Nothing: Move: [V+] - 9.000000
+14:53:40 - Nothing: Move: [H-] - -5.000000
+14:53:40 - Nothing: Move: [V+] - 29.000000
+14:53:40 - Nothing: Move: [H-] - -13.000000
+14:53:40 - Nothing: Move: [V+] - 67.000000
+14:53:40 - Nothing: Move: [H-] - -24.000000
+14:53:40 - Nothing: Move: [V+] - 48.000000
+14:53:40 - Nothing: Move: [H-] - -15.000000
+14:53:40 - Nothing: Move: [V+] - 48.000000
+14:53:40 - Nothing: Move: [H-] - -9.000000
+14:53:40 - Nothing: Move: [V+] - 36.000000
+14:53:40 - Nothing: Move: [H-] - -4.000000
+14:53:40 - Nothing: Move: [V+] - 16.000000
+14:53:40 - Nothing: Move: [V+] - 1.000000
+14:53:40 - Nothing: Move: [V-] - -12.000000
+14:53:40 - Nothing: Move: [H-] - -1.000000
+14:53:40 - Nothing: Move: [V-] - -30.000000
+14:53:40 - Nothing: Move: [H-] - -1.000000
+14:53:40 - Nothing: Move: [V-] - -44.000000
+14:53:40 - Nothing: Move: [H-] - -1.000000
+14:53:40 - Nothing: Move: [V-] - -57.000000
+14:53:40 - Nothing: Move: [H-] - -11.000000
+14:53:40 - Nothing: Move: [V-] - -27.000000
+14:53:40 - Nothing: Move: [H-] - -10.000000
+14:53:40 - Nothing: Move: [V-] - -2.000000
+14:53:40 - Nothing: Move: [H-] - -1.000000
+14:53:40 - Nothing: Move: [V+] - 14.000000
+14:53:40 - Nothing: Move: [H-] - -4.000000
+14:53:40 - Nothing: Move: [V+] - 30.000000
+14:53:40 - Nothing: Move: [H-] - -7.000000
+14:53:40 - Nothing: Move: [V+] - 40.000000
+14:53:40 - Nothing: Move: [H-] - -6.000000
+14:53:40 - Nothing: Move: [V+] - 45.000000
+14:53:40 - Nothing: Move: [H-] - -5.000000
+14:53:40 - Nothing: Move: [V+] - 7.000000
+14:53:40 - Nothing: Move: [H-] - -1.000000
+14:53:40 - Nothing: Move: [V-] - -2.000000
+14:53:40 - Nothing: Move: [H-] - -2.000000
+14:53:40 - Nothing: Move: [V-] - -12.000000
+14:53:40 - Nothing: Move: [H-] - -4.000000
+14:53:40 - Nothing: Move: [V-] - -18.000000
+14:53:40 - Nothing: Move: [H-] - -2.000000
+14:53:40 - Nothing: Move: [V-] - -27.000000
+14:53:40 - Nothing: Move: [H-] - -5.000000
+14:53:40 - Nothing: Move: [V-] - -7.000000
+14:53:40 - Nothing: Move: [V-] - -9.000000
+14:53:40 - Nothing: Move: [H-] - -3.000000
+14:53:40 - Nothing: Move: [V-] - -4.000000
+14:53:40 - Nothing: Move: [V-] - -4.000000
+14:53:40 - Nothing: Move: [V-] - -5.000000
+14:53:40 - Nothing: Move: [V-] - -1.000000
+14:53:40 - Nothing: Move: [H-] - -1.000000
+14:53:40 - Nothing: Move: [V-] - -1.000000
+14:53:40 - Nothing: Move: [V-] - -1.000000
+14:53:40 - Nothing: Move: [V-] - -3.000000
+14:53:40 - Nothing: Move: [H+] - 2.000000
+14:53:40 - Nothing: Move: [V-] - -2.000000
+14:53:40 - Nothing: Move: [H+] - 2.000000
+14:53:41 - Nothing: Move: [V-] - -2.000000
+14:53:41 - Nothing: Move: [H+] - 1.000000
+14:53:41 - Nothing: Move: [V-] - -15.000000
+14:53:41 - Nothing: Move: [H+] - 7.000000
+14:53:41 - Nothing: Move: [V-] - -17.000000
+14:53:41 - Nothing: Move: [H+] - 5.000000
+14:53:41 - Nothing: Move: [V-] - -21.000000
+14:53:41 - Nothing: Move: [H+] - 3.000000
+14:53:41 - Nothing: Move: [V-] - -9.000000
+14:53:41 - Nothing: Move: [H+] - 1.000000
+14:53:41 - Nothing: Move: [V-] - -2.000000
+14:53:41 - Nothing: Move: [V+] - 3.000000
+14:53:41 - Nothing: Move: [H-] - -2.000000
+14:53:41 - Nothing: Move: [V+] - 2.000000
+14:53:41 - Nothing: Move: [H-] - -2.000000
+14:53:41 - Nothing: Move: [V+] - 4.000000
+14:53:41 - Nothing: Move: [H-] - -3.000000
+14:53:41 - Nothing: Move: [V+] - 5.000000
+14:53:41 - Nothing: Move: [H-] - -3.000000
+14:53:41 - Nothing: Move: [V+] - 2.000000
+14:53:41 - Nothing: Move: [H-] - -1.000000
+14:53:41 - Nothing: Move: [V+] - 2.000000
+14:53:41 - Nothing: Move: [H-] - -1.000000
+14:53:41 - Nothing: Move: [V+] - 3.000000
+14:53:41 - Nothing: Move: [H-] - -2.000000
+14:53:41 - Nothing: Move: [V+] - 2.000000
+14:53:41 - Nothing: Move: [H-] - -2.000000
+14:53:41 - Nothing: Move: [V+] - 1.000000
+14:53:41 - Nothing: Move: [V+] - 2.000000
+14:53:41 - Nothing: Move: [H-] - -1.000000
+14:53:41 - Nothing: Move: [V+] - 2.000000
+14:53:41 - Nothing: Move: [H-] - -1.000000
+14:53:41 - Nothing: Move: [V+] - 2.000000
+14:53:42 - Nothing: Move: [V+] - 1.000000
+14:53:42 - Nothing: Move: [H-] - -1.000000
+14:53:42 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 1
+14:53:42 - Nothing: size: 1920x1028
+14:53:42 - Nothing: size: 1920x1028
+14:53:42 - Nothing: Press: [Mouse Left]
+14:53:42 - Nothing: Release: [Mouse Left]
+14:53:42 - Nothing: Move: [V+] - 1.000000
+14:53:42 - Nothing: Move: [H+] - 1.000000
+14:53:42 - Nothing: Move: [V+] - 3.000000
+14:53:42 - Nothing: Move: [H+] - 8.000000
+14:53:42 - Nothing: Move: [V+] - 10.000000
+14:53:42 - Nothing: Move: [H+] - 18.000000
+14:53:42 - Nothing: Move: [V+] - 30.000000
+14:53:42 - Nothing: Move: [H+] - 49.000000
+14:53:42 - Nothing: Move: [V+] - 15.000000
+14:53:42 - Nothing: Move: [H+] - 21.000000
+14:53:42 - Nothing: Move: [V+] - 45.000000
+14:53:42 - Nothing: Move: [H+] - 64.000000
+14:53:42 - Nothing: Move: [V+] - 35.000000
+14:53:42 - Nothing: Move: [H+] - 40.000000
+14:53:42 - Nothing: Move: [V+] - 37.000000
+14:53:42 - Nothing: Move: [H+] - 34.000000
+14:53:42 - Nothing: Move: [V+] - 37.000000
+14:53:42 - Nothing: Move: [H+] - 31.000000
+14:53:42 - Nothing: Move: [V+] - 38.000000
+14:53:42 - Nothing: Move: [H+] - 30.000000
+14:53:42 - Nothing: Move: [V+] - 41.000000
+14:53:42 - Nothing: Move: [H+] - 29.000000
+14:53:42 - Nothing: Move: [V+] - 45.000000
+14:53:42 - Nothing: Move: [H+] - 31.000000
+14:53:42 - Nothing: Move: [V+] - 18.000000
+14:53:42 - Nothing: Move: [H+] - 10.000000
+14:53:42 - Nothing: Move: [V+] - 7.000000
+14:53:42 - Nothing: Move: [H+] - 4.000000
+14:53:42 - Nothing: Move: [V-] - -4.000000
+14:53:42 - Nothing: Move: [V-] - -18.000000
+14:53:42 - Nothing: Move: [H-] - -1.000000
+14:53:42 - Nothing: Move: [V-] - -37.000000
+14:53:42 - Nothing: Move: [H-] - -4.000000
+14:53:42 - Nothing: Move: [V-] - -51.000000
+14:53:42 - Nothing: Move: [H-] - -6.000000
+14:53:42 - Nothing: Move: [V-] - -58.000000
+14:53:42 - Nothing: Move: [H-] - -3.000000
+14:53:42 - Nothing: Move: [V-] - -65.000000
+14:53:42 - Nothing: Move: [H-] - -4.000000
+14:53:42 - Nothing: Move: [V-] - -45.000000
+14:53:42 - Nothing: Move: [H+] - 1.000000
+14:53:42 - Nothing: Move: [V-] - -26.000000
+14:53:42 - Nothing: Move: [H+] - 1.000000
+14:53:42 - Nothing: Move: [V-] - -7.000000
+14:53:42 - Nothing: Move: [V+] - 8.000000
+14:53:42 - Nothing: Move: [H-] - -2.000000
+14:53:42 - Nothing: Move: [V+] - 26.000000
+14:53:42 - Nothing: Move: [H-] - -5.000000
+14:53:42 - Nothing: Move: [V+] - 48.000000
+14:53:42 - Nothing: Move: [H-] - -10.000000
+14:53:42 - Nothing: Move: [V+] - 65.000000
+14:53:42 - Nothing: Move: [H-] - -8.000000
+14:53:42 - Nothing: Move: [V+] - 63.000000
+14:53:42 - Nothing: Move: [H-] - -6.000000
+14:53:42 - Nothing: Move: [V+] - 61.000000
+14:53:42 - Nothing: Move: [H-] - -6.000000
+14:53:42 - Nothing: Move: [V+] - 50.000000
+14:53:42 - Nothing: Move: [H-] - -7.000000
+14:53:42 - Nothing: Move: [V+] - 44.000000
+14:53:42 - Nothing: Move: [H-] - -8.000000
+14:53:42 - Nothing: Move: [V+] - 2.000000
+14:53:42 - Nothing: Move: [V-] - -6.000000
+14:53:42 - Nothing: Move: [H-] - -3.000000
+14:53:42 - Nothing: Move: [V-] - -30.000000
+14:53:42 - Nothing: Move: [H-] - -4.000000
+14:53:42 - Nothing: Move: [V-] - -77.000000
+14:53:42 - Nothing: Move: [H-] - -3.000000
+14:53:42 - Nothing: Move: [V-] - -66.000000
+14:53:42 - Nothing: Move: [H-] - -2.000000
+14:53:42 - Nothing: Move: [V-] - -86.000000
+14:53:42 - Nothing: Move: [H-] - -1.000000
+14:53:42 - Nothing: Move: [V-] - -73.000000
+14:53:42 - Nothing: Move: [V-] - -57.000000
+14:53:42 - Nothing: Move: [H-] - -1.000000
+14:53:42 - Nothing: Move: [V-] - -37.000000
+14:53:42 - Nothing: Move: [H-] - -1.000000
+14:53:42 - Nothing: Move: [V-] - -8.000000
+14:53:42 - Nothing: Move: [V+] - 13.000000
+14:53:42 - Nothing: Move: [H-] - -1.000000
+14:53:42 - Nothing: Move: [V+] - 44.000000
+14:53:42 - Nothing: Move: [H-] - -5.000000
+14:53:42 - Nothing: Move: [V+] - 73.000000
+14:53:42 - Nothing: Move: [H-] - -4.000000
+14:53:42 - Nothing: Move: [V+] - 76.000000
+14:53:42 - Nothing: Move: [H-] - -3.000000
+14:53:42 - Nothing: Move: [V+] - 84.000000
+14:53:42 - Nothing: Move: [H-] - -2.000000
+14:53:43 - Nothing: Move: [V+] - 80.000000
+14:53:43 - Nothing: Move: [H-] - -3.000000
+14:53:43 - Nothing: Move: [V+] - 69.000000
+14:53:43 - Nothing: Move: [H-] - -1.000000
+14:53:43 - Nothing: Move: [V+] - 48.000000
+14:53:43 - Nothing: Move: [H-] - -1.000000
+14:53:43 - Nothing: Move: [V+] - 15.000000
+14:53:43 - Nothing: Move: [H+] - 1.000000
+14:53:43 - Nothing: Move: [V+] - 3.000000
+14:53:43 - Nothing: Move: [H+] - 2.000000
+14:53:43 - Nothing: Move: [V-] - -54.000000
+14:53:43 - Nothing: Move: [H+] - 6.000000
+14:53:43 - Nothing: Move: [V-] - -61.000000
+14:53:43 - Nothing: Move: [H+] - 1.000000
+14:53:43 - Nothing: Move: [V-] - -85.000000
+14:53:43 - Nothing: Move: [H-] - -1.000000
+14:53:43 - Nothing: Move: [V-] - -83.000000
+14:53:43 - Nothing: Move: [H-] - -2.000000
+14:53:43 - Nothing: Move: [V-] - -70.000000
+14:53:43 - Nothing: Move: [H-] - -1.000000
+14:53:43 - Nothing: Move: [V-] - -60.000000
+14:53:43 - Nothing: Move: [H+] - 1.000000
+14:53:43 - Nothing: Move: [V-] - -28.000000
+14:53:43 - Nothing: Move: [H+] - 1.000000
+14:53:43 - Nothing: Move: [V-] - -3.000000
+14:53:43 - Nothing: Move: [V+] - 16.000000
+14:53:43 - Nothing: Move: [H-] - -3.000000
+14:53:43 - Nothing: Move: [V+] - 39.000000
+14:53:43 - Nothing: Move: [H-] - -6.000000
+14:53:43 - Nothing: Move: [V+] - 85.000000
+14:53:43 - Nothing: Move: [H-] - -4.000000
+14:53:43 - Nothing: Move: [V+] - 62.000000
+14:53:43 - Nothing: Move: [H-] - -1.000000
+14:53:43 - Nothing: Move: [V+] - 53.000000
+14:53:43 - Nothing: Move: [V+] - 48.000000
+14:53:43 - Nothing: Move: [H+] - 2.000000
+14:53:43 - Nothing: Move: [V+] - 25.000000
+14:53:43 - Nothing: Move: [H+] - 3.000000
+14:53:43 - Nothing: Move: [V+] - 2.000000
+14:53:43 - Nothing: Move: [H+] - 1.000000
+14:53:43 - Nothing: Move: [V-] - -10.000000
+14:53:43 - Nothing: Move: [H+] - 4.000000
+14:53:43 - Nothing: Move: [V-] - -25.000000
+14:53:43 - Nothing: Move: [H+] - 3.000000
+14:53:43 - Nothing: Move: [V-] - -32.000000
+14:53:43 - Nothing: Move: [H+] - 2.000000
+14:53:43 - Nothing: Move: [V-] - -21.000000
+14:53:43 - Nothing: Move: [V-] - -58.000000
+14:53:43 - Nothing: Move: [H+] - 2.000000
+14:53:43 - Nothing: Move: [V-] - -31.000000
+14:53:43 - Nothing: Move: [V-] - -14.000000
+14:53:43 - Nothing: Move: [H+] - 1.000000
+14:53:43 - Nothing: Move: [V-] - -20.000000
+14:53:43 - Nothing: Move: [H+] - 2.000000
+14:53:43 - Nothing: Move: [V+] - 1.000000
+14:53:43 - Nothing: Move: [V+] - 10.000000
+14:53:43 - Nothing: Move: [V+] - 25.000000
+14:53:43 - Nothing: Move: [V+] - 31.000000
+14:53:43 - Nothing: Move: [H+] - 1.000000
+14:53:43 - Nothing: Move: [V+] - 30.000000
+14:53:43 - Nothing: Move: [H+] - 1.000000
+14:53:43 - Nothing: Move: [V+] - 15.000000
+14:53:43 - Nothing: Move: [H+] - 1.000000
+14:53:43 - Nothing: Move: [V+] - 4.000000
+14:53:43 - Nothing: Move: [H+] - 1.000000
+14:53:43 - Nothing: Move: [V-] - -1.000000
+14:53:43 - Nothing: Move: [H+] - 1.000000
+14:53:43 - Nothing: Move: [V-] - -7.000000
+14:53:43 - Nothing: Move: [H+] - 4.000000
+14:53:43 - Nothing: Move: [V-] - -10.000000
+14:53:43 - Nothing: Move: [H+] - 9.000000
+14:53:43 - Nothing: Move: [V-] - -11.000000
+14:53:43 - Nothing: Move: [H+] - 11.000000
+14:53:43 - Nothing: Move: [V-] - -23.000000
+14:53:43 - Nothing: Move: [H+] - 21.000000
+14:53:43 - Nothing: Move: [V-] - -21.000000
+14:53:43 - Nothing: Move: [H+] - 15.000000
+14:53:43 - Nothing: Move: [V-] - -16.000000
+14:53:43 - Nothing: Move: [H+] - 11.000000
+14:53:43 - Nothing: Move: [V-] - -10.000000
+14:53:43 - Nothing: Move: [H+] - 8.000000
+14:53:43 - Nothing: Move: [V-] - -4.000000
+14:53:43 - Nothing: Move: [H+] - 3.000000
+14:53:43 - Nothing: Move: [V-] - -2.000000
+14:53:43 - Nothing: Move: [H+] - 1.000000
+14:53:43 - Nothing: Move: [V-] - -1.000000
+14:53:43 - Nothing: Move: [H+] - 2.000000
+14:53:43 - Nothing: Move: [V-] - -1.000000
+14:53:44 - Nothing: Press: [Mouse Left]
+14:53:44 - Nothing: Release: [Mouse Left]
+14:53:44 - Nothing: Move: [V-] - -1.000000
+14:53:44 - Nothing: Move: [V-] - -2.000000
+14:53:44 - Nothing: Move: [V-] - -4.000000
+14:53:44 - Nothing: Move: [V-] - -5.000000
+14:53:44 - Nothing: Move: [V-] - -4.000000
+14:53:44 - Nothing: Move: [V-] - -7.000000
+14:53:44 - Nothing: Move: [V-] - -12.000000
+14:53:44 - Nothing: Move: [V-] - -13.000000
+14:53:44 - Nothing: Move: [H+] - 1.000000
+14:53:44 - Nothing: Move: [V-] - -11.000000
+14:53:44 - Nothing: Move: [H+] - 2.000000
+14:53:44 - Nothing: Move: [V-] - -9.000000
+14:53:44 - Nothing: Move: [H+] - 2.000000
+14:53:44 - Nothing: Move: [V-] - -1.000000
+14:53:44 - Nothing: Move: [H+] - 1.000000
+14:53:44 - Nothing: Press: [Mouse Left]
+14:53:44 - Nothing: Release: [Mouse Left]
+14:53:44 - Nothing: Press: [Mouse Left]
+14:53:44 - Nothing: Release: [Mouse Left]
+14:53:44 - Nothing: Press: [Mouse Left]
+14:53:44 - Nothing: Release: [Mouse Left]
+14:53:45 - Nothing: Move: [H+] - 1.000000
+14:53:45 - Nothing: Move: [V+] - 7.000000
+14:53:45 - Nothing: Move: [H+] - 1.000000
+14:53:45 - Nothing: Move: [V+] - 13.000000
+14:53:45 - Nothing: Move: [H+] - 2.000000
+14:53:45 - Nothing: Move: [V+] - 20.000000
+14:53:45 - Nothing: Move: [V+] - 30.000000
+14:53:45 - Nothing: Move: [V+] - 37.000000
+14:53:45 - Nothing: Move: [H-] - -2.000000
+14:53:45 - Nothing: Move: [V+] - 41.000000
+14:53:45 - Nothing: Move: [H-] - -4.000000
+14:53:45 - Nothing: Move: [V+] - 42.000000
+14:53:45 - Nothing: Move: [H-] - -7.000000
+14:53:45 - Nothing: Move: [V+] - 46.000000
+14:53:45 - Nothing: Move: [H-] - -8.000000
+14:53:45 - Nothing: Move: [V+] - 48.000000
+14:53:45 - Nothing: Move: [H-] - -8.000000
+14:53:45 - Nothing: Move: [V+] - 56.000000
+14:53:45 - Nothing: Move: [H-] - -14.000000
+14:53:45 - Nothing: Move: [V+] - 52.000000
+14:53:45 - Nothing: Move: [H-] - -20.000000
+14:53:45 - Nothing: Move: [V+] - 41.000000
+14:53:45 - Nothing: Move: [H-] - -22.000000
+14:53:45 - Nothing: Move: [V+] - 19.000000
+14:53:45 - Nothing: Move: [H-] - -14.000000
+14:53:45 - Nothing: Move: [V+] - 38.000000
+14:53:45 - Nothing: Move: [H-] - -49.000000
+14:53:45 - Nothing: Move: [V+] - 6.000000
+14:53:45 - Nothing: Move: [H-] - -26.000000
+14:53:45 - Nothing: Move: [V+] - 10.000000
+14:53:45 - Nothing: Move: [H-] - -13.000000
+14:53:45 - Nothing: Move: [H-] - -1.000000
+14:53:45 - Nothing: Move: [V+] - 1.000000
+14:53:45 - Nothing: Move: [H+] - 1.000000
+14:53:45 - Nothing: Move: [V+] - 7.000000
+14:53:45 - Nothing: Move: [H+] - 2.000000
+14:53:45 - Nothing: Move: [V+] - 2.000000
+14:53:45 - Nothing: Move: [H-] - -1.000000
+14:53:45 - Nothing: Move: [V+] - 5.000000
+14:53:45 - Nothing: Move: [H-] - -1.000000
+14:53:45 - Nothing: Move: [V+] - 15.000000
+14:53:45 - Nothing: Move: [H-] - -4.000000
+14:53:45 - Nothing: Move: [V+] - 8.000000
+14:53:45 - Nothing: Move: [H-] - -2.000000
+14:53:45 - Nothing: Move: [V+] - 2.000000
+14:53:45 - Nothing: Move: [H-] - -1.000000
+14:53:49 - Nothing: Move: [V+] - 1.000000
+14:53:49 - Nothing: Move: [H-] - -4.000000
+14:53:49 - Nothing: Move: [H-] - -28.000000
+14:53:49 - Nothing: Move: [V+] - 1.000000
+14:53:49 - Nothing: Move: [H-] - -31.000000
+14:53:49 - Nothing: Move: [V+] - 3.000000
+14:53:49 - Nothing: Move: [H-] - -35.000000
+14:53:49 - Nothing: Move: [V+] - 10.000000
+14:53:49 - Nothing: Move: [H-] - -42.000000
+14:53:49 - Nothing: Move: [V+] - 16.000000
+14:53:49 - Nothing: Move: [H-] - -39.000000
+14:53:49 - Nothing: Move: [V+] - 17.000000
+14:53:49 - Nothing: Move: [H-] - -44.000000
+14:53:49 - Nothing: Move: [V+] - 14.000000
+14:53:49 - Nothing: Move: [H-] - -32.000000
+14:53:49 - Nothing: Move: [V+] - 4.000000
+14:53:49 - Nothing: Move: [H-] - -23.000000
+14:53:49 - Nothing: Move: [V-] - -3.000000
+14:53:49 - Nothing: Move: [H-] - -5.000000
+14:53:49 - Nothing: Move: [V-] - -7.000000
+14:53:49 - Nothing: Move: [H+] - 3.000000
+14:53:49 - Nothing: Move: [V-] - -3.000000
+14:53:49 - Nothing: Move: [V+] - 8.000000
+14:53:49 - Nothing: Move: [H-] - -3.000000
+14:53:49 - Nothing: Move: [V+] - 4.000000
+14:53:49 - Nothing: Move: [H-] - -3.000000
+14:53:49 - Nothing: Move: [V+] - 13.000000
+14:53:49 - Nothing: Move: [H-] - -2.000000
+14:53:49 - Nothing: Move: [V+] - 16.000000
+14:53:49 - Nothing: Move: [V+] - 20.000000
+14:53:49 - Nothing: Move: [H-] - -1.000000
+14:53:49 - Nothing: Move: [V+] - 19.000000
+14:53:49 - Nothing: Move: [H+] - 2.000000
+14:53:49 - Nothing: Move: [V+] - 26.000000
+14:53:49 - Nothing: Move: [H+] - 5.000000
+14:53:49 - Nothing: Move: [V+] - 28.000000
+14:53:49 - Nothing: Move: [H+] - 4.000000
+14:53:49 - Nothing: Move: [V+] - 26.000000
+14:53:49 - Nothing: Move: [H+] - 5.000000
+14:53:49 - Nothing: Move: [V+] - 25.000000
+14:53:49 - Nothing: Move: [H+] - 1.000000
+14:53:49 - Nothing: Move: [V+] - 24.000000
+14:53:49 - Nothing: Move: [H-] - -2.000000
+14:53:49 - Nothing: Move: [V+] - 19.000000
+14:53:49 - Nothing: Move: [H-] - -2.000000
+14:53:49 - Nothing: Move: [V+] - 19.000000
+14:53:49 - Nothing: Move: [H-] - -4.000000
+14:53:49 - Nothing: Move: [V+] - 6.000000
+14:53:49 - Nothing: Move: [H-] - -2.000000
+14:53:49 - Nothing: Move: [V+] - 4.000000
+14:53:49 - Nothing: Move: [H-] - -2.000000
+14:53:49 - Nothing: Move: [V+] - 3.000000
+14:53:49 - Nothing: Move: [H-] - -1.000000
+14:53:49 - Nothing: Move: [H-] - -1.000000
+14:53:49 - Nothing: Move: [V+] - 1.000000
+14:53:49 - Nothing: Move: [H-] - -1.000000
+14:53:49 - Nothing: Move: [V-] - -1.000000
+14:53:49 - Nothing: Move: [H-] - -1.000000
+14:53:49 - Nothing: Move: [V+] - 1.000000
+14:53:50 - Nothing: Move: [H+] - 1.000000
+14:53:50 - Nothing: Move: [V+] - 8.000000
+14:53:50 - Nothing: Move: [H+] - 2.000000
+14:53:50 - Nothing: Move: [V+] - 10.000000
+14:53:50 - Nothing: Move: [H+] - 2.000000
+14:53:50 - Nothing: Move: [V+] - 23.000000
+14:53:50 - Nothing: Move: [V+] - 7.000000
+14:53:50 - Nothing: Move: [H-] - -2.000000
+14:53:50 - Nothing: Move: [V+] - 9.000000
+14:53:50 - Nothing: Move: [H-] - -2.000000
+14:53:50 - Nothing: Move: [V+] - 7.000000
+14:53:50 - Nothing: Move: [H-] - -2.000000
+14:53:50 - Nothing: Move: [V+] - 2.000000
+14:53:50 - Nothing: Move: [H-] - -2.000000
+14:53:50 - Nothing: Move: [V+] - 1.000000
+14:53:50 - Nothing: Move: [V+] - 3.000000
+14:53:50 - Nothing: Move: [H-] - -1.000000
+14:53:50 - Nothing: Move: [V+] - 1.000000
+14:53:50 - Nothing: Move: [H-] - -1.000000
+14:53:50 - Nothing: Move: [V+] - 1.000000
+14:53:50 - Nothing: Move: [V+] - 1.000000
+14:53:50 - Nothing: Move: [H+] - 1.000000
+14:53:50 - Nothing: Move: [H+] - 1.000000
+14:53:50 - Nothing: Move: [H+] - 4.000000
+14:53:50 - Nothing: Move: [H+] - 1.000000
+14:53:50 - Nothing: Move: [H+] - 2.000000
+14:53:50 - Nothing: Move: [V-] - -1.000000
+14:53:50 - Nothing: Move: [H+] - 2.000000
+14:53:50 - Nothing: Move: [H+] - 2.000000
+14:53:50 - Nothing: Move: [V+] - 1.000000
+14:53:50 - Nothing: Move: [H+] - 3.000000
+14:53:50 - Nothing: Move: [V+] - 2.000000
+14:53:50 - Nothing: Move: [H+] - 2.000000
+14:53:50 - Nothing: Move: [V+] - 2.000000
+14:53:50 - Nothing: Move: [H+] - 2.000000
+14:53:50 - Nothing: Move: [V+] - 1.000000
+14:53:50 - Nothing: Move: [H+] - 1.000000
+14:53:50 - Nothing: Move: [H+] - 1.000000
+14:53:51 - Nothing: w32WindowProc() : Mensagem recebida: WM_CLOSE. Janela fechada.
+14:53:51 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 144.
+14:53:51 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 2.
+14:53:51 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 130.
+14:53:51 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 144.
+14:53:51 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 70.
+14:53:51 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 71.
+14:53:51 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 134.
+14:53:51 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 6.
+14:53:51 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 28.
+14:53:51 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 8.
+14:53:51 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 641.
+14:53:51 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 642.
+14:53:51 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 2.
+14:53:51 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 130.
+
+--------------------------------------------------------------------------------

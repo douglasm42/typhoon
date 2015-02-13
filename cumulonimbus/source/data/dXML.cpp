@@ -11,9 +11,9 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <data/XML.h>
+#include <cb/data/XML.h>
 
-#include <base/Exception.h>
+#include <cb/base/Exception.h>
 
 #include <pugixml.hpp>
 
@@ -76,8 +76,8 @@ namespace cb {
 			try {
 				std::stoi(value());
 				return true;
-			} catch (std::out_of_range &e) {
-			} catch (std::invalid_argument &e) {
+			} catch (std::out_of_range &) {
+			} catch (std::invalid_argument &) {
 			}
 			return false;
 		}
@@ -85,8 +85,8 @@ namespace cb {
 			try {
 				std::stoul(value());
 				return true;
-			} catch (std::out_of_range &e) {
-			} catch (std::invalid_argument &e) {
+			} catch (std::out_of_range &) {
+			} catch (std::invalid_argument &) {
 			}
 			return false;
 		}
@@ -94,8 +94,8 @@ namespace cb {
 			try {
 				std::stof(value());
 				return true;
-			} catch (std::out_of_range &e) {
-			} catch (std::invalid_argument &e) {
+			} catch (std::out_of_range &) {
+			} catch (std::invalid_argument &) {
 			}
 			return false;
 		}
@@ -103,8 +103,8 @@ namespace cb {
 			try {
 				std::stod(value());
 				return true;
-			} catch (std::out_of_range &e) {
-			} catch (std::invalid_argument &e) {
+			} catch (std::out_of_range &) {
+			} catch (std::invalid_argument &) {
 			}
 			return false;
 		}
@@ -275,36 +275,36 @@ namespace cb {
 			delete DECODE(pugi::xml_document, _document);
 		}
 
-		void XML::load(istream &istream) {
+		void XML::load(File &ifile) {
 			pugi::xml_document &doc = *DECODE(pugi::xml_document, _document);
 
-			pugi::xml_parse_result result = doc.load(istream);
+			pugi::xml_parse_result result = doc.load_buffer(ifile.data(), ifile.size());
 			if(!result) {
 				ThrowDet(tokurei::LoadFailed, "Error: %s", result.description());
 			}
 		}
 
-		void XML::load(base::string ifilename) {
-			iFile file(ifilename);
-			if(file.isOpen()) {
-				load(file);
-			} else {
-				ThrowDet(tokurei::OpenError, "Filename: %s", ifilename.c_str());
-			}
+		class FileWriter : public pugi::xml_writer {
+		private:
+			File &_file;
+
+		public:
+			FileWriter(File &ifile) : _file(ifile) {}
+
+			virtual void write(const void* idata, size_t isize);
+		};
+
+		void FileWriter::write(const void* idata, size_t isize) {
+			_file.append(reinterpret_cast<const char *>(idata), isize);
 		}
 
-		void XML::save(ostream &ostream) {
+		void XML::save(File &ifile) {
 			pugi::xml_document &doc = *DECODE(pugi::xml_document, _document);
 
-			doc.save(ostream, "\t", 1U, pugi::encoding_utf8);
-		}
-		void XML::save(base::string ifilename) {
-			oFile file(ifilename);
-			if(file.isOpen()) {
-				save(file);
-			} else {
-				ThrowDet(tokurei::OpenError, "Error: %s", ifilename.c_str());
-			}
+			ifile.clear();
+			FileWriter writer(ifile);
+
+			doc.save(writer, "\t", 1U, pugi::encoding_utf8);
 		}
 
 		XML::Node XML::operator[](base::string ikey) {

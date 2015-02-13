@@ -11,11 +11,10 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <base/String.h>
+#include <cb/base/String.h>
 
-#include <base/FormatMacro.h>
+#include <cb/base/FormatMacro.h>
 
-#include <boost/locale.hpp>
 #include <locale>
 #include <codecvt>
 
@@ -132,7 +131,7 @@ namespace cb {
 			return result;
 		}
 
-		unsigned int hash(string istr) {
+		size_t hash(string istr) {
 			std::hash<string> strhash;
 			return strhash(istr);
 		}
