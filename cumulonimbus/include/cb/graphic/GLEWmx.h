@@ -26,10 +26,10 @@
 
 #include <cb/base/Exception.h>
 
-GLEWContext *glewGetContext();
+CbAPI GLEWContext *glewGetContext();
 
 #ifdef CbWindows
-	WGLEWContext *wglewGetContext();
+	CbAPI WGLEWContext *wglewGetContext();
 #endif
 
 namespace cb {
@@ -64,11 +64,11 @@ namespace cb {
 	}  // namespace graphic
 }  // namespace cb
 
-#define glCheckError() {\
+#define glCheckError {\
 	GLenum error = glGetError();\
 	switch(error) {\
 	case GL_NO_ERROR:\
-		return;\
+		break;\
 	case GL_INVALID_ENUM:\
 		Throw(cb::tokurei::GLInvalidEnum);\
 	case GL_INVALID_VALUE:\

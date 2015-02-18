@@ -13,11 +13,7 @@
  */
 #include <cb/input/EventHub.h>
 
-#include <cb/input/KeyListener.h>
-#include <cb/input/CharListener.h>
-#include <cb/input/MouseListener.h>
-#include <cb/input/WindowListener.h>
-#include <cb/input/QuitListener.h>
+#include <cb/input/Listener.h>
 
 #include <cb/base/Exception.h>
 
@@ -179,7 +175,7 @@ namespace cb {
 			}
 		}
 
-		void EventHub::onResize(size_t iwidth, size_t iheight) {
+		void EventHub::onResize(uint32 iwidth, uint32 iheight) {
 			std::vector<WindowListener*>::iterator it;
 			for(it = _window_listener_list.begin() ; it != _window_listener_list.end() ; ++it) {
 				(*it)->onResize(iwidth, iheight);

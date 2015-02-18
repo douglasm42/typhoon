@@ -30,8 +30,8 @@ namespace cb {
 #			endif
 
 		public:
-			Cursor(const data::ubBitmapRGBA &ibmp, size_t ixhotspot, size_t iyhotspot);
-			Cursor(const data::ubBitmapRGB &ibmp, size_t ixhotspot, size_t iyhotspot, u8vec3 itransparent);
+			Cursor(const data::ubBitmapRGBA &ibmp, uint32 ixhotspot, uint32 iyhotspot);
+			Cursor(const data::ubBitmapRGB &ibmp, uint32 ixhotspot, uint32 iyhotspot, u8vec3 itransparent);
 			~Cursor();
 
 #			ifdef CbWindows

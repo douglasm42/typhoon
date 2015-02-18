@@ -14,6 +14,8 @@
 #pragma once
 #include <cb/graphic/graphic.h>
 
+#include <cb/graphic/GLEWmx.h>
+
 #include <cb/data/File.h>
 
 #include <vector>
@@ -29,7 +31,7 @@ namespace cb {
 
 		private:
 			Type _type;
-			GLObject _id;
+			GLuint _id;
 
 			Shader(const Shader &);
 
@@ -38,9 +40,9 @@ namespace cb {
 			Shader(const std::vector<data::File *> &ifiles, Type itype);
 			~Shader();
 
-			GLObject id() const;
+			GLuint getID() const;
 		};
 
-		inline GLObject Shader::id() const {return _id;}
+		inline GLuint Shader::getID() const {return _id;}
 	}  // namespace graphic
 }  // namespace cb

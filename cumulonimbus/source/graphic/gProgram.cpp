@@ -13,15 +13,15 @@
  */
 #include <cb/graphic/Program.h>
 
-#include <graphic/GLEWmx.h>
-#include <graphic/TextureTranslate.h>
+#include <cb/graphic/GLEWmx.h>
+#include <cb/graphic/tex/TextureHelper.h>
 
 #include <cb/base/Exception.h>
 
 #ifdef CbDebug
 #	define AssertProgramBind(programid) \
 			{\
-				GLObject program;\
+				GLuint program;\
 				glGetIntegerv(GL_CURRENT_PROGRAM, (GLint*)&program);\
 				if(program != programid) {\
 					Throw(tokurei::SetFailed);\
@@ -44,12 +44,12 @@ namespace cb {
 
 		void Program::add(Shader *ishader) {
 			_shaders.push_back(ishader);
-			glAttachShader(_id, ishader->id());
+			glAttachShader(_id, ishader->getID());
 		}
 
 		void Program::clear() {
 			for(size_t i=0 ; i<_shaders.size() ; i++) {
-				glDetachShader(_id, _shaders[i]->id());
+				glDetachShader(_id, _shaders[i]->getID());
 			}
 			_shaders.clear();
 		}
@@ -80,7 +80,7 @@ namespace cb {
 				}
 			}
 
-			glCheckError();
+			glCheckError;
 		}
 
 		void Program::bind() {
@@ -92,11 +92,11 @@ namespace cb {
 			glUseProgram(0);
 		}
 
-		void Program::output(const base::string &iname, size_t iid) {
+		void Program::output(const base::string &iname, uint32 iid) {
 			glBindFragDataLocation(_id, iid, iname.c_str());
 		}
 
-		void Program::attribute(const base::string &iname, size_t iid) {
+		void Program::attribute(const base::string &iname, uint32 iid) {
 			glBindAttribLocation(_id, iid, iname.c_str());
 		}
 

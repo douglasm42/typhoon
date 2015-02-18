@@ -14,7 +14,10 @@
 #pragma once
 #include <cb/graphic/graphic.h>
 
-#include <cb/graphic/Texture.h>
+#include <cb/graphic/tex/Texture.h>
+#include <cb/graphic/tex/CubeMap.h>
+
+#include <cb/graphic/GLEWmx.h>
 
 #include <vector>
 
@@ -22,7 +25,7 @@ namespace cb {
 	namespace graphic {
 		class CbAPI FrameBuffer {
 		private:
-			GLObject _id;
+			GLuint _id;
 
 			Texture *_depth_buffer;
 			std::vector<Texture *> _color_buffers;
@@ -37,10 +40,10 @@ namespace cb {
 			void validate();
 			void clear();
 
-			void attatch(Texture *irendertarget, size_t ilayer = 0);
-			void attatch(Texture *irendertarget, tex::Target icube_face, size_t ilayer = 0);
+			void attatch(Texture *irendertarget, uint32 ilayer = 0);
+			void attatch(CubeMap *irendertarget, tex::CubeMapFace icube_face, uint32 ilayer = 0);
 
-			static size_t maxAttatchments();
+			static uint32 getMaxAttatchments();
 		};
 	}  // namespace graphic
 }  // namespace cb

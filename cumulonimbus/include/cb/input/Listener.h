@@ -1,6 +1,6 @@
 /* 
  * - Cumulonimbus - ☁
- * File: KeyListener.h
+ * File: Listener.h
  * 
  * Licence:
  * ============================================================================
@@ -16,6 +16,8 @@
 
 #include <cb/input/Key.h>
 
+#include <cb/math/math.h>
+
 namespace cb {
 	namespace input {
 		class CbAPI KeyListener {
@@ -23,6 +25,32 @@ namespace cb {
 			virtual void onKeyPress(Key ikey)=0;
 			virtual void onKeyRelease(Key ikey)=0;
 			virtual void onKeyMove(Key ikey, float ivalue)=0;
+		};
+
+		class CbAPI CharListener {
+		public:
+			virtual void onChar(char32_t ichar)=0;
+		};
+
+		class CbAPI MouseListener {
+		public:
+			virtual void onButtonPress(Key ikey, int ix, int iy)=0;
+			virtual void onButtonRelease(Key ikey, int ix, int iy)=0;
+			virtual void onMouseMove(int ix, int iy)=0;
+			virtual void onWheelMove(float iv, float ih)=0;
+		};
+
+		class CbAPI WindowListener {
+		public:
+			virtual void onResize(uint32 iwidth, uint32 iheight)=0;
+			virtual void onActivate()=0;
+			virtual void onDeactivate()=0;
+			virtual void onClose()=0;
+		};
+
+		class CbAPI QuitListener {
+		public:
+			virtual void onQuit()=0;
 		};
 	}  // namespace input
 }  // namespace cb

@@ -17,7 +17,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <video/win32/Windows.h>
+#include <cb/video/win32/Windows.h>
 
 namespace cb {
 	namespace video {

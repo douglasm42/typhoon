@@ -45,8 +45,8 @@ namespace cb {
 
 			const Border _border;
 
-			size_t _width;
-			size_t _height;
+			uint32 _width;
+			uint32 _height;
 
 			Cursor *_cursor;
 			bool _cursor_show;
@@ -104,7 +104,7 @@ namespace cb {
 			input::EventHub *getEventHub();
 			void setEventHub(input::EventHub *ievent_hub);
 
-			void onResize(size_t iwidth, size_t iheight);
+			void onResize(uint32 iwidth, uint32 iheight);
 			void onActivate();
 			void onDeactivate();
 			void onClose();

@@ -16,10 +16,13 @@
 #include <cb/video/win32/WindowClass.h>
 #include <cb/input/win32/WindowProc.h>
 
+#include <cb/base/Log.h>
+
 namespace cb {
 	namespace video {
 		const wchar_t *w32WindowClass::_name = L"Cumulonimbus::WindowClass";
 		size_t w32WindowClass::_window_count = 0;
+		ATOM w32WindowClass::_atom = 0;
 
 		void w32WindowClass::reg() {
 			if(_window_count == 0) {
@@ -37,7 +40,9 @@ namespace cb {
 				window_class.lpszClassName	= _name;
 				window_class.hIconSm		= NULL;
 
-				if(!RegisterClassEx(&window_class)) {
+				_atom = RegisterClassEx(&window_class);
+
+				if(!_atom) {
 					Throw(tokurei::CreateError);
 				}
 			}
@@ -51,6 +56,14 @@ namespace cb {
 					Throw(tokurei::DeleteError);
 				}
 			}
+		}
+
+		const wchar_t *w32WindowClass::getName() {
+			return _name;
+		}
+
+		ATOM w32WindowClass::getATOM() {
+			return _atom;
 		}
 	}  // namespace video
 }  // namespace cb

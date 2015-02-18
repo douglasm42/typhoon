@@ -20,7 +20,7 @@
 
 namespace cb {
 	namespace video {
-		Cursor::Cursor(const data::ubBitmapRGBA &ibmp, size_t ixhotspot, size_t iyhotspot) {
+		Cursor::Cursor(const data::ubBitmapRGBA &ibmp, uint32 ixhotspot, uint32 iyhotspot) {
 			HCURSOR cur = bitmapToIcon(ibmp, ixhotspot, iyhotspot, FALSE);
 
 			if(cur) {
@@ -30,7 +30,7 @@ namespace cb {
 			}
 		}
 
-		Cursor::Cursor(const data::ubBitmapRGB &ibmp, size_t ixhotspot, size_t iyhotspot, u8vec3 itransparent) {
+		Cursor::Cursor(const data::ubBitmapRGB &ibmp, uint32 ixhotspot, uint32 iyhotspot, u8vec3 itransparent) {
 			HCURSOR cur = bitmapToIcon(ibmp, ixhotspot, iyhotspot, itransparent, FALSE);
 
 			if(cur) {

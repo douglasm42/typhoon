@@ -13,7 +13,7 @@
  */
 #include <cb/graphic/VertexBuffer.h>
 
-#include <graphic/GLEWmx.h>
+#include <cb/graphic/GLEWmx.h>
 
 namespace cb {
 	namespace graphic {
@@ -75,7 +75,7 @@ namespace cb {
 				glDrawElements(GL_POINTS, _point_index_buffer_size, GL_UNSIGNED_INT, 0);
 			}
 
-			glCheckError();
+			glCheckError;
 		}
 
 		void VertexBuffer::load(const data::Mesh &imesh) {

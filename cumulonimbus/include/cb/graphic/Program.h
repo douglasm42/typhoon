@@ -14,8 +14,9 @@
 #pragma once
 #include <cb/graphic/graphic.h>
 
+#include <cb/graphic/GLEWmx.h>
 #include <cb/graphic/Shader.h>
-#include <cb/graphic/Texture.h>
+#include <cb/graphic/tex/Texture.h>
 
 #include <vector>
 
@@ -23,10 +24,10 @@ namespace cb {
 	namespace graphic {
 		class CbAPI Program {
 		private:
-			GLObject _id;
+			GLuint _id;
 			std::vector<Shader *> _shaders;
 
-			size_t _next_texture_position;
+			uint32 _next_texture_position;
 
 		public:
 			Program();
@@ -39,8 +40,8 @@ namespace cb {
 			void bind();
 			void unbind();
 
-			void output(const base::string &iname, size_t iid);
-			void attribute(const base::string &iname, size_t iid);
+			void output(const base::string &iname, uint32 iid);
+			void attribute(const base::string &iname, uint32 iid);
 
 			void uniform(const base::string &iname, float ix);
 			void uniform(const base::string &iname, float ix, float iy);

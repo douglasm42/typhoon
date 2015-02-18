@@ -13,7 +13,7 @@
  */
 #include <cb/graphic/Shader.h>
 
-#include <graphic/GLEWmx.h>
+#include <cb/graphic/GLEWmx.h>
 
 #include <cb/base/Exception.h>
 
@@ -65,7 +65,7 @@ namespace cb {
 				}
 			}
 
-			glCheckError();
+			glCheckError;
 		}
 
 		Shader::Shader(const std::vector<data::File *> &ifiles, Type itype) {
@@ -81,7 +81,7 @@ namespace cb {
 			}
 
 			_id = glCreateShader(translateType(_type));
-			glShaderSource(_id, size, vert_source, vert_source_length);
+			glShaderSource(_id, (GLsizei)size, vert_source, vert_source_length);
 			glCompileShader(_id);
 
 			int compile_status;
@@ -106,7 +106,7 @@ namespace cb {
 				}
 			}
 
-			glCheckError();
+			glCheckError;
 		}
 
 		Shader::~Shader() {

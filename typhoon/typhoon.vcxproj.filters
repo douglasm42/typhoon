@@ -15,13 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="public\include\ty\input\input.h">
+    <ClInclude Include="include\ty\base\base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="public\include\ty\base\base.h">
+    <ClInclude Include="include\ty\base\Setup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="public\include\ty\base\Setup.h">
+    <ClInclude Include="include\ty\input\input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

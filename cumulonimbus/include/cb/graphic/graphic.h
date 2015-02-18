@@ -17,8 +17,6 @@
 
 namespace cb {
 	namespace graphic {
-		typedef unsigned int GLObject;
-
 		class CbAPI GLContext;
 
 		class CbAPI Texture;

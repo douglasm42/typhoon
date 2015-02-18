@@ -13,9 +13,9 @@
  */
 #pragma once
 
-#include <base/base.h>
+#include <cb/base/base.h>
 
-#include <base/Kin.h>
+#include <cb/base/Kin.h>
 
 #include <vector>
 #include <random>

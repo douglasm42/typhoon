@@ -80,7 +80,7 @@ namespace cb {
 				0, 0,
 				100,
 				100,
-				NULL, NULL, GetModuleHandleW(NULL), reinterpret_cast<LPVOID>(this)
+				NULL, NULL, GetModuleHandle(NULL), reinterpret_cast<LPVOID>(this)
 			);
 
 			if(!_w_hwnd) {

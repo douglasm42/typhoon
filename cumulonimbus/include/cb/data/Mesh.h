@@ -26,11 +26,11 @@ namespace cb {
 		public:
 			class CbAPI Channel {
 			public:
-				size_t size;
-				size_t offset;
+				uint32 size;
+				uint32 offset;
 				void *byte_offset;
 
-				Channel(size_t isize, size_t ioffset);
+				Channel(uint32 isize, uint32 ioffset);
 				Channel(const Channel &ichannel);
 				~Channel();
 
@@ -40,8 +40,8 @@ namespace cb {
 
 			class CbAPI Format {
 			public:
-				size_t stride;
-				size_t stride_byte;
+				uint32 stride;
+				uint32 stride_byte;
 				Channel position;
 				Channel texcoord;
 				Channel color;
@@ -49,7 +49,7 @@ namespace cb {
 				Channel tangent;
 
 				Format();
-				Format(size_t iposition, size_t itexcoord, size_t icolor, size_t inormal, size_t itangent);
+				Format(uint32 iposition, uint32 itexcoord, uint32 icolor, uint32 inormal, uint32 itangent);
 				Format(const Format &iformat);
 				~Format();
 
@@ -102,8 +102,8 @@ namespace cb {
 			void tri(uint32 iindex1, uint32 iindex2, uint32 iindex3);
 			void line(uint32 iindex1, uint32 iindex2);
 
-			void sphere(float iradius, size_t irings, size_t isectors);
-			void dome(float iradius, size_t irings, size_t isectors, float ifraction);
+			void sphere(float iradius, uint32 irings, uint32 isectors);
+			void dome(float iradius, uint32 irings, uint32 isectors, float ifraction);
 			void box(float ixsize, float iysize, float izsize);
 			void plane(float ixsize, float izsize, float itxsize, float itysize);
 
@@ -117,7 +117,7 @@ namespace cb {
 			const std::vector<uint32> &points() const;
 		};
 
-		inline Mesh::Channel::Channel(size_t isize, size_t ioffset) : size(isize), offset(ioffset), byte_offset(reinterpret_cast<void*>(sizeof(float)*ioffset)) {}
+		inline Mesh::Channel::Channel(uint32 isize, uint32 ioffset) : size(isize), offset(ioffset), byte_offset(reinterpret_cast<void*>(sizeof(float)*ioffset)) {}
 		inline Mesh::Channel::Channel(const Channel &ichannel) : size(ichannel.size), offset(ichannel.offset), byte_offset(ichannel.byte_offset) {}
 		inline Mesh::Channel::~Channel() {}
 
@@ -142,7 +142,7 @@ namespace cb {
 		,tangent(0,0) {
 		}
 
-		inline Mesh::Format::Format(size_t iposition, size_t itexcoord, size_t icolor, size_t inormal, size_t itangent)
+		inline Mesh::Format::Format(uint32 iposition, uint32 itexcoord, uint32 icolor, uint32 inormal, uint32 itangent)
 		:stride(3 + itexcoord + icolor + inormal + itangent)
 		,stride_byte(sizeof(float) * (3 + itexcoord + icolor + inormal + itangent))
 		,position(iposition, 0)

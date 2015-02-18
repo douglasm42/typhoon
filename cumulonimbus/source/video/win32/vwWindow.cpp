@@ -90,17 +90,18 @@ namespace cb {
 
 			_w_hwnd = CreateWindowEx(
 				getStyleEx(_border),
-				w32WindowClass::getName(),
-				(const wchar_t *)ititle.c_str(),
+				MAKEINTATOM(w32WindowClass::getATOM()),
+				L"Teste",
 				getStyle(_border),
 				0, 0,
 				100,
 				100,
-				NULL, NULL, GetModuleHandleW(NULL), reinterpret_cast<LPVOID>(this)
+				NULL, NULL, GetModuleHandle(NULL), reinterpret_cast<LPVOID>(this)
 			);
+			DWORD error = GetLastError();
 
 			if(!_w_hwnd) {
-				Throw(tokurei::CreateError);
+				ThrowDet(tokurei::CreateError, "Error: %p", error);
 			}
 
 			_w_dimouse = new input::DIMouse(_w_hwnd, _event_hub);
@@ -236,7 +237,7 @@ namespace cb {
 			_event_hub->onResize(_width, _height);
 		}
 
-		void Window::onResize(size_t iwidth, size_t iheight) {
+		void Window::onResize(uint32 iwidth, uint32 iheight) {
 			_width = iwidth;
 			_height = iheight;
 		}

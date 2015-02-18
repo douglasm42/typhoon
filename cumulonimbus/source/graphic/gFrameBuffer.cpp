@@ -13,14 +13,12 @@
  */
 #include <cb/graphic/FrameBuffer.h>
 
-#include <graphic/GLEWmx.h>
-
-#include <graphic/TextureTranslate.h>
+#include <cb/graphic/tex/TextureHelper.h>
 
 namespace cb {
 	namespace graphic {
 		FrameBuffer::FrameBuffer() :_id(0), _depth_buffer(nullptr) {
-			_color_buffers.reserve(maxAttatchments());
+			_color_buffers.reserve(getMaxAttatchments());
 			glGenFramebuffers(1, &_id);
 		}
 
@@ -37,7 +35,7 @@ namespace cb {
 		}
 
 		void FrameBuffer::validate() {
-			glCheckError();
+			glCheckError;
 
 			GLuint attachments[] = {
 					GL_COLOR_ATTACHMENT0,
@@ -57,13 +55,13 @@ namespace cb {
 					GL_COLOR_ATTACHMENT14,
 					GL_COLOR_ATTACHMENT15
 			};
-			glDrawBuffers(_color_buffers.size(), attachments);
+			glDrawBuffers((uint32)_color_buffers.size(), attachments);
 
 			if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
 				Throw(tokurei::SetFailed);
 			}
 
-			glCheckError();
+			glCheckError;
 		}
 
 		void FrameBuffer::clear() {
@@ -71,53 +69,53 @@ namespace cb {
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, 0, 0);
 
 			for(size_t i=0 ; i<_color_buffers.size() ; ++i) {
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0+i, GL_TEXTURE_2D, 0, 0);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, uint32(GL_COLOR_ATTACHMENT0+i), GL_TEXTURE_2D, 0, 0);
 			}
 			_color_buffers.clear();
 		}
 
-		void FrameBuffer::attatch(Texture *irendertarget, size_t ilayer) {
+		void FrameBuffer::attatch(Texture *irendertarget, uint32 ilayer) {
 			if(!irendertarget) {
 				Throw(tokurei::SetFailed);
 			}
 
 			GLenum attachment;
-			if(irendertarget->format() != tex::Format::Depth && irendertarget->format() != tex::Format::Depth16 && irendertarget->format() != tex::Format::Depth24 && irendertarget->format() != tex::Format::Depth32f) {
+			if( !isDepth(irendertarget->getFormat()) ) {
 				size_t next = _color_buffers.size();
-				if(next == maxAttatchments()) {
+				if(next == getMaxAttatchments()) {
 					Throw(tokurei::SetFailed);
 				}
-				attachment = GL_COLOR_ATTACHMENT0+next;
+				attachment = uint32(GL_COLOR_ATTACHMENT0+next);
 				_color_buffers.push_back(irendertarget);
 			} else {
 				_depth_buffer = irendertarget;
 				attachment = GL_DEPTH_ATTACHMENT;
 			}
 
-			tex::Target target = irendertarget->target();
+			tex::Target target = irendertarget->getTarget();
 			if(target == tex::Target::Tex1D) {
-				glFramebufferTexture1D(GL_FRAMEBUFFER, attachment, translateTarget(irendertarget->target()), irendertarget->id(), 0);
+				glFramebufferTexture1D(GL_FRAMEBUFFER, attachment, GLenum(irendertarget->getTarget()), irendertarget->getID(), 0);
 			} else if(target == tex::Target::Tex2D || target == tex::Target::Tex1DArray || target == tex::Target::Rectangle) {
-				glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, translateTarget(irendertarget->target()), irendertarget->id(), 0);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GLenum(irendertarget->getTarget()), irendertarget->getID(), 0);
 			} else if(target == tex::Target::Tex3D || target == tex::Target::Tex2DArray) {
-				glFramebufferTexture3D(GL_FRAMEBUFFER, attachment, translateTarget(irendertarget->target()), irendertarget->id(), 0, ilayer);
+				glFramebufferTexture3D(GL_FRAMEBUFFER, attachment, GLenum(irendertarget->getTarget()), irendertarget->getID(), 0, ilayer);
 			} else {
 				Throw(tokurei::SetFailed);
 			}
 		}
 
-		void FrameBuffer::attatch(Texture *irendertarget, tex::Target icube_face, size_t ilayer) {
+		void FrameBuffer::attatch(CubeMap *irendertarget, tex::CubeMapFace icube_face, uint32 ilayer) {
 			if(!irendertarget) {
 				Throw(tokurei::SetFailed);
 			}
 
 			GLenum attachment;
-			if(irendertarget->format() != tex::Format::Depth && irendertarget->format() != tex::Format::Depth16 && irendertarget->format() != tex::Format::Depth24 && irendertarget->format() != tex::Format::Depth32f) {
+			if(tex::isDepth(irendertarget->getFormat())) {
 				size_t next = _color_buffers.size();
-				if(next == maxAttatchments()) {
+				if(next == getMaxAttatchments()) {
 					Throw(tokurei::SetFailed);
 				}
-				attachment = GL_COLOR_ATTACHMENT0+next;
+				attachment = uint32(GL_COLOR_ATTACHMENT0+next);
 				_color_buffers.push_back(irendertarget);
 			} else {
 				_depth_buffer = irendertarget;
@@ -125,19 +123,15 @@ namespace cb {
 			}
 
 			
-			tex::Target target = irendertarget->target();
-			if(target == tex::Target::CubeMap && (icube_face == tex::Target::CubeMapXm || icube_face == tex::Target::CubeMapXp || icube_face == tex::Target::CubeMapYm || icube_face == tex::Target::CubeMapYp || icube_face == tex::Target::CubeMapZm || icube_face == tex::Target::CubeMapZp)) {
-				glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, translateTarget(icube_face), irendertarget->id(), 0);
-			} else {
-				Throw(tokurei::SetFailed);
-			}
+			tex::Target target = irendertarget->getTarget();
+			glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GLenum(icube_face), irendertarget->getID(), 0);
 		}
 
-		size_t FrameBuffer::maxAttatchments() {
+		uint32 FrameBuffer::getMaxAttatchments() {
 			int maxattachments;
 			glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &maxattachments);
 
-			return (size_t)maxattachments;
+			return (uint32)maxattachments;
 		}
 	}  // namespace graphic
 }  // namespace cb

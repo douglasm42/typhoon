@@ -48,8 +48,8 @@ namespace cb {
 			video::DummyWindow &getWindow();
 		};
 
-		const video::DummyWindow &DummyGLContext::getWindow() const {return _window;}
-		video::DummyWindow &DummyGLContext::getWindow() {return _window;}
+		inline const video::DummyWindow &DummyGLContext::getWindow() const {return _window;}
+		inline video::DummyWindow &DummyGLContext::getWindow() {return _window;}
 	}  // namespace graphic
 }  // namespace cb
 

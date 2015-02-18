@@ -22,12 +22,14 @@ namespace cb {
 		class CbAPI w32WindowClass {
 		private:
 			static const wchar_t *_name;
+			static ATOM _atom;
 			static size_t _window_count;
 
 		public:
 			static void reg();
 			static void unreg();
-			static const wchar_t *getName() {return _name;}
+			static const wchar_t *getName();
+			static ATOM getATOM();
 		};
 	}  // namespace video
 }  // namespace cb

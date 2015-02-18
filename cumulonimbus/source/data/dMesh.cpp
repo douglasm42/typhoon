@@ -41,7 +41,7 @@ namespace cb {
 
 		void Mesh::append(const Mesh &imesh) {
 			if(_format == imesh._format) {
-				size_t offset = (size_t)_vertices.size();
+				uint32 offset = (uint32)_vertices.size();
 				_vertices.assign(imesh._vertices.begin(), imesh._vertices.end());
 
 				std::vector<uint32>::const_iterator it;
@@ -76,7 +76,7 @@ namespace cb {
 		}
 
 		uint32 Mesh::vertex(const Vertex &ivertex) {
-			size_t pos = (size_t)_vertices.size();
+			uint32 pos = (uint32)_vertices.size();
 			_vertices.resize(_vertices.size() + _format.stride);
 
 			if(_format.position.size > 0) {
@@ -204,11 +204,11 @@ namespace cb {
 					}
 				}
 
-				size_t vertices_count = _vertices.size()/_format.stride;
-				for(size_t i=0 ; i<vertices_count ; i++) {
+				uint32 vertices_count = (uint32)_vertices.size()/_format.stride;
+				for(uint32 i=0 ; i<vertices_count ; i++) {
 					float *v = _vertices.data() + _format.stride * i;
 
-					size_t k;
+					uint32 k;
 					for(k=0 ; k<_format.stride && v[k] == vert[k] ; k++);
 
 					if(k==_format.stride) {
@@ -259,7 +259,7 @@ namespace cb {
 			_lines.push_back(iindex2);
 		}
 
-		void Mesh::sphere(float iradius, size_t irings, size_t isectors) {
+		void Mesh::sphere(float iradius, uint32 irings, uint32 isectors) {
 			clear();
 			_format = Format(3,2,0,3,0);
 
@@ -269,22 +269,22 @@ namespace cb {
 			const float Pi2 = 2.0f * Pi;
 			const float mhalfPi = -half_pi<float>();
 
-			size_t nv = (irings+1) * (isectors+1);
+			uint32 nv = (irings+1) * (isectors+1);
 			Vertex v;
 			_vertices.reserve(nv * _format.stride);
 
-			for (size_t r = 0; r < irings+1; r++) {
+			for (uint32 r = 0; r < irings+1; r++) {
 				const float rR = (float)r * R;
 				const float PirR = Pi * rR;
-				const float sPirR = sin<float>(PirR);
+				const float sPirR = sin(PirR);
 
-				float const y = sin<float>(mhalfPi + PirR);
+				const float y = sin(mhalfPi + PirR);
 
-				for (size_t s = 0; s < isectors+1; s++) {
+				for (uint32 s = 0; s < isectors+1; s++) {
 					const float Pi2sS = Pi2 * (float)(s%isectors) * S;
 
-					float const x = cos<float>(Pi2sS) * sPirR;
-					float const z = sin<float>(Pi2sS) * sPirR;
+					float const x = cos(Pi2sS) * sPirR;
+					float const z = sin(Pi2sS) * sPirR;
 
 					v.tex.x = 1-s * S;
 					v.tex.y = r * R;
@@ -301,9 +301,9 @@ namespace cb {
 				}
 			}
 
-			size_t ni = ((irings) * (isectors)) * 4;
+			uint32 ni = ((irings) * (isectors)) * 4;
 			_quads.resize(ni);
-			size_t ii=0;
+			uint32 ii=0;
 
 			uint32 pitch = isectors+1;
 			for (uint32 r = 0; r < irings; r++) {
@@ -317,7 +317,7 @@ namespace cb {
 			}
 		}
 
-		void Mesh::dome(float iradius, size_t irings, size_t isectors, float ifraction) {
+		void Mesh::dome(float iradius, uint32 irings, uint32 isectors, float ifraction) {
 			clear();
 			_format = Format(3,2,0,3,0);
 
@@ -329,22 +329,22 @@ namespace cb {
 
 			const float offset = 1.0f - ifraction;
 
-			size_t nv = (irings+1) * (isectors+1);
+			uint32 nv = (irings+1) * (isectors+1);
 			Vertex v;
 			_vertices.reserve(nv * _format.stride);
 
-			for (size_t r = 0; r < irings+1; r++) {
+			for (uint32 r = 0; r < irings+1; r++) {
 				const float rR = (float)r * R;
 				const float PirR = Pi * rR + glm::pi<float>() * offset;
-				const float sPirR = sin<float>(PirR);
+				const float sPirR = sin(PirR);
 
-				float const y = sin<float>(mhalfPi + PirR);
+				float const y = sin(mhalfPi + PirR);
 
-				for (size_t s = 0; s < isectors+1; s++) {
+				for (uint32 s = 0; s < isectors+1; s++) {
 					const float Pi2sS = Pi2 * (float)(s%isectors) * S;
 
-					float const x = cos<float>(Pi2sS) * sPirR;
-					float const z = sin<float>(Pi2sS) * sPirR;
+					float const x = cos(Pi2sS) * sPirR;
+					float const z = sin(Pi2sS) * sPirR;
 
 					v.tex.x = s * S;
 					v.tex.y = r * R;
@@ -361,9 +361,9 @@ namespace cb {
 				}
 			}
 
-			size_t ni = ((irings) * (isectors)) * 4;
+			uint32 ni = ((irings) * (isectors)) * 4;
 			_quads.resize(ni);
-			size_t ii=0;
+			uint32 ii=0;
 
 			uint32 pitch = isectors+1;
 			for (uint32 r = 0; r < irings; r++) {

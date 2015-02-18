@@ -13,7 +13,7 @@
  */
 #include <cb/graphic/GL.h>
 
-#include <graphic/GLEWmx.h>
+#include <cb/graphic/GLEWmx.h>
 
 #include <cb/graphic/VertexBuffer.h>
 #include <cb/graphic/Color.h>

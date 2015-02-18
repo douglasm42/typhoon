@@ -136,12 +136,12 @@ namespace cb {
 
 		class CbAPI Bitmap {
 		protected:
-			size_t _width;
-			size_t _height;
-			size_t _depth;
-			size_t _pitch;
+			uint32 _width;
+			uint32 _height;
+			uint32 _depth;
+			uint32 _pitch;
 
-			size_t _bytes_per_pixel;
+			uint32 _bytes_per_pixel;
 			bmp::Format _format;
 			bmp::Type _type;
 
@@ -149,37 +149,37 @@ namespace cb {
 
 		public:
 			Bitmap();
-			Bitmap(size_t iwidth, size_t iheight, size_t idepth, bmp::Format iformat, bmp::Type itype);
+			Bitmap(uint32 iwidth, uint32 iheight, uint32 idepth, bmp::Format iformat, bmp::Type itype);
 			Bitmap(const File &ifile, bmp::Format iformat, bmp::Type itype);
 			Bitmap(const Bitmap &isrc);
 
 			~Bitmap();
 
-			size_t width() const;
-			size_t height() const;
-			size_t depth() const;
-			size_t pitch() const;
+			uint32 width() const;
+			uint32 height() const;
+			uint32 depth() const;
+			uint32 pitch() const;
 
-			size_t bpp() const;
+			uint32 bpp() const;
 			bmp::Format format() const;
 			bmp::Type type() const;
 
 			void *data();
-			void *page(size_t iz);
-			void *row(size_t iy, size_t iz);
+			void *page(uint32 iz);
+			void *row(uint32 iy, uint32 iz);
 
 			const void *data() const;
-			const void *page(size_t iz) const;
-			const void *row(size_t iy, size_t iz) const;
+			const void *page(uint32 iz) const;
+			const void *row(uint32 iy, uint32 iz) const;
 
 			bool empty() const;
 			void clear();
 
-			void load(size_t iwidth, size_t iheight, size_t idepth, bmp::Format iformat, bmp::Type itype);
+			void load(uint32 iwidth, uint32 iheight, uint32 idepth, bmp::Format iformat, bmp::Type itype);
 			void load(const File &ifile, bmp::Format iformat, bmp::Type itype);
 			void load(const Bitmap &iimg);
 
-			void loadPage(const File &ifile, size_t iz);
+			void loadPage(const File &ifile, uint32 iz);
 
 			void save(const base::string &ifilename);
 		};
@@ -191,33 +191,33 @@ namespace cb {
 
 		public:
 			BitmapBase();
-			BitmapBase(size_t iwidth, size_t iheight, size_t idepth);
+			BitmapBase(uint32 iwidth, uint32 iheight, uint32 idepth);
 			BitmapBase(const File &ifile);
 			BitmapBase(const BitmapBase<T,f,t> &isrc);
 			~BitmapBase();
 
-			size_t width() const;
-			size_t height() const;
-			size_t depth() const;
+			uint32 width() const;
+			uint32 height() const;
+			uint32 depth() const;
 
-			size_t bpp() const;
+			uint32 bpp() const;
 			bmp::Format format() const;
 			bmp::Type type() const;
 
-			T *row(size_t iy, size_t iz);
-			const T *row(size_t iy, size_t iz) const;
+			T *row(uint32 iy, uint32 iz);
+			const T *row(uint32 iy, uint32 iz) const;
 
 			bool empty() const;
 			void clear();
 
-			void load(size_t iwidth, size_t iheight, size_t idepth);
+			void load(uint32 iwidth, uint32 iheight, uint32 idepth);
 			void load(const File &ifile);
 			void load(const BitmapBase<T,f,t> &iimg);
 
 			void save(const base::string &ifilename);
 
-			T &operator()(size_t ix, size_t iy, size_t iz);
-			const T &operator()(size_t ix, size_t iy, size_t iz) const;
+			T &operator()(uint32 ix, uint32 iy, uint32 iz);
+			const T &operator()(uint32 ix, uint32 iy, uint32 iz) const;
 
 			const Bitmap &bitmap() const;
 		};
@@ -226,7 +226,7 @@ namespace cb {
 		: _width(0), _height(0), _depth(0), _pitch(0), _bytes_per_pixel(0), _format(bmp::Format::Void), _type(bmp::Type::Void), _data(nullptr) {
 		}
 
-		inline Bitmap::Bitmap(size_t iwidth, size_t iheight, size_t idepth, bmp::Format iformat, bmp::Type itype)
+		inline Bitmap::Bitmap(uint32 iwidth, uint32 iheight, uint32 idepth, bmp::Format iformat, bmp::Type itype)
 		: _width(0), _height(0), _depth(0), _pitch(0), _bytes_per_pixel(0), _format(bmp::Format::Void), _type(bmp::Type::Void), _data(nullptr) {
 			load(iwidth, iheight, idepth, iformat, itype);
 		}
@@ -243,22 +243,22 @@ namespace cb {
 
 		inline Bitmap::~Bitmap() {clear();}
 
-		inline size_t Bitmap::width() const {return _width;}
-		inline size_t Bitmap::height() const {return _height;}
-		inline size_t Bitmap::depth() const {return _depth;}
-		inline size_t Bitmap::pitch() const {return _pitch;}
+		inline uint32 Bitmap::width() const {return _width;}
+		inline uint32 Bitmap::height() const {return _height;}
+		inline uint32 Bitmap::depth() const {return _depth;}
+		inline uint32 Bitmap::pitch() const {return _pitch;}
 
-		inline size_t Bitmap::bpp() const {return _bytes_per_pixel;}
+		inline uint32 Bitmap::bpp() const {return _bytes_per_pixel;}
 		inline bmp::Format Bitmap::format() const {return _format;}
 		inline bmp::Type Bitmap::type() const {return _type;}
 
 		inline void *Bitmap::data() {return _data;}
-		inline void *Bitmap::page(size_t iz) {return reinterpret_cast<void*>(reinterpret_cast<uint8 *>(_data) + _pitch*_height*iz);}
-		inline void *Bitmap::row(size_t iy, size_t iz) {return reinterpret_cast<void*>(reinterpret_cast<uint8 *>(_data) + _pitch*_height*iz + _pitch*iy);}
+		inline void *Bitmap::page(uint32 iz) {return reinterpret_cast<void*>(reinterpret_cast<uint8 *>(_data) + _pitch*_height*iz);}
+		inline void *Bitmap::row(uint32 iy, uint32 iz) {return reinterpret_cast<void*>(reinterpret_cast<uint8 *>(_data) + _pitch*_height*iz + _pitch*iy);}
 
 		inline const void *Bitmap::data() const {return _data;}
-		inline const void *Bitmap::page(size_t iz) const {return reinterpret_cast<void*>(reinterpret_cast<uint8 *>(_data) + _pitch*_height*iz);}
-		inline const void *Bitmap::row(size_t iy, size_t iz) const {return reinterpret_cast<void*>(reinterpret_cast<uint8 *>(_data) + _pitch*_height*iz + _pitch*iy);}
+		inline const void *Bitmap::page(uint32 iz) const {return reinterpret_cast<void*>(reinterpret_cast<uint8 *>(_data) + _pitch*_height*iz);}
+		inline const void *Bitmap::row(uint32 iy, uint32 iz) const {return reinterpret_cast<void*>(reinterpret_cast<uint8 *>(_data) + _pitch*_height*iz + _pitch*iy);}
 
 		inline bool Bitmap::empty() const {return !_data;}
 		inline void Bitmap::clear() {
@@ -283,7 +283,7 @@ namespace cb {
 		}
 
 		template<typename T, bmp::Format f, bmp::Type t>
-		inline BitmapBase<T,f,t>::BitmapBase(size_t iwidth, size_t iheight, size_t idepth)
+		inline BitmapBase<T,f,t>::BitmapBase(uint32 iwidth, uint32 iheight, uint32 idepth)
 		: _bitmap(iwidth, iheight, idepth, f, t) {
 		}
 
@@ -301,33 +301,33 @@ namespace cb {
 		inline BitmapBase<T,f,t>::~BitmapBase() {
 		}
 
-		template<typename T, bmp::Format f, bmp::Type t> inline size_t BitmapBase<T,f,t>::width() const {return _bitmap.width();}
-		template<typename T, bmp::Format f, bmp::Type t> inline size_t BitmapBase<T,f,t>::height() const {return _bitmap.height();}
-		template<typename T, bmp::Format f, bmp::Type t> inline size_t BitmapBase<T,f,t>::depth() const {return _bitmap.depth();}
+		template<typename T, bmp::Format f, bmp::Type t> inline uint32 BitmapBase<T,f,t>::width() const {return _bitmap.width();}
+		template<typename T, bmp::Format f, bmp::Type t> inline uint32 BitmapBase<T,f,t>::height() const {return _bitmap.height();}
+		template<typename T, bmp::Format f, bmp::Type t> inline uint32 BitmapBase<T,f,t>::depth() const {return _bitmap.depth();}
 
-		template<typename T, bmp::Format f, bmp::Type t> inline size_t BitmapBase<T,f,t>::bpp() const {return _bitmap.bpp();}
+		template<typename T, bmp::Format f, bmp::Type t> inline uint32 BitmapBase<T,f,t>::bpp() const {return _bitmap.bpp();}
 		template<typename T, bmp::Format f, bmp::Type t> inline bmp::Format BitmapBase<T,f,t>::format() const {return f;}
 		template<typename T, bmp::Format f, bmp::Type t> inline bmp::Type BitmapBase<T,f,t>::type() const {return t;}
 
-		template<typename T, bmp::Format f, bmp::Type t> inline T *BitmapBase<T,f,t>::row(size_t iy, size_t iz) {return reinterpret_cast<T*>(_bitmap.row(iy, iz));}
-		template<typename T, bmp::Format f, bmp::Type t> inline const T *BitmapBase<T,f,t>::row(size_t iy, size_t iz) const {return reinterpret_cast<const T*>(_bitmap.row(iy, iz));}
+		template<typename T, bmp::Format f, bmp::Type t> inline T *BitmapBase<T,f,t>::row(uint32 iy, uint32 iz) {return reinterpret_cast<T*>(_bitmap.row(iy, iz));}
+		template<typename T, bmp::Format f, bmp::Type t> inline const T *BitmapBase<T,f,t>::row(uint32 iy, uint32 iz) const {return reinterpret_cast<const T*>(_bitmap.row(iy, iz));}
 
 		template<typename T, bmp::Format f, bmp::Type t> inline bool BitmapBase<T,f,t>::empty() const {return _bitmap.empty();}
 		template<typename T, bmp::Format f, bmp::Type t> inline void BitmapBase<T,f,t>::clear() {_bitmap.clear();}
 
-		template<typename T, bmp::Format f, bmp::Type t> inline void BitmapBase<T,f,t>::load(size_t iwidth, size_t iheight, size_t idepth) {_bitmap.load(iwidth, iheight, idepth, f, t);}
+		template<typename T, bmp::Format f, bmp::Type t> inline void BitmapBase<T,f,t>::load(uint32 iwidth, uint32 iheight, uint32 idepth) {_bitmap.load(iwidth, iheight, idepth, f, t);}
 		template<typename T, bmp::Format f, bmp::Type t> inline void BitmapBase<T,f,t>::load(const File &ifile) {_bitmap.load(ifile, f, t);}
 		template<typename T, bmp::Format f, bmp::Type t> inline void BitmapBase<T,f,t>::load(const BitmapBase<T,f,t> &iimg) {_bitmap.load(iimg._bitmap);}
 
 		template<typename T, bmp::Format f, bmp::Type t> inline void BitmapBase<T,f,t>::save(const base::string &ifilename) {_bitmap.save(ifilename);}
 
 		template<typename T, bmp::Format f, bmp::Type t>
-		inline T &BitmapBase<T,f,t>::operator()(size_t ix, size_t iy, size_t iz) {
+		inline T &BitmapBase<T,f,t>::operator()(uint32 ix, uint32 iy, uint32 iz) {
 			return reinterpret_cast<T*>(_bitmap.row(iy, iz))[ix];
 		}
 
 		template<typename T, bmp::Format f, bmp::Type t>
-		inline const T &BitmapBase<T,f,t>::operator()(size_t ix, size_t iy, size_t iz) const {
+		inline const T &BitmapBase<T,f,t>::operator()(uint32 ix, uint32 iy, uint32 iz) const {
 			return reinterpret_cast<const T*>(_bitmap.row(iy, iz))[ix];
 		}
 

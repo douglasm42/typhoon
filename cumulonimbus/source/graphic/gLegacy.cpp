@@ -13,7 +13,7 @@
  */
 #include <cb/graphic/Legacy.h>
 
-#include <graphic/GLEWmx.h>
+#include <cb/graphic/GLEWmx.h>
 
 namespace cb {
 	namespace graphic {

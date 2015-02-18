@@ -17,12 +17,12 @@
 
 _thread_local cb::graphic::GLEWmxContext *_active = nullptr;
 
-GLEWContext *glewGetContext() {
+CbAPI GLEWContext *glewGetContext() {
 	return &(_active->_context);
 }
 
 #ifdef CbWindows
-	WGLEWContext *wglewGetContext() {
+	CbAPI WGLEWContext *wglewGetContext() {
 		return &(_active->_wcontext);
 	}
 #endif

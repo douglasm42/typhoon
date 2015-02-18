@@ -15,6 +15,8 @@
 #include <cb/input/input.h>
 
 #include <cb/input/Key.h>
+#include <cb/math/math.h>
+
 #include <vector>
 
 namespace cb {
@@ -54,7 +56,7 @@ namespace cb {
 			void onMouseMove(int ix, int iy);
 			void onWheelMove(float iv, float ih);
 
-			void onResize(size_t iwidth, size_t iheight);
+			void onResize(uint32 iwidth, uint32 iheight);
 			void onActivate();
 			void onDeactivate();
 			void onClose();

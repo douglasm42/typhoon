@@ -13,8 +13,6 @@
  */
 #include <cb/graphic/PixelFormat.h>
 
-#include <cb/video/win32/WindowInfo.h>
-
 #include <cb/graphic/GLEWmx.h>
 #include <cb/graphic/DummyGLContext.h>
 
@@ -32,7 +30,7 @@ namespace cb {
 		}
 
 
-		PixelFormat::PixelFormat(ColorBits icolor_bits, AlphaBits ialpha_bits, DepthBits idepth_bits, bool idouble_buffer, bool imultisample, size_t isamples)
+		PixelFormat::PixelFormat(ColorBits icolor_bits, AlphaBits ialpha_bits, DepthBits idepth_bits, bool idouble_buffer, bool imultisample, uint32 isamples)
 		:_w_pixel_format_id(0)
 		,_valid(false)
 		,_color_bits(icolor_bits)
@@ -136,13 +134,6 @@ namespace cb {
 			}
 
 			return _valid;
-		}
-
-		int PixelFormat::wGetPixelFormatId() const {
-			return _w_pixel_format_id;
-		}
-		PIXELFORMATDESCRIPTOR &PixelFormat::wGetPFD() {
-			return _w_pfd;
 		}
 	}  // namespace graphic
 }  // namespace cb

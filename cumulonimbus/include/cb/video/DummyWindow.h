@@ -37,7 +37,7 @@ namespace cb {
 		};
 
 #		ifdef CbWindows
-			HWND DummyWindow::wGetHWND() const {return _w_hwnd;}
+			inline HWND DummyWindow::wGetHWND() const {return _w_hwnd;}
 #		endif
 	}  // namespace video
 }  // namespace cb

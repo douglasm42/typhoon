@@ -20,7 +20,7 @@
 
 namespace cb {
 	namespace video {
-		HICON CbAPI bitmapToIcon(const data::ubBitmapRGBA &ibmp, size_t ixhotspot, size_t iyhotspot, BOOL iicon);
-		HICON CbAPI bitmapToIcon(const data::ubBitmapRGB &ibmp, size_t ixhotspot, size_t iyhotspot, u8vec3 itransparent, BOOL iicon);
+		HICON CbAPI bitmapToIcon(const data::ubBitmapRGBA &ibmp, uint32 ixhotspot, uint32 iyhotspot, BOOL iicon);
+		HICON CbAPI bitmapToIcon(const data::ubBitmapRGB &ibmp, uint32 ixhotspot, uint32 iyhotspot, u8vec3 itransparent, BOOL iicon);
 	}  // namespace video
 }  // namespace cb

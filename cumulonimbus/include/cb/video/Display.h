@@ -15,6 +15,8 @@
 
 #include <cb/video/video.h>
 
+#include <cb/math/math.h>
+
 #include <vector>
 
 namespace cb {
@@ -27,16 +29,16 @@ namespace cb {
 				*/
 			class Mode {
 			private:
-				size_t _width;
-				size_t _height;
+				uint32 _width;
+				uint32 _height;
 
 			public:
 				Mode():_width(0), _height(0) {}
-				Mode(size_t iwidth, size_t iheight):_width(iwidth), _height(iheight) {}
+				Mode(uint32 iwidth, uint32 iheight):_width(iwidth), _height(iheight) {}
 				Mode(const Mode &dm):_width(dm._width), _height(dm._height) {}
 
-				size_t width() const {return this->_width;}
-				size_t height() const {return this->_height;}
+				uint32 width() const {return this->_width;}
+				uint32 height() const {return this->_height;}
 
 				Mode &operator=(const Mode &b) {
 					this->_width = b._width;

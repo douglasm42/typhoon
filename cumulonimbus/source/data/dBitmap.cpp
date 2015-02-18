@@ -42,8 +42,8 @@ namespace cb {
 	namespace data {
 		std::mutex data_bmp_guard;
 
-		size_t sizeType(bmp::Type itype) {
-			size_t sizes[] = {
+		uint32 sizeType(bmp::Type itype) {
+			uint32 sizes[] = {
 					0,				// Void
 
 					sizeof(int8),	//Byte
@@ -59,14 +59,14 @@ namespace cb {
 					sizeof(float64)	//Double
 			};
 
-			return sizes[(size_t)itype];
+			return sizes[(uint32)itype];
 		}
 
-		size_t bytesPerPixel(bmp::Format iformat, bmp::Type itype) {
+		uint32 bytesPerPixel(bmp::Format iformat, bmp::Type itype) {
 			return sizeType(itype) * CHANNELS(iformat);
 		}
 
-		void Bitmap::load(size_t iwidth, size_t iheight, size_t idepth, bmp::Format iformat, bmp::Type itype) {
+		void Bitmap::load(uint32 iwidth, uint32 iheight, uint32 idepth, bmp::Format iformat, bmp::Type itype) {
 			clear();
 			if(iformat != bmp::Format::Void && itype != bmp::Type::Void) {
 				_bytes_per_pixel = bytesPerPixel(iformat, itype);
@@ -126,14 +126,14 @@ namespace cb {
 		}
 
 		template<class T>
-		void copyImageLoaded(uint8 *idata, void *odata, size_t iwidth, size_t iheight, size_t ipitch, size_t ichannels) {
-			size_t pitch = iwidth * ichannels;
+		void copyImageLoaded(uint8 *idata, void *odata, uint32 iwidth, uint32 iheight, uint32 ipitch, uint32 ichannels) {
+			uint32 pitch = iwidth * ichannels;
 
-			for(size_t y=0 ; y<iheight ; y++) {
+			for(uint32 y=0 ; y<iheight ; y++) {
 				T *oscanline = reinterpret_cast<T *>(reinterpret_cast<uint8 *>(odata) + y * ipitch);
 				uint8 *iscanline = idata + (iheight - y - 1) * pitch;
 
-				for(size_t i=0 ; i<iwidth * ichannels ; i++) {
+				for(uint32 i=0 ; i<iwidth * ichannels ; i++) {
 					(*oscanline) = castByteNormalized<T>(*iscanline);
 
 					oscanline++;
@@ -181,14 +181,14 @@ namespace cb {
 		}
 
 		template<class T>
-		void copyImageLoaded(float *idata, void *odata, size_t iwidth, size_t iheight, size_t ipitch, size_t ichannels) {
-			size_t pitch = iwidth * ichannels;
+		void copyImageLoaded(float *idata, void *odata, uint32 iwidth, uint32 iheight, uint32 ipitch, uint32 ichannels) {
+			uint32 pitch = iwidth * ichannels;
 
-			for(size_t y=0 ; y<iheight ; y++) {
+			for(uint32 y=0 ; y<iheight ; y++) {
 				T *oscanline = reinterpret_cast<T *>(reinterpret_cast<uint8 *>(odata) + y * ipitch);
 				float *iscanline = idata + (iheight - y - 1) * pitch;
 
-				for(size_t i=0 ; i<iwidth * ichannels ; i++) {
+				for(uint32 i=0 ; i<iwidth * ichannels ; i++) {
 					(*oscanline) = castFloatNormalized<T>(*iscanline);
 
 					oscanline++;
@@ -220,7 +220,7 @@ namespace cb {
 
 				c = CHANNELS(iformat);
 
-				load((size_t)w, (size_t)h, (size_t)d, iformat, itype);
+				load((uint32)w, (uint32)h, (uint32)d, iformat, itype);
 
 				switch(itype) {
 				case bmp::Type::Byte:
@@ -263,7 +263,7 @@ namespace cb {
 
 				c = CHANNELS(iformat);
 
-				load((size_t)w, (size_t)h, (size_t)d, iformat, itype);
+				load((uint32)w, (uint32)h, (uint32)d, iformat, itype);
 
 				switch(itype) {
 				case bmp::Type::Byte:
@@ -307,18 +307,18 @@ namespace cb {
 			}
 
 			load(iimg._width, iimg._height, iimg._depth, iimg._format, iimg._type);
-			size_t size = _pitch * _height * _depth;
+			uint32 size = _pitch * _height * _depth;
 
 			size = size >> 2;
-			size_t *ldata = reinterpret_cast<size_t *>(_data);
-			size_t *lidata = reinterpret_cast<size_t *>(iimg._data);
+			uint32 *ldata = reinterpret_cast<uint32 *>(_data);
+			uint32 *lidata = reinterpret_cast<uint32 *>(iimg._data);
 
-			for(size_t i=0 ; i<size ; ++i) {
+			for(uint32 i=0 ; i<size ; ++i) {
 				ldata[i] = lidata[i];
 			}
 		}
 
-		void Bitmap::loadPage(const File &ifile, size_t iz) {
+		void Bitmap::loadPage(const File &ifile, uint32 iz) {
 			if(_format == bmp::Format::Void) {
 				Throw(tokurei::LoadFailed);
 			}

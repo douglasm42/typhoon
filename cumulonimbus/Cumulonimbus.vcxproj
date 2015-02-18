@@ -57,22 +57,28 @@
     <ClInclude Include="include\cb\graphic\PixelFormat.h" />
     <ClInclude Include="include\cb\graphic\Program.h" />
     <ClInclude Include="include\cb\graphic\Shader.h" />
-    <ClInclude Include="include\cb\graphic\Texture.h" />
-    <ClInclude Include="include\cb\graphic\TextureTranslate.h" />
+    <ClInclude Include="include\cb\graphic\tex\Texture.h" />
+    <ClInclude Include="include\cb\graphic\tex\Texture1D.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\tex\TextureHelper.h" />
     <ClInclude Include="include\cb\graphic\VertexBuffer.h" />
-    <ClInclude Include="include\cb\input\CharListener.h" />
+    <ClInclude Include="include\cb\graphic\tex\CubeMap.h" />
+    <ClInclude Include="include\cb\graphic\tex\TextureRectangle.h" />
+    <ClInclude Include="include\cb\graphic\tex\Texture2DArray.h" />
+    <ClInclude Include="include\cb\graphic\tex\Texture1DArray.h" />
+    <ClInclude Include="include\cb\graphic\tex\Texture3D.h" />
+    <ClInclude Include="include\cb\graphic\tex\Texture2D.h" />
     <ClInclude Include="include\cb\input\EventHub.h" />
     <ClInclude Include="include\cb\input\EventLoop.h" />
     <ClInclude Include="include\cb\input\input.h" />
     <ClInclude Include="include\cb\input\Key.h" />
-    <ClInclude Include="include\cb\input\KeyListener.h" />
-    <ClInclude Include="include\cb\input\MouseListener.h" />
-    <ClInclude Include="include\cb\input\QuitListener.h" />
+    <ClInclude Include="include\cb\input\Listener.h" />
     <ClInclude Include="include\cb\input\win32\DIDevice.h" />
     <ClInclude Include="include\cb\input\win32\DIMouse.h" />
     <ClInclude Include="include\cb\input\win32\WindowProc.h" />
     <ClInclude Include="include\cb\input\win32\XInput.h" />
-    <ClInclude Include="include\cb\input\WindowListener.h" />
     <ClInclude Include="include\cb\math\custom\origin.h" />
     <ClInclude Include="include\cb\math\math.h" />
     <ClInclude Include="include\cb\math\origin.h" />
@@ -116,8 +122,15 @@
     <ClCompile Include="source\graphic\gLegacy.cpp" />
     <ClCompile Include="source\graphic\gProgram.cpp" />
     <ClCompile Include="source\graphic\gShader.cpp" />
-    <ClCompile Include="source\graphic\gTexture.cpp" />
+    <ClCompile Include="source\graphic\tex\gTexture.cpp" />
     <ClCompile Include="source\graphic\gVertexBuffer.cpp" />
+    <ClCompile Include="source\graphic\tex\gTexture1D.cpp" />
+    <ClCompile Include="source\graphic\tex\gCubeMap.cpp" />
+    <ClCompile Include="source\graphic\tex\gTextureRectangle.cpp" />
+    <ClCompile Include="source\graphic\tex\gTexture2DArray.cpp" />
+    <ClCompile Include="source\graphic\tex\gTexture1DArray.cpp" />
+    <ClCompile Include="source\graphic\tex\gTexture3D.cpp" />
+    <ClCompile Include="source\graphic\tex\gTexture2D.cpp" />
     <ClCompile Include="source\graphic\win32\gwDummyGLContext.cpp">
       <SubType>
       </SubType>
@@ -231,7 +244,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CUMULONIMBUS_EXPORTS;GLEW_STATIC;GLEW_MX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CUMULONIMBUS_EXPORTS;GLEW_BUILD;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4250;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -246,7 +259,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CUMULONIMBUS_EXPORTS;GLEW_STATIC;GLEW_MX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CUMULONIMBUS_EXPORTS;GLEW_BUILD;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4250;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -263,7 +276,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CUMULONIMBUS_EXPORTS;GLEW_STATIC;GLEW_MX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CUMULONIMBUS_EXPORTS;GLEW_BUILD;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4250;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -282,7 +295,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CUMULONIMBUS_EXPORTS;GLEW_STATIC;GLEW_MX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CUMULONIMBUS_EXPORTS;GLEW_BUILD;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251;4250;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>

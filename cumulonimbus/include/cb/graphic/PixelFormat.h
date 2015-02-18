@@ -51,12 +51,12 @@ namespace cb {
 			DepthBits _depth_bits;
 			bool _double_buffer;
 			bool _multisample;
-			size_t _samples;
+			uint32 _samples;
 
 		public:
 			PixelFormat();
 			PixelFormat(ColorBits icolor_bits, AlphaBits ialpha_bits, DepthBits idepth_bits, bool idouble_buffer);
-			PixelFormat(ColorBits icolor_bits, AlphaBits ialpha_bits, DepthBits idepth_bits, bool idouble_buffer, bool imultisample, size_t isamples);
+			PixelFormat(ColorBits icolor_bits, AlphaBits ialpha_bits, DepthBits idepth_bits, bool idouble_buffer, bool imultisample, uint32 isamples);
 			~PixelFormat();
 
 			bool validate();
@@ -77,8 +77,8 @@ namespace cb {
 			void setMultisample(bool imultisample);
 			bool isMultisample() const;
 
-			void setSamples(size_t isamples);
-			size_t getSamples() const;
+			void setSamples(uint32 isamples);
+			uint32 getSamples() const;
 
 #			ifdef CbWindows
 				int wGetPixelFormatId() const;
@@ -103,8 +103,8 @@ namespace cb {
 		inline void PixelFormat::setMultisample(bool imultisample) {_multisample = imultisample;}
 		inline bool PixelFormat::isMultisample() const {return _multisample;}
 
-		inline void PixelFormat::setSamples(size_t isamples) {_samples = isamples;}
-		inline size_t PixelFormat::getSamples() const {return _samples;}
+		inline void PixelFormat::setSamples(uint32 isamples) {_samples = isamples;}
+		inline uint32 PixelFormat::getSamples() const {return _samples;}
 
 #		ifdef CbWindows
 			inline int PixelFormat::wGetPixelFormatId() const {return _w_pixel_format_id;}

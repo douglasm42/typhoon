@@ -19,25 +19,22 @@
 #include <cb/graphic/GLContext.h>
 #include <cb/input/EventLoop.h>
 
-#include <cb/input/KeyListener.h>
-#include <cb/input/CharListener.h>
-#include <cb/input/MouseListener.h>
-#include <cb/input/WindowListener.h>
-#include <cb/input/QuitListener.h>
+#include <cb/input/Listener.h>
 
 #include <cb/data/File.h>
 #include <cb/data/Bitmap.h>
 #include <cb/data/Mesh.h>
 
 #include <cb/graphic/GL.h>
-#include <cb/graphic/Texture.h>
+#include <cb/graphic/tex/Texture.h>
+#include <cb/graphic/tex/Texture2D.h>
 #include <cb/graphic/Shader.h>
 #include <cb/graphic/Program.h>
 #include <cb/graphic/FrameBuffer.h>
 #include <cb/graphic/PixelFormat.h>
 
 #include <cb/math/math.h>
-#include <cb/math/glm/gtc/matrix_inverse.hpp>
+#include <glm/gtc/matrix_inverse.hpp>
 
 #include <iostream>
 using namespace std;
@@ -56,6 +53,8 @@ public:
 	size_t width;
 	size_t height;
 
+	bool click;
+
 	Listener() {
 		close = false;
 		maximize = false;
@@ -64,6 +63,7 @@ public:
 		quit = false;
 		width = 0;
 		height = 0;
+		click = false;
 	}
 	virtual ~Listener() {}
 
@@ -90,12 +90,20 @@ public:
 
 	virtual void onChar(char32_t ichar) {}
 
-	virtual void onButtonPress(input::Key ikey, int ix, int iy) {}
-	virtual void onButtonRelease(input::Key ikey, int ix, int iy) {}
+	virtual void onButtonPress(input::Key ikey, int ix, int iy) {
+		if(ikey == input::Key::MouseLeft) {
+			click = true;
+		}
+	}
+	virtual void onButtonRelease(input::Key ikey, int ix, int iy) {
+		if(ikey == input::Key::MouseLeft) {
+			click = false;
+		}
+	}
 	virtual void onMouseMove(int ix, int iy) {}
 	virtual void onWheelMove(float iv, float ih) {}
 
-	virtual void onResize(size_t iwidth, size_t iheight) {
+	virtual void onResize(uint32 iwidth, uint32 iheight) {
 		width = iwidth;
 		height = iheight;
 		base::log.nothing("size: %dx%d", width, height);
@@ -112,91 +120,107 @@ public:
 	}
 };
 
+#include <cb/video/DummyWindow.h>
+
 int cbEntry(int argc, char **argv) {
 	base::log.init("log.txt", "test.base");
 
-	video::Placement placement(100,100,500,500,false, false);
+	video::Window win(base::utf16("Testando"), video::Border::System);
+	video::Window winBorderless("Testando", video::Border::Empty);
 
-	video::Window win("Testando!", video::Border::System);
-	video::Window winBorderless("Testando!", video::Border::Empty);
 	bool border = true;
-	win.placement(placement);
+
+	graphic::PixelFormat pf(graphic::ColorBits::c24, graphic::AlphaBits::c0, graphic::DepthBits::d24, true, true, 4);
+	pf.validate();
+
+	win.setPixelFormat(pf);
+	winBorderless.setPixelFormat(pf);
 
 	graphic::GLContext context(win, graphic::Version::v30);
+
+	video::Placement placement(100,100,500,500,false, false);
+	win.setPlacement(placement);
 
 	win.show();
 	context.activate();
 
-	graphic::PixelFormat pf(winBorderless, graphic::BPP::c32, graphic::Depth::d24, true, true, 8);
-	pf.set(winBorderless);
-
 	data::File curfile;
+
+	video::Cursor *point;
+	video::Cursor *click;
 
 	curfile.load("cursor_hand_point.png");
 	{
 		data::ubBitmapRGBA curimg(curfile);
-		win.cursor().add("hand.point", curimg, 3, 0);
-		winBorderless.cursor().add("hand.point", curimg, 3, 0);
+		point = new video::Cursor(curimg, 3, 0);
 	}
 
 	curfile.load("cursor_hand_point_click.png");
 	{
 		data::ubBitmapRGBA curimg(curfile);
-		win.cursor().add("hand.click", curimg, 3, 0);
-		winBorderless.cursor().add("hand.click", curimg, 3, 0);
+		click = new video::Cursor(curimg, 3, 0);
 	}
+
+	video::Icon *cumulonimbus;
 
 	curfile.load("cumulonimbus_icon.png");
 	{
 		data::ubBitmapRGBA curimg(curfile);
-		win.icon(curimg);
-		winBorderless.icon(curimg);
+		cumulonimbus = new video::Icon(curimg);
 	}
 
-	graphic::Texture texuvmap(graphic::tex::Target::Tex2D, graphic::tex::Format::RGBA8);
+	win.setBigIcon(cumulonimbus);
+	win.setSmallIcon(cumulonimbus);
+
+	winBorderless.setBigIcon(cumulonimbus);
+	winBorderless.setSmallIcon(cumulonimbus);
+
+	base::log.info("Loading texuvmap: gizmos/grid.png");
+	graphic::Texture2D texuvmap(graphic::tex::Format::RGBA8);
 	curfile.load("gizmos/grid.png");
 	{
 		data::Bitmap uvmap(curfile, data::bmp::Format::RGBA, data::bmp::Type::UByte);
-		texuvmap.image(uvmap);
+		texuvmap.loadImage(0, uvmap);
 	}
 
-	graphic::Texture texgrid(graphic::tex::Target::Tex2D, graphic::tex::Format::RGBA8);
+	base::log.info("Loading texgrid: gizmos/grid-xx.png");
+	graphic::Texture2D texgrid(graphic::tex::Format::RGBA8);
 	{
 		data::Bitmap grid;
 		curfile.load("gizmos/grid-00.png");
 		grid.load(curfile, data::bmp::Format::RGBA, data::bmp::Type::UByte);
-		texgrid.image(grid);
+		texgrid.loadImage(0, grid);
 
 		curfile.load("gizmos/grid-01.png");
 		grid.load(curfile, data::bmp::Format::RGBA, data::bmp::Type::UByte);
-		texgrid.image(grid);
+		texgrid.addImageLOD(grid);
 
 		curfile.load("gizmos/grid-02.png");
 		grid.load(curfile, data::bmp::Format::RGBA, data::bmp::Type::UByte);
-		texgrid.image(grid);
+		texgrid.addImageLOD(grid);
 
 		curfile.load("gizmos/grid-03.png");
 		grid.load(curfile, data::bmp::Format::RGBA, data::bmp::Type::UByte);
-		texgrid.image(grid);
+		texgrid.addImageLOD(grid);
 
 		curfile.load("gizmos/grid-04.png");
 		grid.load(curfile, data::bmp::Format::RGBA, data::bmp::Type::UByte);
-		texgrid.image(grid);
+		texgrid.addImageLOD(grid);
 
 		curfile.load("gizmos/grid-05.png");
 		grid.load(curfile, data::bmp::Format::RGBA, data::bmp::Type::UByte);
-		texgrid.image(grid);
+		texgrid.addImageLOD(grid);
 
 		curfile.load("gizmos/grid-06.png");
 		grid.load(curfile, data::bmp::Format::RGBA, data::bmp::Type::UByte);
-		texgrid.image(grid);
+		texgrid.addImageLOD(grid);
 
 		curfile.load("gizmos/grid-07.png");
 		grid.load(curfile, data::bmp::Format::RGBA, data::bmp::Type::UByte);
-		texgrid.image(grid);
+		texgrid.addImageLOD(grid);
 
-		texgrid.magFilter(graphic::tex::MagFilter::Linear);
-		texgrid.minFilter(graphic::tex::MinFilter::LinearMipMapLinear);
+		texgrid.setMagFilter(graphic::tex::MagFilter::Linear);
+		texgrid.setMinFilter(graphic::tex::MinFilter::LinearMipMapLinear);
 	}
 
 	data::Mesh gridmesh(data::Mesh::Format(3,2,0,3,0));
@@ -241,17 +265,18 @@ int cbEntry(int argc, char **argv) {
 	back.load(curfile, data::bmp::Format::RGBA, data::bmp::Type::UByte);
 
 	base::log.nothing("Aqui2!");
-	graphic::Texture cards_tex[52];//(graphic::tex::Target::Tex2D, graphic::tex::Format::RGB8);
+	graphic::Texture2D *cards_tex[52];
 	for(int i=0 ; i<52 ; i++) {
-		cards_tex[i].init(graphic::tex::Target::Tex2D, graphic::tex::Format::RGBA8);
-		cards_tex[i].blank(64,32,1);
-		cards_tex[i].subImage(cards[i], 0, 0, 0);
-		cards_tex[i].subImage(back, 0, 32, 0);
+		cards_tex[i] = new graphic::Texture2D(graphic::tex::Format::RGB8);
+		cards_tex[i]->loadBlank(0, 64, 32);
+		cards_tex[i]->loadSubImage(0, cards[i], 0, 0);
+		cards_tex[i]->loadSubImage(0, back, 32, 0);
 	}
 	base::log.nothing("Aqui3!");
 
-	win.cursor().select("hand.point");
-	winBorderless.cursor().select("hand.point");
+	win.setCursor(point);
+	winBorderless.setCursor(point);
+
 	base::log.nothing("Iniciando loop!");
 
 	graphic::gl::clearColor(graphic::tango::sky1);
@@ -327,21 +352,18 @@ int cbEntry(int argc, char **argv) {
 	int i = 0;
 
 	Listener ltn;
-	win.eventhub().bind((input::KeyListener*)&ltn);
-	win.eventhub().bind((input::CharListener*)&ltn);
-	win.eventhub().bind((input::MouseListener*)&ltn);
-	win.eventhub().bind((input::WindowListener*)&ltn);
-	win.eventhub().bind((input::QuitListener*)&ltn);
+	win.setEventHub(new input::EventHub());
+	win.getEventHub()->bind((input::KeyListener*)&ltn);
+	win.getEventHub()->bind((input::CharListener*)&ltn);
+	win.getEventHub()->bind((input::MouseListener*)&ltn);
+	win.getEventHub()->bind((input::WindowListener*)&ltn);
+	win.getEventHub()->bind((input::QuitListener*)&ltn);
 
-	winBorderless.eventhub().bind((input::KeyListener*)&ltn);
-	winBorderless.eventhub().bind((input::CharListener*)&ltn);
-	winBorderless.eventhub().bind((input::MouseListener*)&ltn);
-	winBorderless.eventhub().bind((input::WindowListener*)&ltn);
-	winBorderless.eventhub().bind((input::QuitListener*)&ltn);
+	winBorderless.setEventHub(win.getEventHub());
 
 	base::log.nothing("size: %dx%d", ltn.width, ltn.height);
-	ltn.width = win.placement().width();
-	ltn.height = win.placement().height();
+	ltn.width = win.getPlacement().width();
+	ltn.height = win.getPlacement().height();
 
 	base::Timer t;
 	float light = 0.0f;
@@ -360,7 +382,7 @@ int cbEntry(int argc, char **argv) {
 		}
 
 		if(ltn.maximize) {
-			if(win.placement().maximized()) {
+			if(win.getPlacement().isMaximized()) {
 				win.restore();
 			} else {
 				win.maximize();
@@ -371,18 +393,26 @@ int cbEntry(int argc, char **argv) {
 			win.minimize();
 		}
 
+		if(ltn.click) {
+			win.setCursor(click);
+			winBorderless.setCursor(click);
+		} else {
+			win.setCursor(point);
+			winBorderless.setCursor(point);
+		}
+
 		if(ltn.border) {
 			video::Placement p;
 			if(border) {
-				p = win.placement();
+				p = win.getPlacement();
 				win.hide();
-				winBorderless.placement(p);
+				winBorderless.setPlacement(p);
 				border = false;
 				context.bind(winBorderless);
 			} else {
-				p = winBorderless.placement();
+				p = winBorderless.getPlacement();
 				winBorderless.hide();
-				win.placement(p);
+				win.setPlacement(p);
 				border = true;
 				context.bind(win);
 			}
@@ -400,11 +430,11 @@ int cbEntry(int argc, char **argv) {
 		graphic::gl::clearColor(clearcolor);
 		graphic::gl::clear(graphic::Clear::ColorDepth);
 
-		cards_tex[i].bind();
+		cards_tex[i]->bind();
 		//texuvmap.bind();
 		//texgrid.bind();
 		graphic::gl::texSquare(teste, gridvb);
-		cards_tex[i].unbind();
+		cards_tex[i]->unbind();
 
 		prog.bind();
 		graphic::gl::shaderTest();

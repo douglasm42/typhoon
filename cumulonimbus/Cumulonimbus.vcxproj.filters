@@ -117,12 +117,6 @@
     <ClInclude Include="include\cb\graphic\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\cb\graphic\Texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\cb\graphic\TextureTranslate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\cb\graphic\VertexBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -138,9 +132,6 @@
     <ClInclude Include="include\cb\input\win32\XInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\cb\input\CharListener.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\cb\input\EventHub.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -151,18 +142,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\cb\input\Key.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\cb\input\KeyListener.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\cb\input\MouseListener.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\cb\input\QuitListener.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\cb\input\WindowListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\cb\math\custom\origin.h">
@@ -211,6 +190,36 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\cb\video\Icon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\input\Listener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\tex\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\tex\Texture1D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\tex\Texture1DArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\tex\Texture2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\tex\Texture2DArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\tex\Texture3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\tex\TextureRectangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\tex\CubeMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cb\graphic\tex\TextureHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -290,9 +299,6 @@
     <ClCompile Include="source\graphic\gShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\graphic\gTexture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\graphic\gVertexBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -351,6 +357,30 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\video\win32\vwIcon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\tex\gTexture2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\tex\gTexture3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\tex\gTexture1DArray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\tex\gTexture2DArray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\tex\gTextureRectangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\tex\gCubeMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\tex\gTexture1D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphic\tex\gTexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

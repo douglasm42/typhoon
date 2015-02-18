@@ -631,8 +631,9 @@ namespace cb {
 
 		LRESULT CALLBACK WindowProc(HWND iwindow_handler, UINT imessage, WPARAM iwparam, LPARAM ilparam) {
 			video::Window *window = reinterpret_cast<video::Window *>(GetWindowLongPtr(iwindow_handler, GWLP_USERDATA));
-			input::EventHub *eventhub = window->getEventHub();
 			if(window) {
+				input::EventHub *eventhub = window->getEventHub();
+
 				switch(imessage) {
 				//Eventos de entrada do usuário
 				/*case WM_HOTKEY:
@@ -778,10 +779,10 @@ namespace cb {
 					base::log.nothing("w32WindowProc() : Mensagem recebida: WM_CREATE.");
 					break;
 				case WM_NCCREATE: {
+						base::log.nothing("w32WindowProc() : Mensagem recebida: WM_NCCREATE.");
 						CREATESTRUCT *createstruct = reinterpret_cast<CREATESTRUCT *>(ilparam);
 						SetWindowLongPtr(iwindow_handler, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(createstruct->lpCreateParams));
 					}
-					base::log.nothing("w32WindowProc() : Mensagem recebida: WM_NCCREATE.");
 					break;
 				case WM_NCCALCSIZE:
 					base::log.nothing("w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE.");

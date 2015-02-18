@@ -15,6 +15,8 @@
 
 #include <cb/graphic/graphic.h>
 
+#include <cb/graphic/GLEWmx.h>
+
 #include <cb/data/Mesh.h>
 
 namespace cb {
@@ -24,12 +26,12 @@ namespace cb {
 			typedef data::Mesh::Format Format;
 
 		private:
-			GLObject _vertex_buffer;
+			GLuint _vertex_buffer;
 
-			GLObject _quad_index_buffer;
-			GLObject _tri_index_buffer;
-			GLObject _line_index_buffer;
-			GLObject _point_index_buffer;
+			GLuint _quad_index_buffer;
+			GLuint _tri_index_buffer;
+			GLuint _line_index_buffer;
+			GLuint _point_index_buffer;
 
 			int _quad_index_buffer_size;
 			int _tri_index_buffer_size;

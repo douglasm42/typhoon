@@ -68,28 +68,28 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)Cumulonimbus\public\include;$(ProjectDir)\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)cumulonimbus\include;$(SolutionDir)typhoon\include;$(ProjectDir)\include;$(SolutionDir)\dependencies\include;$(SolutionDir)\dependencies\include\freetype2;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\$(PlatformShortName)\$(Configuration);$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(PlatformShortName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)Cumulonimbus\public\include;$(ProjectDir)\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)cumulonimbus\include;$(SolutionDir)typhoon\include;$(ProjectDir)\include;$(SolutionDir)\dependencies\include;$(SolutionDir)\dependencies\include\freetype2;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\$(PlatformShortName)\$(Configuration);$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(PlatformShortName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)Cumulonimbus\public\include;$(ProjectDir)\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)cumulonimbus\include;$(SolutionDir)typhoon\include;$(ProjectDir)\include;$(SolutionDir)\dependencies\include;$(SolutionDir)\dependencies\include\freetype2;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\$(PlatformShortName)\$(Configuration);$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(PlatformShortName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)Cumulonimbus\public\include;$(ProjectDir)\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)cumulonimbus\include;$(SolutionDir)typhoon\include;$(ProjectDir)\include;$(SolutionDir)\dependencies\include;$(SolutionDir)\dependencies\include\freetype2;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\$(PlatformShortName)\$(Configuration);$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(PlatformShortName)\$(Configuration)\</IntDir>
