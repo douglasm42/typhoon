@@ -57,28 +57,31 @@ namespace cb {
 			const char *what() const {return _what.c_str();}
 		};
 
-#define STR1(x) #x
-#define STR2(x) STR1(x)
-#define WHERE (__FILE__ ":" STR2(__LINE__))
+#		define STR1(x) #x
+#		define STR2(x) STR1(x)
+#		define WHERE (__FILE__ ":" STR2(__LINE__))
 
-#ifdef CbDebug
-#	define Assert(exp, ExceptionClass) if(!(exp)) {throw ExceptionClass(WHERE);}
-#	define AssertDet(exp, ExceptionClass, detail, ...) if(!(exp)) {throw ExceptionClass(WHERE, detail, ##__VA_ARGS__);}
-#else
-#	define Assert(exp, ExceptionClass)
-#	define AssertDet(exp, ExceptionClass, detail, ...)
-#endif
+#		ifdef CbDebug
+#			define Assert(exp, ExceptionClass) if((exp)) {} else {throw ExceptionClass(WHERE);}
+#			define AssertDet(exp, ExceptionClass, detail, ...) if((exp)) {} else {throw ExceptionClass(WHERE, detail, ##__VA_ARGS__);}
+#		else
+#			define Assert(exp, ExceptionClass)
+#			define AssertDet(exp, ExceptionClass, detail, ...)
+#		endif
 
-#define Throw(ExceptionClass) throw ExceptionClass(WHERE)
-#define ThrowDet(ExceptionClass, detail, ...) throw ExceptionClass(WHERE, detail, ##__VA_ARGS__)
+#		define CriticAssert(exp, ExceptionClass) if((exp)) {} else {throw ExceptionClass(WHERE);}
+#		define CriticAssertDet(exp, ExceptionClass, detail, ...) if((exp)) {} else {throw ExceptionClass(WHERE, detail, ##__VA_ARGS__);}
 
-#define ModuleException(Module)\
+#		define Throw(ExceptionClass) throw ExceptionClass(WHERE)
+#		define ThrowDet(ExceptionClass, detail, ...) throw ExceptionClass(WHERE, detail, ##__VA_ARGS__)
+
+#		define ModuleException(Module)\
 		class CbAPI Module : public tokurei::Exception {\
 		public:\
 			Module(const base::string &iwhere, const base::string &iwhat) : Exception(iwhere, #Module":" + iwhat) {}\
 		}
 
-#define DetailedException(Base, Name, message)\
+#		define DetailedException(Base, Name, message)\
 		class CbAPI Name : public Base {\
 		public:\
 			Name(const base::string &iwhere) : Base(iwhere, #Name " - " message) {}\

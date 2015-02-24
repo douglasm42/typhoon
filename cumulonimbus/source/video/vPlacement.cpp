@@ -15,6 +15,8 @@
 
 #include <cb/video/Display.h>
 
+#include <vector>
+
 namespace cb {
 	namespace video {
 		void Placement::centralize() {

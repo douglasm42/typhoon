@@ -92,11 +92,13 @@ public:
 
 	virtual void onButtonPress(input::Key ikey, int ix, int iy) {
 		if(ikey == input::Key::MouseLeft) {
+			base::log.nothing("Mouse Press: %s", ikey.str().c_str());
 			click = true;
 		}
 	}
 	virtual void onButtonRelease(input::Key ikey, int ix, int iy) {
 		if(ikey == input::Key::MouseLeft) {
+			base::log.nothing("Mouse Release: %s", ikey.str().c_str());
 			click = false;
 		}
 	}
@@ -138,7 +140,8 @@ int cbEntry(int argc, char **argv) {
 
 	graphic::GLContext context(win, graphic::Version::v30);
 
-	video::Placement placement(100,100,500,500,false, false);
+	video::Placement placement(100,100,800,600,false, false);
+	placement.centralize();
 	win.setPlacement(placement);
 
 	win.show();
@@ -359,9 +362,7 @@ int cbEntry(int argc, char **argv) {
 	win.getEventHub()->bind((input::WindowListener*)&ltn);
 	win.getEventHub()->bind((input::QuitListener*)&ltn);
 
-	winBorderless.setEventHub(win.getEventHub());
-
-	base::log.nothing("size: %dx%d", ltn.width, ltn.height);
+	base::log.nothing("ltn: size: %dx%d", ltn.width, ltn.height);
 	ltn.width = win.getPlacement().width();
 	ltn.height = win.getPlacement().height();
 
@@ -405,14 +406,26 @@ int cbEntry(int argc, char **argv) {
 			video::Placement p;
 			if(border) {
 				p = win.getPlacement();
+				base::log.nothing("Placement: %dx%d", p.width(), p.height());
+
 				win.hide();
 				winBorderless.setPlacement(p);
+
+				winBorderless.setEventHub(win.getEventHub());
+				win.setEventHub(nullptr);
+
 				border = false;
 				context.bind(winBorderless);
 			} else {
 				p = winBorderless.getPlacement();
+				base::log.nothing("Placement: %dx%d", p.width(), p.height());
+
 				winBorderless.hide();
 				win.setPlacement(p);
+
+				win.setEventHub(winBorderless.getEventHub());
+				winBorderless.setEventHub(nullptr);
+
 				border = true;
 				context.bind(win);
 			}

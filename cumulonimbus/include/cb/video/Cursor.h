@@ -44,6 +44,8 @@ namespace cb {
 
 				static void wSetPosition(HWND iwindow, ivec2 iposition);
 				static ivec2 wGetPosition(HWND iwindow);
+
+				static bool wIsInsideWindow(HWND iwindow);
 #			endif
 		};
 

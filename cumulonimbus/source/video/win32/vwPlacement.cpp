@@ -76,7 +76,7 @@ namespace cb {
 			oplacement._y = window_rectangle.top;
 
 			oplacement._width = window_rectangle.right - window_rectangle.left;
-			oplacement._width = window_rectangle.bottom - window_rectangle.top;
+			oplacement._height = window_rectangle.bottom - window_rectangle.top;
 
 			if(iplacement.flags == WPF_RESTORETOMAXIMIZED || iplacement.showCmd == SW_MAXIMIZE) {
 				oplacement._maximized = true;

@@ -22,81 +22,113 @@
 
 namespace cb {
 	namespace data {
+		namespace mesh {
+			enum class Type {
+				Bool,
+				Int,
+				Float,
+				Double
+			};
+		}  // namespace mesh
+
+		//------------------------------------------------------------------------------
+		// - Mesh -
+		//------------------------------------------------------------------------------
+
 		class CbAPI Mesh {
 		public:
-			class CbAPI Channel {
+			class CbAPI Format;
+
+			//------------------------------------------------------------------------------
+			// - Mesh::Attribute - definition -
+			//------------------------------------------------------------------------------
+
+			class CbAPI Attribute {
+			private:
+				static const size_t _size[];
+				static const size_t _components[];
+
 			public:
-				uint32 size;
-				uint32 offset;
-				void *byte_offset;
+				base::string name;
+				mesh::Type type;
+				size_t components;
+				size_t offset;
 
-				Channel(uint32 isize, uint32 ioffset);
-				Channel(const Channel &ichannel);
-				~Channel();
+				Attribute(base::string iname, mesh::Type itype, size_t components, size_t ioffset);
+				Attribute(const Attribute &iattr);
+				~Attribute();
 
-				Channel operator=(const Channel &ichannel);
-				bool operator==(const Channel &ichannel) const;
+				size_t size() const;
+
+				Attribute &operator=(const Attribute &iattr);
+				bool operator==(const Attribute &iattr) const;
 			};
 
-			class CbAPI Format {
-			public:
-				uint32 stride;
-				uint32 stride_byte;
-				Channel position;
-				Channel texcoord;
-				Channel color;
-				Channel normal;
-				Channel tangent;
+			//------------------------------------------------------------------------------
+			// - Mesh::Format - definition -
+			//------------------------------------------------------------------------------
 
+			class CbAPI Format {
+			private:
+				size_t _size;
+				std::vector<Attribute> _attributes;
+
+			public:
 				Format();
-				Format(uint32 iposition, uint32 itexcoord, uint32 icolor, uint32 inormal, uint32 itangent);
+				Format(size_t iattributes);
 				Format(const Format &iformat);
 				~Format();
 
-				Format operator=(const Format &iformat);
+				void add(base::string iname, mesh::Type itype, size_t icomponents);
+
+				const std::vector<Attribute> &attr() const;
+
+				size_t size() const;
+
+				Format &operator=(const Format &iformat);
 				bool operator==(const Format &iformat) const;
+
+				friend class CbAPI Mesh;
 			};
 
-			class CbAPI Vertex {
-			public:
-				vec4 pos;
-				vec4 tex;
-				vec4 color;
-				vec3 normal;
-				vec3 tangent;
-			};
+			//------------------------------------------------------------------------------
+			// - Mesh - definition -
+			//------------------------------------------------------------------------------
 
 		private:
-			std::vector<float> _vertices;
+			std::vector<uint8> _vertices;
+
+			Format _format;
 
 			std::vector<uint32> _quads;
 			std::vector<uint32> _triangles;
 			std::vector<uint32> _lines;
 			std::vector<uint32> _points;
 
-			Format _format;
-
 		public:
 			Mesh(const Format &iformat);
 			Mesh(const File &ifile);
 			Mesh(const Mesh &imesh);
-			~Mesh();
+			virtual ~Mesh();
 
 			void load(const Format &iformat);
 			void load(const File &isize);
 			void load(const Mesh &imesh);
+
+			File &save() const;
+			void save(File &) const;
 
 			void append(const File &isize);
 			void append(const Mesh &imesh);
 
 			void clear();
 
-			uint32 vertex(const Vertex &ivertex);
-			uint32 uvertex(const Vertex &ivertex);
-			void quad(uint32 iindex);
-			void tri(uint32 iindex);
-			void line(uint32 iindex);
-			void point(uint32 iindex);
+			void *vertex(uint32 iindex);
+			const void *vertex(uint32 iindex) const;
+
+			const Format &format() const;
+
+			void vertex(void *ivertex);
 
 			void quad(uint32 iindex1, uint32 iindex2, uint32 iindex3, uint32 iindex4);
 			void tri(uint32 iindex1, uint32 iindex2, uint32 iindex3);
@@ -107,77 +139,79 @@ namespace cb {
 			void box(float ixsize, float iysize, float izsize);
 			void plane(float ixsize, float izsize, float itxsize, float itysize);
 
-			const Format &format() const;
-
-			const std::vector<float> &vertices() const;
+			const std::vector<uint8> &vertices() const;
 
 			const std::vector<uint32> &quads() const;
 			const std::vector<uint32> &triangles() const;
 			const std::vector<uint32> &lines() const;
 			const std::vector<uint32> &points() const;
 		};
+		
+		//------------------------------------------------------------------------------
+		// - inline Mesh::Attribute -
+		//------------------------------------------------------------------------------
 
-		inline Mesh::Channel::Channel(uint32 isize, uint32 ioffset) : size(isize), offset(ioffset), byte_offset(reinterpret_cast<void*>(sizeof(float)*ioffset)) {}
-		inline Mesh::Channel::Channel(const Channel &ichannel) : size(ichannel.size), offset(ichannel.offset), byte_offset(ichannel.byte_offset) {}
-		inline Mesh::Channel::~Channel() {}
+		inline Mesh::Attribute::Attribute(base::string iname, mesh::Type itype, size_t icomponents, size_t ioffset) :name(iname), type(itype), components(icomponents), offset(ioffset) {}
+		inline Mesh::Attribute::Attribute(const Attribute &iattr) : name(iattr.name), type(iattr.type), components(iattr.components), offset(iattr.offset) {}
+		inline Mesh::Attribute::~Attribute() {}
 
-		inline Mesh::Channel Mesh::Channel::operator=(const Channel &ichannel) {
-			size = ichannel.size;
-			offset = ichannel.offset;
-			byte_offset = ichannel.byte_offset;
+		inline size_t Mesh::Attribute::size() const { return _size[(size_t)type]; }
+
+		inline Mesh::Attribute &Mesh::Attribute::operator=(const Attribute &iattr) {
+			name = iattr.name;
+			type = iattr.type;
+			components = iattr.components;
+			offset = iattr.offset;
 			return *this;
 		}
 
-		inline bool Mesh::Channel::operator==(const Channel &ichannel) const {
-			return size == ichannel.size && offset == ichannel.offset && byte_offset == ichannel.byte_offset;
+		inline bool Mesh::Attribute::operator==(const Attribute &iattr) const {
+			return iattr.name == name && iattr.type == type && iattr.components == components && iattr.offset == offset;
 		}
 
-		inline Mesh::Format::Format()
-		:stride(0)
-		,stride_byte(0)
-		,position(0,0)
-		,texcoord(0,0)
-		,color(0,0)
-		,normal(0,0)
-		,tangent(0,0) {
-		}
+		//------------------------------------------------------------------------------
+		// - inline Mesh::Format -
+		//------------------------------------------------------------------------------
 
-		inline Mesh::Format::Format(uint32 iposition, uint32 itexcoord, uint32 icolor, uint32 inormal, uint32 itangent)
-		:stride(3 + itexcoord + icolor + inormal + itangent)
-		,stride_byte(sizeof(float) * (3 + itexcoord + icolor + inormal + itangent))
-		,position(iposition, 0)
-		,texcoord(itexcoord,	iposition)
-		,color(icolor,			iposition + itexcoord)
-		,normal(inormal,		iposition + itexcoord + icolor)
-		,tangent(itangent,		iposition + itexcoord + icolor + inormal) {
-		}
-
-		inline Mesh::Format::Format(const Format &iformat)
-		:stride(iformat.stride)
-		,stride_byte(iformat.stride_byte)
-		,position(iformat.position)
-		,texcoord(iformat.texcoord)
-		,color(iformat.color)
-		,normal(iformat.normal)
-		,tangent(iformat.tangent) {
-		}
-
+		inline Mesh::Format::Format() {}
+		inline Mesh::Format::Format(size_t iattributes) {}
+		inline Mesh::Format::Format(const Format &iformat) {}
 		inline Mesh::Format::~Format() {}
 
-		inline Mesh::Format Mesh::Format::operator=(const Mesh::Format &iformat) {
-			stride = iformat.stride;
-			stride_byte = iformat.stride_byte;
-			position = iformat.position;
-			texcoord = iformat.texcoord;
-			color = iformat.color;
-			normal = iformat.normal;
-			tangent = iformat.tangent;
-			return *this;
+		inline void Mesh::Format::add(base::string iname, mesh::Type itype, size_t icomponents) {
+			std::vector<Attribute>::iterator it;
+			for(it = _attributes.begin(); it != _attributes.end(); ++it) {
+				if(it->name == iname) {
+					Throw(tokurei::SetFailed);
+				}
+			}
+
+			_attributes.push_back(Attribute(iname, itype, icomponents, _size));
+			_size += _attributes[_attributes.size() - 1].size();
+		}
+		
+		const std::vector<Mesh::Attribute> &Mesh::Format::attr() const {
+			return _attributes;
+		}
+
+		inline Mesh::Format &Mesh::Format::operator=(const Format &iformat) {
+			_size = iformat._size;
+			_attributes.clear();
+			_attributes.insert(_attributes.begin(), iformat._attributes.begin(), iformat._attributes.end());
 		}
 
 		inline bool Mesh::Format::operator==(const Format &iformat) const {
-			return stride == iformat.stride && stride_byte == iformat.stride_byte && position == iformat.position && texcoord == iformat.texcoord && color == iformat.color && normal == iformat.normal && tangent == iformat.tangent;
+			if(_size == iformat._size && _attributes.size() == iformat.size()) {
+				std::vector<Attribute>::const_iterator it, it_iformat;
+				std::equal(_attributes.begin(), _attributes.end(), iformat._attributes.begin());
+			} else {
+				return false;
+			}
 		}
+
+		//------------------------------------------------------------------------------
+		// - inline Mesh -
+		//------------------------------------------------------------------------------
 
 		inline Mesh::Mesh(const Format &iformat)	{load(iformat);}
 		inline Mesh::Mesh(const File &ifile)		{load(ifile);}
@@ -196,7 +230,7 @@ namespace cb {
 			return _format;
 		}
 
-		inline const std::vector<float> &Mesh::vertices() const {
+		inline const std::vector<uint8> &Mesh::vertices() const {
 			return _vertices;
 		}
 

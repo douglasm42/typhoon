@@ -17,6 +17,14 @@
 
 namespace cb {
 	namespace data {
+		const size_t Mesh::Attribute::_size[] = {
+			sizeof(bool),	//Bool
+			sizeof(int32),	//Int
+			sizeof(uint32),	//UInt
+			sizeof(float),	//Float
+			sizeof(double)	//Double
+		};
+
 		void Mesh::load(const Format &iformat) {
 			clear();
 			_format = iformat;

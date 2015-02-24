@@ -94,5 +94,29 @@ namespace cb {
 			}
 			return ivec2(pt.x, pt.y);
 		}
+
+		bool Cursor::wIsInsideWindow(HWND iwindow) {
+			POINT corner = {0, 0};
+			if(!ClientToScreen(iwindow, &corner)) {
+				Throw(tokurei::GetFailed);
+			}
+
+			RECT rect;
+			if(!GetClientRect(iwindow, &rect)) {
+				Throw(tokurei::GetFailed);
+			}
+
+			rect.left += corner.x;
+			rect.right += corner.x;
+			rect.top += corner.y;
+			rect.bottom += corner.y;
+
+			POINT cursor_pos = {0,0};
+			if(!GetCursorPos(&cursor_pos)) {
+				Throw(tokurei::GetFailed);
+			}
+
+			return cursor_pos.x < rect.right && cursor_pos.x >= rect.left && cursor_pos.y < rect.bottom && cursor_pos.y >= rect.top;
+		}
 	}  // namespace video
 }  // namespace cb

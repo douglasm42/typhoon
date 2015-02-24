@@ -163,6 +163,10 @@ namespace cb {
 
 		void Window::setCursor(Cursor *icursor) {
 			_cursor = icursor;
+
+			if(isActive() && Cursor::wIsInsideWindow(_w_hwnd)) {
+				Cursor::wSet(_cursor);
+			}
 		}
 
 		bool Window::cursorIsShown() {
@@ -233,8 +237,9 @@ namespace cb {
 
 			_w_dimouse->setEventHub(ievent_hub);
 			_w_xinput->setEventHub(ievent_hub);
-
-			_event_hub->onResize(_width, _height);
+			if(_event_hub) {
+				_event_hub->onResize(_width, _height);
+			}
 		}
 
 		void Window::onResize(uint32 iwidth, uint32 iheight) {
