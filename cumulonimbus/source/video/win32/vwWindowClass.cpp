@@ -11,12 +11,12 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/base/Exception.h>
+#include <cb/base/Exception.hpp>
 
-#include <cb/video/win32/WindowClass.h>
-#include <cb/input/win32/WindowProc.h>
+#include <cb/video/win32/WindowClass.hpp>
+#include <cb/input/win32/WindowProc.hpp>
 
-#include <cb/base/Log.h>
+#include <cb/base/Log.hpp>
 
 namespace cb {
 	namespace video {

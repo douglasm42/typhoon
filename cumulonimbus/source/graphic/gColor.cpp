@@ -11,7 +11,7 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/graphic/Color.h>
+#include <cb/graphic/Color.hpp>
 
 namespace cb {
 	namespace graphic {

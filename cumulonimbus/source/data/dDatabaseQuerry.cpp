@@ -11,33 +11,12 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/data/Database.h>
-
-#include <sqlite3.h>
+#include <cb/data/Database.hpp>
 
 namespace cb {
 	namespace data {
-		KinKey(kin::DBStatement, sqlite3_stmt);
-
-		const char *errmsgq(const kin::DBStatement &istatement) {
-			sqlite3 *handler = sqlite3_db_handle((sqlite3_stmt*)kin::pt(istatement));
-			{
-				const char *msg = sqlite3_errmsg(handler);
-				if(msg) {
-					return msg;
-				}
-			}
-			{
-				const char *msg = sqlite3_errstr(sqlite3_errcode(handler));
-				if(msg) {
-					return msg;
-				}
-			}
-			return "Unknown error";
-		}
-
-		const char *errmsgq(kin::DBStatement &istatement) {
-			sqlite3 *handler = sqlite3_db_handle(&istatement);
+		const char *errmsgq(sqlite3_stmt *istatement) {
+			sqlite3 *handler = sqlite3_db_handle(istatement);
 			{
 				const char *msg = sqlite3_errmsg(handler);
 				if(msg) {
@@ -69,10 +48,10 @@ namespace cb {
 				querry& q = const_cast<querry&>(iquerry);
 
 				close();
-				_statement._pointer = q._statement._pointer;
+				_statement = q._statement;
 				_rows = q._rows;
 
-				q._statement._pointer = nullptr;
+				q._statement = nullptr;
 				q._rows = false;
 
 				return *this;
@@ -80,17 +59,17 @@ namespace cb {
 
 			void querry::close() {
 				if(isOpen()) {
-					int result = sqlite3_finalize(&_statement);
+					int result = sqlite3_finalize(_statement);
 					if(result != SQLITE_OK) {
 						ThrowDet(tokurei::CloseError, "Error: %s", errmsgq(_statement));
 					}
-					_statement << nullptr;
+					_statement = nullptr;
 					_rows = false;
 				}
 			}
 
 			bool querry::isOpen() {
-				return !_statement.empty();
+				return _statement != nullptr;
 			}
 
 			bool querry::step() {
@@ -98,7 +77,7 @@ namespace cb {
 					Throw(tokurei::EmptyObject);
 				}
 
-				int result = sqlite3_step(&_statement);
+				int result = sqlite3_step(_statement);
 				if(result == SQLITE_DONE) {
 					_rows = false;
 				} else if(result == SQLITE_ROW) {
@@ -121,25 +100,25 @@ namespace cb {
 					Throw(tokurei::EmptyObject);
 				}
 
-				int result = sqlite3_reset(&_statement);
+				int result = sqlite3_reset(_statement);
 				if(result != SQLITE_OK) {
 					ThrowDet(tokurei::ClearFailed, "Error: %s", errmsgq(_statement));
 				}
 
-				result = sqlite3_clear_bindings(&_statement);
+				result = sqlite3_clear_bindings(_statement);
 				if(result != SQLITE_OK) {
 					ThrowDet(tokurei::ClearFailed, "Error: %s", errmsgq(_statement));
 				}
 			}
 
-#			define QPARAMIND sqlite3_bind_parameter_index(&_statement, iparameter.c_str())
+#			define QPARAMIND sqlite3_bind_parameter_index(_statement, iparameter.c_str())
 
 			void querry::param(const base::string &iparameter) {
 				if(!isOpen()) {
 					Throw(tokurei::EmptyObject);
 				}
 
-				int result = sqlite3_bind_null(&_statement, QPARAMIND);
+				int result = sqlite3_bind_null(_statement, QPARAMIND);
 				if(result != SQLITE_OK) {
 					ThrowDet(tokurei::SetFailed, "Error: %s", errmsgq(_statement));
 				}
@@ -149,7 +128,7 @@ namespace cb {
 					Throw(tokurei::EmptyObject);
 				}
 
-				int result = sqlite3_bind_double(&_statement, QPARAMIND, ireal);
+				int result = sqlite3_bind_double(_statement, QPARAMIND, ireal);
 				if(result != SQLITE_OK) {
 					ThrowDet(tokurei::SetFailed, "Error: %s", errmsgq(_statement));
 				}
@@ -160,7 +139,7 @@ namespace cb {
 					Throw(tokurei::EmptyObject);
 				}
 
-				int result = sqlite3_bind_int(&_statement, QPARAMIND, iinteger);
+				int result = sqlite3_bind_int(_statement, QPARAMIND, iinteger);
 				if(result != SQLITE_OK) {
 					ThrowDet(tokurei::SetFailed, "Error: %s", errmsgq(_statement));
 				}
@@ -170,7 +149,7 @@ namespace cb {
 					Throw(tokurei::EmptyObject);
 				}
 
-				int result = sqlite3_bind_int64(&_statement, QPARAMIND, ilinteger);
+				int result = sqlite3_bind_int64(_statement, QPARAMIND, ilinteger);
 				if(result != SQLITE_OK) {
 					ThrowDet(tokurei::SetFailed, "Error: %s", errmsgq(_statement));
 				}
@@ -181,7 +160,7 @@ namespace cb {
 					Throw(tokurei::EmptyObject);
 				}
 
-				int result = sqlite3_bind_text(&_statement, QPARAMIND, istring.c_str(), -1, SQLITE_TRANSIENT);
+				int result = sqlite3_bind_text(_statement, QPARAMIND, istring.c_str(), -1, SQLITE_TRANSIENT);
 				if(result != SQLITE_OK) {
 					ThrowDet(tokurei::SetFailed, "Error: %s", errmsgq(_statement));
 				}
@@ -191,7 +170,7 @@ namespace cb {
 					Throw(tokurei::EmptyObject);
 				}
 
-				int result = sqlite3_bind_text16(&_statement, QPARAMIND, istring16.c_str(), -1, SQLITE_TRANSIENT);
+				int result = sqlite3_bind_text16(_statement, QPARAMIND, istring16.c_str(), -1, SQLITE_TRANSIENT);
 				if(result != SQLITE_OK) {
 					ThrowDet(tokurei::SetFailed, "Error: %s", errmsgq(_statement));
 				}
@@ -201,7 +180,7 @@ namespace cb {
 					Throw(tokurei::EmptyObject);
 				}
 
-				int result = sqlite3_bind_blob(&_statement, QPARAMIND, (const void *)iblob.data(), (int)iblob.size(), SQLITE_TRANSIENT);
+				int result = sqlite3_bind_blob(_statement, QPARAMIND, (const void *)iblob.data(), (int)iblob.size(), SQLITE_TRANSIENT);
 				if(result != SQLITE_OK) {
 					ThrowDet(tokurei::SetFailed, "Error: %s", errmsgq(_statement));
 				}
@@ -210,7 +189,7 @@ namespace cb {
 			int querry::columnID(const base::string &icolumn) const {
 				int count = columnCount();
 				for(int i=0 ; i<count ; i++) {
-					if(icolumn == sqlite3_column_name((sqlite3_stmt*)kin::pt(_statement), i)) {
+					if(icolumn == sqlite3_column_name(_statement, i)) {
 						return i;
 					}
 				}
@@ -218,8 +197,8 @@ namespace cb {
 			}
 
 			int querry::columnCount() const {
-				int count = sqlite3_column_count((sqlite3_stmt*)kin::pt(_statement));
-				if(sqlite3_errcode(sqlite3_db_handle((sqlite3_stmt*)kin::pt(_statement))) != SQLITE_OK) {
+				int count = sqlite3_column_count(_statement);
+				if(sqlite3_errcode(sqlite3_db_handle(_statement)) != SQLITE_OK) {
 					ThrowDet(tokurei::SetFailed, "Error: %s", errmsgq(_statement));
 				}
 				return count;

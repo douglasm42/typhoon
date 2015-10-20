@@ -11,16 +11,16 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/video/Window.h>
-#include <cb/base/Exception.h>
-#include <cb/base/Log.h>
+#include <cb/video/Window.hpp>
+#include <cb/base/Exception.hpp>
+#include <cb/base/Log.hpp>
 
-#include <cb/video/win32/Windows.h>
+#include <cb/video/win32/Windows.hpp>
 
-#include <cb/video/win32/WindowClass.h>
-#include <cb/video/win32/WindowStyle.h>
+#include <cb/video/win32/WindowClass.hpp>
+#include <cb/video/win32/WindowStyle.hpp>
 
-#include <cb/input/EventLoop.h>
+#include <cb/input/EventLoop.hpp>
 
 namespace cb {
 	namespace video {

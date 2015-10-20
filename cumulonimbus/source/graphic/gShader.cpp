@@ -11,11 +11,11 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/graphic/Shader.h>
+#include <cb/graphic/Shader.hpp>
 
-#include <cb/graphic/GLEWmx.h>
+#include <cb/graphic/GLEWmx.hpp>
 
-#include <cb/base/Exception.h>
+#include <cb/base/Exception.hpp>
 
 namespace cb {
 	namespace graphic {
@@ -28,7 +28,7 @@ namespace cb {
 			return types[(int)itype];
 		}
 
-		Shader::Shader(const data::File &ifile, Type itype)
+		Shader::Shader(const data::Blob &ifile, Type itype)
 		:_type(itype), _id(0) {
 			const GLchar *vert_source[] = {
 				ifile.data()
@@ -68,7 +68,7 @@ namespace cb {
 			glCheckError;
 		}
 
-		Shader::Shader(const std::vector<data::File *> &ifiles, Type itype) {
+		Shader::Shader(const std::vector<data::Blob *> &ifiles, Type itype) {
 			size_t size = ifiles.size();
 			const GLchar **vert_source = new const char *[size];
 			for(size_t i=0 ; i<size ; i++) {

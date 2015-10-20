@@ -11,9 +11,9 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/input/Key.h>
+#include <cb/input/Key.hpp>
 
-#include <cb/base/Exception.h>
+#include <cb/base/Exception.hpp>
 
 namespace cb {
 	namespace input {

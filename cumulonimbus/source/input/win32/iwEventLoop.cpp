@@ -11,9 +11,9 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/input/EventLoop.h>
-#include <cb/video/Window.h>
-#include <cb/video/win32/Windows.h>
+#include <cb/input/EventLoop.hpp>
+#include <cb/video/Window.hpp>
+#include <cb/video/win32/Windows.hpp>
 
 namespace cb {
 	namespace input {

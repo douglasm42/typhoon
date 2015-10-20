@@ -11,9 +11,9 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/input/win32/DIMouse.h>
+#include <cb/input/win32/DIMouse.hpp>
 
-#include <cb/base/Log.h>
+#include <cb/base/Log.hpp>
 
 namespace cb {
 	namespace input {

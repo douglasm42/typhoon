@@ -11,15 +11,15 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/input/win32/XInput.h>
+#include <cb/input/win32/XInput.hpp>
 
-#include <cb/video/win32/Windows.h>
-#include <cb/input/EventHub.h>
-#include <cb/input/Key.h>
+#include <cb/video/win32/Windows.hpp>
+#include <cb/input/EventHub.hpp>
+#include <cb/input/Key.hpp>
 
-#include <cb/base/Log.h>
+#include <cb/base/Log.hpp>
 
-#include <cb/math/math.h>
+#include <cb/math/math.hpp>
 
 namespace cb {
 	namespace input {

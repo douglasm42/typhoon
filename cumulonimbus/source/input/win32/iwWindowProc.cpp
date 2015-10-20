@@ -11,14 +11,14 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/input/win32/WindowProc.h>
+#include <cb/input/win32/WindowProc.hpp>
 
-#include <cb/video/Window.h>
+#include <cb/video/Window.hpp>
 
-#include <cb/base/Log.h>
-#include <cb/base/Exception.h>
+#include <cb/base/Log.hpp>
+#include <cb/base/Exception.hpp>
 
-#include <cb/input/Key.h>
+#include <cb/input/Key.hpp>
 
 #include <map>
 

@@ -11,12 +11,12 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/graphic/tex/Texture.h>
+#include <cb/graphic/tex/Texture.hpp>
 
-#include <cb/graphic/GLEWmx.h>
-#include <cb/graphic/tex/TextureHelper.h>
+#include <cb/graphic/GLEWmx.hpp>
+#include <cb/graphic/tex/TextureHelper.hpp>
 
-#include <cb/base/Log.h>
+#include <cb/base/Log.hpp>
 
 namespace cb {
 	namespace graphic {

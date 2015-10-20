@@ -11,9 +11,9 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/base/String.h>
+#include <cb/base/String.hpp>
 
-#include <cb/base/FormatMacro.h>
+#include <cb/base/FormatMacro.hpp>
 
 #include <locale>
 #include <codecvt>
@@ -23,42 +23,100 @@
 
 namespace cb {
 	namespace base {
-		string format(string iformat, ...) {
+		typedef std::wstring_convert<std::codecvt_utf8<char16_t>,char16_t> utf8_16;
+		typedef std::wstring_convert<std::codecvt_utf8<char32_t>,char32_t> utf8_32;
+		typedef std::wstring_convert<std::codecvt_utf8<wchar_t>,wchar_t> utf8_wide;
+
+		string format(const string &iformat, ...) {
 			string str;
 			CUMULONIMBUS_FORMAT(str, iformat);
 
 			return str;
 		}
 
-		string16 utf16(string itext) {
-			std::wstring_convert<std::codecvt_utf8<char16_t>,char16_t> cv;
-			return cv.from_bytes(itext);
+		wstring format(const wstring &iformat, ...) {
+			string iformat8 = utf8(iformat);
+			string str;
+			CUMULONIMBUS_FORMAT(str, iformat8);
+
+			return wstr(str);
 		}
 
-		string32 utf32(string itext) {
-			std::wstring_convert<std::codecvt_utf8<char32_t>,char32_t> cv;
-			return cv.from_bytes(itext);
+		string16 format(const string16 &iformat, ...) {
+			string iformat8 = utf8(iformat);
+			string str;
+			CUMULONIMBUS_FORMAT(str, iformat8);
+
+			return utf16(str);
 		}
 
-		string utf8(string16 itext) {
-			std::wstring_convert<std::codecvt_utf8<char16_t>,char16_t> cv;
+		string32 format(const string32 &iformat, ...) {
+			string iformat8 = utf8(iformat);
+			string str;
+			CUMULONIMBUS_FORMAT(str, iformat8);
+
+			return utf32(str);
+		}
+
+		string utf8(const wstring &itext) {
+			utf8_wide cv;
+			return cv.to_bytes(itext);
+		}
+		string utf8(const string16 &itext) {
+			utf8_16 cv;
+			return cv.to_bytes(itext);
+		}
+		string utf8(const string32 &itext) {
+			utf8_32 cv;
 			return cv.to_bytes(itext);
 		}
 
-		string32 utf32(string16 itext) {
-			return utf32(utf8(itext));
+		wstring wstr(const string &itext) {
+			utf8_wide cv;
+			return cv.from_bytes(itext);
+		}
+		wstring wstr(const string16 &itext) {
+			utf8_wide cv;
+			utf8_16 cv16;
+			return cv.from_bytes(cv16.to_bytes(itext));
+		}
+		wstring wstr(const string32 &itext) {
+			utf8_wide cv;
+			utf8_32 cv32;
+			return cv.from_bytes(cv32.to_bytes(itext));
 		}
 
-		string utf8(string32 itext) {
-			std::wstring_convert<std::codecvt_utf8<char32_t>,char32_t> cv;
-			return cv.to_bytes(itext);
+		string16 utf16(const string &itext) {
+			utf8_16 cv;
+			return cv.from_bytes(itext);
+		}
+		string16 utf16(const wstring &itext) {
+			utf8_16 cv;
+			utf8_wide cvwide;
+			return cv.from_bytes(cvwide.to_bytes(itext));
+		}
+		string16 utf16(const string32 &itext) {
+			utf8_16 cv;
+			utf8_32 cv32;
+			return cv.from_bytes(cv32.to_bytes(itext));
 		}
 
-		string16 utf16(string32 itext) {
-			return utf16(utf8(itext));
+		string32 utf32(const string &itext) {
+			utf8_32 cv;
+			return cv.from_bytes(itext);
+		}
+		string32 utf32(const wstring &itext) {
+			utf8_32 cv;
+			utf8_wide cvwide;
+			return cv.from_bytes(cvwide.to_bytes(itext));
+		}
+		string32 utf32(const string16 &itext) {
+			utf8_32 cv;
+			utf8_16 cv16;
+			return cv.from_bytes(cv16.to_bytes(itext));
 		}
 
-		string upper(string istr) {
+		string upper(const string &istr) {
 			std::locale loc;
 			string ustr;
 			for (std::string::size_type i=0; i<istr.length(); ++i) {
@@ -67,7 +125,34 @@ namespace cb {
 			return ustr;
 		}
 
-		string lower(string istr) {
+		wstring upper(const wstring &istr) {
+			std::locale loc;
+			wstring ustr;
+			for (std::wstring::size_type i=0; i<istr.length(); ++i) {
+				ustr.push_back(std::toupper(istr[i],loc));
+			}
+			return ustr;
+		}
+
+		string16 upper(const string16 &istr) {
+			std::locale loc;
+			string16 ustr;
+			for (string16::size_type i=0; i<istr.length(); ++i) {
+				ustr.push_back(std::toupper(istr[i],loc));
+			}
+			return ustr;
+		}
+
+		string32 upper(const string32 &istr) {
+			std::locale loc;
+			string32 ustr;
+			for (string32::size_type i=0; i<istr.length(); ++i) {
+				ustr.push_back(std::toupper(istr[i],loc));
+			}
+			return ustr;
+		}
+
+		string lower(const string &istr) {
 			std::locale loc;
 			string ustr;
 			for (std::string::size_type i=0; i<istr.length(); ++i) {
@@ -76,11 +161,38 @@ namespace cb {
 			return ustr;
 		}
 
-		string CbAPI trim(string istr, int iflags) {
-			string result;
-			string::iterator it = istr.begin();
+		wstring lower(const wstring &istr) {
+			std::locale loc;
+			wstring ustr;
+			for (std::wstring::size_type i=0; i<istr.length(); ++i) {
+				ustr.push_back(std::tolower(istr[i],loc));
+			}
+			return ustr;
+		}
 
-			string::iterator endit = istr.end();
+		string16 lower(const string16 &istr) {
+			std::locale loc;
+			string16 ustr;
+			for (string16::size_type i=0; i<istr.length(); ++i) {
+				ustr.push_back(std::tolower(istr[i],loc));
+			}
+			return ustr;
+		}
+
+		string32 lower(const string32 &istr) {
+			std::locale loc;
+			string32 ustr;
+			for (string32::size_type i=0; i<istr.length(); ++i) {
+				ustr.push_back(std::tolower(istr[i],loc));
+			}
+			return ustr;
+		}
+
+		string trim(const string &istr, int iflags) {
+			string result;
+			string::const_iterator it = istr.begin();
+
+			string::const_iterator endit = istr.end();
 			if(endit != istr.begin()) endit--;
 			while(endit != istr.begin() && isspace(*endit)) {
 				endit--;
@@ -131,7 +243,7 @@ namespace cb {
 			return result;
 		}
 
-		size_t hash(string istr) {
+		size_t hash(const string &istr) {
 			std::hash<string> strhash;
 			return strhash(istr);
 		}

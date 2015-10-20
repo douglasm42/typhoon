@@ -11,9 +11,9 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/video/Placement.h>
+#include <cb/video/Placement.hpp>
 
-#include <cb/video/Display.h>
+#include <cb/video/Display.hpp>
 
 #include <vector>
 

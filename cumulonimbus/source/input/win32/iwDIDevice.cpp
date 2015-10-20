@@ -11,10 +11,10 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/input/win32/DIDevice.h>
+#include <cb/input/win32/DIDevice.hpp>
 
-#include <cb/base/Exception.h>
-#include <cb/base/Log.h>
+#include <cb/base/Exception.hpp>
+#include <cb/base/Log.hpp>
 
 namespace cb {
 	namespace input {

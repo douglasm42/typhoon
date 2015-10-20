@@ -11,9 +11,9 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/graphic/Legacy.h>
+#include <cb/graphic/Legacy.hpp>
 
-#include <cb/graphic/GLEWmx.h>
+#include <cb/graphic/GLEWmx.hpp>
 
 namespace cb {
 	namespace graphic {

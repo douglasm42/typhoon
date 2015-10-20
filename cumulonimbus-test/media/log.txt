@@ -1,0 +1,276 @@
+--------------------------------------------------------------------------------
+-- 22/02/2015 07:04:35 - Log: test.base ----------------------------------------
+--------------------------------------------------------------------------------
+
+07:04:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_GETMINMAXINFO.
+07:04:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCREATE.
+07:04:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 0
+07:04:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_GETMINMAXINFO.
+07:04:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCREATE.
+07:04:35 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 0
+07:04:35 - Nothing: size: 140x100
+07:04:37 - Nothing: OpenGLContext::OpenGLContext() : OpenGL 3.0 e GLSL 1.30 escolhidos.
+07:04:37 - Nothing: OpenGLContext::OpenGLContext() : Contexto OpenGL criado: OpenGL 3.0 - GLSL 1.30
+07:04:37 - Nothing: w32WindowProc() : Mensagem recebida: WM_NCCALCSIZE. 1
+07:04:37 - Nothing: size: 800x600
+07:04:37 - Nothing: w32WindowProc() : Mensagem recebida: WM_ACTIVATE. Janela ativada.
+07:04:37 - Nothing: size: 800x600
+07:04:37 - Info:    Loading texuvmap: gizmos/grid.png
+07:04:37 - Info:    Loading texgrid: gizmos/grid-xx.png
+07:04:37 - Nothing: Aqui!
+07:04:37 - Nothing: Card #0
+07:04:37 - Nothing: Card #1
+07:04:37 - Nothing: Card #2
+07:04:37 - Nothing: Card #3
+07:04:37 - Nothing: Card #4
+07:04:37 - Nothing: Card #5
+07:04:37 - Nothing: Card #6
+07:04:37 - Nothing: Card #7
+07:04:37 - Nothing: Card #8
+07:04:37 - Nothing: Card #9
+07:04:37 - Nothing: Card #10
+07:04:37 - Nothing: Card #11
+07:04:37 - Nothing: Card #12
+07:04:37 - Nothing: Card #13
+07:04:37 - Nothing: Card #14
+07:04:37 - Nothing: Card #15
+07:04:37 - Nothing: Card #16
+07:04:37 - Nothing: Card #17
+07:04:37 - Nothing: Card #18
+07:04:37 - Nothing: Card #19
+07:04:37 - Nothing: Card #20
+07:04:37 - Nothing: Card #21
+07:04:37 - Nothing: Card #22
+07:04:37 - Nothing: Card #23
+07:04:37 - Nothing: Card #24
+07:04:37 - Nothing: Card #25
+07:04:37 - Nothing: Card #26
+07:04:37 - Nothing: Card #27
+07:04:37 - Nothing: Card #28
+07:04:37 - Nothing: Card #29
+07:04:37 - Nothing: Card #30
+07:04:37 - Nothing: Card #31
+07:04:37 - Nothing: Card #32
+07:04:37 - Nothing: Card #33
+07:04:37 - Nothing: Card #34
+07:04:37 - Nothing: Card #35
+07:04:37 - Nothing: Card #36
+07:04:37 - Nothing: Card #37
+07:04:37 - Nothing: Card #38
+07:04:37 - Nothing: Card #39
+07:04:37 - Nothing: Card #40
+07:04:37 - Nothing: Card #41
+07:04:37 - Nothing: Card #42
+07:04:37 - Nothing: Card #43
+07:04:37 - Nothing: Card #44
+07:04:37 - Nothing: Card #45
+07:04:37 - Nothing: Card #46
+07:04:37 - Nothing: Card #47
+07:04:37 - Nothing: Card #48
+07:04:37 - Nothing: Card #49
+07:04:37 - Nothing: Card #50
+07:04:37 - Nothing: Card #51
+07:04:37 - Nothing: Aqui2!
+07:04:37 - Nothing: Aqui3!
+07:04:37 - Nothing: Iniciando loop!
+07:04:38 - Nothing: ltn: size: 0x0
+07:04:40 - Nothing: Move: [V-] - -2.000000
+07:04:40 - Nothing: Move: [H-] - -6.000000
+07:04:40 - Nothing: Move: [V-] - -63.000000
+07:04:40 - Nothing: Move: [H-] - -150.000000
+07:04:40 - Nothing: Move: [V-] - -26.000000
+07:04:40 - Nothing: Move: [H-] - -77.000000
+07:04:40 - Nothing: Move: [V-] - -7.000000
+07:04:40 - Nothing: Move: [H-] - -37.000000
+07:04:40 - Nothing: Move: [V-] - -2.000000
+07:04:40 - Nothing: Move: [H-] - -28.000000
+07:04:40 - Nothing: Move: [V-] - -2.000000
+07:04:40 - Nothing: Move: [H-] - -24.000000
+07:04:40 - Nothing: Move: [V-] - -2.000000
+07:04:40 - Nothing: Move: [H-] - -13.000000
+07:04:40 - Nothing: Move: [V-] - -4.000000
+07:04:40 - Nothing: Move: [H-] - -12.000000
+07:04:40 - Nothing: Move: [V-] - -2.000000
+07:04:40 - Nothing: Mouse Press: [Mouse Left]
+07:04:41 - Nothing: Press: [Mouse Left]
+07:04:41 - Nothing: Mouse Release: [Mouse Left]
+07:04:41 - Nothing: Release: [Mouse Left]
+07:04:41 - Nothing: Move: [V-] - -6.000000
+07:04:41 - Nothing: Move: [H-] - -2.000000
+07:04:41 - Nothing: Move: [V-] - -48.000000
+07:04:41 - Nothing: Move: [H-] - -12.000000
+07:04:41 - Nothing: Move: [V-] - -65.000000
+07:04:41 - Nothing: Move: [H-] - -18.000000
+07:04:41 - Nothing: Move: [V-] - -67.000000
+07:04:41 - Nothing: Move: [H-] - -19.000000
+07:04:41 - Nothing: Move: [V-] - -40.000000
+07:04:41 - Nothing: Move: [H-] - -11.000000
+07:04:41 - Nothing: Move: [V-] - -22.000000
+07:04:41 - Nothing: Move: [H-] - -6.000000
+07:04:41 - Nothing: Move: [V-] - -2.000000
+07:04:41 - Nothing: Mouse Press: [Mouse Left]
+07:04:41 - Nothing: Press: [Mouse Left]
+07:04:41 - Nothing: Mouse Release: [Mouse Left]
+07:04:41 - Nothing: Release: [Mouse Left]
+07:04:41 - Nothing: Move: [V-] - -4.000000
+07:04:41 - Nothing: Move: [V-] - -2.000000
+07:04:41 - Nothing: Mouse Press: [Mouse Left]
+07:04:41 - Nothing: Press: [Mouse Left]
+07:04:42 - Nothing: Mouse Release: [Mouse Left]
+07:04:42 - Nothing: Release: [Mouse Left]
+07:04:42 - Nothing: Mouse Press: [Mouse Left]
+07:04:42 - Nothing: Press: [Mouse Left]
+07:04:42 - Nothing: Mouse Release: [Mouse Left]
+07:04:42 - Nothing: Release: [Mouse Left]
+07:04:42 - Nothing: Mouse Press: [Mouse Left]
+07:04:42 - Nothing: Press: [Mouse Left]
+07:04:42 - Nothing: Mouse Release: [Mouse Left]
+07:04:42 - Nothing: Release: [Mouse Left]
+07:04:42 - Nothing: Mouse Press: [Mouse Left]
+07:04:42 - Nothing: Press: [Mouse Left]
+07:04:42 - Nothing: Mouse Release: [Mouse Left]
+07:04:42 - Nothing: Release: [Mouse Left]
+07:04:42 - Nothing: Mouse Press: [Mouse Left]
+07:04:42 - Nothing: Press: [Mouse Left]
+07:04:43 - Nothing: Mouse Release: [Mouse Left]
+07:04:43 - Nothing: Release: [Mouse Left]
+07:04:43 - Nothing: Mouse Press: [Mouse Left]
+07:04:43 - Nothing: Press: [Mouse Left]
+07:04:43 - Nothing: Mouse Release: [Mouse Left]
+07:04:43 - Nothing: Release: [Mouse Left]
+07:04:43 - Nothing: Move: [V+] - 1.000000
+07:04:43 - Nothing: Move: [V+] - 22.000000
+07:04:43 - Nothing: Move: [H-] - -2.000000
+07:04:43 - Nothing: Move: [V+] - 58.000000
+07:04:43 - Nothing: Move: [H+] - 1.000000
+07:04:43 - Nothing: Move: [V+] - 57.000000
+07:04:43 - Nothing: Move: [H+] - 4.000000
+07:04:43 - Nothing: Move: [V+] - 98.000000
+07:04:43 - Nothing: Move: [H+] - 10.000000
+07:04:43 - Nothing: Move: [V+] - 58.000000
+07:04:43 - Nothing: Move: [H+] - 4.000000
+07:04:43 - Nothing: Move: [V+] - 32.000000
+07:04:43 - Nothing: Move: [V+] - 4.000000
+07:04:43 - Nothing: Move: [V+] - 2.000000
+07:04:43 - Nothing: Move: [V+] - 4.000000
+07:04:43 - Nothing: Move: [V+] - 2.000000
+07:04:43 - Nothing: Mouse Press: [Mouse Left]
+07:04:43 - Nothing: Press: [Mouse Left]
+07:04:44 - Nothing: Mouse Release: [Mouse Left]
+07:04:44 - Nothing: Release: [Mouse Left]
+07:04:44 - Nothing: Move: [V+] - 3.000000
+07:04:44 - Nothing: Move: [H+] - 4.000000
+07:04:44 - Nothing: Move: [V+] - 3.000000
+07:04:44 - Nothing: Move: [H+] - 5.000000
+07:04:44 - Nothing: Move: [V+] - 1.000000
+07:04:44 - Nothing: Move: [H+] - 3.000000
+07:04:44 - Nothing: Mouse Press: [Mouse Left]
+07:04:44 - Nothing: Press: [Mouse Left]
+07:04:44 - Nothing: Move: [V+] - 1.000000
+07:04:44 - Nothing: Move: [H+] - 1.000000
+07:04:44 - Nothing: Mouse Release: [Mouse Left]
+07:04:44 - Nothing: Release: [Mouse Left]
+07:04:44 - Nothing: Move: [V+] - 2.000000
+07:04:44 - Nothing: Move: [H+] - 2.000000
+07:04:44 - Nothing: Move: [V+] - 2.000000
+07:04:44 - Nothing: Move: [H+] - 4.000000
+07:04:44 - Nothing: Move: [V+] - 2.000000
+07:04:44 - Nothing: Move: [H+] - 4.000000
+07:04:44 - Nothing: Mouse Press: [Mouse Left]
+07:04:44 - Nothing: Press: [Mouse Left]
+07:04:44 - Nothing: Move: [V+] - 2.000000
+07:04:44 - Nothing: Move: [H+] - 2.000000
+07:04:44 - Nothing: Move: [V+] - 4.000000
+07:04:44 - Nothing: Move: [H+] - 4.000000
+07:04:44 - Nothing: Mouse Release: [Mouse Left]
+07:04:44 - Nothing: Release: [Mouse Left]
+07:04:44 - Nothing: Move: [V+] - 19.000000
+07:04:44 - Nothing: Move: [H+] - 8.000000
+07:04:44 - Nothing: Move: [V+] - 37.000000
+07:04:44 - Nothing: Move: [H+] - 16.000000
+07:04:44 - Nothing: Move: [V+] - 42.000000
+07:04:44 - Nothing: Move: [H+] - 14.000000
+07:04:44 - Nothing: Move: [V+] - 33.000000
+07:04:44 - Nothing: Move: [H+] - 11.000000
+07:04:44 - Nothing: Move: [V+] - 46.000000
+07:04:44 - Nothing: Move: [H+] - 8.000000
+07:04:44 - Nothing: Move: [V+] - 28.000000
+07:04:44 - Nothing: Move: [H+] - 2.000000
+07:04:44 - Nothing: Move: [V+] - 31.000000
+07:04:44 - Nothing: Move: [H-] - -11.000000
+07:04:44 - Nothing: Move: [V+] - 45.000000
+07:04:44 - Nothing: Move: [H-] - -18.000000
+07:04:44 - Nothing: Move: [V+] - 28.000000
+07:04:44 - Nothing: Move: [H-] - -13.000000
+07:04:44 - Nothing: Move: [V+] - 37.000000
+07:04:44 - Nothing: Move: [H-] - -26.000000
+07:04:44 - Nothing: Move: [V+] - 22.000000
+07:04:44 - Nothing: Move: [H-] - -11.000000
+07:04:44 - Nothing: Move: [V+] - 6.000000
+07:04:44 - Nothing: Move: [V+] - 2.000000
+07:04:44 - Nothing: Move: [H-] - -2.000000
+07:04:44 - Nothing: Move: [V+] - 10.000000
+07:04:44 - Nothing: Move: [H-] - -2.000000
+07:04:44 - Nothing: Move: [V+] - 6.000000
+07:04:44 - Nothing: Move: [H-] - -2.000000
+07:04:45 - Nothing: Move: [V+] - 6.000000
+07:04:45 - Nothing: Move: [H-] - -2.000000
+07:04:45 - Nothing: Move: [V+] - 4.000000
+07:04:45 - Nothing: Move: [H-] - -2.000000
+07:04:45 - Nothing: Move: [V+] - 8.000000
+07:04:45 - Nothing: Move: [H-] - -2.000000
+07:04:45 - Nothing: Move: [V+] - 12.000000
+07:04:45 - Nothing: Move: [H-] - -2.000000
+07:04:45 - Nothing: Move: [V+] - 6.000000
+07:04:45 - Nothing: Move: [H-] - -2.000000
+07:04:45 - Nothing: Move: [V+] - 2.000000
+07:04:45 - Nothing: Move: [H-] - -2.000000
+07:04:45 - Nothing: Move: [V+] - 2.000000
+07:04:45 - Nothing: Move: [V+] - 2.000000
+07:04:45 - Nothing: Move: [H-] - -2.000000
+07:04:45 - Nothing: Move: [V+] - 2.000000
+07:04:45 - Nothing: Move: [V+] - 2.000000
+07:04:45 - Nothing: Move: [H-] - -2.000000
+07:04:45 - Nothing: Move: [V+] - 2.000000
+07:04:45 - Nothing: Move: [V+] - 4.000000
+07:04:45 - Nothing: Move: [H-] - -2.000000
+07:04:45 - Nothing: Move: [V-] - -2.000000
+07:04:45 - Nothing: Move: [V-] - -2.000000
+07:04:45 - Nothing: Move: [V-] - -2.000000
+07:04:45 - Nothing: Move: [V-] - -4.000000
+07:04:45 - Nothing: Move: [H+] - 2.000000
+07:04:45 - Nothing: Move: [V-] - -2.000000
+07:04:45 - Nothing: Move: [V-] - -2.000000
+07:04:46 - Nothing: Mouse Press: [Mouse Left]
+07:04:46 - Nothing: Press: [Mouse Left]
+07:04:46 - Nothing: Move: [H+] - 2.000000
+07:04:46 - Nothing: Mouse Release: [Mouse Left]
+07:04:46 - Nothing: Release: [Mouse Left]
+07:04:46 - Nothing: Mouse Press: [Mouse Left]
+07:04:46 - Nothing: Press: [Mouse Left]
+07:04:46 - Nothing: Mouse Release: [Mouse Left]
+07:04:46 - Nothing: Release: [Mouse Left]
+07:04:46 - Nothing: Mouse Press: [Mouse Left]
+07:04:46 - Nothing: Press: [Mouse Left]
+07:04:46 - Nothing: Mouse Release: [Mouse Left]
+07:04:46 - Nothing: Release: [Mouse Left]
+07:04:46 - Nothing: Move: [V-] - -4.000000
+07:04:46 - Nothing: Move: [V-] - -2.000000
+07:04:46 - Nothing: Press: [Escape]
+07:04:47 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 144.
+07:04:47 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 2.
+07:04:47 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 130.
+07:04:47 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 144.
+07:04:47 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 70.
+07:04:47 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 71.
+07:04:47 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 134.
+07:04:47 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 127.
+07:04:47 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 6.
+07:04:47 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 28.
+07:04:47 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 8.
+07:04:47 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 641.
+07:04:47 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 642.
+07:04:47 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 2.
+07:04:47 - Nothing: w32WindowProc() : Mensagem inesperada recebida: 130.
+
+--------------------------------------------------------------------------------

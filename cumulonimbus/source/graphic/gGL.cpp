@@ -11,14 +11,14 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/graphic/GL.h>
+#include <cb/graphic/GL.hpp>
 
-#include <cb/graphic/GLEWmx.h>
+#include <cb/graphic/GLEWmx.hpp>
 
-#include <cb/graphic/VertexBuffer.h>
-#include <cb/graphic/Color.h>
+#include <cb/graphic/VertexBuffer.hpp>
+#include <cb/graphic/Color.hpp>
 
-#include <cb/base/Timer.h>
+#include <cb/base/Timer.hpp>
 
 namespace cb {
 	namespace graphic {
@@ -61,7 +61,7 @@ namespace cb {
 				}
 			}
 
-			void texSquare(VertexBuffer &teste, VertexBuffer &grid) {
+			void texSquare(VertexBuffer &teste, VertexBuffer &grid, Program &iprogram) {
 				static base::Timer timer;
 				static float angle = 0.0f;
 				static float scale = 45;
@@ -112,22 +112,22 @@ namespace cb {
 				}
 				glDisable(GL_TEXTURE_2D);
 				glEnable(GL_TEXTURE_2D);
-				grid.draw();
+				grid.draw(iprogram);
 
 				glPushMatrix();
 					glRotatef(angle, 0.0f, 0.0f, 1.0f);
-					teste.draw();
+					teste.draw(iprogram);
 				glPopMatrix();
 
 				glPushMatrix();
 					glTranslatef(1.0f, -0.1f, 0.0f);
-					teste.draw();
+					teste.draw(iprogram);
 				glPopMatrix();
 
 				glPushMatrix();
 					glTranslatef(-1.0f, -0.1f, 0.0f);
 					glRotatef(180.0f, 0.0f, 0.0f, 1.0f);
-					teste.draw();
+					teste.draw(iprogram);
 				glPopMatrix();
 
 				glDisable(GL_TEXTURE_2D);

@@ -11,9 +11,9 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/graphic/VertexBuffer.h>
+#include <cb/graphic/VertexBuffer.hpp>
 
-#include <cb/graphic/GLEWmx.h>
+#include <cb/graphic/GLEWmx.hpp>
 
 namespace cb {
 	namespace graphic {
@@ -33,26 +33,13 @@ namespace cb {
 		VertexBuffer::~VertexBuffer() {
 		}
 
-		void VertexBuffer::draw() {
+		void VertexBuffer::draw(Program &iprogram) {
 			glBindBuffer(GL_ARRAY_BUFFER, _vertex_buffer);
-			if(_format.position.size) {
-				glEnableClientState(GL_VERTEX_ARRAY);
-				glVertexPointer(_format.position.size, GL_FLOAT, _format.stride_byte, _format.position.byte_offset);
-			}
 
-			if(_format.normal.size) {
-				glEnableClientState(GL_NORMAL_ARRAY);
-				glNormalPointer(GL_FLOAT, _format.stride_byte,  _format.normal.byte_offset);
-			}
-
-			if(_format.texcoord.size) {
-				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-				glTexCoordPointer(_format.texcoord.size, GL_FLOAT, _format.stride_byte,  _format.texcoord.byte_offset);
-			}
-
-			if(_format.color.size) {
-				glEnableClientState(GL_COLOR_ARRAY);
-				glColorPointer(_format.color.size, GL_FLOAT, _format.stride_byte,  _format.color.byte_offset);
+			for(auto &at : _format) {
+				at.index​ = iprogram.attribute(at.name);
+				glEnableVertexAttribArray(at.index​);
+				glVertexAttribPointer(at.index​, at.size​, at.type​, at.normalized​, at.stride​, at.offset);
 			}
 
 			if(_quad_index_buffer_size > 0) {
@@ -75,48 +62,72 @@ namespace cb {
 				glDrawElements(GL_POINTS, _point_index_buffer_size, GL_UNSIGNED_INT, 0);
 			}
 
+			for(const auto &at : _format) {
+				glDisableVertexAttribArray(at.index​);
+			}
+
 			glCheckError;
 		}
 
 		void VertexBuffer::load(const data::Mesh &imesh) {
+			const GLenum gltype[] = {
+				GL_UNSIGNED_BYTE,	//Bool
+				GL_INT,				//Int
+				GL_UNSIGNED_INT,	//UInt
+				GL_FLOAT,			//Float
+				GL_DOUBLE			//Double
+			};
+
 			clear();
-			_format = imesh.format();
+
+			for(const auto &at : imesh.getFormat().attr()) {
+				attribute attr;
+				attr.name		= at.name;
+				attr.index​		= 0;
+				attr.size​		= (GLint)at.components;
+				attr.type​		= gltype[(uint)at.type];
+				attr.normalized​	= GL_TRUE;
+				attr.stride​		= (GLsizei)_format.size();
+				attr.offset	= reinterpret_cast<void*>(at.offset);
+				
+				_format.push_back(attr);
+			}
 
 			glGenBuffers(1, &_vertex_buffer);
 			glBindBuffer(GL_ARRAY_BUFFER, _vertex_buffer);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(float)*imesh.vertices().size(), (void *)imesh.vertices().data(), GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float)*imesh.getVerticesData().size(), (void *)imesh.getVerticesData().data(), GL_STATIC_DRAW);
 
-			if(imesh.quads().size()) {
-				_quad_index_buffer_size = sizeof(unsigned int) * (int)imesh.quads().size();
+			if(imesh.getQuadsData().size()) {
+				_quad_index_buffer_size = sizeof(unsigned int) * (int)imesh.getQuadsData().size();
 				glGenBuffers(1, &_quad_index_buffer);
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _quad_index_buffer);
-				glBufferData(GL_ELEMENT_ARRAY_BUFFER, _quad_index_buffer_size, (void *)imesh.quads().data(), GL_STATIC_DRAW);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, _quad_index_buffer_size, (void *)imesh.getQuadsData().data(), GL_STATIC_DRAW);
 			}
 
-			if(imesh.triangles().size()) {
-				_tri_index_buffer_size = sizeof(unsigned int) * (int)imesh.triangles().size();
+			if(imesh.getTrianglesData().size()) {
+				_tri_index_buffer_size = sizeof(unsigned int) * (int)imesh.getTrianglesData().size();
 				glGenBuffers(1, &_tri_index_buffer);
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _tri_index_buffer);
-				glBufferData(GL_ELEMENT_ARRAY_BUFFER, _tri_index_buffer_size, (void *)imesh.triangles().data(), GL_STATIC_DRAW);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, _tri_index_buffer_size, (void *)imesh.getTrianglesData().data(), GL_STATIC_DRAW);
 			}
 
-			if(imesh.lines().size()) {
-				_line_index_buffer_size = sizeof(unsigned int) * (int)imesh.lines().size();
+			if(imesh.getLinesData().size()) {
+				_line_index_buffer_size = sizeof(unsigned int) * (int)imesh.getLinesData().size();
 				glGenBuffers(1, &_line_index_buffer);
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _line_index_buffer);
-				glBufferData(GL_ELEMENT_ARRAY_BUFFER, _line_index_buffer_size, (void *)imesh.lines().data(), GL_STATIC_DRAW);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, _line_index_buffer_size, (void *)imesh.getLinesData().data(), GL_STATIC_DRAW);
 			}
 
-			if(imesh.points().size()) {
-				_point_index_buffer_size = sizeof(unsigned int) * (int)imesh.points().size();
+			if(imesh.getPointsData().size()) {
+				_point_index_buffer_size = sizeof(unsigned int) * (int)imesh.getPointsData().size();
 				glGenBuffers(1, &_point_index_buffer);
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _point_index_buffer);
-				glBufferData(GL_ELEMENT_ARRAY_BUFFER, _point_index_buffer_size, (void *)imesh.points().data(), GL_STATIC_DRAW);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, _point_index_buffer_size, (void *)imesh.getPointsData().data(), GL_STATIC_DRAW);
 			}
 		}
 
 		void VertexBuffer::clear() {
-			_format = Format();
+			_format.clear();
 
 			if(_vertex_buffer) {
 				glDeleteBuffers(1, &_vertex_buffer);

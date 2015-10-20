@@ -11,10 +11,10 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/video/Placement.h>
+#include <cb/video/Placement.hpp>
 
-#include <cb/video/Window.h>
-#include <cb/video/win32/WindowStyle.h>
+#include <cb/video/Window.hpp>
+#include <cb/video/win32/WindowStyle.hpp>
 
 namespace cb {
 	namespace video {

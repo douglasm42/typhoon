@@ -14,7 +14,7 @@
 #pragma once
 #include <ty/base/base.h>
 
-#include <cb/base/Setup.h>
+#include <cb/base/Setup.hpp>
 
 #if defined _WIN32
 #	define TyWindows

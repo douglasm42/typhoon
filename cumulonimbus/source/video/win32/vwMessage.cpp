@@ -11,13 +11,13 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/video/Message.h>
+#include <cb/video/Message.hpp>
 
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <cb/video/win32/Windows.h>
+#include <cb/video/win32/Windows.hpp>
 
 namespace cb {
 	namespace video {

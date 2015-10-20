@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cumulonimbus", "cumulonimbus\cumulonimbus.vcxproj", "{68AF355D-C708-4269-B873-11E599811F52}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cbtest", "cbtest\cbtest.vcxproj", "{19849C6C-AD3D-492E-8A6F-B36E98942E90}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "typhoon", "typhoon\typhoon.vcxproj", "{B1D1466D-C3B1-44B5-8E85-FF02FD39BF36}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cumulonimbus-test", "cumulonimbus-test\cumulonimbus-test.vcxproj", "{64915C87-657C-4029-BCF0-3BC642F189B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,13 +35,19 @@ Global
 		{19849C6C-AD3D-492E-8A6F-B36E98942E90}.Release|x64.Build.0 = Release|x64
 		{19849C6C-AD3D-492E-8A6F-B36E98942E90}.Release|x86.ActiveCfg = Release|Win32
 		{19849C6C-AD3D-492E-8A6F-B36E98942E90}.Release|x86.Build.0 = Release|Win32
-		{B1D1466D-C3B1-44B5-8E85-FF02FD39BF36}.Debug|x64.ActiveCfg = Debug|Win32
+		{B1D1466D-C3B1-44B5-8E85-FF02FD39BF36}.Debug|x64.ActiveCfg = Debug|x64
 		{B1D1466D-C3B1-44B5-8E85-FF02FD39BF36}.Debug|x86.ActiveCfg = Debug|Win32
 		{B1D1466D-C3B1-44B5-8E85-FF02FD39BF36}.Debug|x86.Build.0 = Debug|Win32
 		{B1D1466D-C3B1-44B5-8E85-FF02FD39BF36}.Release|x64.ActiveCfg = Release|x64
 		{B1D1466D-C3B1-44B5-8E85-FF02FD39BF36}.Release|x64.Build.0 = Release|x64
 		{B1D1466D-C3B1-44B5-8E85-FF02FD39BF36}.Release|x86.ActiveCfg = Release|Win32
 		{B1D1466D-C3B1-44B5-8E85-FF02FD39BF36}.Release|x86.Build.0 = Release|Win32
+		{64915C87-657C-4029-BCF0-3BC642F189B7}.Debug|x64.ActiveCfg = Debug|x64
+		{64915C87-657C-4029-BCF0-3BC642F189B7}.Debug|x86.ActiveCfg = Debug|Win32
+		{64915C87-657C-4029-BCF0-3BC642F189B7}.Debug|x86.Build.0 = Debug|Win32
+		{64915C87-657C-4029-BCF0-3BC642F189B7}.Release|x64.ActiveCfg = Release|Win32
+		{64915C87-657C-4029-BCF0-3BC642F189B7}.Release|x86.ActiveCfg = Release|Win32
+		{64915C87-657C-4029-BCF0-3BC642F189B7}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

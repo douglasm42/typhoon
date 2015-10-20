@@ -11,10 +11,10 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/graphic/PixelFormat.h>
+#include <cb/graphic/PixelFormat.hpp>
 
-#include <cb/graphic/GLEWmx.h>
-#include <cb/graphic/DummyGLContext.h>
+#include <cb/graphic/GLEWmx.hpp>
+#include <cb/graphic/DummyGLContext.hpp>
 
 namespace cb {
 	namespace graphic {

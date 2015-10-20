@@ -11,11 +11,11 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/video/DummyWindow.h>
+#include <cb/video/DummyWindow.hpp>
 
-#include <cb/video/win32/WindowStyle.h>
+#include <cb/video/win32/WindowStyle.hpp>
 
-#include <cb/base/Exception.h>
+#include <cb/base/Exception.hpp>
 
 namespace cb {
 	namespace video {

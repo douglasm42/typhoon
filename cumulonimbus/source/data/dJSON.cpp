@@ -11,9 +11,9 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/data/JSON.h>
+#include <cb/data/JSON.hpp>
 
-#include <cb/base/Log.h>
+#include <cb/base/Log.hpp>
 
 #include <limits>
 #include <sstream>
@@ -562,7 +562,7 @@ namespace cb {
 			}
 		}  // namespace json
 
-		void JSON::load(File &ifile) {
+		void JSON::load(Blob &ifile) {
 			base::string strfile(ifile.data(), ifile.size());
 			std::istringstream instream;
 
@@ -570,7 +570,7 @@ namespace cb {
 			parser.parseValue(value);
 		}
 
-		void JSON::save(File &ofile) {
+		void JSON::save(Blob &ofile) {
 			ofile.clear();
 			std::ostringstream out;
 

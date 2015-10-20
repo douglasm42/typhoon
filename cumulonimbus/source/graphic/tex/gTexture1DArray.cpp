@@ -11,10 +11,10 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/graphic/tex/Texture1DArray.h>
+#include <cb/graphic/tex/Texture1DArray.hpp>
 
-#include <cb/graphic/GLEWmx.h>
-#include <cb/graphic/tex/TextureHelper.h>
+#include <cb/graphic/GLEWmx.hpp>
+#include <cb/graphic/tex/TextureHelper.hpp>
 
 namespace cb {
 	namespace graphic {

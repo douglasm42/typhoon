@@ -11,12 +11,12 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/video/Icon.h>
+#include <cb/video/Icon.hpp>
 
-#include <cb/base/Exception.h>
-#include <cb/base/Log.h>
+#include <cb/base/Exception.hpp>
+#include <cb/base/Log.hpp>
 
-#include <cb/video/win32/BitmapToIcon.h>
+#include <cb/video/win32/BitmapToIcon.hpp>
 
 namespace cb {
 	namespace video {

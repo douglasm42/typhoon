@@ -11,26 +11,20 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/data/Font.h>
+#include <cb/data/Font.hpp>
 
-#include <cb/base/Log.h>
-#include <cb/base/Exception.h>
+#include <cb/base/Log.hpp>
+#include <cb/base/Exception.hpp>
 
 #include <thread>
 #include <mutex>
 
 #include <sstream>
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
-#include FT_STROKER_H
-
 #include <map>
 
 namespace cb {
 	namespace data {
-		KinKey(kin::FontFace, FT_FaceRec_);
-
 		std::mutex _ftError_guard;
 		const char *ftError(FT_Error ierror_id) {
 			std::lock_guard<std::mutex> lock(_ftError_guard);
@@ -98,7 +92,7 @@ namespace cb {
 		:_border(0), _size(0), _border_inner(false), _border_outer(false){
 		}
 
-		Font::Font(File &ifile)
+		Font::Font(Blob &ifile)
 		:_border(0), _size(0), _border_inner(false), _border_outer(false){
 			open(ifile);
 		}
@@ -109,35 +103,35 @@ namespace cb {
 
 		int Font::fontUnitsToPixelsX(int ifux) {
 			Assert(isOpen(), tokurei::EmptyObject);
-			FT_Face face = &_face;
+			FT_Face face = _face;
 			return int(ifux * (face->size->metrics.x_ppem / float(face->units_per_EM)));
 		}
 
 		int Font::fontUnitsToPixelsY(int ifuy) {
 			Assert(isOpen(), tokurei::EmptyObject);
-			FT_Face face = &_face;
+			FT_Face face = _face;
 			return int(ifuy * (face->size->metrics.y_ppem / float(face->units_per_EM)));
 		}
 
 		int Font::pixelsToFontUnitsX(int ipxx) {
 			Assert(isOpen(), tokurei::EmptyObject);
-			FT_Face face = &_face;
+			FT_Face face = _face;
 			return int(ipxx * (float(face->units_per_EM) / face->size->metrics.x_ppem));
 		}
 
 		int Font::pixelsToFontUnitsY(int ipxy) {
 			Assert(isOpen(), tokurei::EmptyObject);
-			FT_Face face = &_face;
+			FT_Face face = _face;
 			return int(ipxy * (float(face->units_per_EM) / face->size->metrics.y_ppem));
 		}
 
 		int Font::height() {
 			Assert(isOpen(), tokurei::EmptyObject);
-			return (*_face).size->metrics.height >> 6;
+			return _face->size->metrics.height >> 6;
 		}
 		int Font::underlineY() {
 			Assert(isOpen(), tokurei::EmptyObject);
-			if(FT_IS_SCALABLE((&_face))) {
+			if(FT_IS_SCALABLE(_face)) {
 				return fontUnitsToPixelsY((*_face).underline_position);
 			} else {
 				return -2;
@@ -145,7 +139,7 @@ namespace cb {
 		}
 		int Font::underlineThickness() {
 			Assert(isOpen(), tokurei::EmptyObject);
-			if(FT_IS_SCALABLE((&_face))) {
+			if(FT_IS_SCALABLE(_face)) {
 				int thickness = fontUnitsToPixelsY((*_face).underline_thickness);
 				return thickness>0?thickness:1;
 			} else {
@@ -156,7 +150,7 @@ namespace cb {
 		void Font::size(float isize) {
 			Assert(isOpen(), tokurei::EmptyObject);
 			_size = isize;
-			FT_Error error = FT_Set_Char_Size(&_face, 0, FT_F26Dot6(_size * 64), 96, 96);
+			FT_Error error = FT_Set_Char_Size(_face, 0, FT_F26Dot6(_size * 64), 96, 96);
 			if(error) {
 				ThrowDet(tokurei::SetFailed, "Error: %s", ftError(error));
 			}
@@ -164,13 +158,13 @@ namespace cb {
 
 		size_t Font::glyphId(size_t ichar) {
 			Assert(isOpen(), tokurei::EmptyObject);
-			return FT_Get_Char_Index(&_face, (FT_ULong)ichar);
+			return FT_Get_Char_Index(_face, (FT_ULong)ichar);
 		}
 
 		void Font::glyph(Glyph &oglyph, size_t iid) {
 			Assert(isOpen(), tokurei::EmptyObject);
 			FT_Error error;
-			error = FT_Load_Glyph(&_face, (FT_UInt)iid, FT_LOAD_DEFAULT);
+			error = FT_Load_Glyph(_face, (FT_UInt)iid, FT_LOAD_DEFAULT);
 			if(error) {
 				ThrowDet(tokurei::GetFailed, "Error: %s", ftError(error));
 			}
@@ -189,7 +183,7 @@ namespace cb {
 
 				FT_Stroker_Set(stroker, FT_Fixed(_border) * 64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
 
-				error = FT_Get_Glyph((&_face)->glyph, &glyph);
+				error = FT_Get_Glyph(_face->glyph, &glyph);
 				if(error) {
 					ThrowDet(tokurei::GetFailed, "Error: %s", ftError(error));
 				}
@@ -215,26 +209,26 @@ namespace cb {
 
 				FT_Stroker_Done(stroker);
 			} else {
-				error = FT_Render_Glyph((&_face)->glyph, FT_RENDER_MODE_NORMAL);
+				error = FT_Render_Glyph(_face->glyph, FT_RENDER_MODE_NORMAL);
 				if(error) {
 					ThrowDet(tokurei::GetFailed, "Error: %s", ftError(error));
 				}
 
-				bitmap = &(&_face)->glyph->bitmap;
+				bitmap = &_face->glyph->bitmap;
 			}
 
 			oglyph._id = iid;
 
-			if(FT_HAS_HORIZONTAL((&_face))) {
-				oglyph._h_offset_x = (&_face)->glyph->metrics.horiBearingX >> 6;
-				oglyph._h_offset_y = (&_face)->glyph->metrics.horiBearingY >> 6;
-				oglyph._h_advance = (&_face)->glyph->metrics.horiAdvance >> 6;
+			if(FT_HAS_HORIZONTAL(_face)) {
+				oglyph._h_offset_x = _face->glyph->metrics.horiBearingX >> 6;
+				oglyph._h_offset_y = _face->glyph->metrics.horiBearingY >> 6;
+				oglyph._h_advance = _face->glyph->metrics.horiAdvance >> 6;
 			}
 
-			if(FT_HAS_VERTICAL((&_face))) {
-				oglyph._v_offset_x = (&_face)->glyph->metrics.vertBearingX >> 6;
-				oglyph._v_offset_y = (&_face)->glyph->metrics.vertBearingY >> 6;
-				oglyph._v_advance = (&_face)->glyph->metrics.vertAdvance >> 6;
+			if(FT_HAS_VERTICAL(_face)) {
+				oglyph._v_offset_x = _face->glyph->metrics.vertBearingX >> 6;
+				oglyph._v_offset_y = _face->glyph->metrics.vertBearingY >> 6;
+				oglyph._v_advance = _face->glyph->metrics.vertAdvance >> 6;
 			}
 
 			if(bitmap->width * bitmap->rows) {
@@ -262,7 +256,7 @@ namespace cb {
 			}
 		}
 
-		void Font::open(File &ifile) {
+		void Font::open(Blob &ifile) {
 			close();
 
 			FT_Library library = ftLibrary();
@@ -273,9 +267,9 @@ namespace cb {
 				close();
 				ThrowDet(tokurei::OpenError, "Error: %s", ftError(error));
 			}
-			_face << face;
+			_face = face;
 
-			error = FT_Select_Charmap(&_face, FT_ENCODING_UNICODE);
+			error = FT_Select_Charmap(_face, FT_ENCODING_UNICODE);
 			if(error) {
 				ThrowDet(tokurei::OpenError, "Error: %s", ftError(error));
 			}
@@ -285,13 +279,13 @@ namespace cb {
 
 		void Font::close() {
 			if(isOpen()) {
-				FT_Done_Face(&_face);
-				_face << NULL;
+				FT_Done_Face(_face);
+				_face = NULL;
 			}
 		}
 
 		bool Font::isOpen() {
-			return !_face.empty();
+			return _face != nullptr;
 		}
 	}  // namespace data
 }  // namespace cb

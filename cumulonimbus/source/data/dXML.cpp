@@ -11,9 +11,9 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/data/XML.h>
+#include <cb/data/XML.hpp>
 
-#include <cb/base/Exception.h>
+#include <cb/base/Exception.hpp>
 
 #include <pugixml.hpp>
 
@@ -275,7 +275,7 @@ namespace cb {
 			delete DECODE(pugi::xml_document, _document);
 		}
 
-		void XML::load(File &ifile) {
+		void XML::load(Blob &ifile) {
 			pugi::xml_document &doc = *DECODE(pugi::xml_document, _document);
 
 			pugi::xml_parse_result result = doc.load_buffer(ifile.data(), ifile.size());
@@ -286,10 +286,10 @@ namespace cb {
 
 		class FileWriter : public pugi::xml_writer {
 		private:
-			File &_file;
+			Blob &_file;
 
 		public:
-			FileWriter(File &ifile) : _file(ifile) {}
+			FileWriter(Blob &ifile) : _file(ifile) {}
 
 			virtual void write(const void* idata, size_t isize);
 		};
@@ -298,7 +298,7 @@ namespace cb {
 			_file.append(reinterpret_cast<const char *>(idata), isize);
 		}
 
-		void XML::save(File &ifile) {
+		void XML::save(Blob &ifile) {
 			pugi::xml_document &doc = *DECODE(pugi::xml_document, _document);
 
 			ifile.clear();

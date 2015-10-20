@@ -11,10 +11,10 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/data/Bitmap.h>
+#include <cb/data/Bitmap.hpp>
 
-#include <cb/base/Log.h>
-#include <cb/base/Exception.h>
+#include <cb/base/Log.hpp>
+#include <cb/base/Exception.hpp>
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
@@ -197,7 +197,7 @@ namespace cb {
 			}
 		}
 
-		void Bitmap::load(const File &ifile, bmp::Format iformat, bmp::Type itype) {
+		void Bitmap::load(const Blob &ifile, bmp::Format iformat, bmp::Type itype) {
 			if(iformat == bmp::Format::Void) {
 				Throw(tokurei::LoadFailed);
 			}
@@ -318,7 +318,7 @@ namespace cb {
 			}
 		}
 
-		void Bitmap::loadPage(const File &ifile, uint32 iz) {
+		void Bitmap::loadPage(const Blob &ifile, uint32 iz) {
 			if(_format == bmp::Format::Void) {
 				Throw(tokurei::LoadFailed);
 			}

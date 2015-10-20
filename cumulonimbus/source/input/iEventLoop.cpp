@@ -11,7 +11,7 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/input/EventLoop.h>
+#include <cb/input/EventLoop.hpp>
 
 namespace cb {
 	namespace input {

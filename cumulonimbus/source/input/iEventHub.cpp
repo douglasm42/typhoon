@@ -11,11 +11,11 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/input/EventHub.h>
+#include <cb/input/EventHub.hpp>
 
-#include <cb/input/Listener.h>
+#include <cb/input/Listener.hpp>
 
-#include <cb/base/Exception.h>
+#include <cb/base/Exception.hpp>
 
 namespace cb {
 	namespace input {

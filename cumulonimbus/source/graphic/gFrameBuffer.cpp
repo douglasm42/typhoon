@@ -11,9 +11,9 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/graphic/FrameBuffer.h>
+#include <cb/graphic/FrameBuffer.hpp>
 
-#include <cb/graphic/tex/TextureHelper.h>
+#include <cb/graphic/tex/TextureHelper.hpp>
 
 namespace cb {
 	namespace graphic {

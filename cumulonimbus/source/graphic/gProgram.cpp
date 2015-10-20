@@ -11,12 +11,12 @@
  * Written by Douglas Machado de Freitas <douglas@staff42.com>, May 2014
  * ============================================================================
  */
-#include <cb/graphic/Program.h>
+#include <cb/graphic/Program.hpp>
 
-#include <cb/graphic/GLEWmx.h>
-#include <cb/graphic/tex/TextureHelper.h>
+#include <cb/graphic/GLEWmx.hpp>
+#include <cb/graphic/tex/TextureHelper.hpp>
 
-#include <cb/base/Exception.h>
+#include <cb/base/Exception.hpp>
 
 #ifdef CbDebug
 #	define AssertProgramBind(programid) \
@@ -289,6 +289,11 @@ namespace cb {
 		int Program::uniform(const base::string &iname) {
 			AssertProgramBind(_id);
 			return glGetUniformLocation(_id, iname.c_str());
+		}
+
+		int Program::attribute(const base::string &iname) {
+			AssertProgramBind(_id);
+			return glGetAttribLocation(_id, iname.c_str());
 		}
 
 		int Program::maxTextures() {
